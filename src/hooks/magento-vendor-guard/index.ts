@@ -1,0 +1,1 @@
+export { createMagentoVendorGuardHook } from "./hook"

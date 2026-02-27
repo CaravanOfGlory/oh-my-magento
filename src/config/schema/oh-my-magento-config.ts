@@ -19,12 +19,13 @@ import { SisyphusConfigSchema } from "./sisyphus"
 import { SisyphusAgentConfigSchema } from "./sisyphus-agent"
 import { TmuxConfigSchema } from "./tmux"
 import { WebsearchConfigSchema } from "./websearch"
+import { MagentoConfigSchema } from "./magento"
 
-export const OhMyOpenCodeConfigSchema = z.object({
+export const OhMyMagentoConfigSchema = z.object({
   $schema: z.string().optional(),
   /** Enable new task system (default: false) */
   new_task_system_enabled: z.boolean().optional(),
-  /** Default agent name for `oh-my-opencode run` (env: OPENCODE_DEFAULT_AGENT) */
+  /** Default agent name for `oh-my-magento run` (env: OPENCODE_DEFAULT_AGENT) */
   default_run_agent: z.string().optional(),
   disabled_mcps: z.array(AnyMcpNameSchema).optional(),
   disabled_agents: z.array(z.string()).optional(),
@@ -60,8 +61,10 @@ export const OhMyOpenCodeConfigSchema = z.object({
   websearch: WebsearchConfigSchema.optional(),
   tmux: TmuxConfigSchema.optional(),
   sisyphus: SisyphusConfigSchema.optional(),
+  /** Magento 2 project-specific configuration */
+  magento: MagentoConfigSchema.optional(),
   /** Migration history to prevent re-applying migrations (e.g., model version upgrades) */
   _migrations: z.array(z.string()).optional(),
 })
 
-export type OhMyOpenCodeConfig = z.infer<typeof OhMyOpenCodeConfigSchema>
+export type OhMyMagentoConfig = z.infer<typeof OhMyMagentoConfigSchema>

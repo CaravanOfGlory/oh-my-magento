@@ -3,7 +3,7 @@ import type { ToolDefinition } from "@opencode-ai/plugin"
 import type {
   AvailableCategory,
 } from "../agents/dynamic-agent-prompt-builder"
-import type { OhMyOpenCodeConfig } from "../config"
+import type { OhMyMagentoConfig } from "../config"
 import type { PluginContext, ToolsRecord } from "./types"
 
 import {
@@ -25,6 +25,11 @@ import {
   createTaskList,
   createTaskUpdateTool,
   createHashlineEditTool,
+  createMagentoCliTool,
+  createMagentoComposerTool,
+  createMagentoConfigValidator,
+  createMagentoModuleScanner,
+  createProjectTrackerSyncTool,
 } from "../tools"
 import { getMainSessionID } from "../features/claude-code-session-state"
 import { filterDisabledTools } from "../shared/disabled-tools"
@@ -40,7 +45,7 @@ export type ToolRegistryResult = {
 
 export function createToolRegistry(args: {
   ctx: PluginContext
-  pluginConfig: OhMyOpenCodeConfig
+  pluginConfig: OhMyMagentoConfig
   managers: Pick<Managers, "backgroundManager" | "tmuxSessionManager" | "skillMcpManager">
   skillContext: SkillContext
   availableCategories: AvailableCategory[]
@@ -133,6 +138,11 @@ export function createToolRegistry(args: {
     interactive_bash,
     ...taskToolsRecord,
     ...hashlineToolsRecord,
+    ...createMagentoCliTool(ctx),
+    ...createMagentoComposerTool(ctx),
+    ...createMagentoConfigValidator(ctx),
+    ...createMagentoModuleScanner(ctx),
+    ...createProjectTrackerSyncTool(),
   }
 
   const filteredTools = filterDisabledTools(allTools, pluginConfig.disabled_tools)

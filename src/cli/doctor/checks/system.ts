@@ -81,9 +81,9 @@ export async function checkSystem(): Promise<CheckResult> {
 
   if (!pluginInfo.registered) {
     issues.push({
-      title: "oh-my-opencode is not registered",
+      title: "oh-my-magento is not registered",
       description: "Plugin entry is missing from OpenCode configuration.",
-      fix: "Run: bunx oh-my-opencode install",
+      fix: "Run: bunx oh-my-magento install",
       severity: "error",
       affects: ["all agents"],
     })
@@ -107,7 +107,7 @@ export async function checkSystem(): Promise<CheckResult> {
     issues.push({
       title: "Loaded plugin is outdated",
       description: `Loaded ${systemInfo.loadedVersion}, latest ${latestVersion}.`,
-      fix: "Update: cd ~/.config/opencode && bun update oh-my-opencode",
+      fix: "Update: cd ~/.config/opencode && bun update oh-my-magento",
       severity: "warning",
       affects: ["plugin features"],
     })

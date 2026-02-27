@@ -50,3 +50,5 @@ export { createRuntimeFallbackHook, type RuntimeFallbackHook, type RuntimeFallba
 export { createWriteExistingFileGuardHook } from "./write-existing-file-guard";
 export { createHashlineReadEnhancerHook } from "./hashline-read-enhancer";
 export { createJsonErrorRecoveryHook, JSON_ERROR_TOOL_EXCLUDE_LIST, JSON_ERROR_PATTERNS, JSON_ERROR_REMINDER } from "./json-error-recovery";
+export { createMagentoContextInjectorHook } from "./magento-context-injector";
+export { createMagentoVendorGuardHook } from "./magento-vendor-guard";

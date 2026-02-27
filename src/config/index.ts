@@ -1,9 +1,9 @@
 export {
-  OhMyOpenCodeConfigSchema,
+  OhMyMagentoConfigSchema,
 } from "./schema"
 
 export type {
-  OhMyOpenCodeConfig,
+  OhMyMagentoConfig,
   AgentOverrideConfig,
   AgentOverrides,
   McpName,

@@ -11,6 +11,9 @@ export const BuiltinAgentNameSchema = z.enum([
   "metis",
   "momus",
   "atlas",
+  "magento-architect",
+  "magento-upgrader",
+  "magento-payment",
 ])
 
 export const BuiltinSkillNameSchema = z.enum([
@@ -19,6 +22,15 @@ export const BuiltinSkillNameSchema = z.enum([
   "dev-browser",
   "frontend-ui-ux",
   "git-master",
+  "magento-module-scaffold",
+  "magento-xml-config",
+  "magento-testing",
+  "magento-performance",
+  "magento-upgrade-analysis",
+  "magento-debugging",
+  "hyva-theme",
+  "hyva-checkout",
+  "hyva-compat-module",
 ])
 
 export const OverridableAgentNameSchema = z.enum([
@@ -36,6 +48,9 @@ export const OverridableAgentNameSchema = z.enum([
   "explore",
   "multimodal-looker",
   "atlas",
+  "magento-architect",
+  "magento-upgrader",
+  "magento-payment",
 ])
 
 export const AgentNameSchema = BuiltinAgentNameSchema

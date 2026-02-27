@@ -12,6 +12,9 @@ import { createMetisAgent, metisPromptMetadata } from "./metis"
 import { createAtlasAgent, atlasPromptMetadata } from "./atlas"
 import { createMomusAgent, momusPromptMetadata } from "./momus"
 import { createHephaestusAgent } from "./hephaestus"
+import { createMagentoArchitectAgent, MAGENTO_ARCHITECT_PROMPT_METADATA } from "./magento-architect"
+import { createMagentoUpgraderAgent, MAGENTO_UPGRADER_PROMPT_METADATA } from "./magento-upgrader"
+import { createMagentoPaymentAgent, MAGENTO_PAYMENT_PROMPT_METADATA } from "./magento-payment"
 import type { AvailableCategory } from "./dynamic-agent-prompt-builder"
 import {
   fetchAvailableModels,
@@ -41,6 +44,9 @@ const agentSources: Record<BuiltinAgentName, AgentSource> = {
   // Note: Atlas is handled specially in createBuiltinAgents()
   // because it needs OrchestratorContext, not just a model string
   atlas: createAtlasAgent as AgentFactory,
+  "magento-architect": createMagentoArchitectAgent,
+  "magento-upgrader": createMagentoUpgraderAgent,
+  "magento-payment": createMagentoPaymentAgent,
 }
 
 /**
@@ -55,6 +61,9 @@ const agentMetadata: Partial<Record<BuiltinAgentName, AgentPromptMetadata>> = {
   metis: metisPromptMetadata,
   momus: momusPromptMetadata,
   atlas: atlasPromptMetadata,
+  "magento-architect": MAGENTO_ARCHITECT_PROMPT_METADATA,
+  "magento-upgrader": MAGENTO_UPGRADER_PROMPT_METADATA,
+  "magento-payment": MAGENTO_PAYMENT_PROMPT_METADATA,
 }
 
 export async function createBuiltinAgents(
@@ -82,7 +91,7 @@ export async function createBuiltinAgents(
   )
   // IMPORTANT: Do NOT call OpenCode client APIs during plugin initialization.
   // This function is called from config handler, and calling client API causes deadlock.
-  // See: https://github.com/code-yeongyu/oh-my-opencode/issues/1301
+  // See: https://github.com/code-yeongyu/oh-my-magento/issues/1301
   const availableModels = await fetchAvailableModels(undefined, {
     connectedProviders: mergedConnectedProviders.length > 0 ? mergedConnectedProviders : undefined,
   })

@@ -1,4 +1,4 @@
-import type { HookName, OhMyOpenCodeConfig } from "../../config"
+import type { HookName, OhMyMagentoConfig } from "../../config"
 import type { ModelCacheState } from "../../plugin-state"
 import type { PluginContext } from "../types"
 
@@ -13,6 +13,8 @@ import {
   createWriteExistingFileGuardHook,
   createHashlineReadEnhancerHook,
   createJsonErrorRecoveryHook,
+  createMagentoVendorGuardHook,
+  createMagentoContextInjectorHook,
 } from "../../hooks"
 import {
   getOpenCodeVersion,
@@ -33,11 +35,13 @@ export type ToolGuardHooks = {
   writeExistingFileGuard: ReturnType<typeof createWriteExistingFileGuardHook> | null
   hashlineReadEnhancer: ReturnType<typeof createHashlineReadEnhancerHook> | null
   jsonErrorRecovery: ReturnType<typeof createJsonErrorRecoveryHook> | null
+  magentoVendorGuard: ReturnType<typeof createMagentoVendorGuardHook> | null
+  magentoContextInjector: ReturnType<typeof createMagentoContextInjectorHook> | null
 }
 
 export function createToolGuardHooks(args: {
   ctx: PluginContext
-  pluginConfig: OhMyOpenCodeConfig
+  pluginConfig: OhMyMagentoConfig
   modelCacheState: ModelCacheState
   isHookEnabled: (hookName: HookName) => boolean
   safeHookEnabled: boolean
@@ -105,6 +109,14 @@ export function createToolGuardHooks(args: {
     ? safeHook("json-error-recovery", () => createJsonErrorRecoveryHook(ctx))
     : null
 
+  const magentoVendorGuard = isHookEnabled("magento-vendor-guard")
+    ? safeHook("magento-vendor-guard", () => createMagentoVendorGuardHook(ctx))
+    : null
+
+  const magentoContextInjector = isHookEnabled("magento-context-injector")
+    ? safeHook("magento-context-injector", () => createMagentoContextInjectorHook(ctx))
+    : null
+
   return {
     commentChecker,
     toolOutputTruncator,
@@ -116,5 +128,7 @@ export function createToolGuardHooks(args: {
     writeExistingFileGuard,
     hashlineReadEnhancer,
     jsonErrorRecovery,
+    magentoVendorGuard,
+    magentoContextInjector,
   }
 }

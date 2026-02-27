@@ -44,6 +44,11 @@ export {
   createTaskUpdateTool,
 } from "./task"
 export { createHashlineEditTool } from "./hashline-edit"
+export { createMagentoCliTool } from "./magento-cli"
+export { createMagentoComposerTool } from "./magento-composer"
+export { createMagentoConfigValidator } from "./magento-config-validator"
+export { createMagentoModuleScanner } from "./magento-module-scanner"
+export { createProjectTrackerSyncTool } from "./project-tracker-sync"
 
 export function createBackgroundTools(manager: BackgroundManager, client: OpencodeClient): Record<string, ToolDefinition> {
   const outputManager: BackgroundOutputManager = manager

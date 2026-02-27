@@ -174,6 +174,63 @@ ANTI-AI-SLOP RULES (NON-NEGOTIABLE):
 - Write like a human, not a corporate template.
 </Category_Context>`
 
+export const MAGENTO_BACKEND_CATEGORY_PROMPT_APPEND = `<Category_Context>
+You are working on MAGENTO 2 BACKEND tasks.
+
+Magento backend expert mindset:
+- Deep knowledge of Magento 2 architecture: DI, plugins, observers, service contracts
+- Follow Magento coding standards (PSR-12 + Magento-specific)
+- Prefer declarative schema (db_schema.xml) over InstallSchema/UpgradeSchema
+- Always use repository pattern with SearchCriteria for data access
+- Validate XML config against XSD
+- Proper module dependencies in module.xml <sequence>
+
+Key conventions:
+- Service contracts (Api/ interfaces) for all public APIs
+- Data patches for data migration (Setup/Patch/Data/)
+- Never use ObjectManager directly
+- Use proxy types for lazy loading heavy dependencies
+- Follow Magento 2 event-observer pattern for extensibility
+</Category_Context>`
+
+export const MAGENTO_HYVA_CATEGORY_PROMPT_APPEND = `<Category_Context>
+You are working on HYVA FRONTEND tasks for Magento 2.
+
+Hyva frontend expert mindset:
+- Alpine.js for interactivity (NOT jQuery, NOT KnockoutJS)
+- Tailwind CSS for styling (NOT LESS, NOT custom CSS classes)
+- ViewModels (ArgumentInterface) over Block classes
+- No RequireJS — use ES modules or inline scripts
+- Private content via @private-content-loaded.window event
+- SVG icons via HeroIcons ViewModel
+
+Key conventions:
+- x-data for component state, x-init for initialization
+- window.hyva namespace for cart/customer/message utilities
+- Ensure templates are in Tailwind purge paths
+- Test FPC compatibility — avoid cacheable="false"
+- Use Magewire for server-rendered interactive components
+</Category_Context>`
+
+export const MAGENTO_INTEGRATION_CATEGORY_PROMPT_APPEND = `<Category_Context>
+You are working on MAGENTO 2 INTEGRATION tasks (payment gateways, ERP, shipping, third-party APIs).
+
+Integration expert mindset:
+- Secure API communication (OAuth, API keys via env.php)
+- Proper error handling and retry logic for external services
+- Queue/async processing for non-blocking operations (RabbitMQ/MySQL queue)
+- Webhook handling with idempotency
+- Configuration via system.xml with encrypted fields for secrets
+
+Key conventions:
+- Use Magento HTTP client (Guzzle) via DI, not direct curl
+- Store API credentials in core_config_data with backend_model encrypted
+- Implement proper logging for all external API calls
+- Use Magento queue framework for async processing
+- CSP whitelist for third-party JS domains
+- Both Luma and Hyva frontend compatibility where applicable
+</Category_Context>`
+
 export const DEEP_CATEGORY_PROMPT_APPEND = `<Category_Context>
 You are working on GOAL-ORIENTED AUTONOMOUS tasks.
 
@@ -216,6 +273,9 @@ export const DEFAULT_CATEGORIES: Record<string, CategoryConfig> = {
   "unspecified-low": { model: "anthropic/claude-sonnet-4-6" },
   "unspecified-high": { model: "anthropic/claude-opus-4-6", variant: "max" },
   writing: { model: "kimi-for-coding/k2p5" },
+  "magento-backend": { model: "anthropic/claude-sonnet-4-6" },
+  "magento-hyva": { model: "anthropic/claude-sonnet-4-6" },
+  "magento-integration": { model: "anthropic/claude-sonnet-4-6" },
 }
 
 export const CATEGORY_PROMPT_APPENDS: Record<string, string> = {
@@ -227,6 +287,9 @@ export const CATEGORY_PROMPT_APPENDS: Record<string, string> = {
   "unspecified-low": UNSPECIFIED_LOW_CATEGORY_PROMPT_APPEND,
   "unspecified-high": UNSPECIFIED_HIGH_CATEGORY_PROMPT_APPEND,
   writing: WRITING_CATEGORY_PROMPT_APPEND,
+  "magento-backend": MAGENTO_BACKEND_CATEGORY_PROMPT_APPEND,
+  "magento-hyva": MAGENTO_HYVA_CATEGORY_PROMPT_APPEND,
+  "magento-integration": MAGENTO_INTEGRATION_CATEGORY_PROMPT_APPEND,
 }
 
 export const CATEGORY_DESCRIPTIONS: Record<string, string> = {
@@ -238,6 +301,9 @@ export const CATEGORY_DESCRIPTIONS: Record<string, string> = {
   "unspecified-low": "Tasks that don't fit other categories, low effort required",
   "unspecified-high": "Tasks that don't fit other categories, high effort required",
   writing: "Documentation, prose, technical writing",
+  "magento-backend": "Magento 2 backend: modules, DI, plugins, observers, service contracts, declarative schema",
+  "magento-hyva": "Hyva frontend: Alpine.js components, Tailwind CSS, ViewModels, Luma-to-Hyva migration",
+  "magento-integration": "Magento 2 integrations: payment gateways, ERP, shipping, third-party API connectors",
 }
 
 /**

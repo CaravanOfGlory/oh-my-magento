@@ -1,6 +1,6 @@
 import * as fs from "fs";
 import * as path from "path";
-import { OhMyOpenCodeConfigSchema, type OhMyOpenCodeConfig } from "./config";
+import { OhMyMagentoConfigSchema, type OhMyMagentoConfig } from "./config";
 import {
   log,
   deepMerge,
@@ -13,8 +13,8 @@ import {
 
 export function parseConfigPartially(
   rawConfig: Record<string, unknown>
-): OhMyOpenCodeConfig | null {
-  const fullResult = OhMyOpenCodeConfigSchema.safeParse(rawConfig);
+): OhMyMagentoConfig | null {
+  const fullResult = OhMyMagentoConfigSchema.safeParse(rawConfig);
   if (fullResult.success) {
     return fullResult.data;
   }
@@ -23,7 +23,7 @@ export function parseConfigPartially(
   const invalidSections: string[] = [];
 
   for (const key of Object.keys(rawConfig)) {
-    const sectionResult = OhMyOpenCodeConfigSchema.safeParse({ [key]: rawConfig[key] });
+    const sectionResult = OhMyMagentoConfigSchema.safeParse({ [key]: rawConfig[key] });
     if (sectionResult.success) {
       const parsed = sectionResult.data as Record<string, unknown>;
       if (parsed[key] !== undefined) {
@@ -44,13 +44,13 @@ export function parseConfigPartially(
     log("Partial config loaded — invalid sections skipped:", invalidSections);
   }
 
-  return partialConfig as OhMyOpenCodeConfig;
+  return partialConfig as OhMyMagentoConfig;
 }
 
 export function loadConfigFromPath(
   configPath: string,
   _ctx: unknown
-): OhMyOpenCodeConfig | null {
+): OhMyMagentoConfig | null {
   try {
     if (fs.existsSync(configPath)) {
       const content = fs.readFileSync(configPath, "utf-8");
@@ -58,7 +58,7 @@ export function loadConfigFromPath(
 
       migrateConfigFile(configPath, rawConfig);
 
-      const result = OhMyOpenCodeConfigSchema.safeParse(rawConfig);
+      const result = OhMyMagentoConfigSchema.safeParse(rawConfig);
 
       if (result.success) {
         log(`Config loaded from ${configPath}`, { agents: result.data.agents });
@@ -91,9 +91,9 @@ export function loadConfigFromPath(
 }
 
 export function mergeConfigs(
-  base: OhMyOpenCodeConfig,
-  override: OhMyOpenCodeConfig
-): OhMyOpenCodeConfig {
+  base: OhMyMagentoConfig,
+  override: OhMyMagentoConfig
+): OhMyMagentoConfig {
   return {
     ...base,
     ...override,
@@ -136,10 +136,10 @@ export function mergeConfigs(
 export function loadPluginConfig(
   directory: string,
   ctx: unknown
-): OhMyOpenCodeConfig {
+): OhMyMagentoConfig {
   // User-level config path - prefer .jsonc over .json
   const configDir = getOpenCodeConfigDir({ binary: "opencode" });
-  const userBasePath = path.join(configDir, "oh-my-opencode");
+  const userBasePath = path.join(configDir, "oh-my-magento");
   const userDetected = detectConfigFile(userBasePath);
   const userConfigPath =
     userDetected.format !== "none"
@@ -147,7 +147,7 @@ export function loadPluginConfig(
       : userBasePath + ".json";
 
   // Project-level config path - prefer .jsonc over .json
-  const projectBasePath = path.join(directory, ".opencode", "oh-my-opencode");
+  const projectBasePath = path.join(directory, ".opencode", "oh-my-magento");
   const projectDetected = detectConfigFile(projectBasePath);
   const projectConfigPath =
     projectDetected.format !== "none"
@@ -155,7 +155,7 @@ export function loadPluginConfig(
       : projectBasePath + ".json";
 
   // Load user config first (base)
-  let config: OhMyOpenCodeConfig =
+  let config: OhMyMagentoConfig =
     loadConfigFromPath(userConfigPath, ctx) ?? {};
 
   // Override with project config

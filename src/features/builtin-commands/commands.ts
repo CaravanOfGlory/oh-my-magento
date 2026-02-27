@@ -6,6 +6,11 @@ import { STOP_CONTINUATION_TEMPLATE } from "./templates/stop-continuation"
 import { REFACTOR_TEMPLATE } from "./templates/refactor"
 import { START_WORK_TEMPLATE } from "./templates/start-work"
 import { HANDOFF_TEMPLATE } from "./templates/handoff"
+import { MAGENTO_UPGRADE_TEMPLATE } from "./templates/magento-upgrade"
+import { MAGENTO_NEW_MODULE_TEMPLATE } from "./templates/magento-new-module"
+import { MAGENTO_PAYMENT_SETUP_TEMPLATE } from "./templates/magento-payment-setup"
+import { HYVA_NEW_THEME_TEMPLATE } from "./templates/hyva-new-theme"
+import { HYVA_COMPAT_MODULE_TEMPLATE } from "./templates/hyva-compat-module"
 
 const BUILTIN_COMMAND_DEFINITIONS: Record<BuiltinCommandName, Omit<CommandDefinition, "name">> = {
   "init-deep": {
@@ -93,6 +98,61 @@ Timestamp: $TIMESTAMP
 $ARGUMENTS
 </user-request>`,
     argumentHint: "[goal]",
+  },
+  "magento-upgrade": {
+    description: "(builtin) Magento 2 version upgrade analysis and execution with HITL protocol",
+    template: `<command-instruction>
+${MAGENTO_UPGRADE_TEMPLATE}
+</command-instruction>
+
+<user-request>
+$ARGUMENTS
+</user-request>`,
+    argumentHint: "<target-version> [--dry-run] [--module=Vendor_Module]",
+  },
+  "magento-new-module": {
+    description: "(builtin) Scaffold a new Magento 2 module with best-practice structure",
+    template: `<command-instruction>
+${MAGENTO_NEW_MODULE_TEMPLATE}
+</command-instruction>
+
+<user-request>
+$ARGUMENTS
+</user-request>`,
+    argumentHint: "<Vendor_Module> [--with-api] [--with-admin] [--with-frontend] [--with-db] [--with-hyva] [--with-all]",
+  },
+  "magento-payment-setup": {
+    description: "(builtin) Set up a payment gateway integration with HITL protocol",
+    template: `<command-instruction>
+${MAGENTO_PAYMENT_SETUP_TEMPLATE}
+</command-instruction>
+
+<user-request>
+$ARGUMENTS
+</user-request>`,
+    argumentHint: "<gateway-name> [--sandbox-only] [--hyva-only] [--hosted]",
+  },
+  "hyva-new-theme": {
+    description: "(builtin) Create a new Hyva child theme with Tailwind CSS",
+    template: `<command-instruction>
+${HYVA_NEW_THEME_TEMPLATE}
+</command-instruction>
+
+<user-request>
+$ARGUMENTS
+</user-request>`,
+    argumentHint: "<Vendor/theme-name> [--with-overrides] [--color-primary=#HEX]",
+  },
+  "hyva-compat-module": {
+    description: "(builtin) Create a Hyva compatibility module for a Luma-dependent extension",
+    template: `<command-instruction>
+${HYVA_COMPAT_MODULE_TEMPLATE}
+</command-instruction>
+
+<user-request>
+$ARGUMENTS
+</user-request>`,
+    argumentHint: "<Vendor_Module> [--output=Name] [--templates-only] [--dry-run]",
   },
 }
 

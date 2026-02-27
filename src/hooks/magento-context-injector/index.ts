@@ -1,0 +1,1 @@
+export { createMagentoContextInjectorHook } from "./hook"
