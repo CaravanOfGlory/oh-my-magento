@@ -1,92 +1,28 @@
-> [!WARNING]
-> **セキュリティ警告: 偽装サイトにご注意ください**
->
-> **ohmyopencode.com はこのプロジェクトとは一切関係がありません。** 私たちはそのサイトを運営したり承認したりしていません。
->
-> OhMyOpenCodeは**無料かつオープンソース**です。「公式」を名乗る第三者のサイトからインストーラーをダウンロードしたり、支払い情報を入力したり**しないでください。**
->
-> 偽装サイトはペイウォールの背後に隠れており、**どのような悪意あるプログラムを配布しているか検証できません**。そこからのダウンロードはすべて**潜在的に危険**であると見なしてください。
->
-> ✅ 公式ダウンロード: https://github.com/code-yeongyu/oh-my-opencode/releases
-
-> [!NOTE]
->
-> [![Sisyphus Labs - Sisyphus is the agent that codes like your team.](./.github/assets/sisyphuslabs.png?v=2)](https://sisyphuslabs.ai)
-> > **私たちは、フロンティアエージェントの未来を定義するために、Sisyphusの完全なプロダクト版を構築しています。 <br />[こちら](https://sisyphuslabs.ai)からウェイトリストにご登録ください。**
-
-> [!TIP]
-> 私たちと一緒に！
->
-> | [<img alt="Discord link" src="https://img.shields.io/discord/1452487457085063218?color=5865F2&label=discord&labelColor=black&logo=discord&logoColor=white&style=flat-square" width="156px" />](https://discord.gg/PUwSMR9XNk) | [Discordコミュニティ](https://discord.gg/PUwSMR9XNk)に参加して、コントリビューターや他の `oh-my-opencode` ユーザーと交流しましょう。 |
-> | :-----| :----- |
-> | [<img alt="X link" src="https://img.shields.io/badge/Follow-%40justsisyphus-00CED1?style=flat-square&logo=x&labelColor=black" width="156px" />](https://x.com/justsisyphus) | `oh-my-opencode` のニュースやアップデートは私のXアカウントで投稿されていましたが、 <br /> 誤って凍結されてしまったため、現在は [@justsisyphus](https://x.com/justsisyphus) が代わりにアップデートを投稿しています。 |
-> | [<img alt="GitHub Follow" src="https://img.shields.io/github/followers/code-yeongyu?style=flat-square&logo=github&labelColor=black&color=24292f" width="156px" />](https://github.com/code-yeongyu) | さらに多くのプロジェクトを見たい場合は、GitHubで [@code-yeongyu](https://github.com/code-yeongyu) をフォローしてください。 |
-
-<!-- <CENTERED SECTION FOR GITHUB DISPLAY> -->
-
 <div align="center">
 
-[![Oh My OpenCode](./.github/assets/hero.jpg)](https://github.com/code-yeongyu/oh-my-opencode#oh-my-opencode)
-
-[![Preview](./.github/assets/omo.png)](https://github.com/code-yeongyu/oh-my-opencode#oh-my-opencode)
+[![Oh My Magento](./.github/assets/hero.jpg)](https://github.com/CaravanOfGlory/oh-my-magento#oh-my-magento)
 
 </div>
 
-> これはステロイドを打ったコーディングです。一つのモデルのステロイドじゃない——薬局丸ごとです。
->
-> Claudeでオーケストレーションし、GPTで推論し、Kimiでスピードを出し、Geminiでビジョンを処理する。モデルはどんどん安くなり、どんどん賢くなる。特定のプロバイダーが独占することはない。私たちはその開かれた市場のために構築している。Anthropicの牢獄は素敵だ。だが、私たちはそこに住まない。
-
 <div align="center">
 
-[![GitHub Release](https://img.shields.io/github/v/release/code-yeongyu/oh-my-opencode?color=369eff&labelColor=black&logo=github&style=flat-square)](https://github.com/code-yeongyu/oh-my-opencode/releases)
-[![npm downloads](https://img.shields.io/npm/dt/oh-my-opencode?color=ff6b35&labelColor=black&style=flat-square)](https://www.npmjs.com/package/oh-my-opencode)
-[![GitHub Contributors](https://img.shields.io/github/contributors/code-yeongyu/oh-my-opencode?color=c4f042&labelColor=black&style=flat-square)](https://github.com/code-yeongyu/oh-my-opencode/graphs/contributors)
-[![GitHub Forks](https://img.shields.io/github/forks/code-yeongyu/oh-my-opencode?color=8ae8ff&labelColor=black&style=flat-square)](https://github.com/code-yeongyu/oh-my-opencode/network/members)
-[![GitHub Stars](https://img.shields.io/github/stars/code-yeongyu/oh-my-opencode?color=ffcb47&labelColor=black&style=flat-square)](https://github.com/code-yeongyu/oh-my-opencode/stargazers)
-[![GitHub Issues](https://img.shields.io/github/issues/code-yeongyu/oh-my-opencode?color=ff80eb&labelColor=black&style=flat-square)](https://github.com/code-yeongyu/oh-my-opencode/issues)
-[![License](https://img.shields.io/badge/license-SUL--1.0-white?labelColor=black&style=flat-square)](https://github.com/code-yeongyu/oh-my-opencode/blob/master/LICENSE.md)
-[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/code-yeongyu/oh-my-opencode)
+[![GitHub Release](https://img.shields.io/github/v/release/CaravanOfGlory/oh-my-magento?color=369eff&labelColor=black&logo=github&style=flat-square)](https://github.com/CaravanOfGlory/oh-my-magento/releases)
+[![npm downloads](https://img.shields.io/npm/dt/oh-my-magento?color=ff6b35&labelColor=black&style=flat-square)](https://www.npmjs.com/package/oh-my-magento)
+[![GitHub Stars](https://img.shields.io/github/stars/CaravanOfGlory/oh-my-magento?color=ffcb47&labelColor=black&style=flat-square)](https://github.com/CaravanOfGlory/oh-my-magento/stargazers)
+[![GitHub Issues](https://img.shields.io/github/issues/CaravanOfGlory/oh-my-magento?color=ff80eb&labelColor=black&style=flat-square)](https://github.com/CaravanOfGlory/oh-my-magento/issues)
+[![License](https://img.shields.io/badge/license-SUL--1.0-white?labelColor=black&style=flat-square)](https://github.com/CaravanOfGlory/oh-my-magento/blob/master/LICENSE.md)
 
 [English](README.md) | [한국어](README.ko.md) | [日本語](README.ja.md) | [简体中文](README.zh-cn.md)
 
 </div>
 
-<!-- </CENTERED SECTION FOR GITHUB DISPLAY> -->
-
-## レビュー
-
-> 「これのおかげで Cursor のサブスクリプションを解約しました。オープンソースコミュニティで信じられないことが起きています。」 - [Arthur Guiot](https://x.com/arthur_guiot/status/2008736347092382053?s=20)
-
-> 「Claude Codeが人間なら3ヶ月かかることを7日でやるとしたら、Sisyphusはそれを1時間でやってのけます。タスクが終わるまでひたすら働き続けます。まさに規律あるエージェントです。」 <br/>- B, Quant Researcher
-
-> 「Oh My Opencodeを使って、たった1日で8000個の eslint 警告を叩き潰しました。」 <br/>- [Jacob Ferrari](https://x.com/jacobferrari_/status/2003258761952289061)
-
-> 「Ohmyopencodeとralph loopを使って、45k行のtauriアプリを一晩でSaaSウェブアプリに変換しました。インタビューモードから始めて、私のプロンプトに対して質問や推奨事項を尋ねました。勝手に作業していくのを見るのは楽しかったし、今朝起きたらウェブサイトがほぼ動いているのを見て驚愕しました！」 - [James Hargis](https://x.com/hargabyte/status/2007299688261882202)
-
-> 「oh-my-opencodeを使ってください。もう二度と元には戻れません。」 <br/>- [d0t3ch](https://x.com/d0t3ch/status/2001685618200580503)
-
-> 「何がどうすごいのかまだ上手く言語化できないんですが、開発体験が完全に異次元に到達してしまいました。」 - [苔硯:こけすずり](https://x.com/kokesuzuri/status/2008532913961529372?s=20)
-
-> 「週末にマインクラフト/ソウルライクな化け物を作ろうと、open code、oh my opencode、supermemoryで実験中です。昼食後の散歩に行っている間に、しゃがむアニメーションを追加するように指示しておきました。[動画]」 - [MagiMetal](https://x.com/MagiMetal/status/2005374704178373023)
-
-> 「これをコアに取り込んで彼を採用すべきだ。マジで。これ、本当に、本当に、本当に良い。」 <br/>- Henning Kilset
-
-> 「彼を説得できるなら @yeon_gyu_kim を雇ってください。彼がopencodeに革命を起こしました。」 <br/>- [mysticaltech](https://x.com/mysticaltech/status/2001858758608376079)
-
-> 「Oh My OpenCodeはマジでヤバい」 - [YouTube - Darren Builds AI](https://www.youtube.com/watch?v=G_Snfh2M41M)
-
 ---
 
-# Oh My OpenCode
+# Oh My Magento
 
-最初はこれを「Claude Codeにステロイドを打ったもの」と呼んでいました。それは過小評価でした。
+**Magento 2 + Hyvä** エンタープライズeコマース向けのマルチエージェントAIオーケストレーション。 [oh-my-opencode](https://github.com/code-yeongyu/oh-my-opencode) のフォークとして、Magento向けエージェント、スキル、ツール、フック、コマンドを追加しました。
 
-一つのモデルに薬を盛るのではありません。カルテルを動かすんです。Claude、GPT、Kimi、Gemini——それぞれが得意なことを、並列で、止まらずに。モデルは毎月安くなっており、どのプロバイダーも独占できません。私たちはすでにその世界に生きています。
-
-その泥臭い作業をすべてやっておきました。すべてをテストし、実際に機能するものだけを残しました。
-
-OmOをインストールして、`ultrawork`とタイプしてください。狂ったようにコーディングしてください。
-
+OmMをインストールして、`ultrawork` とタイプしてください。完了です。
 
 ## インストール
 
@@ -95,8 +31,8 @@ OmOをインストールして、`ultrawork`とタイプしてください。狂
 以下のプロンプトをコピーして、あなたのLLMエージェント（Claude Code、AmpCode、Cursorなど）に貼り付けてください：
 
 ```
-Install and configure oh-my-opencode by following the instructions here:
-https://raw.githubusercontent.com/code-yeongyu/oh-my-opencode/refs/heads/master/docs/guide/installation.md
+Install and configure oh-my-magento by following the instructions here:
+https://raw.githubusercontent.com/CaravanOfGlory/oh-my-magento/refs/heads/master/docs/guide/installation.md
 ```
 
 もしくは[インストールガイド](docs/guide/installation.md)を直接読んでもいいですが、マジでエージェントにやらせてください。人間は設定で必ずタイポします。
@@ -106,7 +42,7 @@ https://raw.githubusercontent.com/code-yeongyu/oh-my-opencode/refs/heads/master/
 インストールガイドを取得して、それに従ってください：
 
 ```bash
-curl -s https://raw.githubusercontent.com/code-yeongyu/oh-my-opencode/refs/heads/master/docs/guide/installation.md
+curl -s https://raw.githubusercontent.com/CaravanOfGlory/oh-my-magento/refs/heads/master/docs/guide/installation.md
 ```
 
 ---
@@ -116,7 +52,7 @@ curl -s https://raw.githubusercontent.com/code-yeongyu/oh-my-opencode/refs/heads
 ドキュメントを読む時代は終わりました。このテキストをエージェントに貼り付けるだけです：
 
 ```
-Read this and tell me why it's not just another boilerplate: https://raw.githubusercontent.com/code-yeongyu/oh-my-opencode/refs/heads/dev/README.md
+Read this and tell me why it's not just another boilerplate: https://raw.githubusercontent.com/CaravanOfGlory/oh-my-magento/refs/heads/dev/README.md
 ```
 
 ## ハイライト
@@ -265,19 +201,19 @@ project/
 
 > **背景のストーリーを知りたいですか？** なぜSisyphusは岩を転がすのか、なぜHephaestusは「正当なる職人」なのか、そして[オーケストレーションガイド](docs/guide/orchestration.md)をお読みください。
 >
-> oh-my-opencodeは初めてですか？どのモデルを使うべきかについては、**[インストールガイド](docs/guide/installation.md#step-5-understand-your-model-setup)** で推奨モデルを確認してください。
+> oh-my-magentoは初めてですか？どのモデルを使うべきかについては、**[インストールガイド](docs/guide/installation.md#step-5-understand-your-model-setup)** で推奨モデルを確認してください。
 
 ## アンインストール (Uninstallation)
 
-oh-my-opencodeを削除するには：
+oh-my-magentoを削除するには：
 
 1. **OpenCodeの設定からプラグインを削除する**
 
-   `~/.config/opencode/opencode.json`（または `opencode.jsonc`）を編集し、`plugin` 配列から `"oh-my-opencode"` を削除します：
+   `~/.config/opencode/opencode.json`（または `opencode.jsonc`）を編集し、`plugin` 配列から `"oh-my-magento"` を削除します：
 
    ```bash
    # jq を使用する場合
-   jq '.plugin = [.plugin[] | select(. != "oh-my-opencode")]' \
+   jq '.plugin = [.plugin[] | select(. != "oh-my-magento")]' \
        ~/.config/opencode/opencode.json > /tmp/oc.json && \
        mv /tmp/oc.json ~/.config/opencode/opencode.json
    ```
@@ -286,10 +222,10 @@ oh-my-opencodeを削除するには：
 
    ```bash
    # ユーザー設定を削除
-   rm -f ~/.config/opencode/oh-my-opencode.json ~/.config/opencode/oh-my-opencode.jsonc
+   rm -f ~/.config/opencode/oh-my-magento.json ~/.config/opencode/oh-my-magento.jsonc
 
    # プロジェクト設定を削除（存在する場合）
-   rm -f .opencode/oh-my-opencode.json .opencode/oh-my-opencode.jsonc
+   rm -f .opencode/oh-my-magento.json .opencode/oh-my-magento.jsonc
    ```
 
 3. **削除の確認**
@@ -299,49 +235,6 @@ oh-my-opencodeを削除するには：
    # プラグインがロードされなくなっているはずです
    ```
 
-## 著者の言葉
+## Credits
 
-**私たちの哲学が知りたいですか？** [Ultrawork 宣言](docs/manifesto.md)をお読みください。
-
----
-
-私は個人プロジェクトでLLMトークン代として2万4千ドル（約360万円）を使い果たしました。あらゆるツールを試し、設定をいじり倒しました。結果、OpenCodeの勝利でした。
-
-私がぶつかったすべての問題とその解決策が、このプラグインに焼き込まれています。インストールして、ただ使ってください。
-
-OpenCodeが Debian/Arch だとすれば、OmO は Ubuntu/[Omarchy](https://omarchy.org/) です。
-
-[AmpCode](https://ampcode.com) と [Claude Code](https://code.claude.com/docs/overview) ��ら多大な影響を受けています。機能を移植し、多くは改善しました。今もまだ構築中です。これは **Open**Code ですから。
-
-他のハーネスもマルチモデルのオーケストレーションを約束しています。しかし、私たちはそれを「実際に」出荷しています。安定性も備えて。言葉だけでなく、実際に機能するものとして。
-
-私がこのプロジェクトの最も強迫的なヘビーユーザーです：
-- どのモデルのロジックが最も鋭いか？
-- デバッグの神は誰か？
-- 最も優れた文章を書くのは誰か？
-- フロントエンドのエコシステムを支配しているのは誰か？
-- バックエンドの覇者は誰か？
-- 日常使いで最も速いのはどれか？
-- 競合他社は今何を出荷しているか？
-
-このプラグインは、それらの問いに対する蒸留物（Distillation）です。最高のものをそのまま使ってください。改善点が見つかりましたか？PRはいつでも歓迎します。
-
-**どのハーネスを使うかで悩むのはもうやめましょう。**
-**私が自らリサーチし、最高のものを盗んできて、ここに詰め込みます。**
-
-傲慢に聞こえますか？もっと良い方法があるならコントリビュートしてください。大歓迎です。
-
-言及されたどのプロジェクト/モデルとも関係はありません。単なる純粋な個人的実験の結果です。
-
-このプロジェクトの99%はOpenCodeで構築されました。私は実はTypeScriptをよく知りません。**しかし、このドキュメントは私が自らレビューし、書き直しました。**
-
-## 導入実績
-
-- [Indent](https://indentcorp.com)
-  - インフルエンサーマーケティングソリューション Spray、クロスボーダーコマースプラットフォーム vovushop、AIコマースレビューマーケティングソリューション vreview 制作
-- [Google](https://google.com)
-- [Microsoft](https://microsoft.com)
-- [ELESTYLE](https://elestyle.jp)
-  - マルチモバイル決済ゲートウェイ elepay、キャッシュレスソリューション向けモバイルアプリケーションSaaS OneQR 制作
-
-*素晴らしいヒーロー画像を提供してくれた [@junhoyeo](https://github.com/junhoyeo) 氏に特別な感謝を。*
+Oh My Magento is a fork of [oh-my-opencode](https://github.com/code-yeongyu/oh-my-opencode) by [@code-yeongyu](https://github.com/code-yeongyu). The core agent orchestration system, hash-anchored edit tool, and multi-model architecture are their work. We extended it with Magento 2 and Hyvä domain expertise.

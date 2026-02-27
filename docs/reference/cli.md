@@ -1,15 +1,15 @@
 # CLI Reference
 
-Complete reference for the `oh-my-opencode` command-line interface.
+Complete reference for the `oh-my-magento` command-line interface.
 
 ## Basic Usage
 
 ```bash
 # Display help
-bunx oh-my-opencode
+bunx oh-my-magento
 
 # Or with npx
-npx oh-my-opencode
+npx oh-my-magento
 ```
 
 ## Commands
@@ -27,20 +27,20 @@ npx oh-my-opencode
 
 ## install
 
-Interactive installation tool for initial Oh-My-OpenCode setup. Provides a TUI based on `@clack/prompts`.
+Interactive installation tool for initial Oh-My-Magento setup. Provides a TUI based on `@clack/prompts`.
 
 ### Usage
 
 ```bash
-bunx oh-my-opencode install
+bunx oh-my-magento install
 ```
 
 ### Installation Process
 
 1. **Provider Selection**: Choose your AI provider (Claude, ChatGPT, or Gemini)
 2. **API Key Input**: Enter the API key for your selected provider
-3. **Configuration File Creation**: Generates `opencode.json` or `oh-my-opencode.json` files
-4. **Plugin Registration**: Automatically registers the oh-my-opencode plugin in OpenCode settings
+3. **Configuration File Creation**: Generates `opencode.json` or `oh-my-magento.json` files
+4. **Plugin Registration**: Automatically registers the oh-my-magento plugin in OpenCode settings
 
 ### Options
 
@@ -53,12 +53,12 @@ bunx oh-my-opencode install
 
 ## doctor
 
-Diagnoses your environment to ensure Oh-My-OpenCode is functioning correctly. Performs 17+ health checks.
+Diagnoses your environment to ensure Oh-My-Magento is functioning correctly. Performs 17+ health checks.
 
 ### Usage
 
 ```bash
-bunx oh-my-opencode doctor
+bunx oh-my-magento doctor
 ```
 
 ### Diagnostic Categories
@@ -83,10 +83,10 @@ bunx oh-my-opencode doctor
 ### Example Output
 
 ```
-oh-my-opencode doctor
+oh-my-magento doctor
 
 ┌──────────────────────────────────────────────────┐
-│  Oh-My-OpenCode Doctor                           │
+│  Oh-My-Magento Doctor                           │
 └──────────────────────────────────────────────────┘
 
 Installation
@@ -94,7 +94,7 @@ Installation
   ✓ Plugin registered in opencode.json
 
 Configuration
-  ✓ oh-my-opencode.json is valid
+  ✓ oh-my-magento.json is valid
   ⚠ categories.visual-engineering: using default model
 
 Authentication
@@ -119,7 +119,7 @@ Executes OpenCode sessions and monitors task completion.
 ### Usage
 
 ```bash
-bunx oh-my-opencode run [prompt]
+bunx oh-my-magento run [prompt]
 ```
 
 ### Options
@@ -148,16 +148,16 @@ Manages OAuth 2.1 authentication for remote MCP servers.
 
 ```bash
 # Login to an OAuth-protected MCP server
-bunx oh-my-opencode mcp oauth login <server-name> --server-url https://api.example.com
+bunx oh-my-magento mcp oauth login <server-name> --server-url https://api.example.com
 
 # Login with explicit client ID and scopes
-bunx oh-my-opencode mcp oauth login my-api --server-url https://api.example.com --client-id my-client --scopes "read,write"
+bunx oh-my-magento mcp oauth login my-api --server-url https://api.example.com --client-id my-client --scopes "read,write"
 
 # Remove stored OAuth tokens
-bunx oh-my-opencode mcp oauth logout <server-name>
+bunx oh-my-magento mcp oauth logout <server-name>
 
 # Check OAuth token status
-bunx oh-my-opencode mcp oauth status [server-name]
+bunx oh-my-magento mcp oauth status [server-name]
 ```
 
 ### Options
@@ -182,13 +182,13 @@ Manages Google Antigravity OAuth authentication. Required for using Gemini model
 
 ```bash
 # Login
-bunx oh-my-opencode auth login
+bunx oh-my-magento auth login
 
 # Logout
-bunx oh-my-opencode auth logout
+bunx oh-my-magento auth logout
 
 # Check current status
-bunx oh-my-opencode auth status
+bunx oh-my-magento auth status
 ```
 
 ---
@@ -197,8 +197,8 @@ bunx oh-my-opencode auth status
 
 The CLI searches for configuration files in the following locations (in priority order):
 
-1. **Project Level**: `.opencode/oh-my-opencode.json`
-2. **User Level**: `~/.config/opencode/oh-my-opencode.json`
+1. **Project Level**: `.opencode/oh-my-magento.json`
+2. **User Level**: `~/.config/opencode/oh-my-magento.json`
 
 ### JSONC Support
 
@@ -238,17 +238,17 @@ bun install -g opencode@latest
 
 ```bash
 # Reinstall plugin
-bunx oh-my-opencode install
+bunx oh-my-magento install
 ```
 
 ### Doctor Check Failures
 
 ```bash
 # Diagnose with detailed information
-bunx oh-my-opencode doctor --verbose
+bunx oh-my-magento doctor --verbose
 
 # Check specific category only
-bunx oh-my-opencode doctor --category authentication
+bunx oh-my-magento doctor --category authentication
 ```
 
 ---
@@ -259,10 +259,10 @@ Use the `--no-tui` option for CI/CD environments.
 
 ```bash
 # Run doctor in CI environment
-bunx oh-my-opencode doctor --no-tui --json
+bunx oh-my-magento doctor --no-tui --json
 
 # Save results to file
-bunx oh-my-opencode doctor --json > doctor-report.json
+bunx oh-my-magento doctor --json > doctor-report.json
 ```
 
 ---

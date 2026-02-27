@@ -1,8 +1,8 @@
-# Oh-My-OpenCode Features Reference
+# Oh-My-Magento Features Reference
 
 ## Agents
 
-Oh-My-OpenCode provides 11 specialized AI agents. Each has distinct expertise, optimized models, and tool permissions.
+Oh-My-Magento provides 11 specialized AI agents. Each has distinct expertise, optimized models, and tool permissions.
 
 ### Core Agents
 
@@ -89,7 +89,7 @@ When running inside tmux:
 - Each pane shows agent output live
 - Auto-cleanup when agents complete
 
-Customize agent models, prompts, and permissions in `oh-my-opencode.json`.
+Customize agent models, prompts, and permissions in `oh-my-magento.json`.
 
 ## Category System
 
@@ -128,7 +128,7 @@ task(
 
 ### Custom Categories
 
-You can define custom categories in `oh-my-opencode.json`.
+You can define custom categories in `oh-my-magento.json`.
 
 #### Category Configuration Schema
 
@@ -230,7 +230,7 @@ Skills provide specialized workflows with embedded MCP servers and detailed inst
 
 ### Browser Automation Options
 
-Oh-My-OpenCode provides two browser automation providers, configurable via `browser_automation_engine.provider`.
+Oh-My-Magento provides two browser automation providers, configurable via `browser_automation_engine.provider`.
 
 #### Option 1: Playwright MCP (Default)
 
@@ -536,7 +536,7 @@ Requires `experimental.task_system: true` in config.
 
 #### Task System Details
 
-**Note on Claude Code Alignment**: This implementation follows Claude Code's internal Task tool signatures (`TaskCreate`, `TaskUpdate`, `TaskList`, `TaskGet`) and field naming conventions (`subject`, `blockedBy`, `blocks`, etc.). However, Anthropic has not published official documentation for these tools. This is Oh My OpenCode's own implementation based on observed Claude Code behavior and internal specifications.
+**Note on Claude Code Alignment**: This implementation follows Claude Code's internal Task tool signatures (`TaskCreate`, `TaskUpdate`, `TaskList`, `TaskGet`) and field naming conventions (`subject`, `blockedBy`, `blocks`, etc.). However, Anthropic has not published official documentation for these tools. This is Oh My Magento's own implementation based on observed Claude Code behavior and internal specifications.
 
 **Task Schema**:
 ```ts
@@ -820,7 +820,7 @@ When a skill MCP has `oauth` configured:
 Pre-authenticate via CLI:
 
 ```bash
-bunx oh-my-opencode mcp oauth login <server-name> --server-url https://api.example.com
+bunx oh-my-magento mcp oauth login <server-name> --server-url https://api.example.com
 ```
 
 ## Context Injection

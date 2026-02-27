@@ -1,6 +1,6 @@
-# Contributing to Oh My OpenCode
+# Contributing to Oh My Magento
 
-First off, thanks for taking the time to contribute! This document provides guidelines and instructions for contributing to oh-my-opencode.
+First off, thanks for taking the time to contribute! This document provides guidelines and instructions for contributing to oh-my-magento.
 
 ## Table of Contents
 
@@ -61,8 +61,8 @@ If English isn't your first language, don't worry! We value your contributions r
 
 ```bash
 # Clone the repository
-git clone https://github.com/code-yeongyu/oh-my-opencode.git
-cd oh-my-opencode
+git clone https://github.com/CaravanOfGlory/oh-my-magento.git
+cd oh-my-magento
 
 # Install dependencies (bun only - never use npm/yarn)
 bun install
@@ -84,36 +84,36 @@ After making changes, you can test your local build in OpenCode:
    ```json
    {
      "plugin": [
-       "file:///absolute/path/to/oh-my-opencode/dist/index.js"
+       "file:///absolute/path/to/oh-my-magento/dist/index.js"
      ]
    }
    ```
    
-   For example, if your project is at `/Users/yourname/projects/oh-my-opencode`:
+   For example, if your project is at `/Users/yourname/projects/oh-my-magento`:
    ```json
    {
      "plugin": [
-       "file:///Users/yourname/projects/oh-my-opencode/dist/index.js"
+       "file:///Users/yourname/projects/oh-my-magento/dist/index.js"
      ]
    }
    ```
 
-   > **Note**: Remove `"oh-my-opencode"` from the plugin array if it exists, to avoid conflicts with the npm version.
+   > **Note**: Remove `"oh-my-magento"` from the plugin array if it exists, to avoid conflicts with the npm version.
 
 3. **Restart OpenCode** to load the changes.
 
-4. **Verify** the plugin is loaded by checking for OmO agent availability or startup messages.
+4. **Verify** the plugin is loaded by checking for OmM agent availability or startup messages.
 
 ## Project Structure
 
 ```
-oh-my-opencode/
+oh-my-magento/
 ├── src/
-│   ├── index.ts         # Plugin entry (OhMyOpenCodePlugin)
+│   ├── index.ts         # Plugin entry (OhMyMagentoPlugin)
 │   ├── plugin-config.ts # JSONC multi-level config (Zod v4)
-│   ├── agents/          # 11 agents (Sisyphus, Hephaestus, Oracle, Librarian, Explore, Atlas, Prometheus, Metis, Momus, Multimodal-Looker, Sisyphus-Junior)
-│   ├── hooks/           # 44 lifecycle hooks across 39 directories
-│   ├── tools/           # 26 tools across 15 directories
+│   ├── agents/          # 14 agents (11 core + Magento-Architect, Magento-Upgrader, Magento-Payment)
+│   ├── hooks/           # 48 lifecycle hooks across 41 directories
+│   ├── tools/           # 30 tools across 19 directories
 │   ├── mcp/             # 3 built-in remote MCPs (websearch, context7, grep_app)
 │   ├── features/        # 19 feature modules (background-agent, skill-loader, tmux, MCP-OAuth, etc.)
 │   ├── config/          # Zod v4 schema system
@@ -267,4 +267,4 @@ export function createMyHook(input: PluginInput) {
 
 ---
 
-Thank you for contributing to Oh My OpenCode! Your efforts help make AI-assisted coding better for everyone.
+Thank you for contributing to Oh My Magento! Your efforts help make AI-assisted coding better for everyone.
