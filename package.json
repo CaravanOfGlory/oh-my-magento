@@ -80,16 +80,16 @@
     "@code-yeongyu/comment-checker"
   ],
   "optionalDependencies": {
-    "oh-my-magento-darwin-arm64": "0.1.0",
-    "oh-my-magento-darwin-x64": "0.1.0",
-    "oh-my-magento-darwin-x64-baseline": "0.1.0",
-    "oh-my-magento-linux-arm64": "0.1.0",
-    "oh-my-magento-linux-arm64-musl": "0.1.0",
-    "oh-my-magento-linux-x64": "0.1.0",
-    "oh-my-magento-linux-x64-baseline": "0.1.0",
-    "oh-my-magento-linux-x64-musl": "0.1.0",
-    "oh-my-magento-linux-x64-musl-baseline": "0.1.0",
-    "oh-my-magento-windows-x64": "0.1.0",
-    "oh-my-magento-windows-x64-baseline": "0.1.0"
+    "oh-my-magento-darwin-arm64": "0.1.1",
+    "oh-my-magento-darwin-x64": "0.1.1",
+    "oh-my-magento-darwin-x64-baseline": "0.1.1",
+    "oh-my-magento-linux-arm64": "0.1.1",
+    "oh-my-magento-linux-arm64-musl": "0.1.1",
+    "oh-my-magento-linux-x64": "0.1.1",
+    "oh-my-magento-linux-x64-baseline": "0.1.1",
+    "oh-my-magento-linux-x64-musl": "0.1.1",
+    "oh-my-magento-linux-x64-musl-baseline": "0.1.1",
+    "oh-my-magento-windows-x64": "0.1.1",
+    "oh-my-magento-windows-x64-baseline": "0.1.1"
   }
 }
