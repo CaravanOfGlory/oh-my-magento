@@ -1,22 +1,16 @@
 {
   "name": "oh-my-magento-windows-x64",
-  "version": "3.9.0",
+  "version": "0.1.1",
   "description": "Platform-specific binary for oh-my-magento (windows-x64)",
-  "license": "MIT",
+  "license": "SUL-1.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/CaravanOfGlory/oh-my-magento"
+    "url": "git+https://github.com/CaravanOfGlory/oh-my-magento.git"
   },
-  "os": [
-    "win32"
-  ],
-  "cpu": [
-    "x64"
-  ],
   "files": [
     "bin"
   ],
   "bin": {
-    "oh-my-magento": "./bin/oh-my-magento.exe"
+    "oh-my-magento": "bin/oh-my-magento.exe"
   }
 }

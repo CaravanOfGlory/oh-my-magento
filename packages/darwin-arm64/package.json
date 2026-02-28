@@ -1,22 +1,16 @@
 {
   "name": "oh-my-magento-darwin-arm64",
-  "version": "3.9.0",
+  "version": "0.1.1",
   "description": "Platform-specific binary for oh-my-magento (darwin-arm64)",
-  "license": "MIT",
+  "license": "SUL-1.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/CaravanOfGlory/oh-my-magento"
+    "url": "git+https://github.com/CaravanOfGlory/oh-my-magento.git"
   },
-  "os": [
-    "darwin"
-  ],
-  "cpu": [
-    "arm64"
-  ],
   "files": [
     "bin"
   ],
   "bin": {
-    "oh-my-magento": "./bin/oh-my-magento"
+    "oh-my-magento": "bin/oh-my-magento"
   }
 }

@@ -1,0 +1,1668 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>oh-my-magento | 技术方案文档</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@300;400;500;600&family=Noto+Serif+SC:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-tertiary: #1a1a25;
+            --bg-card: #151520;
+            --accent-primary: #e8d5b7;
+            --accent-secondary: #c9b896;
+            --accent-warm: #d4a574;
+            --accent-cyan: #7dd3fc;
+            --accent-rose: #fda4af;
+            --accent-amber: #fcd34d;
+            --text-primary: #f5f5f0;
+            --text-secondary: #a0a0a0;
+            --text-muted: #6b6b6b;
+            --border-subtle: #2a2a3a;
+            --glow-warm: rgba(212, 165, 116, 0.3);
+            --glow-cyan: rgba(125, 211, 252, 0.2);
+            --gradient-hero: linear-gradient(135deg, #0a0a0f 0%, #1a1510 50%, #0a0a0f 100%);
+            --gradient-card: linear-gradient(145deg, #151520 0%, #1a1a28 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', 'Noto Serif SC', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* Scroll Progress Indicator */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent-warm), var(--accent-cyan), var(--accent-rose));
+            z-index: 10000;
+            transition: width 0.1s ease;
+        }
+
+        /* Typography */
+        h1, h2, h3, h4 {
+            font-family: 'Playfair Display', 'Noto Serif SC', serif;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+        }
+
+        .mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            background: var(--gradient-hero);
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(ellipse at 20% 80%, rgba(212, 165, 116, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 20%, rgba(125, 211, 252, 0.06) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(253, 164, 175, 0.04) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        .hero-content {
+            text-align: center;
+            z-index: 10;
+            padding: 2rem;
+            max-width: 1000px;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: rgba(232, 213, 183, 0.1);
+            border: 1px solid rgba(232, 213, 183, 0.2);
+            border-radius: 100px;
+            font-size: 0.85rem;
+            color: var(--accent-primary);
+            margin-bottom: 2rem;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.8s ease forwards;
+            animation-delay: 0.2s;
+        }
+
+        .hero-badge::before {
+            content: '◆';
+            color: var(--accent-warm);
+        }
+
+        .hero-title {
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-warm) 50%, var(--accent-secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s ease forwards;
+            animation-delay: 0.4s;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1rem, 2vw, 1.25rem);
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto 3rem;
+            line-height: 1.8;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.8s ease forwards;
+            animation-delay: 0.6s;
+        }
+
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            flex-wrap: wrap;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.8s ease forwards;
+            animation-delay: 0.8s;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 600;
+            color: var(--accent-primary);
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-top: 0.25rem;
+        }
+
+        .scroll-hint {
+            position: absolute;
+            bottom: 3rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            opacity: 0;
+            animation: fadeIn 1s ease forwards;
+            animation-delay: 1.2s;
+        }
+
+        .scroll-hint::after {
+            content: '↓';
+            font-size: 1.5rem;
+            animation: bounce 2s infinite;
+        }
+
+        /* Section Styles */
+        .section {
+            padding: 6rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .section-header {
+            margin-bottom: 4rem;
+        }
+
+        .section-number {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--accent-warm);
+            margin-bottom: 0.5rem;
+        }
+
+        .section-title {
+            font-size: clamp(2rem, 4vw, 3rem);
+            color: var(--accent-primary);
+            margin-bottom: 1rem;
+        }
+
+        .section-desc {
+            color: var(--text-secondary);
+            max-width: 600px;
+            font-size: 1.1rem;
+        }
+
+        /* Problem Section */
+        .problem-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .problem-card {
+            background: var(--gradient-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 16px;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .problem-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .problem-card:hover {
+            border-color: rgba(212, 165, 116, 0.3);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), 0 0 30px var(--glow-warm);
+            transform: translateY(-5px);
+        }
+
+        .problem-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent-warm), transparent);
+        }
+
+        .problem-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .problem-title {
+            font-size: 1.25rem;
+            color: var(--text-primary);
+            margin-bottom: 0.75rem;
+        }
+
+        .problem-text {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        /* Architecture Section */
+        .architecture-section {
+            background: var(--bg-secondary);
+            padding: 6rem 2rem;
+        }
+
+        .architecture-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .agent-hierarchy {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            margin: 4rem 0;
+            position: relative;
+        }
+
+        .agent-layer {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            padding: 1.5rem 2rem;
+            background: var(--gradient-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            position: relative;
+            opacity: 0;
+            transform: translateX(-30px);
+            transition: all 0.5s ease;
+        }
+
+        .agent-layer.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .agent-layer::before {
+            content: '';
+            position: absolute;
+            left: -20px;
+            top: 50%;
+            width: 20px;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent-warm), transparent);
+            transform: translateY(-50%);
+        }
+
+        .layer-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--accent-warm);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            min-width: 120px;
+        }
+
+        .layer-content {
+            flex: 1;
+        }
+
+        .layer-title {
+            font-size: 1.25rem;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .layer-desc {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .layer-agents {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .agent-tag {
+            padding: 0.4rem 0.8rem;
+            background: rgba(125, 211, 252, 0.1);
+            border: 1px solid rgba(125, 211, 252, 0.2);
+            border-radius: 100px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--accent-cyan);
+        }
+
+        .agent-tag.magento {
+            background: rgba(212, 165, 116, 0.1);
+            border-color: rgba(212, 165, 116, 0.2);
+            color: var(--accent-warm);
+        }
+
+        /* Flow Lines Animation */
+        .flow-line {
+            position: absolute;
+            width: 2px;
+            background: linear-gradient(180deg, var(--accent-warm), var(--accent-cyan));
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0.3;
+        }
+
+        .flow-line::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 20px;
+            background: linear-gradient(180deg, transparent, var(--accent-warm), transparent);
+            animation: flowDown 2s linear infinite;
+        }
+
+        /* Agent Cards */
+        .agent-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 4rem;
+        }
+
+        .agent-card {
+            background: var(--gradient-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 20px;
+            padding: 2.5rem;
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .agent-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .agent-card:hover {
+            border-color: rgba(212, 165, 116, 0.4);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4), 0 0 40px var(--glow-warm);
+        }
+
+        .agent-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-warm), var(--accent-cyan));
+        }
+
+        .agent-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .agent-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, rgba(212, 165, 116, 0.2), rgba(125, 211, 252, 0.2));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.75rem;
+        }
+
+        .agent-info h3 {
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .agent-role {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--accent-warm);
+        }
+
+        .agent-description {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+
+        .agent-expertise {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .expertise-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .expertise-item::before {
+            content: '›';
+            color: var(--accent-warm);
+            font-weight: bold;
+        }
+
+        /* Router Simulation */
+        .router-sim {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-subtle);
+            border-radius: 20px;
+            padding: 3rem;
+            margin-top: 4rem;
+        }
+
+        .router-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .router-title {
+            font-size: 1.5rem;
+            color: var(--accent-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .router-subtitle {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .router-input-container {
+            display: flex;
+            gap: 1rem;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+
+        .router-input {
+            flex: 1;
+            padding: 1rem 1.5rem;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            color: var(--text-primary);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .router-input:focus {
+            border-color: var(--accent-warm);
+            box-shadow: 0 0 20px var(--glow-warm);
+        }
+
+        .router-input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .router-btn {
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, var(--accent-warm), var(--accent-secondary));
+            border: none;
+            border-radius: 12px;
+            color: var(--bg-primary);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .router-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px var(--glow-warm);
+        }
+
+        .router-result {
+            display: none;
+            padding: 1.5rem;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            margin-top: 1rem;
+        }
+
+        .router-result.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .result-path {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .path-node {
+            padding: 0.75rem 1.25rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-subtle);
+            border-radius: 8px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+        }
+
+        .path-node.active {
+            background: rgba(212, 165, 116, 0.15);
+            border-color: var(--accent-warm);
+            color: var(--accent-warm);
+            box-shadow: 0 0 20px var(--glow-warm);
+        }
+
+        .path-arrow {
+            color: var(--text-muted);
+        }
+
+        .result-agent {
+            text-align: center;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        .result-agent-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            color: var(--accent-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .result-agent-desc {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Skills Section */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 3rem;
+        }
+
+        .skill-card {
+            background: var(--gradient-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 16px;
+            padding: 1.75rem;
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.4s ease;
+        }
+
+        .skill-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .skill-card:hover {
+            border-color: rgba(125, 211, 252, 0.3);
+            transform: translateY(-3px);
+        }
+
+        .skill-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, var(--accent-cyan), var(--accent-rose));
+        }
+
+        .skill-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .skill-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: rgba(125, 211, 252, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+
+        .skill-name {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.95rem;
+            color: var(--text-primary);
+        }
+
+        .skill-domain {
+            font-size: 0.75rem;
+            color: var(--accent-cyan);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .skill-desc {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        /* Upgrade Flow Section */
+        .upgrade-flow {
+            margin-top: 4rem;
+        }
+
+        .flow-timeline {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            position: relative;
+        }
+
+        .flow-phase {
+            display: flex;
+            gap: 2rem;
+            padding: 2rem 0;
+            position: relative;
+            opacity: 0;
+            transform: translateX(-30px);
+            transition: all 0.5s ease;
+        }
+
+        .flow-phase.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .flow-phase::before {
+            content: '';
+            position: absolute;
+            left: 31px;
+            top: 60px;
+            bottom: -20px;
+            width: 2px;
+            background: linear-gradient(180deg, var(--accent-warm), var(--accent-cyan));
+        }
+
+        .flow-phase:last-child::before {
+            display: none;
+        }
+
+        .phase-marker {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background: var(--gradient-card);
+            border: 2px solid var(--accent-warm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            color: var(--accent-warm);
+            flex-shrink: 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .phase-content {
+            flex: 1;
+            background: var(--gradient-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 16px;
+            padding: 2rem;
+        }
+
+        .phase-title {
+            font-size: 1.25rem;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .phase-subtitle {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--accent-warm);
+            margin-bottom: 1rem;
+        }
+
+        .phase-desc {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        .phase-tasks {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .phase-task {
+            padding: 0.4rem 0.8rem;
+            background: rgba(125, 211, 252, 0.08);
+            border-radius: 6px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--accent-cyan);
+        }
+
+        /* Hyvä Section */
+        .hyva-section {
+            background: var(--bg-secondary);
+            padding: 6rem 2rem;
+        }
+
+        .hyva-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .hyva-principles {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .principle-card {
+            background: var(--gradient-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 16px;
+            padding: 2rem;
+            position: relative;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.4s ease;
+        }
+
+        .principle-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .principle-card:hover {
+            border-color: rgba(253, 164, 175, 0.3);
+        }
+
+        .principle-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            color: rgba(253, 164, 175, 0.15);
+            position: absolute;
+            top: 1rem;
+            right: 1.5rem;
+        }
+
+        .principle-title {
+            font-size: 1.25rem;
+            color: var(--accent-rose);
+            margin-bottom: 1rem;
+        }
+
+        .principle-desc {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        .tech-stack {
+            margin-top: 4rem;
+            padding: 2rem;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-subtle);
+            border-radius: 16px;
+        }
+
+        .tech-stack-title {
+            font-size: 1.25rem;
+            color: var(--text-primary);
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .tech-items {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .tech-item {
+            padding: 0.75rem 1.25rem;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-subtle);
+            border-radius: 8px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+        }
+
+        .tech-item:hover {
+            border-color: var(--accent-cyan);
+            color: var(--accent-cyan);
+        }
+
+        /* Code Block */
+        .code-block {
+            background: #0d0d12;
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            overflow-x: auto;
+        }
+
+        .code-block pre {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            line-height: 1.7;
+            color: var(--text-secondary);
+        }
+
+        .code-keyword { color: #c792ea; }
+        .code-string { color: #c3e88d; }
+        .code-comment { color: #676e95; }
+        .code-function { color: #82aaff; }
+        .code-number { color: #f78c6c; }
+
+        /* Footer */
+        .footer {
+            padding: 4rem 2rem;
+            text-align: center;
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        .footer-text {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+
+        .footer-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-link:hover {
+            color: var(--accent-warm);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(10px); }
+        }
+
+        @keyframes flowDown {
+            0% { transform: translateY(-20px); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateY(100px); opacity: 0; }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-stats {
+                gap: 1.5rem;
+            }
+
+            .section {
+                padding: 4rem 1.5rem;
+            }
+
+            .agent-cards {
+                grid-template-columns: 1fr;
+            }
+
+            .router-input-container {
+                flex-direction: column;
+            }
+
+            .flow-phase {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .flow-phase::before {
+                left: 31px;
+                top: 64px;
+                bottom: -30px;
+            }
+        }
+
+        /* Stagger Animation Delays */
+        .stagger-1 { transition-delay: 0.1s; }
+        .stagger-2 { transition-delay: 0.2s; }
+        .stagger-3 { transition-delay: 0.3s; }
+        .stagger-4 { transition-delay: 0.4s; }
+        .stagger-5 { transition-delay: 0.5s; }
+        .stagger-6 { transition-delay: 0.6s; }
+        .stagger-7 { transition-delay: 0.7s; }
+        .stagger-8 { transition-delay: 0.8s; }
+        .stagger-9 { transition-delay: 0.9s; }
+    </style>
+</head>
+<body>
+    <!-- Scroll Progress -->
+    <div class="scroll-progress" id="scrollProgress"></div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-badge">OpenCode Plugin</div>
+            <h1 class="hero-title">oh-my-magento</h1>
+            <p class="hero-subtitle">
+                基于 oh-my-opencode fork，面向 Magento 2 + Hyvä 的专项 AI 编排系统<br>
+                将单一 AI Agent 转化为协调的 Magento 开发团队
+            </p>
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <span class="stat-number" data-count="12">0</span>
+                    <span class="stat-label">Agent</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" data-count="9">0</span>
+                    <span class="stat-label">Skill</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" data-count="4">0</span>
+                    <span class="stat-label">Tool</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" data-count="8">0</span>
+                    <span class="stat-label">Command</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" data-count="2">0</span>
+                    <span class="stat-label">Hook</span>
+                </div>
+            </div>
+        </div>
+        <div class="scroll-hint">向下滚动探索</div>
+    </section>
+
+    <!-- Problem Section -->
+    <section class="section" id="problem">
+        <div class="section-header">
+            <div class="section-number">01</div>
+            <h2 class="section-title">为什么要做</h2>
+            <p class="section-desc">通用 AI 编排与 Magento 专项编排之间的差距</p>
+        </div>
+
+        <div class="problem-grid">
+            <div class="problem-card stagger-1">
+                <div class="problem-icon">🏗️</div>
+                <h3 class="problem-title">版本升级困境</h3>
+                <p class="problem-text">
+                    Magento 2.4.6 → 2.4.8 升级涉及 100+ 自定义模块的兼容性分析、废弃 API 检测、数据库架构迁移。通用 AI 缺乏 Magento 版本矩阵和 UCT 工具的深度集成。
+                </p>
+            </div>
+            <div class="problem-card stagger-2">
+                <div class="problem-icon">🔧</div>
+                <h3 class="problem-title">日常维护低效</h3>
+                <p class="problem-text">
+                    DI 配置、Plugin vs Observer 决策、EAV 属性设计、声明式 Schema 编写——这些需要深厚的 Magento 架构知识，通用 AI 往往给出次优方案。
+                </p>
+            </div>
+            <div class="problem-card stagger-3">
+                <div class="problem-icon">💳</div>
+                <h3 class="problem-title">支付接入风险</h3>
+                <p class="problem-text">
+                    支付网关集成涉及 PCI-DSS 合规、CSP 配置、Vault 集成、多货币/税务处理。任何疏漏都可能导致严重的安全和合规问题。
+                </p>
+            </div>
+            <div class="problem-card stagger-4">
+                <div class="problem-icon">🎨</div>
+                <h3 class="problem-title">Hyvä 学习曲线</h3>
+                <p class="problem-text">
+                    Hyvä 主题采用 Alpine.js + Tailwind CSS 替代传统的 jQuery/Knockout.js/RequireJS，ViewModelRegistry 模式与 Luma 截然不同，需要专门的知识体系。
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Architecture Section -->
+    <section class="architecture-section" id="architecture">
+        <div class="architecture-container">
+            <div class="section-header">
+                <div class="section-number">02</div>
+                <h2 class="section-title">架构全景</h2>
+                <p class="section-desc">Agent 分层与路由决策系统</p>
+            </div>
+
+            <!-- Agent Hierarchy -->
+            <div class="agent-hierarchy">
+                <div class="agent-layer stagger-1">
+                    <div class="layer-label">Orchestrator</div>
+                    <div class="layer-content">
+                        <div class="layer-title">Sisyphus 编排层</div>
+                        <div class="layer-desc">主编排器，负责任务规划、并行委派、驱动任务至完成</div>
+                    </div>
+                    <div class="layer-agents">
+                        <span class="agent-tag">Sisyphus</span>
+                    </div>
+                </div>
+                <div class="agent-layer stagger-2">
+                    <div class="layer-label">Specialists</div>
+                    <div class="layer-content">
+                        <div class="layer-title">专项 Agent 层</div>
+                        <div class="layer-desc">Magento 领域专家 + 通用领域专家</div>
+                    </div>
+                    <div class="layer-agents">
+                        <span class="agent-tag magento">magento-architect</span>
+                        <span class="agent-tag magento">magento-upgrader</span>
+                        <span class="agent-tag magento">magento-payment</span>
+                        <span class="agent-tag">Hephaestus</span>
+                        <span class="agent-tag">Prometheus</span>
+                    </div>
+                </div>
+                <div class="agent-layer stagger-3">
+                    <div class="layer-label">General</div>
+                    <div class="layer-content">
+                        <div class="layer-title">通用 Agent 层</div>
+                        <div class="layer-desc">代码探索、知识检索、多模态分析</div>
+                    </div>
+                    <div class="layer-agents">
+                        <span class="agent-tag">Oracle</span>
+                        <span class="agent-tag">Librarian</span>
+                        <span class="agent-tag">Explore</span>
+                        <span class="agent-tag">Multimodal-Looker</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Agent Cards -->
+            <div class="agent-cards">
+                <div class="agent-card stagger-1">
+                    <div class="agent-header">
+                        <div class="agent-avatar">🏛️</div>
+                        <div class="agent-info">
+                            <h3>Magento Architect</h3>
+                            <span class="agent-role">magento-architect</span>
+                        </div>
+                    </div>
+                    <p class="agent-description">
+                        Magento 2 架构专家，提供模块设计、DI 配置、Plugin/Observer 选择、EAV 属性规划等架构咨询服务。只读模式，不直接编写代码。
+                    </p>
+                    <div class="agent-expertise">
+                        <span class="expertise-item">Service Layer & Repository Pattern</span>
+                        <span class="expertise-item">Dependency Injection 配置</span>
+                        <span class="expertise-item">Plugin vs Observer 决策框架</span>
+                        <span class="expertise-item">Hyvä 主题架构规划</span>
+                    </div>
+                </div>
+
+                <div class="agent-card stagger-2">
+                    <div class="agent-header">
+                        <div class="agent-avatar">⬆️</div>
+                        <div class="agent-info">
+                            <h3>Magento Upgrader</h3>
+                            <span class="agent-role">magento-upgrader</span>
+                        </div>
+                    </div>
+                    <p class="agent-description">
+                        版本升级专家，负责大规模升级（如 2.4.6→2.4.8）的全流程：UCT 分析、废弃 API 检测、依赖拓扑排序、分批执行。
+                    </p>
+                    <div class="agent-expertise">
+                        <span class="expertise-item">UCT (Upgrade Compatibility Tool) 集成</span>
+                        <span class="expertise-item">AST-Grep 批量模式检测</span>
+                        <span class="expertise-item">模块依赖图与波浪式升级</span>
+                        <span class="expertise-item">Human-in-the-loop 确认机制</span>
+                    </div>
+                </div>
+
+                <div class="agent-card stagger-3">
+                    <div class="agent-header">
+                        <div class="agent-avatar">💳</div>
+                        <div class="agent-info">
+                            <h3>Magento Payment</h3>
+                            <span class="agent-role">magento-payment</span>
+                        </div>
+                    </div>
+                    <p class="agent-description">
+                        支付集成专家，专注于支付网关集成、PCI-DSS 合规、CSP 配置、Vault 集成、多货币/税务处理。
+                    </p>
+                    <div class="agent-expertise">
+                        <span class="expertise-item">支付网关架构设计</span>
+                        <span class="expertise-item">PCI-DSS 合规检查清单</span>
+                        <span class="expertise-item">Vault 安全存储集成</span>
+                        <span class="expertise-item">多货币与税务计算</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Router Simulation -->
+            <div class="router-sim">
+                <div class="router-header">
+                    <h3 class="router-title">Sisyphus 路由决策模拟</h3>
+                    <p class="router-subtitle">输入关键词，查看 Sisyphus 如何路由到对应的 Agent</p>
+                </div>
+                <div class="router-input-container">
+                    <input type="text" class="router-input" id="routerInput" placeholder="输入关键词，如：upgrade、payment、di.xml、hyva theme...">
+                    <button class="router-btn" onclick="simulateRouter()">路由</button>
+                </div>
+                <div class="router-result" id="routerResult">
+                    <div class="result-path" id="resultPath"></div>
+                    <div class="result-agent" id="resultAgent"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section class="section" id="skills">
+        <div class="section-header">
+            <div class="section-number">03</div>
+            <h2 class="section-title">核心能力</h2>
+            <p class="section-desc">9 个 Magento/Hyvä 专项 Skill</p>
+        </div>
+
+        <div class="skills-grid">
+            <div class="skill-card stagger-1">
+                <div class="skill-header">
+                    <div class="skill-icon">📦</div>
+                    <div>
+                        <div class="skill-name">magento-module-scaffold</div>
+                        <div class="skill-domain">Backend</div>
+                    </div>
+                </div>
+                <p class="skill-desc">模块脚手架：registration.php、module.xml、composer.json、DI 配置的最佳实践模板</p>
+            </div>
+
+            <div class="skill-card stagger-2">
+                <div class="skill-header">
+                    <div class="skill-icon">⚙️</div>
+                    <div>
+                        <div class="skill-name">magento-xml-config</div>
+                        <div class="skill-domain">Backend</div>
+                    </div>
+                </div>
+                <p class="skill-desc">XML 配置：di.xml、system.xml、routes.xml、webapi.xml、db_schema.xml 及 XSD 验证</p>
+            </div>
+
+            <div class="skill-card stagger-3">
+                <div class="skill-header">
+                    <div class="skill-icon">🧪</div>
+                    <div>
+                        <div class="skill-name">magento-testing</div>
+                        <div class="skill-domain">Quality</div>
+                    </div>
+                </div>
+                <p class="skill-desc">测试模式：MFTF、Integration、Unit 测试的 Magento 2 专项模板</p>
+            </div>
+
+            <div class="skill-card stagger-4">
+                <div class="skill-header">
+                    <div class="skill-icon">🚀</div>
+                    <div>
+                        <div class="skill-name">magento-performance</div>
+                        <div class="skill-domain">Optimization</div>
+                    </div>
+                </div>
+                <p class="skill-desc">性能优化：索引器调优、缓存策略、查询优化、Varnish/FPC 配置</p>
+            </div>
+
+            <div class="skill-card stagger-5">
+                <div class="skill-header">
+                    <div class="skill-icon">⬆️</div>
+                    <div>
+                        <div class="skill-name">magento-upgrade-analysis</div>
+                        <div class="skill-domain">Migration</div>
+                    </div>
+                </div>
+                <p class="skill-desc">升级分析：版本迁移、废弃模式检测、兼容性矩阵分析</p>
+            </div>
+
+            <div class="skill-card stagger-6">
+                <div class="skill-header">
+                    <div class="skill-icon">🐛</div>
+                    <div>
+                        <div class="skill-name">magento-debugging</div>
+                        <div class="skill-domain">Debug</div>
+                    </div>
+                </div>
+                <p class="skill-desc">调试诊断：Xdebug、日志分析、DI 编译、Plugin 冲突、部署问题排查</p>
+            </div>
+
+            <div class="skill-card stagger-7">
+                <div class="skill-header">
+                    <div class="skill-icon">🎨</div>
+                    <div>
+                        <div class="skill-name">hyva-theme</div>
+                        <div class="skill-domain">Frontend</div>
+                    </div>
+                </div>
+                <p class="skill-desc">Hyvä 主题：Alpine.js、Tailwind CSS、View Models，告别 RequireJS</p>
+            </div>
+
+            <div class="skill-card stagger-8">
+                <div class="skill-header">
+                    <div class="skill-icon">🛒</div>
+                    <div>
+                        <div class="skill-name">hyva-checkout</div>
+                        <div class="skill-domain">Frontend</div>
+                    </div>
+                </div>
+                <p class="skill-desc">Hyvä Checkout：Magewire 组件、结账步骤、支付/配送集成</p>
+            </div>
+
+            <div class="skill-card stagger-9">
+                <div class="skill-header">
+                    <div class="skill-icon">🔌</div>
+                    <div>
+                        <div class="skill-name">hyva-compat-module</div>
+                        <div class="skill-domain">Integration</div>
+                    </div>
+                </div>
+                <p class="skill-desc">兼容模块：第三方 Magento 模块的 Hyvä 兼容层开发</p>
+            </div>
+        </div>
+
+        <!-- Upgrade Flow -->
+        <div class="upgrade-flow">
+            <h3 style="font-size: 1.5rem; color: var(--accent-primary); margin-bottom: 2rem; text-align: center;">
+                大版本升级 Human-in-the-loop 流程
+            </h3>
+            <div class="flow-timeline">
+                <div class="flow-phase stagger-1">
+                    <div class="phase-marker">A</div>
+                    <div class="phase-content">
+                        <h4 class="phase-title">分析阶段</h4>
+                        <div class="phase-subtitle">Analysis Phase</div>
+                        <p class="phase-desc">
+                            UCT 报告生成、废弃 API 扫描、模块依赖图构建。识别关键路径模块和潜在阻塞点。
+                        </p>
+                        <div class="phase-tasks">
+                            <span class="phase-task">bin/uct upgrade:check</span>
+                            <span class="phase-task">ast_grep_search</span>
+                            <span class="phase-task">dependency graph</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="flow-phase stagger-2">
+                    <div class="phase-marker">B</div>
+                    <div class="phase-content">
+                        <h4 class="phase-title">规划阶段</h4>
+                        <div class="phase-subtitle">Planning Phase</div>
+                        <p class="phase-desc">
+                            波浪式升级计划：Wave 1（无依赖模块）→ Wave N（依赖模块）。Human 确认升级顺序和时间窗口。
+                        </p>
+                        <div class="phase-tasks">
+                            <span class="phase-task">topological sort</span>
+                            <span class="phase-task">wave planning</span>
+                            <span class="phase-task">human confirm</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="flow-phase stagger-3">
+                    <div class="phase-marker">C</div>
+                    <div class="phase-content">
+                        <h4 class="phase-title">执行阶段</h4>
+                        <div class="phase-subtitle">Execution Phase</div>
+                        <p class="phase-desc">
+                            自动修复废弃模式、更新 composer 约束、执行 schema 迁移。每波完成后 Human 验证。
+                        </p>
+                        <div class="phase-tasks">
+                            <span class="phase-task">ast_grep_replace</span>
+                            <span class="phase-task">composer update</span>
+                            <span class="phase-task">setup:upgrade</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="flow-phase stagger-4">
+                    <div class="phase-marker">D</div>
+                    <div class="phase-content">
+                        <h4 class="phase-title">验证阶段</h4>
+                        <div class="phase-subtitle">Validation Phase</div>
+                        <p class="phase-desc">
+                            回归测试、性能基准对比、生产环境部署。Human 最终 sign-off。
+                        </p>
+                        <div class="phase-tasks">
+                            <span class="phase-task">integration tests</span>
+                            <span class="phase-task">performance check</span>
+                            <span class="phase-task">production deploy</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Hyvä Section -->
+    <section class="hyva-section" id="hyva">
+        <div class="hyva-container">
+            <div class="section-header">
+                <div class="section-number">04</div>
+                <h2 class="section-title">Hyvä 优先原则</h2>
+                <p class="section-desc">技术栈约束与架构决策</p>
+            </div>
+
+            <div class="hyva-principles">
+                <div class="principle-card stagger-1">
+                    <div class="principle-number">01</div>
+                    <h3 class="principle-title">Hyvä First</h3>
+                    <p class="principle-desc">
+                        所有前端决策默认采用 Hyvä 技术栈。仅在客户明确要求或第三方模块完全不兼容时，才考虑 Luma 方案。
+                    </p>
+                </div>
+                <div class="principle-card stagger-2">
+                    <div class="principle-number">02</div>
+                    <h3 class="principle-title">No RequireJS</h3>
+                    <p class="principle-desc">
+                        Hyvä 完全移除了 RequireJS/knockout.js 依赖。所有交互使用原生 Alpine.js，样式使用 Tailwind CSS。
+                    </p>
+                </div>
+                <div class="principle-card stagger-3">
+                    <div class="principle-number">03</div>
+                    <h3 class="principle-title">ViewModelRegistry</h3>
+                    <p class="principle-desc">
+                        使用 $viewModels->require() 模式在 phtml 模板中获取数据，替代传统的 Block 模式，实现更好的关注点分离。
+                    </p>
+                </div>
+                <div class="principle-card stagger-4">
+                    <div class="principle-number">04</div>
+                    <h3 class="principle-title">CompatModule</h3>
+                    <p class="principle-desc">
+                        为不兼容的第三方模块开发 Hyvä 兼容层，使用 CompatModuleRegistry 自动模板覆盖机制。
+                    </p>
+                </div>
+                <div class="principle-card stagger-5">
+                    <div class="principle-number">05</div>
+                    <h3 class="principle-title">Magewire</h3>
+                    <p class="principle-desc">
+                        复杂交互 UI（如结账流程）使用 Magewire 组件，实现类似 Laravel Livewire 的响应式体验。
+                    </p>
+                </div>
+                <div class="principle-card stagger-6">
+                    <div class="principle-number">06</div>
+                    <h3 class="principle-title">Tailwind Config</h3>
+                    <p class="principle-desc">
+                        tailwind.config.js 集成 @hyva-themes/hyva-modules，支持模块级别的样式扩展和自定义配置。
+                    </p>
+                </div>
+            </div>
+
+            <div class="tech-stack">
+                <h3 class="tech-stack-title">Hyvä 技术栈</h3>
+                <div class="tech-items">
+                    <span class="tech-item">Alpine.js</span>
+                    <span class="tech-item">Tailwind CSS</span>
+                    <span class="tech-item">Magewire</span>
+                    <span class="tech-item">ViewModelRegistry</span>
+                    <span class="tech-item">HyvaModules</span>
+                    <span class="tech-item">CompatModule</span>
+                    <span class="tech-item">PHTML Templates</span>
+                    <span class="tech-item">No RequireJS</span>
+                    <span class="tech-item">No Knockout.js</span>
+                    <span class="tech-item">No jQuery</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p class="footer-text">oh-my-magento — 面向 Magento 2 + Hyvä 的专项 AI 编排系统</p>
+        <div class="footer-links">
+            <a href="https://github.com/CaravanOfGlory/oh-my-magento" class="footer-link" target="_blank">GitHub</a>
+            <a href="https://www.npmjs.com/package/oh-my-magento" class="footer-link" target="_blank">npm</a>
+            <a href="https://opencode.ai" class="footer-link" target="_blank">OpenCode</a>
+        </div>
+    </footer>
+
+    <script>
+        // Scroll Progress
+        window.addEventListener('scroll', () => {
+            const scrollProgress = document.getElementById('scrollProgress');
+            const scrollTop = window.scrollY;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrollPercent = (scrollTop / docHeight) * 100;
+            scrollProgress.style.width = scrollPercent + '%';
+        });
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        // Observe all animated elements
+        document.querySelectorAll('.problem-card, .agent-layer, .agent-card, .skill-card, .flow-phase, .principle-card').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Count-up animation
+        function animateCountUp() {
+            const counters = document.querySelectorAll('.stat-number');
+            counters.forEach(counter => {
+                const target = parseInt(counter.getAttribute('data-count'));
+                const duration = 2000;
+                const step = target / (duration / 16);
+                let current = 0;
+
+                const updateCounter = () => {
+                    current += step;
+                    if (current < target) {
+                        counter.textContent = Math.floor(current);
+                        requestAnimationFrame(updateCounter);
+                    } else {
+                        counter.textContent = target;
+                    }
+                };
+
+                updateCounter();
+            });
+        }
+
+        // Trigger count-up when hero is visible
+        const heroObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateCountUp();
+                    heroObserver.disconnect();
+                }
+            });
+        }, { threshold: 0.5 });
+
+        heroObserver.observe(document.querySelector('.hero'));
+
+        // Router Simulation
+        const routerKeywords = {
+            'upgrade': {
+                path: ['Sisyphus', 'Keyword Detect', 'Category: magento-backend', 'magento-upgrader'],
+                agent: 'Magento Upgrader',
+                desc: '版本升级专家 - 负责 UCT 分析、废弃 API 检测、波浪式升级执行'
+            },
+            'version': {
+                path: ['Sisyphus', 'Keyword Detect', 'Category: magento-backend', 'magento-upgrader'],
+                agent: 'Magento Upgrader',
+                desc: '版本升级专家 - 负责 UCT 分析、废弃 API 检测、波浪式升级执行'
+            },
+            'payment': {
+                path: ['Sisyphus', 'Keyword Detect', 'Category: magento-integration', 'magento-payment'],
+                agent: 'Magento Payment',
+                desc: '支付集成专家 - 负责支付网关、PCI-DSS 合规、Vault 集成'
+            },
+            'pci': {
+                path: ['Sisyphus', 'Keyword Detect', 'Category: magento-integration', 'magento-payment'],
+                agent: 'Magento Payment',
+                desc: '支付集成专家 - 负责支付网关、PCI-DSS 合规、Vault 集成'
+            },
+            'di.xml': {
+                path: ['Sisyphus', 'Keyword Detect', 'Category: magento-backend', 'magento-architect'],
+                agent: 'Magento Architect',
+                desc: '架构专家 - 负责 DI 配置、模块设计、架构决策'
+            },
+            'module': {
+                path: ['Sisyphus', 'Keyword Detect', 'Category: magento-backend', 'magento-architect'],
+                agent: 'Magento Architect',
+                desc: '架构专家 - 负责模块设计、DI 配置、架构决策'
+            },
+            'hyva': {
+                path: ['Sisyphus', 'Keyword Detect', 'Category: magento-hyva', 'magento-architect'],
+                agent: 'Magento Architect',
+                desc: '架构专家 - 负责 Hyvä 主题架构、兼容性模块设计'
+            },
+            'theme': {
+                path: ['Sisyphus', 'Keyword Detect', 'Category: magento-hyva', 'magento-architect'],
+                agent: 'Magento Architect',
+                desc: '架构专家 - 负责 Hyvä 主题架构、兼容性模块设计'
+            },
+            'plugin': {
+                path: ['Sisyphus', 'Keyword Detect', 'Category: magento-backend', 'magento-architect'],
+                agent: 'Magento Architect',
+                desc: '架构专家 - 负责 Plugin vs Observer 决策、架构设计'
+            },
+            'observer': {
+                path: ['Sisyphus', 'Keyword Detect', 'Category: magento-backend', 'magento-architect'],
+                agent: 'Magento Architect',
+                desc: '架构专家 - 负责 Plugin vs Observer 决策、架构设计'
+            }
+        };
+
+        function simulateRouter() {
+            const input = document.getElementById('routerInput').value.toLowerCase().trim();
+            const resultDiv = document.getElementById('routerResult');
+            const pathDiv = document.getElementById('resultPath');
+            const agentDiv = document.getElementById('resultAgent');
+
+            if (!input) return;
+
+            let matched = null;
+            for (const keyword in routerKeywords) {
+                if (input.includes(keyword)) {
+                    matched = routerKeywords[keyword];
+                    break;
+                }
+            }
+
+            if (matched) {
+                pathDiv.innerHTML = matched.path.map((node, i) => {
+                    const isLast = i === matched.path.length - 1;
+                    return `<span class="path-node ${isLast ? 'active' : ''}">${node}</span>${!isLast ? '<span class="path-arrow">→</span>' : ''}`;
+                }).join('');
+                agentDiv.innerHTML = `<div class="result-agent-name">${matched.agent}</div><div class="result-agent-desc">${matched.desc}</div>`;
+            } else {
+                pathDiv.innerHTML = '<span class="path-node">Sisyphus</span><span class="path-arrow">→</span><span class="path-node active">Default Routing</span>';
+                agentDiv.innerHTML = '<div class="result-agent-name">Sisyphus</div><div class="result-agent-desc">主编排器处理 - 根据任务类型动态委派</div>';
+            }
+
+            resultDiv.classList.add('active');
+        }
+
+        // Enter key support for router input
+        document.getElementById('routerInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                simulateRouter();
+            }
+        });
+    </script>
+</body>
+</html>

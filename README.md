@@ -26,31 +26,34 @@ Not locked to Claude. Not locked to OpenAI. Claude for orchestration, GPT for re
 
 ## Installation
 
-### Quick Start (Recommended)
+### For Humans
 
-Install directly from npm:
+Copy and paste this prompt to your LLM agent (Claude Code, AmpCode, Cursor, etc.):
+
+```
+Install and configure oh-my-magento by following the instructions here:
+https://raw.githubusercontent.com/CaravanOfGlory/oh-my-magento/refs/heads/master/docs/guide/installation.md
+```
+
+**Alternative (Not recommended, do this by yourself)**:
+
+Run the interactive installer:
 
 ```bash
-# Using npm
-npm install -g oh-my-magento
-
-# Using bun (faster)
-bun install -g oh-my-magento
-
-# Run interactive installer
-oh-my-magento install
+bunx oh-my-magento install  # recommended
+npx oh-my-magento install   # alternative
 ```
+
+> **Note**: The CLI ships with standalone binaries for all major platforms. No runtime (Bun/Node.js) is required for CLI execution after installation.
+>
+> **Supported platforms**: macOS (ARM64, x64), Linux (x64, ARM64, Alpine/musl), Windows (x64)
 
 ### For LLM Agents
 
-Copy and paste this prompt:
+Fetch the installation guide and follow it:
 
-```
-Install oh-my-magento from npm by running:
-npm install -g oh-my-magento && oh-my-magento install
-
-Follow any interactive prompts. For detailed configuration, see:
-https://raw.githubusercontent.com/CaravanOfGlory/oh-my-magento/refs/heads/master/docs/guide/installation.md
+```bash
+curl -s https://raw.githubusercontent.com/CaravanOfGlory/oh-my-magento/refs/heads/master/docs/guide/installation.md
 ```
 
 ### Install from Source (Development)
