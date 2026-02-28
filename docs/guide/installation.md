@@ -13,8 +13,28 @@ https://raw.githubusercontent.com/CaravanOfGlory/oh-my-magento/refs/heads/master
 Install from source (requires [Bun](https://bun.sh)):
 
 ```bash
+# Clone repository
 git clone https://github.com/CaravanOfGlory/oh-my-magento.git ~/.oh-my-magento
-cd ~/.oh-my-magento && bun install && bun run build && bun link
+cd ~/.oh-my-magento
+
+# Install dependencies and build
+bun install
+bun run build
+
+# Build platform binaries (required for CLI)
+bun run build:binaries
+
+# Link platform package for your system
+cd packages/darwin-arm64 && bun link  # macOS ARM64
+# cd packages/darwin-x64 && bun link  # macOS x64
+# cd packages/linux-x64 && bun link   # Linux x64
+# cd packages/windows-x64 && bun link # Windows x64
+cd ../..
+
+bun link oh-my-magento-darwin-arm64  # Replace with your platform
+bun link  # Link main package
+
+# Run installer
 oh-my-magento install
 ```
 
@@ -95,8 +115,40 @@ else
     curl -fsSL https://bun.sh/install | bash
 fi
 
+# Clone and build
 git clone https://github.com/CaravanOfGlory/oh-my-magento.git ~/.oh-my-magento
-cd ~/.oh-my-magento && bun install && bun run build && bun link
+cd ~/.oh-my-magento
+bun install
+bun run build
+
+# Build platform binaries and link
+bun run build:binaries
+
+# Detect platform and link appropriate package
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  if [[ "$(uname -m)" == "arm64" ]]; then
+    PLATFORM_PKG="darwin-arm64"
+  else
+    PLATFORM_PKG="darwin-x64"
+  fi
+elif [[ "$OSTYPE" == "linux"* ]]; then
+  if [[ "$(uname -m)" == "x86_64" ]]; then
+    PLATFORM_PKG="linux-x64"
+  else
+    PLATFORM_PKG="linux-arm64"
+  fi
+elif [[ "$OSTYPE" == "msys" || "$OSTYPE" == "win32" ]]; then
+  PLATFORM_PKG="windows-x64"
+else
+  echo "Unknown platform: $OSTYPE"
+  exit 1
+fi
+
+echo "Detected platform: $PLATFORM_PKG"
+cd packages/$PLATFORM_PKG && bun link
+cd ../..
+bun link oh-my-magento-$PLATFORM_PKG
+bun link
 ```
 
 ### Step 3: Run the installer

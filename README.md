@@ -38,8 +38,28 @@ https://raw.githubusercontent.com/CaravanOfGlory/oh-my-magento/refs/heads/master
 Or install from source manually (requires [Bun](https://bun.sh)):
 
 ```bash
+# Clone repository
 git clone https://github.com/CaravanOfGlory/oh-my-magento.git ~/.oh-my-magento
-cd ~/.oh-my-magento && bun install && bun run build && bun link
+cd ~/.oh-my-magento
+
+# Install dependencies and build
+bun install
+bun run build
+
+# Build platform binaries (required for CLI)
+bun run build:binaries
+
+# Link platform package for your system
+cd packages/darwin-arm64 && bun link  # macOS ARM64
+# cd packages/darwin-x64 && bun link  # macOS x64
+# cd packages/linux-x64 && bun link   # Linux x64
+# cd packages/windows-x64 && bun link # Windows x64
+cd ../..
+
+bun link oh-my-magento-darwin-arm64  # Replace with your platform
+bun link  # Link main package
+
+# Run installer
 oh-my-magento install
 ```
 

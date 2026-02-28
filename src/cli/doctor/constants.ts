@@ -19,6 +19,7 @@ export const STATUS_COLORS = {
 
 export const CHECK_IDS = {
   SYSTEM: "system",
+  PLATFORM_BINARY: "platform-binary",
   CONFIG: "config",
   TOOLS: "tools",
   MODELS: "models",
@@ -26,6 +27,7 @@ export const CHECK_IDS = {
 
 export const CHECK_NAMES: Record<string, string> = {
   [CHECK_IDS.SYSTEM]: "System",
+  [CHECK_IDS.PLATFORM_BINARY]: "Platform Binary",
   [CHECK_IDS.CONFIG]: "Configuration",
   [CHECK_IDS.TOOLS]: "Tools",
   [CHECK_IDS.MODELS]: "Models",

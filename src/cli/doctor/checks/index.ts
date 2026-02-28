@@ -1,6 +1,7 @@
 import type { CheckDefinition } from "../types"
 import { CHECK_IDS, CHECK_NAMES } from "../constants"
 import { checkSystem, gatherSystemInfo } from "./system"
+import { checkPlatformBinary } from "./platform-binary"
 import { checkConfig } from "./config"
 import { checkTools, gatherToolsSummary } from "./tools"
 import { checkModels } from "./model-resolution"
@@ -15,6 +16,12 @@ export function getAllCheckDefinitions(): CheckDefinition[] {
       id: CHECK_IDS.SYSTEM,
       name: CHECK_NAMES[CHECK_IDS.SYSTEM],
       check: checkSystem,
+      critical: true,
+    },
+    {
+      id: CHECK_IDS.PLATFORM_BINARY,
+      name: CHECK_NAMES[CHECK_IDS.PLATFORM_BINARY],
+      check: checkPlatformBinary,
       critical: true,
     },
     {
