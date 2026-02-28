@@ -26,32 +26,54 @@ OmM 설치하고. `ultrawork` 치세요. 끝.
 
 ## 설치
 
-### 사람용
+### 빠른 시작 (추천)
 
-다음 프롬프트를 복사해서 여러분의 LLM 에이전트(Claude Code, AmpCode, Cursor 등)에 붙여넣으세요:
+npm에서 직접 설치:
+
+```bash
+# npm 사용
+npm install -g oh-my-magento
+
+# bun 사용 (더 빠름)
+bun install -g oh-my-magento
+
+# 인터랙티브 인스톨러 실행
+oh-my-magento install
+```
+
+### LLM 에이전트용
+
+다음 프롬프트를 복사해서 붙여넣으세요:
 
 ```
-Install and configure oh-my-magento by following the instructions here:
+npm에서 oh-my-magento를 설치:
+npm install -g oh-my-magento && oh-my-magento install
+
+인터랙티브 프롬프트를 따라하세요. 자세한 구성은 여기를 참조하세요:
 https://raw.githubusercontent.com/CaravanOfGlory/oh-my-magento/refs/heads/master/docs/guide/installation.md
 ```
 
-또는 소스에서 직접 설치하세요 ([Bun](https://bun.sh) 필요):
+### 소스에서 설치 (개발용)
+
+플러그인을 개발할 때만 필요:
 
 ```bash
+# 리포지토리 클론
 git clone https://github.com/CaravanOfGlory/oh-my-magento.git ~/.oh-my-magento
-cd ~/.oh-my-magento && bun install && bun run build && bun link
+cd ~/.oh-my-magento
+
+# 의존성 설치 및 빌드
+bun install
+bun run build
+
+# 개발용 링크
+bun link
+
+# 인스톨러 실행
 oh-my-magento install
 ```
 
 자세한 내용은 [설치 가이드](docs/guide/installation.md)를 참고하세요.
-
-### LLM 에이전트용
-
-설치 가이드를 가져와서 따라 하세요:
-
-```bash
-curl -s https://raw.githubusercontent.com/CaravanOfGlory/oh-my-magento/refs/heads/master/docs/guide/installation.md
-```
 
 ---
 

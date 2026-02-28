@@ -26,32 +26,55 @@
 
 ## 安装
 
-### 给人类看的
+### 快速开始（推荐）
 
-复制并粘贴以下提示词到你的 LLM Agent (Claude Code, AmpCode, Cursor 等):
+直接从 npm 安装：
+
+```bash
+# 使用 npm
+npm install -g oh-my-magento
+
+# 使用 bun（更快）
+bun install -g oh-my-magento
+
+# 运行交互式安装器
+oh-my-magento install
+```
+
+### 给 LLM Agent 看的
+
+复制并粘贴以下提示词：
 
 ```
-Install and configure oh-my-magento by following the instructions here:
+通过以下命令从 npm 安装 oh-my-magento：
+npm install -g oh-my-magento && oh-my-magento install
+
+按照交互式提示操作。详细配置说明见：
 https://raw.githubusercontent.com/CaravanOfGlory/oh-my-magento/refs/heads/master/docs/guide/installation.md
 ```
 
-或者从源码安装（需要 [Bun](https://bun.sh)）：
+### 从源码安装（开发用）
+
+仅当你需要开发插件时才需要：
 
 ```bash
+# 克隆仓库
 git clone https://github.com/CaravanOfGlory/oh-my-magento.git ~/.oh-my-magento
-cd ~/.oh-my-magento && bun install && bun run build && bun link
+cd ~/.oh-my-magento
+
+# 安装依赖并构建
+bun install
+bun run build
+
+# 开发模式链接
+bun link
+
+# 运行安装器
 oh-my-magento install
 ```
 
 详见 [安装指南](docs/guide/installation.md)。
 
-### 给 LLM Agent 看的
-
-获取安装指南并照做：
-
-```bash
-curl -s https://raw.githubusercontent.com/CaravanOfGlory/oh-my-magento/refs/heads/master/docs/guide/installation.md
-```
 
 ---
 
