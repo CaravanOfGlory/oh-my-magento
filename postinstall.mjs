@@ -2,9 +2,13 @@
 // Runs after npm install to verify platform binary is available
 
 import { createRequire } from "node:module";
+import { existsSync } from "node:fs";
+import { join, dirname } from "node:path";
+import { fileURLToPath } from "node:url";
 import { getPlatformPackageCandidates, getBinaryPath } from "./bin/platform.js";
 
 const require = createRequire(import.meta.url);
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 /**
  * Detect libc family on Linux
@@ -35,8 +39,12 @@ function main() {
 
     const resolvedPackage = packageCandidates.find((pkg) => {
       try {
-        require.resolve(getBinaryPath(pkg, platform));
-        return true;
+        // Try to resolve the package first
+        const packagePath = require.resolve(`${pkg}/package.json`);
+        const packageDir = dirname(packagePath);
+        const binaryPath = getBinaryPath(pkg, platform).replace(`${pkg}/`, '');
+        const fullBinaryPath = join(packageDir, binaryPath);
+        return existsSync(fullBinaryPath);
       } catch {
         return false;
       }
