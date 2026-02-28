@@ -35,7 +35,15 @@ Install and configure oh-my-magento by following the instructions here:
 https://raw.githubusercontent.com/CaravanOfGlory/oh-my-magento/refs/heads/master/docs/guide/installation.md
 ```
 
-或者你可以直接去读 [安装指南](docs/guide/installation.md)，但说真的，让 Agent 去干吧。人类配环境总是容易敲错字母。
+或者从源码安装（需要 [Bun](https://bun.sh)）：
+
+```bash
+git clone https://github.com/CaravanOfGlory/oh-my-magento.git ~/.oh-my-magento
+cd ~/.oh-my-magento && bun install && bun run build && bun link
+oh-my-magento install
+```
+
+详见 [安装指南](docs/guide/installation.md)。
 
 ### 给 LLM Agent 看的
 

@@ -44,12 +44,12 @@
   "license": "SUL-1.0",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/code-yeongyu/oh-my-opencode.git"
+    "url": "git+https://github.com/CaravanOfGlory/oh-my-magento.git"
   },
   "bugs": {
-    "url": "https://github.com/code-yeongyu/oh-my-opencode/issues"
+    "url": "https://github.com/CaravanOfGlory/oh-my-magento/issues"
   },
-  "homepage": "https://github.com/code-yeongyu/oh-my-opencode#readme",
+  "homepage": "https://github.com/CaravanOfGlory/oh-my-magento#readme",
   "dependencies": {
     "@ast-grep/cli": "^0.40.0",
     "@ast-grep/napi": "^0.40.0",
@@ -75,17 +75,17 @@
     "typescript": "^5.7.3"
   },
   "optionalDependencies": {
-    "oh-my-opencode-darwin-arm64": "3.9.0",
-    "oh-my-opencode-darwin-x64": "3.9.0",
-    "oh-my-opencode-darwin-x64-baseline": "3.9.0",
-    "oh-my-opencode-linux-arm64": "3.9.0",
-    "oh-my-opencode-linux-arm64-musl": "3.9.0",
-    "oh-my-opencode-linux-x64": "3.9.0",
-    "oh-my-opencode-linux-x64-baseline": "3.9.0",
-    "oh-my-opencode-linux-x64-musl": "3.9.0",
-    "oh-my-opencode-linux-x64-musl-baseline": "3.9.0",
-    "oh-my-opencode-windows-x64": "3.9.0",
-    "oh-my-opencode-windows-x64-baseline": "3.9.0"
+    "oh-my-magento-darwin-arm64": "0.1.0",
+    "oh-my-magento-darwin-x64": "0.1.0",
+    "oh-my-magento-darwin-x64-baseline": "0.1.0",
+    "oh-my-magento-linux-arm64": "0.1.0",
+    "oh-my-magento-linux-arm64-musl": "0.1.0",
+    "oh-my-magento-linux-x64": "0.1.0",
+    "oh-my-magento-linux-x64-baseline": "0.1.0",
+    "oh-my-magento-linux-x64-musl": "0.1.0",
+    "oh-my-magento-linux-x64-musl-baseline": "0.1.0",
+    "oh-my-magento-windows-x64": "0.1.0",
+    "oh-my-magento-windows-x64-baseline": "0.1.0"
   },
   "trustedDependencies": [
     "@ast-grep/cli",

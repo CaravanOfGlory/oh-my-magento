@@ -35,7 +35,15 @@ Install and configure oh-my-magento by following the instructions here:
 https://raw.githubusercontent.com/CaravanOfGlory/oh-my-magento/refs/heads/master/docs/guide/installation.md
 ```
 
-Or read the [Installation Guide](docs/guide/installation.md).
+Or install from source manually (requires [Bun](https://bun.sh)):
+
+```bash
+git clone https://github.com/CaravanOfGlory/oh-my-magento.git ~/.oh-my-magento
+cd ~/.oh-my-magento && bun install && bun run build && bun link
+oh-my-magento install
+```
+
+See the full [Installation Guide](docs/guide/installation.md) for details.
 
 ### For LLM Agents
 

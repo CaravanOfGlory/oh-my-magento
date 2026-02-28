@@ -35,7 +35,15 @@ Install and configure oh-my-magento by following the instructions here:
 https://raw.githubusercontent.com/CaravanOfGlory/oh-my-magento/refs/heads/master/docs/guide/installation.md
 ```
 
-아니면 [설치 가이드](docs/guide/installation.md)를 직접 읽으셔도 되지만, 진심으로 그냥 에이전트한테 시키세요. 사람은 설정하다 꼭 오타 냅니다.
+또는 소스에서 직접 설치하세요 ([Bun](https://bun.sh) 필요):
+
+```bash
+git clone https://github.com/CaravanOfGlory/oh-my-magento.git ~/.oh-my-magento
+cd ~/.oh-my-magento && bun install && bun run build && bun link
+oh-my-magento install
+```
+
+자세한 내용은 [설치 가이드](docs/guide/installation.md)를 참고하세요.
 
 ### LLM 에이전트용
 

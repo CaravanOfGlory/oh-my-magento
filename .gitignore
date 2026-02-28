@@ -7,6 +7,8 @@ node_modules/
 dist/
 
 # Platform binaries (built, not committed)
+packages/*/bin/oh-my-magento
+packages/*/bin/oh-my-magento.exe
 packages/*/bin/oh-my-opencode
 packages/*/bin/oh-my-opencode.exe
 
