@@ -26,16 +26,36 @@ Not locked to Claude. Not locked to OpenAI. Claude for orchestration, GPT for re
 
 ## Installation
 
-### For Humans
+### Quick Start (Recommended)
 
-Copy and paste this prompt to your LLM agent (Claude Code, AmpCode, Cursor, etc.):
+Install directly from npm:
+
+```bash
+# Using npm
+npm install -g oh-my-magento
+
+# Using bun (faster)
+bun install -g oh-my-magento
+
+# Run interactive installer
+oh-my-magento install
+```
+
+### For LLM Agents
+
+Copy and paste this prompt:
 
 ```
-Install and configure oh-my-magento by following the instructions here:
+Install oh-my-magento from npm by running:
+npm install -g oh-my-magento && oh-my-magento install
+
+Follow any interactive prompts. For detailed configuration, see:
 https://raw.githubusercontent.com/CaravanOfGlory/oh-my-magento/refs/heads/master/docs/guide/installation.md
 ```
 
-Or install from source manually (requires [Bun](https://bun.sh)):
+### Install from Source (Development)
+
+Only needed if you're developing the plugin:
 
 ```bash
 # Clone repository
@@ -46,18 +66,8 @@ cd ~/.oh-my-magento
 bun install
 bun run build
 
-# Build platform binaries (required for CLI)
-bun run build:binaries
-
-# Link platform package for your system
-cd packages/darwin-arm64 && bun link  # macOS ARM64
-# cd packages/darwin-x64 && bun link  # macOS x64
-# cd packages/linux-x64 && bun link   # Linux x64
-# cd packages/windows-x64 && bun link # Windows x64
-cd ../..
-
-bun link oh-my-magento-darwin-arm64  # Replace with your platform
-bun link  # Link main package
+# Link for development
+bun link
 
 # Run installer
 oh-my-magento install

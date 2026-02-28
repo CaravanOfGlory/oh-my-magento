@@ -1,0 +1,47 @@
+# Source code (only ship dist/)
+src/
+
+# Tests
+*.test.ts
+test-setup.ts
+
+# Build scripts
+script/
+
+# Configuration files
+tsconfig.json
+bunfig.toml
+.github/
+.opencode/
+
+# Development files
+local-ignore/
+notepad.md
+test-injection/
+
+# Lock files
+bun.lockb
+
+# IDE & OS
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# CI/CD
+.sisyphus/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Environment
+.env
+.env.local
+oauth-success.html
+*.bun-build
+
+# Monorepo packages (if not needed)
+packages/
