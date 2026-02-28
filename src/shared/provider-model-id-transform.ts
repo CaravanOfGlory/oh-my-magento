@@ -8,6 +8,7 @@ export function transformModelForProvider(provider: string, model: string): stri
 			.replace("claude-sonnet-4", "claude-sonnet-4")
 			.replace(/gemini-3\.1-pro(?!-)/g, "gemini-3.1-pro-preview")
 			.replace(/gemini-3-flash(?!-)/g, "gemini-3-flash-preview")
+			.replace("gpt-5.3-codex", "gpt-5.2-codex")
 	}
 	if (provider === "google") {
 		return model
