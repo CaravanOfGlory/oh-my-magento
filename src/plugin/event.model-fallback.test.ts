@@ -1,9 +1,10 @@
-import { afterEach, describe, expect, test } from "bun:test"
+import { afterEach, beforeEach, describe, expect, spyOn, test } from "bun:test"
 
 import { createEventHandler } from "./event"
 import { createChatMessageHandler } from "./chat-message"
 import { _resetForTesting, setMainSession } from "../features/claude-code-session-state"
 import { createModelFallbackHook, clearPendingModelFallback } from "../hooks/model-fallback/hook"
+import * as connectedProvidersCache from "../shared/connected-providers-cache"
 
 describe("createEventHandler - model fallback", () => {
   const createHandler = (args?: { hooks?: any }) => {
@@ -46,7 +47,17 @@ describe("createEventHandler - model fallback", () => {
     return { handler, abortCalls, promptCalls }
   }
 
+  let providersCacheSpy: ReturnType<typeof spyOn>
+  let modelsCacheSpy: ReturnType<typeof spyOn>
+
+  beforeEach(() => {
+    providersCacheSpy = spyOn(connectedProvidersCache, "readConnectedProvidersCache").mockReturnValue(null)
+    modelsCacheSpy = spyOn(connectedProvidersCache, "readProviderModelsCache").mockReturnValue(null)
+  })
+
   afterEach(() => {
+    providersCacheSpy.mockRestore()
+    modelsCacheSpy.mockRestore()
     _resetForTesting()
   })
 

@@ -1,5 +1,5 @@
 declare const require: (name: string) => any
-const { describe, test, expect, beforeEach, afterEach } = require("bun:test")
+const { describe, test, expect, beforeEach, afterEach, spyOn } = require("bun:test")
 import { tmpdir } from "node:os"
 import type { PluginInput } from "@opencode-ai/plugin"
 import type { BackgroundTask, ResumeInput } from "./types"
@@ -7,6 +7,7 @@ import { MIN_IDLE_TIME_MS } from "./constants"
 import { BackgroundManager } from "./manager"
 import { ConcurrencyManager } from "./concurrency"
 import { initTaskToastManager, _resetTaskToastManagerForTesting } from "../task-toast-manager/manager"
+import * as connectedProvidersCache from "../../shared/connected-providers-cache"
 
 
 const TASK_TTL_MS = 30 * 60 * 1000
@@ -3012,6 +3013,19 @@ describe("BackgroundManager.handleEvent - session.deleted cascade", () => {
 })
 
 describe("BackgroundManager.handleEvent - session.error", () => {
+  let providersCacheSpy: ReturnType<typeof spyOn>
+  let modelsCacheSpy: ReturnType<typeof spyOn>
+
+  beforeEach(() => {
+    providersCacheSpy = spyOn(connectedProvidersCache, "readConnectedProvidersCache").mockReturnValue(null)
+    modelsCacheSpy = spyOn(connectedProvidersCache, "readProviderModelsCache").mockReturnValue(null)
+  })
+
+  afterEach(() => {
+    providersCacheSpy.mockRestore()
+    modelsCacheSpy.mockRestore()
+  })
+
   const defaultRetryFallbackChain = [
     { providers: ["anthropic"], model: "claude-opus-4-6", variant: "max" },
     { providers: ["anthropic"], model: "gpt-5.3-codex", variant: "high" },

@@ -1,28 +1,91 @@
+> [!WARNING]
+> **보안 경고: 사칭 사이트 주의**
+>
+> **ohmyopencode.com은 이 프로젝트와 아무런 관련이 없습니다.** 우리는 해당 사이트를 운영하거나 보증하지 않습니다.
+>
+> OhMyMagento는 **무료 오픈소스**입니다. "공식"을 사칭하는 제3자 사이트에서 인스톨러를 다운로드하거나 결제 정보를 입력하지 **마세요.**
+>
+> 사칭 사이트는 페이월 뒤에 숨어 있어 **어떤 악성 코드를 배포하는지 확인할 수 없습니다**. 해당 사이트의 다운로드는 모두 **잠재적 위험**으로 간주하세요.
+>
+> ✅ 공식 다운로드: https://github.com/CaravanOfGlory/oh-my-magento/releases
+
+> [!NOTE]
+>
+> [![Sisyphus Labs - Sisyphus is the agent that codes like your team.](./.github/assets/sisyphuslabs.png?v=2)](https://sisyphuslabs.ai)
+> > **우리는 프론티어 에이전트의 미래를 정의하기 위해 Sisyphus의 완벽한 프로덕트 버전을 만들고 있습니다. <br />[여기](https://sisyphuslabs.ai)에서 대기자 명단에 등록하세요.**
+
+> [!TIP]
+> 저희와 함께 하세요!
+>
+> | [<img alt="Discord link" src="https://img.shields.io/discord/1452487457085063218?color=5865F2&label=discord&labelColor=black&logo=discord&logoColor=white&style=flat-square" width="156px" />](https://discord.gg/PUwSMR9XNk) | [Discord 커뮤니티](https://discord.gg/PUwSMR9XNk)에 가입하여 기여자 및 다른 `oh-my-magento` 사용자들과 소통하세요. |
+> | :-----| :----- |
+> | [<img alt="X link" src="https://img.shields.io/badge/Follow-%40justsisyphus-00CED1?style=flat-square&logo=x&labelColor=black" width="156px" />](https://x.com/justsisyphus) | `oh-my-magento`에 대한 소식과 업데이트는 제 X 계정에 올라왔었지만, <br /> 실수로 정지된 이후에는 [@justsisyphus](https://x.com/justsisyphus)가 대신 업데이트를 게시하고 있습니다. |
+> | [<img alt="GitHub Follow" src="https://img.shields.io/github/followers/CaravanOfGlory?style=flat-square&logo=github&labelColor=black&color=24292f" width="156px" />](https://github.com/CaravanOfGlory) | 더 많은 프로젝트를 보려면 GitHub에서 [@CaravanOfGlory](https://github.com/CaravanOfGlory)를 팔로우하세요. |
+
+<!-- <CENTERED SECTION FOR GITHUB DISPLAY> -->
+
 <div align="center">
 
-[![Oh My Magento](./.github/assets/hero.jpg)](https://github.com/CaravanOfGlory/oh-my-magento#oh-my-magento)
+[![Oh My OpenCode](./.github/assets/hero.jpg)](https://github.com/CaravanOfGlory/oh-my-magento#oh-my-magento)
+
+[![Preview](./.github/assets/omo.png)](https://github.com/CaravanOfGlory/oh-my-magento#oh-my-magento)
 
 </div>
+
+> Anthropic은 당신을 가두고 싶어 합니다. Claude Code는 멋진 감옥이지만, 여전히 감옥일 뿐이죠.
+>
+> 우리는 여기서 그런 가두리를 하지 않습니다. Claude로 오케스트레이션하고, GPT로 추론하고, Kimi로 속도 내고, Gemini로 비전 처리한다. 미래는 하나의 승자를 고르는 게 아니라 전부를 오케스트레이션하는 거다. 모델은 매달 싸지고, 매달 똑똑해진다. 어떤 단일 프로바이더도 독재하지 못할 것이다. 우리는 그 열린 시장을 위해 만들고 있다.
 
 <div align="center">
 
 [![GitHub Release](https://img.shields.io/github/v/release/CaravanOfGlory/oh-my-magento?color=369eff&labelColor=black&logo=github&style=flat-square)](https://github.com/CaravanOfGlory/oh-my-magento/releases)
 [![npm downloads](https://img.shields.io/npm/dt/oh-my-magento?color=ff6b35&labelColor=black&style=flat-square)](https://www.npmjs.com/package/oh-my-magento)
+[![GitHub Contributors](https://img.shields.io/github/contributors/CaravanOfGlory/oh-my-magento?color=c4f042&labelColor=black&style=flat-square)](https://github.com/CaravanOfGlory/oh-my-magento/graphs/contributors)
+[![GitHub Forks](https://img.shields.io/github/forks/CaravanOfGlory/oh-my-magento?color=8ae8ff&labelColor=black&style=flat-square)](https://github.com/CaravanOfGlory/oh-my-magento/network/members)
 [![GitHub Stars](https://img.shields.io/github/stars/CaravanOfGlory/oh-my-magento?color=ffcb47&labelColor=black&style=flat-square)](https://github.com/CaravanOfGlory/oh-my-magento/stargazers)
 [![GitHub Issues](https://img.shields.io/github/issues/CaravanOfGlory/oh-my-magento?color=ff80eb&labelColor=black&style=flat-square)](https://github.com/CaravanOfGlory/oh-my-magento/issues)
-[![License](https://img.shields.io/badge/license-SUL--1.0-white?labelColor=black&style=flat-square)](https://github.com/CaravanOfGlory/oh-my-magento/blob/master/LICENSE.md)
+[![License](https://img.shields.io/badge/license-SUL--1.0-white?labelColor=black&style=flat-square)](https://github.com/CaravanOfGlory/oh-my-magento/blob/dev/LICENSE.md)
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/CaravanOfGlory/oh-my-magento)
 
 [English](README.md) | [한국어](README.ko.md) | [日本語](README.ja.md) | [简体中文](README.zh-cn.md)
 
 </div>
 
+<!-- </CENTERED SECTION FOR GITHUB DISPLAY> -->
+
+## 리뷰
+
+> "이것 덕분에 Cursor 구독을 취소했습니다. 오픈소스 커뮤니티에서 믿을 수 없는 일들이 일어나고 있네요." - [Arthur Guiot](https://x.com/arthur_guiot/status/2008736347092382053?s=20)
+
+> "Claude Code가 인간이 3개월 걸릴 일을 7일 만에 한다면, Sisyphus는 1시간 만에 해냅니다. 작업이 끝날 때까지 그냥 계속 알아서 작동합니다. 이건 정말 규율이 잡힌 에이전트예요." <br/>- B, Quant Researcher
+
+> "Oh My Opencode로 하루 만에 eslint 경고 8000개를 해결했습니다." <br/>- [Jacob Ferrari](https://x.com/jacobferrari_/status/2003258761952289061)
+
+> "Ohmyopencode와 ralph loop를 써서 45k 라인짜리 tauri 앱을 하룻밤 만에 SaaS 웹앱으로 변환했어요. 인터뷰 모드로 시작해서, 제가 쓴 프롬프트에 대해 질문하고 추천을 부탁했죠. 일하는 걸 지켜보는 것도 재밌었고, 아침에 일어났더니 웹사이트가 대부분 돌아가고 있는 걸 보고 경악했습니다!" - [James Hargis](https://x.com/hargabyte/status/2007299688261882202)
+
+> "oh-my-magento 쓰세요, 다시는 예전으로 못 돌아갑니다." <br/>- [d0t3ch](https://x.com/d0t3ch/status/2001685618200580503)
+
+> "뭐가 이렇게 대단한 건지 아직 정확하게 말로 표현하긴 어려운데, 개발 경험 자체가 완전히 다른 차원에 도달해버렸어요." - [苔硯:こけすずり](https://x.com/kokesuzuri/status/2008532913961529372?s=20)
+
+> "주말에 마인크래프트/소울라이크 같은 괴물 같은 걸 만들어보려고 open code, oh my opencode, supermemory로 실험 중입니다. 점심 먹고 산책 다녀오는 동안 앉기 애니메이션을 추가하라고 시켜뒀어요. [영상]" - [MagiMetal](https://x.com/MagiMetal/status/2005374704178373023)
+
+> "이걸 코어에 당겨오고 저 사람 스카우트해야 돼요. 진심으로. 이거 진짜, 진짜, 진짜 좋습니다." <br/>- Henning Kilset
+
+> "설득할 수만 있다면 @yeon_gyu_kim 채용하세요, 이 사람이 opencode를 혁명적으로 바꿨습니다." <br/>- [mysticaltech](https://x.com/mysticaltech/status/2001858758608376079)
+
+> "Oh My OpenCode는 진짜 미쳤다" - [YouTube - Darren Builds AI](https://www.youtube.com/watch?v=G_Snfh2M41M)
+
 ---
 
-# Oh My Magento
+# Oh My OpenCode
 
-**Magento 2 + Hyvä** 엔터프라이즈 전자상거래를 위한 멀티 에이전트 AI 오케스트레이션 시스템. [oh-my-opencode](https://github.com/code-yeongyu/oh-my-opencode) 포크로, Magento 전용 에이전트, 스킬, 툴, 훅, 커맨드를 추가했습니다.
+Claude Code, Codex, 온갖 OSS 모델들 사이에서 헤매고 있나요. 워크플로우 설정하랴, 에이전트 디버깅하랴 피곤할 겁니다.
 
-OmM 설치하고. `ultrawork` 치세요. 끝.
+우리가 그 삽질 다 해놨습니다. 모든 걸 테스트했고, 실제로 되는 것만 남겼습니다.
+
+OmO 설치하고. `ultrawork` 치세요. 끝.
+
+
 
 ## 설치
 
@@ -32,51 +95,18 @@ OmM 설치하고. `ultrawork` 치세요. 끝.
 
 ```
 Install and configure oh-my-magento by following the instructions here:
-https://raw.githubusercontent.com/CaravanOfGlory/oh-my-magento/refs/heads/master/docs/guide/installation.md
+https://raw.githubusercontent.com/CaravanOfGlory/oh-my-magento/refs/heads/dev/docs/guide/installation.md
 ```
 
-**대안 (추천하지 않음, 직접 실행)**:
-
-인터랙티브 인스톨러를 실행하세요:
-
-```bash
-bunx oh-my-magento install  # 추천
-npx oh-my-magento install   # 대안
-```
-
-> **참고**: CLI는 모든 주요 플랫폼용 독립 실행 파일을 포함합니다. 설치 후 CLI 실행에 런타임(Bun/Node.js)이 필요하지 않습니다.
->
-> **지원 플랫폼**: macOS (ARM64, x64), Linux (x64, ARM64, Alpine/musl), Windows (x64)
+아니면 [설치 가이드](docs/guide/installation.md)를 직접 읽으셔도 되지만, 진심으로 그냥 에이전트한테 시키세요. 사람은 설정하다 꼭 오타 냅니다.
 
 ### LLM 에이전트용
 
 설치 가이드를 가져와서 따라 하세요:
 
 ```bash
-curl -s https://raw.githubusercontent.com/CaravanOfGlory/oh-my-magento/refs/heads/master/docs/guide/installation.md
+curl -s https://raw.githubusercontent.com/CaravanOfGlory/oh-my-magento/refs/heads/dev/docs/guide/installation.md
 ```
-
-### 소스에서 설치 (개발용)
-
-플러그인을 개발할 때만 필요:
-
-```bash
-# 리포지토리 클론
-git clone https://github.com/CaravanOfGlory/oh-my-magento.git ~/.oh-my-magento
-cd ~/.oh-my-magento
-
-# 의존성 설치 및 빌드
-bun install
-bun run build
-
-# 개발용 링크
-bun link
-
-# 인스톨러 실행
-oh-my-magento install
-```
-
-자세한 내용은 [설치 가이드](docs/guide/installation.md)를 참고하세요.
 
 ---
 
@@ -268,6 +298,49 @@ oh-my-magento를 지우려면:
    # 이제 플러그인이 로드되지 않아야 합니다
    ```
 
-## 크레딧
+## 작가의 말
 
-Oh My Magento는 [@code-yeongyu](https://github.com/code-yeongyu)의 [oh-my-opencode](https://github.com/code-yeongyu/oh-my-opencode) 포크입니다. 핵심 에이전트 오케스트레이션 시스템, 해시 기반 편집 툴, 멀티 모델 아키텍처는 원작자의 작업입니다. 우리는 Magento 2와 Hyvä 도메인 전문성을 추가했습니다.
+**우리의 철학이 궁금하다면?** [Ultrawork 선언문](docs/manifesto.md)을 읽어보세요.
+
+---
+
+저는 개인 프로젝트에 LLM 토큰 값으로만 2만 4천 달러(약 3천만 원)를 태웠습니다. 모든 툴을 다 써봤고, 설정이란 설정은 다 건드려봤습니다. 결론은 OpenCode가 이겼습니다.
+
+제가 부딪혔던 모든 문제와 그 해결책이 이 플러그인에 구워져 있습니다. 설치하고 그냥 쓰세요.
+
+OpenCode가 Debian/Arch라면, OmO는 Ubuntu/[Omarchy](https://omarchy.org/)입니다.
+
+[AmpCode](https://ampcode.com)와 [Claude Code](https://code.claude.com/docs/overview)의 영향을 아주 짙게 받았습니다. 기능들을 포팅했고, 대다수는 개선했습니다. 아직도 짓고 있는 중입니다. 이건 **Open**Code니까요.
+
+다른 하네스들도 멀티 모델 오케스트레이션을 약속합니다. 하지만 우리는 그걸 "진짜로" 내놨습니다. 안정성도 챙겼고요. 말로만이 아니라 실제로 돌아가는 기능들입니다.
+
+제가 이 프로젝트의 가장 병적인 헤비 유저입니다:
+- 어떤 모델의 로직이 가장 날카로운가?
+- 디버깅의 신은 누구인가?
+- 글은 누가 제일 잘 쓰는가?
+- 프론트엔드 생태계는 누가 지배하고 있는가?
+- 백엔드 끝판왕은 누구인가?
+- 데일리 드라이빙용으로 제일 빠른 건 뭔가?
+- 경쟁사들은 지금 뭘 출시하고 있는가?
+
+이 플러그인은 그 모든 질문의 정수(Distillation)입니다. 가장 좋은 것만 가져다 쓰세요. 개선할 점이 보인다고요? PR은 언제나 환영입니다.
+
+**어떤 하네스를 쓸지 고뇌하는 건 이제 그만두세요.**
+**제가 직접 리서치하고, 제일 좋은 것만 훔쳐 와서, 여기에 욱여넣겠습니다.**
+
+거만해 보이나요? 더 나은 방법이 있다면 기여하세요. 대환영입니다.
+
+언급된 어떤 프로젝트/모델과도 아무런 이해관계가 없습니다. 그냥 순수하게 개인적인 실험의 결과물입니다.
+
+이 프로젝트의 99%는 OpenCode로 만들어졌습니다. 전 사실 TypeScript를 잘 모릅니다. **하지만 이 문서는 제가 직접 리뷰하고 갈아엎었습니다.**
+
+## 함께하는 전문가들
+
+- [Indent](https://indentcorp.com)
+  - 인플루언서 마케팅 솔루션 Spray, 크로스보더 커머스 플랫폼 vovushop, AI 커머스 리뷰 마케팅 솔루션 vreview 제작
+- [Google](https://google.com)
+- [Microsoft](https://microsoft.com)
+- [ELESTYLE](https://elestyle.jp)
+  - 멀티 모바일 결제 게이트웨이 elepay, 캐시리스 솔루션을 위한 모바일 애플리케이션 SaaS OneQR 제작
+
+*멋진 히어로 이미지를 만들어주신 [@junhoyeo](https://github.com/junhoyeo)님께 특별히 감사드립니다.*

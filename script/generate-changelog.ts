@@ -2,7 +2,7 @@
 
 import { $ } from "bun"
 
-const TEAM = ["actions-user", "github-actions[bot]", "code-yeongyu"]
+const TEAM = ["actions-user", "github-actions[bot]", "CaravanOfGlory"]
 
 async function getLatestReleasedTag(): Promise<string | null> {
   try {

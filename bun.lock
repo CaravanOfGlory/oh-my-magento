@@ -8,7 +8,7 @@
         "@ast-grep/cli": "^0.40.0",
         "@ast-grep/napi": "^0.40.0",
         "@clack/prompts": "^0.11.0",
-        "@code-yeongyu/comment-checker": "^0.6.1",
+        "@code-yeongyu/comment-checker": "^0.7.0",
         "@modelcontextprotocol/sdk": "^1.25.2",
         "@opencode-ai/plugin": "^1.1.19",
         "@opencode-ai/sdk": "^1.1.19",
@@ -27,6 +27,19 @@
         "@types/picomatch": "^3.0.2",
         "bun-types": "1.3.6",
         "typescript": "^5.7.3",
+      },
+      "optionalDependencies": {
+        "oh-my-magento-darwin-arm64": "0.1.1",
+        "oh-my-magento-darwin-x64": "0.1.1",
+        "oh-my-magento-darwin-x64-baseline": "0.1.1",
+        "oh-my-magento-linux-arm64": "0.1.1",
+        "oh-my-magento-linux-arm64-musl": "0.1.1",
+        "oh-my-magento-linux-x64": "0.1.1",
+        "oh-my-magento-linux-x64-baseline": "0.1.1",
+        "oh-my-magento-linux-x64-musl": "0.1.1",
+        "oh-my-magento-linux-x64-musl-baseline": "0.1.1",
+        "oh-my-magento-windows-x64": "0.1.1",
+        "oh-my-magento-windows-x64-baseline": "0.1.1",
       },
     },
   },
@@ -76,7 +89,7 @@
 
     "@clack/prompts": ["@clack/prompts@0.11.0", "", { "dependencies": { "@clack/core": "0.5.0", "picocolors": "^1.0.0", "sisteransi": "^1.0.5" } }, "sha512-pMN5FcrEw9hUkZA4f+zLlzivQSeQf5dRGJjSUbvVYDLvpKCdQx5OaknvKzgbtXOizhP+SJJJjqEbOe55uKKfAw=="],
 
-    "@code-yeongyu/comment-checker": ["@code-yeongyu/comment-checker@0.6.1", "", { "os": [ "linux", "win32", "darwin", ], "cpu": [ "x64", "arm64", ], "bin": { "comment-checker": "bin/comment-checker" } }, "sha512-BBremX+Y5aW8sTzlhHrLsKParupYkPOVUYmq9STrlWvBvfAme6w5IWuZCLl6nHIQScRDdvGdrAjPycJC86EZFA=="],
+    "@code-yeongyu/comment-checker": ["@code-yeongyu/comment-checker@0.7.0", "", { "os": [ "linux", "win32", "darwin", ], "cpu": [ "x64", "arm64", ], "bin": { "comment-checker": "bin/comment-checker" } }, "sha512-AOic1jPHY3CpNraOuO87YZHO3uRzm9eLd0wyYYN89/76Ugk2TfdUYJ6El/Oe8fzOnHKiOF0IfBeWRo0IUjrHHg=="],
 
     "@hono/node-server": ["@hono/node-server@1.19.9", "", { "peerDependencies": { "hono": "^4" } }, "sha512-vHL6w3ecZsky+8P5MD+eFfaGTyCeOHUIFYMGpQGbrBTSmNNoxv0if69rEZ5giu36weC5saFuznL411gRX7bJDw=="],
 
@@ -221,6 +234,26 @@
     "object-assign": ["object-assign@4.1.1", "", {}, "sha512-rJgTQnkUnH1sFw8yT6VSU3zD3sWmu6sZhIseY8VX+GRu3P6F7Fu+JNDoXfklElbLJSnc3FUQHVe4cU5hj+BcUg=="],
 
     "object-inspect": ["object-inspect@1.13.4", "", {}, "sha512-W67iLl4J2EXEGTbfeHCffrjDfitvLANg0UlX3wFUUSTx92KXRFegMHUVgSqE+wvhAbi4WqjGg9czysTV2Epbew=="],
+
+    "oh-my-magento-darwin-arm64": ["oh-my-magento-darwin-arm64@0.1.1", "", { "bin": { "oh-my-magento": "bin/oh-my-magento" } }, "sha512-my3jtd3JsWgrZTau9JX1hlZL+GnPDkJ0rzheZmbedzhu7DNxITxAhYQ11XclABhWWjWpQJ+Vp0G9+6TWJgBOyA=="],
+
+    "oh-my-magento-darwin-x64": ["oh-my-magento-darwin-x64@0.1.1", "", { "bin": { "oh-my-magento": "bin/oh-my-magento" } }, "sha512-Xl67wjLvJN+02HRzuJEX15e9QvHwK9gR1qHDSjzHXV/IpxdEyFmAQZuwCwpuUPoSrd57nx01JArPhq5xRGrdxQ=="],
+
+    "oh-my-magento-darwin-x64-baseline": ["oh-my-magento-darwin-x64-baseline@0.1.1", "", { "bin": { "oh-my-magento": "bin/oh-my-magento" } }, "sha512-djVOfVP0eOu4APj9106OJ398n+J7t8QHSSO1NGzWOLXRYqSsvzXz5e3eY/wLhzX75m8uwo/fklpli/VWU3z0Cw=="],
+
+    "oh-my-magento-linux-arm64": ["oh-my-magento-linux-arm64@0.1.1", "", { "bin": { "oh-my-magento": "bin/oh-my-magento" } }, "sha512-OkP/zhPwtLZkPi0MWmDpCqfKGzdphBRyhAM0ahIdXTqTf2xNIX+FIQ3UD4jXKqb/D0vd/TGNQG6P6VflyNonsg=="],
+
+    "oh-my-magento-linux-arm64-musl": ["oh-my-magento-linux-arm64-musl@0.1.1", "", { "bin": { "oh-my-magento": "bin/oh-my-magento" } }, "sha512-AWoNu3f6cK98kpP273l5m9yj4+bqvUjbvbQxJE/poOeoNYDNmEYEeFXakOVW1h2Sb8nX+h4W8Juyq7px0Xezbw=="],
+
+    "oh-my-magento-linux-x64": ["oh-my-magento-linux-x64@0.1.1", "", { "bin": { "oh-my-magento": "bin/oh-my-magento" } }, "sha512-q+o9xGCVTxLQjVRW8EruyMM8bAb1EG0XrVdQ0FGPUQHisD/Yx/cEH8uEahwWxCLHxJZ5Ny1qUBLHIlt+CAHL3g=="],
+
+    "oh-my-magento-linux-x64-baseline": ["oh-my-magento-linux-x64-baseline@0.1.1", "", { "bin": { "oh-my-magento": "bin/oh-my-magento" } }, "sha512-G3QydtlZn3DhY/xkOjKnoAAkdUaSdYgwumxHoZrJDpJ5jEQgwr6WHxlpSM5Hj6m7njFRPk+BSHR3kshDVrGgBQ=="],
+
+    "oh-my-magento-linux-x64-musl": ["oh-my-magento-linux-x64-musl@0.1.1", "", { "bin": { "oh-my-magento": "bin/oh-my-magento" } }, "sha512-mbtK7KFKpodDVlbD/FD9Ixl1q5tmnMi920buG7NDo5NupFpT+1Ug0WB+QyPtN1qeJf55dsua8dnXdAJhBCbfRw=="],
+
+    "oh-my-magento-linux-x64-musl-baseline": ["oh-my-magento-linux-x64-musl-baseline@0.1.1", "", { "bin": { "oh-my-magento": "bin/oh-my-magento" } }, "sha512-Ak9a5FND/HzRzSR2FngPWJEl9IsH9GpEscIrx1OS1E5R4cdO/Q/xe9O2Arwe5w8hWJ1O9rBdDm+wosQyFHrjew=="],
+
+    "oh-my-magento-windows-x64-baseline": ["oh-my-magento-windows-x64-baseline@0.1.1", "", { "bin": { "oh-my-magento": "bin/oh-my-magento.exe" } }, "sha512-EUiPvgHjCn4EYRgtCMcFNgZbZjt4ZxQNFXt4phtMYdt652DX7ZKUGH/DkLhwrL08QrwRFleOzz+24zeawvERGg=="],
 
     "on-finished": ["on-finished@2.4.1", "", { "dependencies": { "ee-first": "1.1.1" } }, "sha512-oVlzkg3ENAhCk2zdv7IJwd/QUD4z2RxRwpkcGY8psCVcCYZNq4wYnVWALHM+brtuJjePWiYF/ClmuDr8Ch5+kg=="],
 

@@ -6,6 +6,7 @@ import { findOpenCodeBinary, getOpenCodeVersion, compareVersions } from "./syste
 import { getPluginInfo } from "./system-plugin"
 import { getLatestPluginVersion, getLoadedPluginVersion } from "./system-loaded-version"
 import { parseJsonc } from "../../../shared"
+import { PLUGIN_VERSION } from "../../../shared/version"
 
 function isConfigValid(configPath: string | null): boolean {
   if (!configPath) return true
@@ -36,7 +37,8 @@ export async function gatherSystemInfo(): Promise<SystemInfo> {
   const loadedInfo = getLoadedPluginVersion()
 
   const opencodeVersion = binaryInfo ? await getOpenCodeVersion(binaryInfo.path) : null
-  const pluginVersion = pluginInfo.pinnedVersion ?? loadedInfo.expectedVersion
+  // Fallback to compile-time version if no pinned/loaded version found
+  const pluginVersion = pluginInfo.pinnedVersion ?? loadedInfo.expectedVersion ?? PLUGIN_VERSION
 
   return {
     opencodeVersion,
@@ -93,7 +95,7 @@ export async function checkSystem(): Promise<CheckResult> {
     issues.push({
       title: "Loaded plugin version mismatch",
       description: `Cache expects ${loadedInfo.expectedVersion} but loaded ${loadedInfo.loadedVersion}.`,
-      fix: "Reinstall plugin dependencies in OpenCode cache",
+      fix: `Reinstall: cd ${loadedInfo.cacheDir} && bun install`,
       severity: "warning",
       affects: ["plugin loading"],
     })
@@ -107,7 +109,7 @@ export async function checkSystem(): Promise<CheckResult> {
     issues.push({
       title: "Loaded plugin is outdated",
       description: `Loaded ${systemInfo.loadedVersion}, latest ${latestVersion}.`,
-      fix: "Update: cd ~/.config/opencode && bun update oh-my-magento",
+      fix: `Update: cd ${loadedInfo.cacheDir} && bun add oh-my-magento@latest`,
       severity: "warning",
       affects: ["plugin features"],
     })

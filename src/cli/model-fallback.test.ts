@@ -515,7 +515,7 @@ describe("generateModelConfig", () => {
 
       // #then should include correct schema URL
       expect(result.$schema).toBe(
-        "https://raw.githubusercontent.com/CaravanOfGlory/oh-my-magento/master/assets/oh-my-magento.schema.json"
+        "https://raw.githubusercontent.com/CaravanOfGlory/oh-my-magento/dev/assets/oh-my-magento.schema.json"
       )
     })
   })

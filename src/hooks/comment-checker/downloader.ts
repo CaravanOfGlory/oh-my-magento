@@ -23,7 +23,7 @@ function debugLog(...args: unknown[]) {
   }
 }
 
-const REPO = "code-yeongyu/go-claude-code-comment-checker"
+const REPO = "CaravanOfGlory/go-claude-code-comment-checker"
 
 interface PlatformInfo {
   os: string

@@ -4,6 +4,7 @@ import { dirname, join } from "node:path"
 
 import type { DependencyInfo } from "../types"
 import { spawnWithWindowsHide } from "../../../shared/spawn-with-windows-hide"
+import { getCachedBinaryPath } from "../../../hooks/comment-checker/downloader"
 
 async function checkBinaryExists(binary: string): Promise<{ exists: boolean; path: string | null }> {
   try {
@@ -118,7 +119,12 @@ function findCommentCheckerPackageBinary(): string | null {
 
 export async function checkCommentChecker(): Promise<DependencyInfo> {
   const binaryCheck = await checkBinaryExists("comment-checker")
-  const resolvedPath = binaryCheck.exists ? binaryCheck.path : findCommentCheckerPackageBinary()
+  let resolvedPath = binaryCheck.exists ? binaryCheck.path : findCommentCheckerPackageBinary()
+  
+  // Also check cache directory if not found yet
+  if (!resolvedPath) {
+    resolvedPath = getCachedBinaryPath()
+  }
 
   if (!resolvedPath) {
     return {
