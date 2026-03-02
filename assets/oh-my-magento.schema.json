@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://raw.githubusercontent.com/CaravanOfGlory/oh-my-magento/dev/assets/oh-my-magento.schema.json",
-  "title": "Oh My OpenCode Configuration",
+  "title": "Oh My Magento Configuration",
   "description": "Configuration schema for oh-my-magento plugin",
   "type": "object",
   "properties": {
