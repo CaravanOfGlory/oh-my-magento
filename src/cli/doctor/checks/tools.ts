@@ -51,7 +51,7 @@ function buildToolIssues(summary: ToolsSummary): DoctorIssue[] {
     issues.push({
       title: "Comment checker unavailable",
       description: "Comment checker binary is not installed.",
-      fix: "Install @CaravanOfGlory/comment-checker",
+      fix: "Install @code-yeongyu/comment-checker",
       severity: "warning",
       affects: ["comment-checker hook"],
     })

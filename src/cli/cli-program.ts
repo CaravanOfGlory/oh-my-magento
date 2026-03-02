@@ -8,9 +8,9 @@ import type { InstallArgs } from "./types"
 import type { RunOptions } from "./run"
 import type { GetLocalVersionOptions } from "./get-local-version/types"
 import type { DoctorOptions } from "./doctor"
-import packageJson from "../../package.json" with { type: "json" }
+import { PLUGIN_VERSION } from "../shared/version"
 
-const VERSION = packageJson.version
+const VERSION = PLUGIN_VERSION
 
 const program = new Command()
 

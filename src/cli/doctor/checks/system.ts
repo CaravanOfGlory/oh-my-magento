@@ -6,6 +6,7 @@ import { findOpenCodeBinary, getOpenCodeVersion, compareVersions } from "./syste
 import { getPluginInfo } from "./system-plugin"
 import { getLatestPluginVersion, getLoadedPluginVersion } from "./system-loaded-version"
 import { parseJsonc } from "../../../shared"
+import { PLUGIN_VERSION } from "../../../shared/version"
 
 function isConfigValid(configPath: string | null): boolean {
   if (!configPath) return true
@@ -36,7 +37,8 @@ export async function gatherSystemInfo(): Promise<SystemInfo> {
   const loadedInfo = getLoadedPluginVersion()
 
   const opencodeVersion = binaryInfo ? await getOpenCodeVersion(binaryInfo.path) : null
-  const pluginVersion = pluginInfo.pinnedVersion ?? loadedInfo.expectedVersion
+  // Fallback to compile-time version if no pinned/loaded version found
+  const pluginVersion = pluginInfo.pinnedVersion ?? loadedInfo.expectedVersion ?? PLUGIN_VERSION
 
   return {
     opencodeVersion,

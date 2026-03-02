@@ -4,6 +4,7 @@ import { dirname, join } from "node:path"
 
 import type { DependencyInfo } from "../types"
 import { spawnWithWindowsHide } from "../../../shared/spawn-with-windows-hide"
+import { getCachedBinaryPath } from "../../../hooks/comment-checker/downloader"
 
 async function checkBinaryExists(binary: string): Promise<{ exists: boolean; path: string | null }> {
   try {
@@ -107,7 +108,7 @@ function findCommentCheckerPackageBinary(): string | null {
   const binaryName = process.platform === "win32" ? "comment-checker.exe" : "comment-checker"
   try {
     const require = createRequire(import.meta.url)
-    const pkgPath = require.resolve("@CaravanOfGlory/comment-checker/package.json")
+    const pkgPath = require.resolve("@code-yeongyu/comment-checker/package.json")
     const binaryPath = join(dirname(pkgPath), "bin", binaryName)
     if (existsSync(binaryPath)) return binaryPath
   } catch {
@@ -118,7 +119,12 @@ function findCommentCheckerPackageBinary(): string | null {
 
 export async function checkCommentChecker(): Promise<DependencyInfo> {
   const binaryCheck = await checkBinaryExists("comment-checker")
-  const resolvedPath = binaryCheck.exists ? binaryCheck.path : findCommentCheckerPackageBinary()
+  let resolvedPath = binaryCheck.exists ? binaryCheck.path : findCommentCheckerPackageBinary()
+  
+  // Also check cache directory if not found yet
+  if (!resolvedPath) {
+    resolvedPath = getCachedBinaryPath()
+  }
 
   if (!resolvedPath) {
     return {

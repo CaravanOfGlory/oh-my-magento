@@ -1,5 +1,6 @@
 export * from "./frontmatter"
 export * from "./command-executor"
+export * from "./version"
 export * from "./file-reference-resolver"
 export * from "./model-sanitizer"
 export * from "./logger"

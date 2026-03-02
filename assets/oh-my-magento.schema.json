@@ -36,7 +36,16 @@
           "agent-browser",
           "dev-browser",
           "frontend-ui-ux",
-          "git-master"
+          "git-master",
+          "magento-module-scaffold",
+          "magento-xml-config",
+          "magento-testing",
+          "magento-performance",
+          "magento-upgrade-analysis",
+          "magento-debugging",
+          "hyva-theme",
+          "hyva-checkout",
+          "hyva-compat-module"
         ]
       }
     },
@@ -57,7 +66,12 @@
           "cancel-ralph",
           "refactor",
           "start-work",
-          "stop-continuation"
+          "stop-continuation",
+          "magento-upgrade",
+          "magento-new-module",
+          "magento-payment-setup",
+          "hyva-new-theme",
+          "hyva-compat-module"
         ]
       }
     },
@@ -3152,7 +3166,7 @@
       "type": "object",
       "propertyNames": {
         "type": "string",
-        "pattern": "^(?!(?:[bB][uU][iI][lL][dD]|[pP][lL][aA][nN]|[sS][iI][sS][yY][pP][hH][uU][sS]|[hH][eE][pP][hH][aA][eE][sS][tT][uU][sS]|[sS][iI][sS][yY][pP][hH][uU][sS]-[jJ][uU][nN][iI][oO][rR]|[oO][pP][eE][nN][cC][oO][dD][eE]-[bB][uU][iI][lL][dD][eE][rR]|[pP][rR][oO][mM][eE][tT][hH][eE][uU][sS]|[mM][eE][tT][iI][sS]|[mM][oO][mM][uU][sS]|[oO][rR][aA][cC][lL][eE]|[lL][iI][bB][rR][aA][rR][iI][aA][nN]|[eE][xX][pP][lL][oO][rR][eE]|[mM][uU][lL][tT][iI][mM][oO][dD][aA][lL]-[lL][oO][oO][kK][eE][rR]|[aA][tT][lL][aA][sS])$).+"
+        "pattern": "^(?!(?:[bB][uU][iI][lL][dD]|[pP][lL][aA][nN]|[sS][iI][sS][yY][pP][hH][uU][sS]|[hH][eE][pP][hH][aA][eE][sS][tT][uU][sS]|[sS][iI][sS][yY][pP][hH][uU][sS]-[jJ][uU][nN][iI][oO][rR]|[oO][pP][eE][nN][cC][oO][dD][eE]-[bB][uU][iI][lL][dD][eE][rR]|[pP][rR][oO][mM][eE][tT][hH][eE][uU][sS]|[mM][eE][tT][iI][sS]|[mM][oO][mM][uU][sS]|[oO][rR][aA][cC][lL][eE]|[lL][iI][bB][rR][aA][rR][iI][aA][nN]|[eE][xX][pP][lL][oO][rR][eE]|[mM][uU][lL][tT][iI][mM][oO][dD][aA][lL]-[lL][oO][oO][kK][eE][rR]|[aA][tT][lL][aA][sS]|[mM][aA][gG][eE][nN][tT][oO]-[aA][rR][cC][hH][iI][tT][eE][cC][tT]|[mM][aA][gG][eE][nN][tT][oO]-[uU][pP][gG][rR][aA][dD][eE][rR]|[mM][aA][gG][eE][nN][tT][oO]-[pP][aA][yY][mM][eE][nN][tT])$).+"
       },
       "additionalProperties": {
         "$ref": "#/$defs/agentOverrideConfig"
