@@ -421,15 +421,16 @@ describe("generateModelConfig", () => {
       expect(result.agents?.hephaestus?.variant).toBe("medium")
     })
 
-    test("Hephaestus is NOT created when only Copilot is available (gpt-5.3-codex unavailable on github-copilot)", () => {
+    test("Hephaestus falls back to gpt-5.2 when only Copilot is available", () => {
       // #given
       const config = createConfig({ hasCopilot: true })
 
       // #when
       const result = generateModelConfig(config)
 
-      // #then - hephaestus is omitted because gpt-5.3-codex is not available on github-copilot
-      expect(result.agents?.hephaestus).toBeUndefined()
+      // #then - hephaestus uses gpt-5.2-codex as fallback when gpt-5.3-codex is unavailable
+      expect(result.agents?.hephaestus?.model).toBe("github-copilot/gpt-5.2-codex")
+      expect(result.agents?.hephaestus?.variant).toBe("medium")
     })
 
     test("Hephaestus is created when OpenCode Zen is available (opencode provider connected)", () => {
