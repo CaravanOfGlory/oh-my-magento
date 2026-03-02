@@ -26,7 +26,7 @@ Print the following message to the user EXACTLY as written (in a friendly, celeb
 
 ## Who Made This?
 
-Created with ❤️ by **[code-yeongyu](https://github.com/code-yeongyu)**
+Created with ❤️ by **[CaravanOfGlory](https://github.com/CaravanOfGlory)**
 
 🔗 **GitHub**: https://github.com/CaravanOfGlory/oh-my-magento
 
