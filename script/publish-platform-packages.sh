@@ -24,6 +24,8 @@ for dir in "$PACKAGES_DIR"/*/; do
   
   if npm publish --access public; then
     echo "✅ Published $pkgname"
+    echo "⏳ Waiting 15s for npm to process..."
+    sleep 15
   else
     echo "❌ Failed to publish $pkgname"
     FAILED_PACKAGES+=("$pkgname")
