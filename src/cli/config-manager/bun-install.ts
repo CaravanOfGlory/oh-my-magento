@@ -1,4 +1,5 @@
 import { getConfigDir } from "./config-context"
+import { log } from "../../shared/logger"
 import { spawnWithWindowsHide } from "../../shared/spawn-with-windows-hide"
 
 const BUN_INSTALL_TIMEOUT_SECONDS = 60
@@ -19,8 +20,8 @@ export async function runBunInstallWithDetails(): Promise<BunInstallResult> {
   try {
     const proc = spawnWithWindowsHide(["bun", "install"], {
       cwd: getConfigDir(),
-      stdout: "inherit",
-      stderr: "inherit",
+      stdout: "pipe",
+      stderr: "pipe",
     })
 
     let timeoutId: ReturnType<typeof setTimeout>
@@ -45,12 +46,15 @@ export async function runBunInstallWithDetails(): Promise<BunInstallResult> {
     }
 
     if (proc.exitCode !== 0) {
+      const stderrText = proc.stderr ? await new Response(proc.stderr).text() : ""
+      log("[bun-install] failed with exit code:", { exitCode: proc.exitCode, stderr: stderrText })
       return {
         success: false,
         error: `bun install failed with exit code ${proc.exitCode}`,
       }
     }
 
+    log("[bun-install] completed successfully")
     return { success: true }
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err)
