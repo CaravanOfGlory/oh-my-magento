@@ -4,13 +4,13 @@
 
 ## OVERVIEW
 
-22 schema files composing `OhMyOpenCodeConfigSchema`. Zod v4 validation with `safeParse()`. All fields optional — omitted fields use plugin defaults.
+22 schema files composing `OhMyMagentoConfigSchema`. Zod v4 validation with `safeParse()`. All fields optional — omitted fields use plugin defaults.
 
 ## SCHEMA TREE
 
 ```
 config/schema/
-├── oh-my-magento-config.ts    # ROOT: OhMyOpenCodeConfigSchema (composes all below)
+├── oh-my-magento-config.ts    # ROOT: OhMyMagentoConfigSchema (composes all below)
 ├── agent-names.ts              # BuiltinAgentNameSchema (11), OverridableAgentNameSchema (14)
 ├── agent-overrides.ts          # AgentOverrideConfigSchema (21 fields per agent)
 ├── categories.ts               # 8 built-in + custom categories
@@ -31,12 +31,14 @@ config/schema/
 ├── background-task.ts          # Concurrency limits per model/provider
 ├── babysitting.ts              # Unstable agent monitoring
 ├── dynamic-context-pruning.ts  # Context pruning settings
+├── start-work.ts              # StartWorkConfigSchema (auto_commit)
 └── internal/permission.ts      # AgentPermissionSchema
+
 ```
 
-## ROOT SCHEMA FIELDS (27)
+## ROOT SCHEMA FIELDS (28)
 
-`$schema`, `new_task_system_enabled`, `default_run_agent`, `disabled_mcps`, `disabled_agents`, `disabled_skills`, `disabled_hooks`, `disabled_commands`, `disabled_tools`, `hashline_edit`, `agents`, `categories`, `claude_code`, `sisyphus_agent`, `comment_checker`, `experimental`, `auto_update`, `skills`, `ralph_loop`, `background_task`, `notification`, `babysitting`, `git_master`, `browser_automation_engine`, `websearch`, `tmux`, `sisyphus`, `_migrations`
+`$schema`, `new_task_system_enabled`, `default_run_agent`, `disabled_mcps`, `disabled_agents`, `disabled_skills`, `disabled_hooks`, `disabled_commands`, `disabled_tools`, `hashline_edit`, `agents`, `categories`, `claude_code`, `sisyphus_agent`, `comment_checker`, `experimental`, `auto_update`, `skills`, `ralph_loop`, `background_task`, `notification`, `babysitting`, `git_master`, `browser_automation_engine`, `websearch`, `tmux`, `sisyphus`, `start_work`, `_migrations`
 
 ## AGENT OVERRIDE FIELDS (21)
 

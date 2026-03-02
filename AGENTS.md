@@ -30,7 +30,7 @@ oh-my-magento/
 ## INITIALIZATION FLOW
 
 ```
-OhMyOpenCodePlugin(ctx)
+OhMyMagentoPlugin(ctx)
   ├─→ loadPluginConfig()         # JSONC parse → project/user merge → Zod validate → migrate
   ├─→ createManagers()           # TmuxSessionManager, BackgroundManager, SkillMcpManager, ConfigHandler
   ├─→ createTools()              # SkillContext + AvailableCategories + ToolRegistry (26 tools)
@@ -64,7 +64,7 @@ OhMyOpenCodePlugin(ctx)
 | Add new command | `src/features/builtin-commands/` | Template in templates/ |
 | Add new CLI command | `src/cli/cli-program.ts` | Commander.js subcommand |
 | Add new doctor check | `src/cli/doctor/checks/` | Register in checks/index.ts |
-| Modify config schema | `src/config/schema/` + update root schema | Zod v4, add to OhMyOpenCodeConfigSchema |
+| Modify config schema | `src/config/schema/` + update root schema | Zod v4, add to OhMyMagentoConfigSchema |
 | Add new category | `src/tools/delegate-task/constants.ts` | DEFAULT_CATEGORIES + CATEGORY_MODEL_REQUIREMENTS |
 
 ## MULTI-LEVEL CONFIG
@@ -122,7 +122,7 @@ bunx oh-my-magento run     # Non-interactive session
 | Workflow | Trigger | Purpose |
 |----------|---------|---------|
 | ci.yml | push/PR | Tests (split: mock-heavy isolated + batch), typecheck, build, schema auto-commit |
-| publish.yml | manual | Version bump, npm publish, platform binaries, GitHub release, merge to master |
+| publish.yml | manual | Version bump, npm publish, platform binaries, GitHub release, merge to dev |
 | publish-platform.yml | called | 11 platform binaries via bun compile (darwin/linux/windows) |
 | sisyphus-agent.yml | @mention | AI agent handles issues/PRs |
 

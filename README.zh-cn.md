@@ -1,83 +1,114 @@
+> [!WARNING]
+> **安全警告：注意假冒网站**
+>
+> **ohmyopencode.com 与本项目没有任何关系。** 我们不运营也不认可该网站。
+>
+> OhMyMagento 是**免费且开源的**。**不要**从自称“官方”的第三方网站下载安装程序或输入付款信息。
+>
+> 假冒网站隐藏在付费墙后，我们**无法验证它分发的内容**。将其所有下载视为**潜在危险**。
+>
+> ✅ 官方下载地址：https://github.com/CaravanOfGlory/oh-my-magento/releases
+
+> [!NOTE]
+>
+> [![Sisyphus Labs - Sisyphus is the agent that codes like your team.](./.github/assets/sisyphuslabs.png?v=2)](https://sisyphuslabs.ai)
+> > **我们正在构建 Sisyphus 的完全产品化版本，以定义前沿智能体 (Frontier Agents) 的未来。<br />[在此处](https://sisyphuslabs.ai)加入候补名单。**
+
+> [!TIP]
+> 加入我们！
+>
+> | [<img alt="Discord link" src="https://img.shields.io/discord/1452487457085063218?color=5865F2&label=discord&labelColor=black&logo=discord&logoColor=white&style=flat-square" width="156px" />](https://discord.gg/PUwSMR9XNk) | 加入我们的 [Discord 社区](https://discord.gg/PUwSMR9XNk)，与贡献者及其他 `oh-my-magento` 用户交流。 |
+> | :-----| :----- |
+> | [<img alt="X link" src="https://img.shields.io/badge/Follow-%40justsisyphus-00CED1?style=flat-square&logo=x&labelColor=black" width="156px" />](https://x.com/justsisyphus) | 关于 `oh-my-magento` 的新闻和更新过去发布在我的 X 账号上。<br /> 因为账号被意外停用，现在由 [@justsisyphus](https://x.com/justsisyphus) 代为发布更新。 |
+> | [<img alt="GitHub Follow" src="https://img.shields.io/github/followers/CaravanOfGlory?style=flat-square&logo=github&labelColor=black&color=24292f" width="156px" />](https://github.com/CaravanOfGlory) | 在 GitHub 上关注 [@CaravanOfGlory](https://github.com/CaravanOfGlory) 获取更多项目信息。 |
+
+<!-- <CENTERED SECTION FOR GITHUB DISPLAY> -->
+
 <div align="center">
 
-[![Oh My Magento](./.github/assets/hero.jpg)](https://github.com/CaravanOfGlory/oh-my-magento#oh-my-magento)
+[![Oh My OpenCode](./.github/assets/hero.jpg)](https://github.com/CaravanOfGlory/oh-my-magento#oh-my-magento)
+
+[![Preview](./.github/assets/omo.png)](https://github.com/CaravanOfGlory/oh-my-magento#oh-my-magento)
 
 </div>
+
+> 这是类固醇式编程。不是一个模型的类固醇——而是整个药库。
+>
+> 用 Claude 做编排，用 GPT 做推理，用 Kimi 提速度，用 Gemini 处理视觉。模型正在变得越来越便宜，越来越聪明。没有一个提供商能够垄断。我们正在为那个开放的市场而构建。Anthropic 的牢笼很漂亮。但我们不住那。
 
 <div align="center">
 
 [![GitHub Release](https://img.shields.io/github/v/release/CaravanOfGlory/oh-my-magento?color=369eff&labelColor=black&logo=github&style=flat-square)](https://github.com/CaravanOfGlory/oh-my-magento/releases)
 [![npm downloads](https://img.shields.io/npm/dt/oh-my-magento?color=ff6b35&labelColor=black&style=flat-square)](https://www.npmjs.com/package/oh-my-magento)
+[![GitHub Contributors](https://img.shields.io/github/contributors/CaravanOfGlory/oh-my-magento?color=c4f042&labelColor=black&style=flat-square)](https://github.com/CaravanOfGlory/oh-my-magento/graphs/contributors)
+[![GitHub Forks](https://img.shields.io/github/forks/CaravanOfGlory/oh-my-magento?color=8ae8ff&labelColor=black&style=flat-square)](https://github.com/CaravanOfGlory/oh-my-magento/network/members)
 [![GitHub Stars](https://img.shields.io/github/stars/CaravanOfGlory/oh-my-magento?color=ffcb47&labelColor=black&style=flat-square)](https://github.com/CaravanOfGlory/oh-my-magento/stargazers)
 [![GitHub Issues](https://img.shields.io/github/issues/CaravanOfGlory/oh-my-magento?color=ff80eb&labelColor=black&style=flat-square)](https://github.com/CaravanOfGlory/oh-my-magento/issues)
-[![License](https://img.shields.io/badge/license-SUL--1.0-white?labelColor=black&style=flat-square)](https://github.com/CaravanOfGlory/oh-my-magento/blob/master/LICENSE.md)
+[![License](https://img.shields.io/badge/license-SUL--1.0-white?labelColor=black&style=flat-square)](https://github.com/CaravanOfGlory/oh-my-magento/blob/dev/LICENSE.md)
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/CaravanOfGlory/oh-my-magento)
 
 [English](README.md) | [한국어](README.ko.md) | [日本語](README.ja.md) | [简体中文](README.zh-cn.md)
 
 </div>
 
+<!-- </CENTERED SECTION FOR GITHUB DISPLAY> -->
+
+## 评价
+
+> “因为它，我取消了 Cursor 的订阅。开源社区正在发生令人难以置信的事情。” - [Arthur Guiot](https://x.com/arthur_guiot/status/2008736347092382053?s=20)
+
+> “如果人类需要 3 个月完成的事情 Claude Code 需要 7 天，那么 Sisyphus 只需要 1 小时。它会一直工作直到任务完成。它是一个极度自律的智能体。” <br/>- B, 量化研究员
+
+> “用 Oh My Opencode 一天之内解决了 8000 个 eslint 警告。” <br/>- [Jacob Ferrari](https://x.com/jacobferrari_/status/2003258761952289061)
+
+> “我用 Ohmyopencode 和 ralph loop 花了一晚上的时间，把一个 45k 行代码的 tauri 应用转换成了 SaaS Web 应用。从面试模式开始，让它对我提供的提示词进行提问和提出建议。看着它工作很有趣，今早醒来看到网站基本已经跑起来了，太震撼了！” - [James Hargis](https://x.com/hargabyte/status/2007299688261882202)
+
+> “用 oh-my-magento 吧，你绝对回不去了。” <br/>- [d0t3ch](https://x.com/d0t3ch/status/2001685618200580503)
+
+> “我很难准确描述它到底哪里牛逼，但开发体验已经达到完全不同的维度了。” - [苔硯:こけすずり](https://x.com/kokesuzuri/status/2008532913961529372?s=20)
+
+> “这周末我用 open code、oh my opencode 和 supermemory 瞎折腾一个像我的世界/魂系一样的怪物游戏。吃完午饭去散步前，我让它把下蹲动画加进去。[视频]” - [MagiMetal](https://x.com/MagiMetal/status/2005374704178373023)
+
+> “你们真该把这个合并到核心代码里，然后把他招安了。说真的，这东西实在太牛了。” <br/>- Henning Kilset
+
+> “如果你们能说服 @yeon_gyu_kim，赶紧招募他。这个人彻底改变了 opencode。” <br/>- [mysticaltech](https://x.com/mysticaltech/status/2001858758608376079)
+
+> “Oh My OpenCode 简直疯了。” - [YouTube - Darren Builds AI](https://www.youtube.com/watch?v=G_Snfh2M41M)
+
 ---
 
-# Oh My Magento
+# Oh My OpenCode
 
-**Magento 2 + Hyvä** 企业级电商智能体编排系统。
+我们最初把这叫做“给 Claude Code 打类固醇”。那是低估了它。
 
-安装 OmM，输入 `ultrawork`，搞定。
+不是只给一个模型打药。我们在运营一个联合体。Claude、GPT、Kimi、Gemini——各司其职，并行运转，永不停歇。模型每个月都在变便宜，没有任何提供商能够垄断。我们已经活在那个世界里了。
+
+脏活累活我们替你干了。我们测试了一切，只留下了真正有用的。
+
+安装 OmO。敲下 `ultrawork`。疯狂地写代码吧。
+
+
 
 ## 安装
 
 ### 给人类看的
 
-复制并粘贴以下提示词到你的 LLM Agent (Claude Code, AmpCode, Cursor 等)：
+复制并粘贴以下提示词到你的 LLM Agent (Claude Code, AmpCode, Cursor 等):
 
 ```
 Install and configure oh-my-magento by following the instructions here:
-https://raw.githubusercontent.com/CaravanOfGlory/oh-my-magento/refs/heads/master/docs/guide/installation.md
+https://raw.githubusercontent.com/CaravanOfGlory/oh-my-magento/refs/heads/dev/docs/guide/installation.md
 ```
 
-**备选方案（不推荐，自己操作）**：
-
-运行交互式安装器：
-
-```bash
-bunx oh-my-magento install  # 推荐
-npx oh-my-magento install   # 备选
-```
-
-> **注意**：CLI 内置了所有主流平台的独立二进制文件。安装后执行 CLI 不需要运行时（Bun/Node.js）。
->
-> **支持平台**：macOS (ARM64, x64)、Linux (x64, ARM64, Alpine/musl)、Windows (x64)
+或者你可以直接去读 [安装指南](docs/guide/installation.md)，但说真的，让 Agent 去干吧。人类配环境总是容易敲错字母。
 
 ### 给 LLM Agent 看的
 
 获取安装指南并照做：
 
 ```bash
-curl -s https://raw.githubusercontent.com/CaravanOfGlory/oh-my-magento/refs/heads/master/docs/guide/installation.md
+curl -s https://raw.githubusercontent.com/CaravanOfGlory/oh-my-magento/refs/heads/dev/docs/guide/installation.md
 ```
-
-### 从源码安装（开发用）
-
-仅当你需要开发插件时才需要：
-
-```bash
-# 克隆仓库
-git clone https://github.com/CaravanOfGlory/oh-my-magento.git ~/.oh-my-magento
-cd ~/.oh-my-magento
-
-# 安装依赖并构建
-bun install
-bun run build
-
-# 开发模式链接
-bun link
-
-# 运行安装器
-oh-my-magento install
-```
-
-详见 [安装指南](docs/guide/installation.md)。
-
 
 ---
 
@@ -267,6 +298,49 @@ Agent 会自动顺藤摸瓜加载对应的 Context，免去了你所有的手动
    # 这个时候就应该没有任何关于插件的输出信息了
    ```
 
-## 致谢
+## 闲聊环节 (Author's Note)
 
-Oh My Magento 基于 [@code-yeongyu](https://github.com/code-yeongyu) 的 [oh-my-opencode](https://github.com/code-yeongyu/oh-my-opencode) 进行开发。核心的多智能体编排系统、基于哈希锚点的编辑工具以及多模型架构均来自上游项目。我们在此基础上扩展了 Magento 2 和 Hyvä 领域的专业能力。
+**想知道做这个插件的哲学理念吗？** 阅读 [Ultrawork 宣言](docs/manifesto.md)。
+
+---
+
+我为了做个人项目，烧掉了整整 $24,000 的 LLM API Token 费用。我把市面上每个宣称好用的代码 Agent 全试了一遍，配置选项被我翻得底朝天。最后我得出了结论，OpenCode 赢了。
+
+我踩过的坑、撞过的南墙，它们的终极解法现在全都被硬编码到了这个插件里。你只需要安装，然后直接用。
+
+如果把 OpenCode 喻为底层的 Debian/Arch，那么 OmO 毫无疑问就是开箱即用的 Ubuntu/[Omarchy](https://omarchy.org/)。
+
+本项目受到 [AmpCode](https://ampcode.com) 和 [Claude Code](https://code.claude.com/docs/overview) 的深刻启发。我把他们好用的特性全都搬了过来，且在很多地方做了底层强化。它仍在活跃开发中，因为毕竟，这是 **Open**Code。
+
+其他调度框架只会给你画饼画一张很酷的 Multi-Agent 大饼。我们把饼烙出来了。不仅能用，而且极其稳定。所有的功能都不是为了炫技，而是真的能把任务干完。
+
+因为我自己就是这个项目最偏执、最神经质的极端用户：
+- 哪个模型在处理变态业务逻辑时最不容易晕？
+- 谁是修 Bug 的神？
+- 谁文笔最好、最不 AI 味？
+- 谁能在前端交互上碾压一切？
+- 后端性能谁来抗？
+- 谁又快又便宜适合打杂？
+- 竞争对手们今天又发了啥牛逼的功能，能抄吗？
+
+这个插件是以上一切的结晶 (Distillation)。直接拿走去用。如果有更好的点子，PR 大门永远敞开。
+
+**别再浪费时间去到处对比选哪个框架好了。**
+**我会去市面上调研，把最强的特性全偷过来，然后在这更新。**
+
+听起来很自大吗？如果你有更牛逼的实现思路，那就交 PR，热烈欢迎。
+
+郑重声明：本项目与文档中提及的任何框架/大模型供应商**均无利益相关**，这完完全全就是一次走火入魔的个人硬核实验成果。
+
+本项目 99% 的代码都是直接由 OpenCode 生成的。我本人其实并不懂 TypeScript。**但我以人格担保，这个 README 是我亲自审核并且大幅度重写过的。**
+
+## 以下公司的专业开发人员都在用
+
+- [Indent](https://indentcorp.com)
+  - 开发了 Spray - 意见领袖营销系统, vovushop - 跨境电商独立站, vreview - AI 赋能的电商买家秀营销解决方案
+- [Google](https://google.com)
+- [Microsoft](https://microsoft.com)
+- [ELESTYLE](https://elestyle.jp)
+  - 开发了 elepay - 全渠道移动支付网关, OneQR - 专为无现金社会打造的移动 SaaS 生态系统
+
+*特别感谢 [@junhoyeo](https://github.com/junhoyeo) 为我们设计的令人惊艳的首图（Hero Image）。*

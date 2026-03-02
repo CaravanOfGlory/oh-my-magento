@@ -19,7 +19,7 @@ export type { GeneratedOmoConfig } from "./model-fallback-types"
 const ZAI_MODEL = "zai-coding-plan/glm-4.7"
 
 const ULTIMATE_FALLBACK = "opencode/glm-4.7-free"
-const SCHEMA_URL = "https://raw.githubusercontent.com/CaravanOfGlory/oh-my-magento/master/assets/oh-my-magento.schema.json"
+const SCHEMA_URL = "https://raw.githubusercontent.com/CaravanOfGlory/oh-my-magento/dev/assets/oh-my-magento.schema.json"
 
 
 
