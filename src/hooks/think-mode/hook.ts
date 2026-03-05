@@ -6,6 +6,10 @@ import { log } from "../../shared"
 const thinkModeState = new Map<string, ThinkModeState>()
 const GITHUB_COPILOT_PROVIDER_ID = "github-copilot"
 
+function isClaudeModel(modelID: string): boolean {
+  return modelID.toLowerCase().startsWith("claude-")
+}
+
 export function clearThinkModeState(sessionID: string): void {
   thinkModeState.delete(sessionID)
 }
@@ -57,7 +61,7 @@ export function createThinkModeHook() {
         return
       }
 
-      if (currentModel.providerID === GITHUB_COPILOT_PROVIDER_ID && currentModel.modelID.toLowerCase().includes("claude")) {
+      if (currentModel.providerID === GITHUB_COPILOT_PROVIDER_ID && isClaudeModel(currentModel.modelID)) {
         output.message.variant = "max"
         state.variantSet = true
         thinkModeState.set(sessionID, state)

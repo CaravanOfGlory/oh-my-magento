@@ -82,6 +82,27 @@ describe("createThinkModeHook", () => {
     })
   })
 
+  it("still switches non-github-copilot claude models to high variant", async () => {
+    // given
+    const hook = createThinkModeHook()
+    const input = createHookInput({
+      sessionID,
+      providerID: "anthropic",
+      modelID: "claude-opus-4-6",
+    })
+    const output = createHookOutput("think about this deeply")
+
+    // when
+    await hook["chat.message"](input, output)
+
+    // then
+    expect(output.message.variant).toBe("high")
+    expect(output.message.model).toEqual({
+      providerID: "anthropic",
+      modelID: "claude-opus-4-6-high",
+    })
+  })
+
   it("skips when message variant is already set", async () => {
     // given
     const hook = createThinkModeHook()
