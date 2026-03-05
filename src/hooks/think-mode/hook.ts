@@ -4,6 +4,7 @@ import type { ThinkModeState } from "./types"
 import { log } from "../../shared"
 
 const thinkModeState = new Map<string, ThinkModeState>()
+const GITHUB_COPILOT_PROVIDER_ID = "github-copilot"
 
 export function clearThinkModeState(sessionID: string): void {
   thinkModeState.delete(sessionID)
@@ -52,6 +53,13 @@ export function createThinkModeHook() {
       state.modelID = currentModel.modelID
 
       if (isAlreadyHighVariant(currentModel.modelID)) {
+        thinkModeState.set(sessionID, state)
+        return
+      }
+
+      if (currentModel.providerID === GITHUB_COPILOT_PROVIDER_ID && currentModel.modelID.toLowerCase().includes("claude")) {
+        output.message.variant = "max"
+        state.variantSet = true
         thinkModeState.set(sessionID, state)
         return
       }
