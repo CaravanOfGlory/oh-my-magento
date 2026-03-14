@@ -1,5 +1,5 @@
 import pc from "picocolors"
-import type { UsageRow } from "./types"
+import type { UsageRow, UsageReport } from "./types"
 
 function formatTokens(n: number): string {
   if (n >= 1_000_000_000) return `${(n / 1_000_000_000).toFixed(1)}B`
@@ -240,6 +240,89 @@ export function renderNoData(): void {
   console.log()
   console.log(pc.yellow("No usage data found for the specified period."))
   console.log(pc.dim("Make sure OpenCode has been used and the database exists."))
+}
+
+export function renderReportAsTerminal(report: UsageReport): void {
+  const titleLine = `╭${"─".repeat(3)} ${pc.bold(`AI Usage Report — ${report.date}`)} ${"─".repeat(3)}╮`
+  console.log()
+  console.log(titleLine)
+  console.log(`  User: ${pc.cyan(report.user)}  │  Period: ${report.period}`)
+  console.log(`╰${"─".repeat(titleLine.length - 2)}╯`)
+
+  // Summary Table
+  const summaryTitle = pc.bold("Summary")
+  console.log()
+  console.log(`  ${summaryTitle}`)
+  const sumW = [16, 12]
+  console.log(pc.dim(topBorder(sumW)))
+  console.log("│" + ` ${padRight("Metric", sumW[0])} ` + "│" + ` ${padRight("Value", sumW[1])} ` + "│")
+  console.log(pc.dim(separator(sumW)))
+  console.log("│" + ` ${padRight("Sessions", sumW[0])} ` + "│" + ` ${padLeft(String(report.summary.sessions), sumW[1])} ` + "│")
+  console.log("│" + ` ${padRight("Total Calls", sumW[0])} ` + "│" + ` ${padLeft(report.summary.totalCalls.toLocaleString(), sumW[1])} ` + "│")
+  console.log("│" + ` ${padRight("Total Tokens", sumW[0])} ` + "│" + ` ${padLeft(formatTokens(report.summary.totalTokens), sumW[1])} ` + "│")
+  console.log("│" + ` ${padRight("Estimated Cost", sumW[0])} ` + "│" + ` ${padLeft(formatCost(report.summary.estimatedCost), sumW[1])} ` + "│")
+  console.log(pc.dim(bottomBorder(sumW)))
+
+  // Model Breakdown
+  if (report.modelBreakdown.length > 0) {
+    const modelTitle = pc.bold("Model Usage")
+    console.log()
+    console.log(`  ${modelTitle}`)
+    const modelW = [24, 8, 10, 8]
+    console.log(pc.dim(topBorder(modelW)))
+    console.log(pc.cyan(pc.bold(headerRow(["Model", "Calls", "Tokens", "Share"], modelW))))
+    console.log(pc.dim(separator(modelW)))
+    for (const m of report.modelBreakdown) {
+      const cells = [
+        ` ${padRight(m.model, modelW[0])} `,
+        ` ${padLeft(pc.magenta(String(m.calls)), modelW[1])} `,
+        ` ${padLeft(pc.bold(formatTokens(m.tokens)), modelW[2])} `,
+        ` ${padLeft(`${m.percentage}%`, modelW[3])} `,
+      ]
+      console.log("│" + cells.join("│") + "│")
+    }
+    console.log(pc.dim(bottomBorder(modelW)))
+  }
+
+  // Agent Breakdown
+  if (report.agentBreakdown.length > 0) {
+    const agentTitle = pc.bold("Agent Usage")
+    console.log()
+    console.log(`  ${agentTitle}`)
+    const agentW = [20, 24, 8, 10]
+    console.log(pc.dim(topBorder(agentW)))
+    console.log(pc.cyan(pc.bold(headerRow(["Agent", "Model", "Calls", "Tokens"], agentW))))
+    console.log(pc.dim(separator(agentW)))
+    for (const a of report.agentBreakdown) {
+      const cells = [
+        ` ${padRight(a.agent, agentW[0])} `,
+        ` ${padRight(pc.dim(a.model), agentW[1])} `,
+        ` ${padLeft(pc.magenta(String(a.calls)), agentW[2])} `,
+        ` ${padLeft(pc.bold(formatTokens(a.tokens)), agentW[3])} `,
+      ]
+      console.log("│" + cells.join("│") + "│")
+    }
+    console.log(pc.dim(bottomBorder(agentW)))
+  }
+
+  // Cache Efficiency
+  if (report.cacheEfficiency.length > 0) {
+    const cacheTitle = pc.bold("Cache Efficiency")
+    console.log()
+    console.log(`  ${cacheTitle}`)
+    const cacheW = [24, 10]
+    console.log(pc.dim(topBorder(cacheW)))
+    console.log(pc.cyan(pc.bold(headerRow(["Model", "Hit Rate"], cacheW))))
+    console.log(pc.dim(separator(cacheW)))
+    for (const c of report.cacheEfficiency) {
+      const cells = [
+        ` ${padRight(c.model, cacheW[0])} `,
+        ` ${padLeft(`${c.hitRate}%`, cacheW[1])} `,
+      ]
+      console.log("│" + cells.join("│") + "│")
+    }
+    console.log(pc.dim(bottomBorder(cacheW)))
+  }
 }
 
 export { formatTokens, formatCost }

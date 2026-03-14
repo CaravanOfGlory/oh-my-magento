@@ -1,7 +1,7 @@
 import { execSync } from "node:child_process"
 import { writeFileSync } from "node:fs"
 import { OpenCodeDB } from "./opencode-db"
-import { formatTokens, formatCost } from "./render"
+import { formatTokens, formatCost, renderReportAsTerminal } from "./render"
 import type { ReportOptions, UsageReport } from "./types"
 
 function getGitUserName(): string {
@@ -138,13 +138,12 @@ export function executeReport(options: ReportOptions): number {
       return 0
     }
 
-    const markdown = renderReportAsMarkdown(report)
-
     if (options.output) {
+      const markdown = renderReportAsMarkdown(report)
       writeFileSync(options.output, markdown, "utf-8")
       console.log(`Report saved to ${options.output}`)
     } else {
-      console.log(markdown)
+      renderReportAsTerminal(report)
     }
 
     return 0
