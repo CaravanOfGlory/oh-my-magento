@@ -158,14 +158,47 @@ export async function copilotAccountsCli(): Promise<number> {
         }
         case 3: {
           console.log("Checking quotas...")
-          await checkQuotas()
-          console.log("Quotas updated.")
+          const quotaStore = await checkQuotas()
+          for (const [name, entry] of Object.entries(quotaStore.accounts)) {
+            if (entry.quota?.error) {
+              console.log(`  ${name}: error — ${entry.quota.error}`)
+            } else if (entry.quota?.snapshots) {
+              const { premium, chat, completions } = entry.quota.snapshots
+              console.log(`  ${name} (sku: ${entry.quota.sku ?? "?"}):`)
+              console.log(`    Premium:     ${formatQuota(premium)}`)
+              console.log(`    Chat:        ${formatQuota(chat)}`)
+              console.log(`    Completions: ${formatQuota(completions)}`)
+              if (entry.quota.reset) console.log(`    Resets:      ${entry.quota.reset}`)
+            } else {
+              console.log(`  ${name}: no quota data`)
+            }
+          }
+          if (Object.keys(quotaStore.accounts).length === 0) {
+            console.log("No accounts configured — add an account first.")
+          }
           break
         }
         case 4: {
           console.log("Checking models...")
-          await checkModels()
-          console.log("Models updated.")
+          const modelStore = await checkModels()
+          for (const [name, entry] of Object.entries(modelStore.accounts)) {
+            if (entry.models?.error) {
+              console.log(`  ${name}: error — ${entry.models.error}`)
+            } else if (entry.models) {
+              console.log(`  ${name}: ${entry.models.available.length} available, ${entry.models.disabled.length} disabled`)
+              if (entry.models.available.length > 0) {
+                console.log(`    Available: ${entry.models.available.join(", ")}`)
+              }
+              if (entry.models.disabled.length > 0) {
+                console.log(`    Disabled:  ${entry.models.disabled.join(", ")}`)
+              }
+            } else {
+              console.log(`  ${name}: no model data`)
+            }
+          }
+          if (Object.keys(modelStore.accounts).length === 0) {
+            console.log("No accounts configured — add an account first.")
+          }
           break
         }
         case 5: {
