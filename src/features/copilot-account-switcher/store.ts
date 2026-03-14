@@ -4,7 +4,7 @@ import { promises as fs } from "node:fs"
 
 import type { AccountEntry, StoreFile } from "./types"
 
-const STORE_FILENAME = "copilot-accounts.json"
+const STORE_FILENAME = "copilot-x.json"
 const AUTH_FILENAME = "auth.json"
 
 function getXdgConfigDir(): string {
