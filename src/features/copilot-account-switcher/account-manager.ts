@@ -4,6 +4,21 @@ import { readAuth, readStore, writeStore } from "./store"
 import { fetchModels, fetchQuota, fetchUser } from "./copilot-auth"
 import type { AccountEntry, AccountInfo, StoreFile } from "./types"
 
+type AuthClient = {
+  auth: {
+    set: (input: {
+      path: { id: string }
+      body: {
+        type: "oauth"
+        refresh: string
+        access: string
+        expires: number
+        enterpriseUrl?: string
+      }
+    }) => Promise<unknown>
+  }
+}
+
 function normalizeDomain(url: string): string {
   return url.replace(/^https?:\/\//, "").replace(/\/$/, "")
 }
@@ -233,6 +248,48 @@ export async function toggleLoopSafety(): Promise<StoreFile> {
   await writeStore(store)
   log("[copilot-account-switcher] loop safety toggled", {
     enabled: store.loopSafetyEnabled,
+  })
+  return store
+}
+
+export async function switchAccountWithClient(client: AuthClient, entry: AccountEntry): Promise<void> {
+  const providerId = entry.enterpriseUrl ? "github-copilot-enterprise" : "github-copilot"
+  const payload = {
+    type: "oauth" as const,
+    refresh: entry.refresh,
+    access: entry.access,
+    expires: entry.expires,
+    ...(entry.enterpriseUrl ? { enterpriseUrl: entry.enterpriseUrl } : {}),
+  }
+  try {
+    await client.auth.set({
+      path: { id: providerId },
+      body: payload,
+    })
+    log("[copilot-account-switcher] runtime auth state updated", { provider: providerId })
+  } catch (error) {
+    log("[copilot-account-switcher] failed to update runtime auth state", { error: String(error) })
+  }
+}
+
+export async function toggleAutoRefresh(): Promise<StoreFile> {
+  const store = await readStore()
+  store.autoRefresh = store.autoRefresh !== true
+  store.refreshMinutes = store.refreshMinutes ?? 15
+  await writeStore(store)
+  log("[copilot-account-switcher] auto-refresh toggled", {
+    enabled: store.autoRefresh,
+    minutes: store.refreshMinutes,
+  })
+  return store
+}
+
+export async function setRefreshInterval(minutes: number): Promise<StoreFile> {
+  const store = await readStore()
+  store.refreshMinutes = Math.max(1, Math.min(180, minutes))
+  await writeStore(store)
+  log("[copilot-account-switcher] refresh interval set", {
+    minutes: store.refreshMinutes,
   })
   return store
 }

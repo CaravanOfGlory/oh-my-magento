@@ -13,6 +13,7 @@ import { createModelCacheState } from "./plugin-state"
 import { createFirstMessageVariantGate } from "./shared/first-message-variant"
 import { injectServerAuthIntoClient, log } from "./shared"
 import { startTmuxCheck } from "./tools"
+import { createCopilotAuthHook } from "./features/copilot-account-switcher"
 
 const OhMyMagentoPlugin: Plugin = async (ctx) => {
   // Initialize config context for plugin runtime (prevents warnings from hooks)
@@ -76,8 +77,11 @@ const OhMyMagentoPlugin: Plugin = async (ctx) => {
     tools: toolsResult.filteredTools,
   })
 
+  const copilotAuthHook = createCopilotAuthHook()
+
   return {
     ...pluginInterface,
+    auth: copilotAuthHook,
 
     "experimental.session.compacting": async (
       _input: { sessionID: string },

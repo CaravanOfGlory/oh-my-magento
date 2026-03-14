@@ -1,3 +1,5 @@
+import { appendFileSync } from "node:fs"
+
 import { log } from "../../shared"
 
 import type { FetchLike } from "./types"
@@ -24,6 +26,34 @@ type RetryableSystemError = Error & {
 }
 
 type JsonRecord = Record<string, unknown>
+
+const defaultDebugLogFile = (() => {
+  const tmp = process.env.TEMP || process.env.TMP || "/tmp"
+  return `${tmp}/opencode-copilot-retry-debug.log`
+})()
+
+function isDebugEnabled(): boolean {
+  return process.env.OPENCODE_COPILOT_RETRY_DEBUG === "1"
+}
+
+function debugLog(message: string, details?: Record<string, unknown>): void {
+  if (!isDebugEnabled()) return
+  const suffix = details ? ` ${JSON.stringify(details)}` : ""
+  const line = `[copilot-network-retry debug] ${new Date().toISOString()} ${message}${suffix}`
+  log(line)
+
+  const filePath = process.env.OPENCODE_COPILOT_RETRY_DEBUG_FILE || defaultDebugLogFile
+  if (!filePath) return
+
+  try {
+    appendFileSync(filePath, `${line}\n`)
+  } catch (error) {
+    log(`[copilot-network-retry debug] failed to write log file`, {
+      filePath,
+      error: String(error),
+    })
+  }
+}
 
 function isAbortError(error: unknown): boolean {
   return error instanceof Error && error.name === "AbortError"
@@ -102,14 +132,25 @@ async function maybeRetryInputIdTooLong(
   if (response.status !== 400) return response
 
   const requestPayload = parseJsonBody(init)
-  if (!requestPayload || !hasLongInputIds(requestPayload)) return response
+  if (!requestPayload || !hasLongInputIds(requestPayload)) {
+    debugLog("skip input-id retry: request has no long ids")
+    return response
+  }
+
+  debugLog("input-id retry candidate", {
+    status: response.status,
+    contentType: response.headers.get("content-type") ?? undefined,
+  })
 
   const responseText = await response
     .clone()
     .text()
     .catch(() => "")
 
-  if (!responseText) return response
+  if (!responseText) {
+    debugLog("skip input-id retry: empty response body")
+    return response
+  }
 
   let matched = isInputIdTooLongMessage(responseText)
   if (!matched) {
@@ -121,17 +162,30 @@ async function maybeRetryInputIdTooLong(
     }
   }
 
+  debugLog("input-id retry detection", {
+    matched,
+    bodyPreview: responseText.slice(0, 200),
+  })
+
   if (!matched) return response
 
   const sanitized = stripLongInputIds(requestPayload)
-  if (sanitized === requestPayload) return response
+  if (sanitized === requestPayload) {
+    debugLog("skip input-id retry: sanitize made no changes")
+    return response
+  }
 
-  log("[copilot-network-retry] input-id retry triggered", {
+  debugLog("input-id retry triggered", {
     removedLongIds: true,
     hadPreviousResponseId: typeof requestPayload.previous_response_id === "string",
   })
 
-  return baseFetch(request, buildRetryInit(init, sanitized))
+  const retried = await baseFetch(request, buildRetryInit(init, sanitized))
+  debugLog("input-id retry response", {
+    status: retried.status,
+    contentType: retried.headers.get("content-type") ?? undefined,
+  })
+  return retried
 }
 
 function toRetryableSystemError(error: unknown): RetryableSystemError {
@@ -155,6 +209,48 @@ function isCopilotUrl(request: Request | URL | string): boolean {
   }
 }
 
+function withStreamDebugLogs(response: Response, request: Request | URL | string): Response {
+  if (!isDebugEnabled()) return response
+  const contentType = response.headers.get("content-type")?.toLowerCase() ?? ""
+  if (!contentType.includes("text/event-stream") || !response.body) return response
+
+  const rawUrl = request instanceof Request ? request.url : request instanceof URL ? request.href : String(request)
+  const stream = new ReadableStream<Uint8Array>({
+    start(controller) {
+      const reader = response.body!.getReader()
+      const pump = async () => {
+        try {
+          while (true) {
+            const next = await reader.read()
+            if (next.done) {
+              debugLog("sse stream finished", { url: rawUrl })
+              controller.close()
+              break
+            }
+            controller.enqueue(next.value)
+          }
+        } catch (error) {
+          const message = getErrorMessage(error)
+          debugLog("sse stream read error", {
+            url: rawUrl,
+            message,
+            retryableByMessage: RETRYABLE_MESSAGES.some((part) => message.includes(part)),
+          })
+          controller.error(error)
+        }
+      }
+
+      void pump()
+    },
+  })
+
+  return new Response(stream, {
+    status: response.status,
+    statusText: response.statusText,
+    headers: response.headers,
+  })
+}
+
 export function isRetryableCopilotFetchError(error: unknown): boolean {
   if (!error || isAbortError(error)) return false
   const message = getErrorMessage(error)
@@ -163,14 +259,29 @@ export function isRetryableCopilotFetchError(error: unknown): boolean {
 
 export function createCopilotRetryingFetch(baseFetch: FetchLike): FetchLike {
   return async function retryingFetch(request: Request | URL | string, init?: RequestInit): Promise<Response> {
+    debugLog("fetch start", {
+      url: request instanceof Request ? request.url : request instanceof URL ? request.href : String(request),
+      isCopilot: isCopilotUrl(request),
+    })
+
     try {
       const response = await baseFetch(request, init)
+      debugLog("fetch resolved", {
+        status: response.status,
+        contentType: response.headers.get("content-type") ?? undefined,
+      })
 
       if (isCopilotUrl(request)) {
-        return maybeRetryInputIdTooLong(request, init, response, baseFetch)
+        const retried = await maybeRetryInputIdTooLong(request, init, response, baseFetch)
+        return withStreamDebugLogs(retried, request)
       }
       return response
     } catch (error) {
+      debugLog("fetch threw", {
+        message: getErrorMessage(error),
+        retryableByMessage: isRetryableCopilotFetchError(error),
+      })
+
       if (!isCopilotUrl(request) || !isRetryableCopilotFetchError(error)) {
         throw error
       }

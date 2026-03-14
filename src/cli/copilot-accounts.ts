@@ -17,6 +17,8 @@ import {
   refreshIdentity,
   toggleLoopSafety,
   toggleNetworkRetry,
+  toggleAutoRefresh,
+  setRefreshInterval,
 } from "../features/copilot-account-switcher"
 import type { AccountEntry, AccountInfo, StoreFile } from "../features/copilot-account-switcher"
 
@@ -111,6 +113,7 @@ export async function copilotAccountsCli(): Promise<number> {
 
     console.log(`\nLoop Safety: ${store.loopSafetyEnabled ? "ON" : "OFF"}`)
     console.log(`Network Retry: ${store.networkRetryEnabled ? "ON" : "OFF"}`)
+    console.log(`Auto-Refresh: ${store.autoRefresh ? `ON (${store.refreshMinutes ?? 15}min)` : "OFF"}`)
 
     const actions = [
       "Add account (OAuth device flow)",
@@ -121,6 +124,8 @@ export async function copilotAccountsCli(): Promise<number> {
       "Refresh identity",
       `Toggle Loop Safety (currently ${store.loopSafetyEnabled ? "ON" : "OFF"})`,
       `Toggle Network Retry (currently ${store.networkRetryEnabled ? "ON" : "OFF"})`,
+      `Toggle Auto-Refresh (currently ${store.autoRefresh ? "ON" : "OFF"})`,
+      "Set Refresh Interval",
       "Switch account",
       "Remove account",
       "Remove all accounts",
@@ -219,6 +224,22 @@ export async function copilotAccountsCli(): Promise<number> {
           break
         }
         case 8: {
+          const updated = await toggleAutoRefresh()
+          console.log(`Auto-Refresh: ${updated.autoRefresh ? `ON (${updated.refreshMinutes ?? 15}min)` : "OFF"}`)
+          break
+        }
+        case 9: {
+          const value = await promptText(`Refresh interval in minutes (current: ${store.refreshMinutes ?? 15}): `)
+          const minutes = parseInt(value, 10)
+          if (Number.isFinite(minutes) && minutes >= 1) {
+            const updated = await setRefreshInterval(minutes)
+            console.log(`Refresh interval set to ${updated.refreshMinutes} minutes`)
+          } else {
+            console.log("Invalid value. Must be a number >= 1.")
+          }
+          break
+        }
+        case 10: {
           const entries = Object.keys(store.accounts)
           if (entries.length === 0) {
             console.log("No accounts to switch.")
@@ -229,7 +250,7 @@ export async function copilotAccountsCli(): Promise<number> {
           console.log(`Switched to: ${entries[idx]}`)
           break
         }
-        case 9: {
+        case 11: {
           const entries = Object.keys(store.accounts)
           if (entries.length === 0) {
             console.log("No accounts to remove.")
@@ -243,7 +264,7 @@ export async function copilotAccountsCli(): Promise<number> {
           }
           break
         }
-        case 10: {
+        case 12: {
           const confirm = await promptText("Remove ALL accounts? This cannot be undone. (y/N): ")
           if (confirm.toLowerCase() === "y") {
             await removeAllAccounts()
@@ -251,7 +272,7 @@ export async function copilotAccountsCli(): Promise<number> {
           }
           break
         }
-        case 11:
+        case 13:
           return 0
       }
     } catch (error) {
