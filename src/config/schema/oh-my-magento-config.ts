@@ -5,6 +5,7 @@ import { AgentOverridesSchema, CustomAgentOverridesSchema } from "./agent-overri
 import { BabysittingConfigSchema } from "./babysitting"
 import { BackgroundTaskConfigSchema } from "./background-task"
 import { BrowserAutomationConfigSchema } from "./browser-automation"
+import { CopilotAccountSwitcherConfigSchema } from "./copilot-account-switcher"
 import { CategoriesConfigSchema } from "./categories"
 import { ClaudeCodeConfigSchema } from "./claude-code"
 import { CommentCheckerConfigSchema } from "./comment-checker"
@@ -63,6 +64,8 @@ export const OhMyMagentoConfigSchema = z.object({
   tmux: TmuxConfigSchema.optional(),
   sisyphus: SisyphusConfigSchema.optional(),
   start_work: StartWorkConfigSchema.optional(),
+  /** Copilot account switcher: multi-account management, loop safety, network retry */
+  copilot_account_switcher: CopilotAccountSwitcherConfigSchema.optional(),
   /** Migration history to prevent re-applying migrations (e.g., model version upgrades) */
   _migrations: z.array(z.string()).optional(),
 })

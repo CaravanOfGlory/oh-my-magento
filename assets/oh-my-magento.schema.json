@@ -3878,6 +3878,24 @@
       ],
       "additionalProperties": false
     },
+    "copilot_account_switcher": {
+      "type": "object",
+      "properties": {
+        "loop_safety_enabled": {
+          "default": false,
+          "type": "boolean"
+        },
+        "network_retry_enabled": {
+          "default": false,
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "loop_safety_enabled",
+        "network_retry_enabled"
+      ],
+      "additionalProperties": false
+    },
     "_migrations": {
       "type": "array",
       "items": {
