@@ -71,8 +71,10 @@ export async function readAuth(filePath?: string): Promise<Record<string, Accoun
   if (!raw) return {}
 
   const parsed = JSON.parse(raw) as Record<string, unknown>
+  const copilotKeys = new Set(["github-copilot", "github-copilot-enterprise"])
   return Object.entries(parsed).reduce(
     (acc, [key, value]) => {
+      if (!copilotKeys.has(key)) return acc
       if (!value || typeof value !== "object") return acc
       const info = value as {
         type?: string

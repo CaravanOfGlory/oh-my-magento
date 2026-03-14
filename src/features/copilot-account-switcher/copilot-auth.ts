@@ -138,7 +138,20 @@ export async function fetchUser(entry: AccountEntry): Promise<GitHubUserInfo | u
 
     const userData = (await userRes.json()) as { login?: string; email?: string }
     const login = userData.login
-    const email = userData.email
+    let email = userData.email
+
+    if (!email) {
+      try {
+        const emailRes = await fetch(`${base}/user/emails`, { headers })
+        if (emailRes.ok) {
+          const items = (await emailRes.json()) as Array<{ email?: string; primary?: boolean; verified?: boolean }>
+          const primary = items.find((item) => item.primary && item.verified)
+          email = primary?.email ?? items[0]?.email
+        }
+      } catch {
+        log("[copilot-auth] failed to fetch emails")
+      }
+    }
 
     let orgs: string[] = []
     try {
@@ -175,61 +188,49 @@ export async function fetchQuota(
       ? `https://api.${normalizeDomain(entry.enterpriseUrl)}`
       : "https://api.github.com"
 
-    const quotaRes = await fetch(`${base}/copilot_internal/v2/token`, { headers })
-    if (!quotaRes.ok) {
-      return { error: `HTTP ${quotaRes.status}`, updatedAt: Date.now() }
+    const res = await fetch(`${base}/copilot_internal/user`, { headers })
+    if (!res.ok) {
+      return { error: `quota ${res.status}`, updatedAt: Date.now() }
     }
 
-    const quotaData = (await quotaRes.json()) as {
-      chat_enabled?: boolean
-      sku?: string
-      limited_access?: boolean
-      refresh_in?: number
-      annotations_enabled?: boolean
-      endpoints?: Record<string, unknown>
-    }
-
-    const metricsRes = await fetch(`${base}/copilot_internal/user/metrics`, { headers })
-
-    if (!metricsRes.ok) {
-      return {
-        sku: quotaData.sku,
-        updatedAt: Date.now(),
-      }
-    }
-
-    const metricsData = (await metricsRes.json()) as {
-      copilot_ide_code_completions?: {
-        quotas?: Array<{
-          quota_type?: string
-          overage_allowed?: boolean
-          limited?: boolean
-          pre_unlimited?: boolean
+    const data = (await res.json()) as {
+      access_type_sku?: string
+      copilot_plan?: string
+      quota_reset_date?: string
+      quota_snapshots?: {
+        premium_interactions?: {
           entitlement?: number
           remaining?: number
           used?: number
           unlimited?: boolean
           percent_remaining?: number
-          reset_at?: string
-        }>
+        }
+        chat?: {
+          entitlement?: number
+          remaining?: number
+          used?: number
+          unlimited?: boolean
+          percent_remaining?: number
+        }
+        completions?: {
+          entitlement?: number
+          remaining?: number
+          used?: number
+          unlimited?: boolean
+          percent_remaining?: number
+        }
       }
     }
 
-    const quotas = metricsData.copilot_ide_code_completions?.quotas ?? []
-    const findQuota = (type: string) => quotas.find((q) => q.quota_type === type)
-
-    const premiumRaw = findQuota("premium_chat")
-    const chatRaw = findQuota("chat")
-    const completionsRaw = findQuota("completions")
-
     return {
-      sku: quotaData.sku,
-      reset: premiumRaw?.reset_at ?? chatRaw?.reset_at,
+      sku: data.access_type_sku,
+      plan: data.copilot_plan,
+      reset: data.quota_reset_date,
       updatedAt: Date.now(),
       snapshots: {
-        premium: buildSnapshot(premiumRaw),
-        chat: buildSnapshot(chatRaw),
-        completions: buildSnapshot(completionsRaw),
+        premium: buildSnapshot(data.quota_snapshots?.premium_interactions),
+        chat: buildSnapshot(data.quota_snapshots?.chat),
+        completions: buildSnapshot(data.quota_snapshots?.completions),
       },
     }
   } catch (error) {
@@ -238,48 +239,79 @@ export async function fetchQuota(
   }
 }
 
+type ModelData = {
+  data?: Array<{ id?: string; model_picker_enabled?: boolean; policy?: { state?: string } }>
+}
+
+function parseModels(modelData: ModelData): { available: string[]; disabled: string[] } {
+  const available: string[] = []
+  const disabled: string[] = []
+  for (const item of modelData.data ?? []) {
+    if (!item.id) continue
+    const enabled = item.model_picker_enabled === true && item.policy?.state !== "disabled"
+    if (enabled) available.push(item.id)
+    else disabled.push(item.id)
+  }
+  return { available, disabled }
+}
+
 export async function fetchModels(
   entry: AccountEntry,
 ): Promise<{ available: string[]; disabled: string[] } | { error: string }> {
   try {
-    const token = await getValidToken(entry)
-    const headers = {
+    const modelsUrl = entry.enterpriseUrl
+      ? `https://copilot-api.${normalizeDomain(entry.enterpriseUrl)}/models`
+      : "https://api.githubcopilot.com/models"
+
+    const modelsHeaders = {
       Accept: "application/json",
-      Authorization: `token ${token}`,
+      Authorization: `Bearer ${entry.access}`,
       "User-Agent": "GitHubCopilotChat/0.26.7",
       "Editor-Version": "vscode/1.96.2",
+      "Editor-Plugin-Version": "copilot/1.159.0",
       "Copilot-Integration-Id": "vscode-chat",
+      "X-Github-Api-Version": "2025-04-01",
     }
+
+    const modelRes = await fetch(modelsUrl, { headers: modelsHeaders })
+    if (modelRes.ok) {
+      return parseModels((await modelRes.json()) as ModelData)
+    }
+
+    const token = await getValidToken(entry)
     const base = entry.enterpriseUrl
       ? `https://api.${normalizeDomain(entry.enterpriseUrl)}`
       : "https://api.github.com"
 
-    const res = await fetch(`${base}/copilot_internal/v2/token`, { headers })
-    if (!res.ok) return { error: `HTTP ${res.status}` }
+    const tokenRes = await fetch(`${base}/copilot_internal/v2/token`, {
+      headers: {
+        Accept: "application/json",
+        Authorization: `token ${token}`,
+        "User-Agent": "GitHubCopilotChat/0.26.7",
+        "Editor-Version": "vscode/1.96.2",
+        "Editor-Plugin-Version": "copilot/1.159.0",
+        "X-Github-Api-Version": "2025-04-01",
+      },
+    })
+    if (!tokenRes.ok) return { error: `token ${tokenRes.status}` }
 
-    const data = (await res.json()) as {
-      endpoints?: Record<string, { models?: string[] }>
-      models?: Array<{ id?: string; name?: string; is_disabled?: boolean }>
-    }
+    const tokenData = (await tokenRes.json()) as { token?: string; expires_at?: number }
+    if (!tokenData.token) return { error: "token missing" }
 
-    const available: string[] = []
-    const disabled: string[] = []
+    entry.access = tokenData.token
+    if (tokenData.expires_at) entry.expires = tokenData.expires_at * 1000
 
-    if (Array.isArray(data.models)) {
-      for (const m of data.models) {
-        const id = m.id ?? m.name ?? ""
-        if (!id) continue
-        if (m.is_disabled) {
-          disabled.push(id)
-        } else {
-          available.push(id)
-        }
-      }
-    }
+    const fallbackRes = await fetch(modelsUrl, {
+      headers: {
+        ...modelsHeaders,
+        Authorization: `Bearer ${tokenData.token}`,
+      },
+    })
+    if (!fallbackRes.ok) return { error: `models ${fallbackRes.status}` }
 
-    return { available, disabled }
+    return parseModels((await fallbackRes.json()) as ModelData)
   } catch (error) {
-    return { error: String(error) }
+    return { error: error instanceof Error ? error.message : String(error) }
   }
 }
 

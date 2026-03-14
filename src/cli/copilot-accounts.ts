@@ -164,7 +164,8 @@ export async function copilotAccountsCli(): Promise<number> {
               console.log(`  ${name}: error — ${entry.quota.error}`)
             } else if (entry.quota?.snapshots) {
               const { premium, chat, completions } = entry.quota.snapshots
-              console.log(`  ${name} (sku: ${entry.quota.sku ?? "?"}):`)
+              const planInfo = [entry.quota.plan, entry.quota.sku].filter(Boolean).join(" / ") || "?"
+              console.log(`  ${name} (${planInfo}):`)
               console.log(`    Premium:     ${formatQuota(premium)}`)
               console.log(`    Chat:        ${formatQuota(chat)}`)
               console.log(`    Completions: ${formatQuota(completions)}`)
