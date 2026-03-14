@@ -26,12 +26,36 @@ function sparkBar(value: number, maxValue: number, width = 8): string {
   return "█".repeat(filled) + "░".repeat(width - filled)
 }
 
+function stripAnsi(str: string): string {
+  // eslint-disable-next-line no-control-regex
+  return str.replace(/\x1B\[\d+m/g, "")
+}
+
 function padRight(str: string, len: number): string {
-  return str.length >= len ? str.slice(0, len) : str + " ".repeat(len - str.length)
+  if (stripAnsi(str).length > len) {
+    let truncated = ""
+    let visibleCount = 0
+    let insideEscape = false
+    // Truncate while preserving ANSI codes
+    for (let i = 0; i < str.length; i++) {
+      if (str[i] === "\\x1B") insideEscape = true
+      if (!insideEscape) visibleCount++
+      truncated += str[i]
+      if (str[i] === "m" && insideEscape) insideEscape = false
+      if (visibleCount >= len - 1 && !insideEscape) {
+        truncated += "…"
+        break
+      }
+    }
+    return truncated
+  }
+  const visibleLen = stripAnsi(str).length
+  return visibleLen >= len ? str : str + " ".repeat(len - visibleLen)
 }
 
 function padLeft(str: string, len: number): string {
-  return str.length >= len ? str.slice(0, len) : " ".repeat(len - str.length) + str
+  const visibleLen = stripAnsi(str).length
+  return visibleLen >= len ? str : " ".repeat(len - visibleLen) + str
 }
 
 function separator(widths: Array<number>): string {
