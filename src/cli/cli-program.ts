@@ -4,6 +4,7 @@ import { run } from "./run"
 import { getLocalVersion } from "./get-local-version"
 import { doctor } from "./doctor"
 import { createMcpOAuthCommand } from "./mcp-oauth"
+import { copilotAccountsCli } from "./copilot-accounts"
 import type { InstallArgs } from "./types"
 import type { RunOptions } from "./run"
 import type { GetLocalVersionOptions } from "./get-local-version/types"
@@ -178,6 +179,26 @@ program
   })
 
 program.addCommand(createMcpOAuthCommand())
+
+program
+  .command("copilot-accounts")
+  .description("Manage GitHub Copilot accounts: add, switch, check quotas, toggle Loop Safety/Network Retry")
+  .addHelpText("after", `
+Examples:
+  $ bunx oh-my-magento copilot-accounts
+
+Features:
+  - Multi-account management (add, switch, remove)
+  - OAuth device flow login
+  - Import from auth.json
+  - Quota and model checking
+  - Guided Loop Safety toggle
+  - Copilot Network Retry toggle
+`)
+  .action(async () => {
+    const exitCode = await copilotAccountsCli()
+    process.exit(exitCode)
+  })
 
 export function runCli(): void {
   program.parse()

@@ -34,4 +34,5 @@ export type {
   SisyphusTasksConfig,
   RuntimeFallbackConfig,
   FallbackModels,
+  CopilotAccountSwitcherConfig,
 } from "./schema"
