@@ -4,6 +4,7 @@ import type { AccountEntry, GitHubUserInfo, QuotaSnapshot } from "./types"
 
 const CLIENT_ID = "Ov23li8tweQw6odWQebz"
 const OAUTH_POLLING_SAFETY_MARGIN_MS = 3000
+const TOKEN_EXPIRY_BUFFER_MS = 5 * 60 * 1000
 
 export function getGitHubToken(entry: AccountEntry): string {
   const ghPrefixes = ["ghu_", "gho_", "ghp_", "github_pat_"]
@@ -15,6 +16,73 @@ export function getGitHubToken(entry: AccountEntry): string {
     return entry.access
   }
   return entry.refresh || entry.access
+}
+
+function isTokenExpired(entry: AccountEntry): boolean {
+  if (!entry.expires || entry.expires <= 0) return false
+  return entry.expires < Date.now() + TOKEN_EXPIRY_BUFFER_MS
+}
+
+export async function refreshAccessToken(entry: AccountEntry): Promise<boolean> {
+  if (!entry.refresh?.startsWith("ghr_")) return false
+
+  const domain = entry.enterpriseUrl ? normalizeDomain(entry.enterpriseUrl) : "github.com"
+  const url = `https://${domain}/login/oauth/access_token`
+
+  try {
+    const res = await fetch(url, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        client_id: CLIENT_ID,
+        grant_type: "refresh_token",
+        refresh_token: entry.refresh,
+      }),
+    })
+
+    if (!res.ok) {
+      log("[copilot-auth] token refresh HTTP error", { status: res.status })
+      return false
+    }
+
+    const data = (await res.json()) as {
+      access_token?: string
+      refresh_token?: string
+      expires_in?: number
+      error?: string
+    }
+
+    if (data.error || !data.access_token) {
+      log("[copilot-auth] token refresh failed", { error: data.error })
+      return false
+    }
+
+    entry.access = data.access_token
+    if (data.refresh_token) entry.refresh = data.refresh_token
+    entry.expires = data.expires_in
+      ? Date.now() + data.expires_in * 1000
+      : 0
+
+    log("[copilot-auth] token refreshed successfully")
+    return true
+  } catch (error) {
+    log("[copilot-auth] token refresh error", { error: String(error) })
+    return false
+  }
+}
+
+function hasUnknownExpiry(entry: AccountEntry): boolean {
+  return !entry.expires || entry.expires <= 0
+}
+
+export async function getValidToken(entry: AccountEntry): Promise<string> {
+  if (entry.refresh?.startsWith("ghr_") && (isTokenExpired(entry) || hasUnknownExpiry(entry))) {
+    await refreshAccessToken(entry)
+  }
+  return getGitHubToken(entry)
 }
 
 function normalizeDomain(url: string): string {
@@ -55,7 +123,7 @@ function buildSnapshot(raw?: {
 
 export async function fetchUser(entry: AccountEntry): Promise<GitHubUserInfo | undefined> {
   try {
-    const token = getGitHubToken(entry)
+    const token = await getValidToken(entry)
     const base = entry.enterpriseUrl
       ? `https://api.${normalizeDomain(entry.enterpriseUrl)}`
       : "https://api.github.com"
@@ -94,9 +162,10 @@ export async function fetchQuota(
   entry: AccountEntry,
 ): Promise<AccountEntry["quota"] | undefined> {
   try {
+    const token = await getValidToken(entry)
     const headers = {
       Accept: "application/json",
-      Authorization: `token ${getGitHubToken(entry)}`,
+      Authorization: `token ${token}`,
       "User-Agent": "GitHubCopilotChat/0.26.7",
       "Editor-Version": "vscode/1.96.2",
       "Copilot-Integration-Id": "vscode-chat",
@@ -173,9 +242,10 @@ export async function fetchModels(
   entry: AccountEntry,
 ): Promise<{ available: string[]; disabled: string[] } | { error: string }> {
   try {
+    const token = await getValidToken(entry)
     const headers = {
       Accept: "application/json",
-      Authorization: `token ${getGitHubToken(entry)}`,
+      Authorization: `token ${token}`,
       "User-Agent": "GitHubCopilotChat/0.26.7",
       "Editor-Version": "vscode/1.96.2",
       "Copilot-Integration-Id": "vscode-chat",
