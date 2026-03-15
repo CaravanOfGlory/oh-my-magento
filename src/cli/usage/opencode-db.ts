@@ -73,6 +73,10 @@ export class OpenCodeDB {
         return this.byProvider(since, until, limit)
       case "session":
         return this.bySession(since, until, limit)
+      case "project":
+      case "branch":
+      case "project-branch":
+        throw new Error(`Dimension "${groupBy}" requires DevMetricsDB — use fetchProjectDimensionRows() in usage-command.ts`)
     }
   }
 
