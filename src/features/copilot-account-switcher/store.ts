@@ -58,6 +58,30 @@ export async function writeStore(store: StoreFile, filePath = storePath()): Prom
   await fs.writeFile(filePath, JSON.stringify(store, null, 2), { mode: 0o600 })
 }
 
+export async function writeAuthEntry(entry: AccountEntry): Promise<void> {
+  const filePath = path.join(getXdgDataDir(), "opencode", AUTH_FILENAME)
+
+  let existing: Record<string, unknown> = {}
+  try {
+    const raw = await fs.readFile(filePath, "utf-8")
+    existing = JSON.parse(raw) as Record<string, unknown>
+  } catch {
+    existing = {}
+  }
+
+  const providerId = entry.enterpriseUrl ? "github-copilot-enterprise" : "github-copilot"
+  existing[providerId] = {
+    type: "oauth",
+    refresh: entry.refresh,
+    access: entry.access,
+    expires: entry.expires,
+    ...(entry.enterpriseUrl ? { enterpriseUrl: entry.enterpriseUrl } : {}),
+  }
+
+  await fs.mkdir(path.dirname(filePath), { recursive: true })
+  await fs.writeFile(filePath, JSON.stringify(existing, null, 2), { mode: 0o600 })
+}
+
 export async function readAuth(filePath?: string): Promise<Record<string, AccountEntry>> {
   const dataFile = path.join(getXdgDataDir(), "opencode", AUTH_FILENAME)
   const configFile = path.join(getXdgConfigDir(), "opencode", AUTH_FILENAME)

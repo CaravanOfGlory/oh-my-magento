@@ -1,6 +1,6 @@
 import { log } from "../../shared"
 
-import { readAuth, readStore, writeStore } from "./store"
+import { readAuth, readStore, writeAuthEntry, writeStore } from "./store"
 import { fetchModels, fetchQuota, fetchUser } from "./copilot-auth"
 import type { AccountEntry, AccountInfo, StoreFile } from "./types"
 
@@ -135,14 +135,19 @@ export async function importFromAuth(authFilePath?: string): Promise<{
   return { store, imported: entries.length }
 }
 
-export async function switchAccount(accountName: string): Promise<StoreFile> {
+export async function switchAccount(accountName: string, client?: AuthClient): Promise<StoreFile> {
   const store = await readStore()
   if (!store.accounts[accountName]) {
     throw new Error(`Account not found: ${accountName}`)
   }
   store.active = accountName
   store.accounts[accountName].lastUsed = Date.now()
+  store.lastAccountSwitchAt = Date.now()
   await writeStore(store)
+  await writeAuthEntry(store.accounts[accountName])
+  if (client) {
+    await switchAccountWithClient(client, store.accounts[accountName])
+  }
   return store
 }
 

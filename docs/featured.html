@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>oh-my-magento | 特色功能</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@300;400;500;600&family=Noto+Serif+SC:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-tertiary: #1a1a25;
+            --bg-card: #151520;
+            --accent-primary: #e8d5b7;
+            --accent-secondary: #c9b896;
+            --accent-warm: #d4a574;
+            --accent-cyan: #7dd3fc;
+            --accent-rose: #fda4af;
+            --accent-amber: #fcd34d;
+            --text-primary: #f5f5f0;
+            --text-secondary: #a0a0a0;
+            --text-muted: #6b6b6b;
+            --border-subtle: #2a2a3a;
+            --glow-warm: rgba(212, 165, 116, 0.3);
+            --glow-cyan: rgba(125, 211, 252, 0.2);
+            --gradient-hero: linear-gradient(135deg, #0a0a0f 0%, #1a1510 50%, #0a0a0f 100%);
+            --gradient-card: linear-gradient(145deg, #151520 0%, #1a1a28 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', 'Noto Serif SC', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* Scroll Progress Indicator */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent-warm), var(--accent-cyan), var(--accent-rose));
+            z-index: 10000;
+            transition: width 0.1s ease;
+            width: 0%;
+        }
+
+        /* Typography */
+        h1, h2, h3, h4 {
+            font-family: 'Playfair Display', 'Noto Serif SC', serif;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+        }
+
+        .mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            background: var(--gradient-hero);
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(ellipse at 20% 80%, rgba(212, 165, 116, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 20%, rgba(125, 211, 252, 0.06) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(253, 164, 175, 0.04) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        .hero-content {
+            text-align: center;
+            z-index: 10;
+            padding: 2rem;
+            max-width: 1000px;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: rgba(232, 213, 183, 0.1);
+            border: 1px solid rgba(232, 213, 183, 0.2);
+            border-radius: 100px;
+            font-size: 0.85rem;
+            color: var(--accent-primary);
+            margin-bottom: 2rem;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.8s ease forwards;
+            animation-delay: 0.2s;
+        }
+
+        .hero-badge::before {
+            content: '◆';
+            color: var(--accent-warm);
+        }
+
+        .hero-title {
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-warm) 50%, var(--accent-secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s ease forwards;
+            animation-delay: 0.4s;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1rem, 2vw, 1.25rem);
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto 3rem;
+            line-height: 1.8;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.8s ease forwards;
+            animation-delay: 0.6s;
+        }
+
+        .scroll-hint {
+            position: absolute;
+            bottom: 3rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            opacity: 0;
+            animation: fadeIn 1s ease forwards;
+            animation-delay: 1.2s;
+        }
+
+        .scroll-hint::after {
+            content: '↓';
+            font-size: 1.5rem;
+            animation: bounce 2s infinite;
+        }
+
+        /* Section Styles */
+        .section {
+            padding: 6rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .section-alt {
+            background: var(--bg-secondary);
+        }
+
+        .section-header {
+            margin-bottom: 4rem;
+        }
+
+        .section-number {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--accent-warm);
+            margin-bottom: 0.5rem;
+        }
+
+        .section-title {
+            font-size: clamp(2rem, 4vw, 3rem);
+            color: var(--accent-primary);
+            margin-bottom: 1rem;
+        }
+
+        .section-desc {
+            color: var(--text-secondary);
+            max-width: 800px;
+            font-size: 1.1rem;
+        }
+
+        /* Cards Grid */
+        .grid-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 3rem;
+        }
+
+        .card {
+            background: var(--gradient-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 16px;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .card:hover {
+            border-color: rgba(212, 165, 116, 0.3);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2), 0 0 20px var(--glow-warm);
+            transform: translateY(-5px);
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent-warm), transparent);
+        }
+        
+        .card.cyan::before {
+            background: linear-gradient(90deg, var(--accent-cyan), transparent);
+        }
+
+        .card.cyan:hover {
+            border-color: rgba(125, 211, 252, 0.3);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2), 0 0 20px var(--glow-cyan);
+        }
+
+        .card-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            color: var(--text-primary);
+            margin-bottom: 0.75rem;
+        }
+
+        .card-text {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        /* Feature Lists */
+        .feature-list {
+            list-style: none;
+            margin-top: 1.5rem;
+        }
+
+        .feature-list li {
+            position: relative;
+            padding-left: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .feature-list li::before {
+            content: '›';
+            position: absolute;
+            left: 0;
+            color: var(--accent-warm);
+            font-weight: bold;
+        }
+
+        /* Code Block */
+        .code-block {
+            background: #0d0d12;
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            overflow-x: auto;
+        }
+
+        .code-block pre {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            line-height: 1.7;
+            color: var(--text-secondary);
+        }
+
+        .code-prompt { color: #82aaff; }
+        .code-command { color: #c3e88d; }
+        .code-flag { color: #c792ea; }
+        .code-comment { color: #676e95; }
+
+        /* Highlight Info Box */
+        .info-box {
+            background: rgba(212, 165, 116, 0.05);
+            border-left: 3px solid var(--accent-warm);
+            padding: 1.5rem;
+            border-radius: 0 8px 8px 0;
+            margin-top: 2rem;
+        }
+
+        .info-box p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .info-box p:last-child {
+            margin-bottom: 0;
+        }
+        
+        .info-box .mono {
+            color: var(--accent-warm);
+            background: rgba(0,0,0,0.2);
+            padding: 0.1rem 0.4rem;
+            border-radius: 4px;
+        }
+
+        /* Sub Section Layout */
+        .flex-layout {
+            display: flex;
+            gap: 4rem;
+            align-items: flex-start;
+            flex-wrap: wrap;
+        }
+        
+        .flex-content {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        /* Footer */
+        .footer {
+            padding: 4rem 2rem;
+            text-align: center;
+            border-top: 1px solid var(--border-subtle);
+            background: var(--bg-primary);
+        }
+
+        .footer-text {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+
+        .footer-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-link:hover {
+            color: var(--accent-warm);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(10px); }
+        }
+
+        .animate-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .animate-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .section { padding: 4rem 1.5rem; }
+            .flex-layout { gap: 2rem; }
+        }
+
+        /* Stagger Animation Delays */
+        .stagger-1 { transition-delay: 0.1s; }
+        .stagger-2 { transition-delay: 0.2s; }
+        .stagger-3 { transition-delay: 0.3s; }
+        .stagger-4 { transition-delay: 0.4s; }
+        .stagger-5 { transition-delay: 0.5s; }
+        .stagger-6 { transition-delay: 0.6s; }
+    </style>
+</head>
+<body>
+    <div class="scroll-progress" id="scrollProgress"></div>
+
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-badge">OhMyMagento CLI</div>
+            <h1 class="hero-title">oh-my-magento 特色功能</h1>
+            <p class="hero-subtitle">
+                探索我们强大的 CLI 工具链，深入了解项目特色与效率工具。<br>
+                管理多账号、监控资源消耗、执行高级诊断。
+            </p>
+        </div>
+        <div class="scroll-hint">向下滚动探索</div>
+    </section>
+
+    <section class="section" id="overview">
+        <div class="section-header animate-up visible">
+            <div class="section-number">01</div>
+            <h2 class="section-title">项目概览</h2>
+            <p class="section-desc">
+                什么是 oh-my-magento？这不仅是一个简单的脚本，而是一个基于 <strong>OpenCode</strong> 的高级插件，提供了强大的多 Agent 编排系统。通过 11 个独立的 Agent 协同工作，配合 46 个生命周期 Hook、26 个专业工具，以及完整的 Skill/Command/MCP 系统，为 Magento 开发带来前所未有的效率提升。
+            </p>
+        </div>
+    </section>
+
+    <section class="section section-alt" id="copilot-x">
+        <div class="section-header animate-up">
+            <div class="section-number">02</div>
+            <h2 class="section-title">GitHub Copilot 账号管理器</h2>
+            <p class="section-desc">全称：GitHub Copilot Account Manager</p>
+        </div>
+
+        <div class="flex-layout">
+            <div class="flex-content animate-up stagger-1">
+                <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
+                    基于 <code>@clack/prompts</code> 构建的交互式命令行工具，支持在个人和工作 GitHub Copilot 账号之间快速切换。所有配置安全地存储在本地。
+                </p>
+                
+                <div class="code-block">
+<pre><span class="code-prompt">$</span> <span class="code-command">bunx oh-my-magento copilot-x</span></pre>
+                </div>
+
+                <div class="info-box">
+                    <p><strong>账号存储:</strong> <span class="mono">~/.config/opencode/copilot-x.json</span> (chmod 0600)</p>
+                    <p><strong>鉴权源:</strong> <span class="mono">~/.local/share/opencode/auth.json</span></p>
+                </div>
+            </div>
+
+            <div class="flex-content">
+                <div class="grid-cards" style="margin-top: 0;">
+                    <div class="card animate-up stagger-2">
+                        <h3 class="card-title">🔗 登录与导入</h3>
+                        <ul class="feature-list">
+                            <li><strong>Add account (OAuth)</strong> — GitHub 设备流登录，支持 github.com 及企业版</li>
+                            <li><strong>Add account (manual)</strong> — 直接粘贴 Token</li>
+                            <li><strong>Import from auth.json</strong> — 从 OpenCode 自动检测并导入</li>
+                        </ul>
+                    </div>
+                    <div class="card animate-up stagger-3">
+                        <h3 class="card-title">⚙️ 管理与诊断</h3>
+                        <ul class="feature-list">
+                            <li><strong>Check models</strong> — 查看跨账号的可用和被禁用的模型</li>
+                            <li><strong>Refresh identity</strong> — 更新所有账号的用户名和组织信息</li>
+                            <li><strong>Switch account</strong> — 一键切换激活的 Copilot 账号</li>
+                        </ul>
+                    </div>
+                    <div class="card animate-up stagger-4">
+                        <h3 class="card-title">🗑️ 账号清理</h3>
+                        <ul class="feature-list">
+                            <li><strong>Remove account</strong> — 移除指定的单个账号</li>
+                            <li><strong>Remove all accounts</strong> — 破坏性操作：移除所有存储的账号</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="usage">
+        <div class="section-header animate-up">
+            <div class="section-number">03</div>
+            <h2 class="section-title">Token 使用与效能分析</h2>
+            <p class="section-desc">全称：Token Usage Statistics & Analytics</p>
+        </div>
+
+        <div class="flex-layout">
+            <div class="flex-content animate-up stagger-1">
+                <div class="code-block">
+<pre><span class="code-comment"># 基础使用</span>
+<span class="code-prompt">$</span> <span class="code-command">bunx oh-my-magento usage</span> <span class="code-flag">--days</span> 30 <span class="code-flag">--by</span> model
+
+<span class="code-comment"># 时间过滤与环比对比</span>
+<span class="code-prompt">$</span> <span class="code-command">bunx oh-my-magento usage</span> <span class="code-flag">--since</span> 7d <span class="code-flag">--compare</span>
+
+<span class="code-comment"># 生成并保存日报表</span>
+<span class="code-prompt">$</span> <span class="code-command">bunx oh-my-magento usage report</span> <span class="code-flag">--date</span> 2026-03-14</pre>
+                </div>
+
+                <div class="info-box">
+                    <p><strong>关键指标 (需 dev-metrics 支持)</strong></p>
+                    <ul class="feature-list" style="margin-top: 0.5rem;">
+                        <li>每次提交成本 (Cost per commit)</li>
+                        <li>每行代码 Token (Tokens per LOC)</li>
+                        <li>输出密度 (Output density)</li>
+                        <li>会话生产力得分 (Session productivity score)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="flex-content">
+                <div class="grid-cards" style="margin-top: 0;">
+                    <div class="card cyan animate-up stagger-2">
+                        <h3 class="card-title">📊 核心参数</h3>
+                        <ul class="feature-list">
+                            <li><span class="mono">--days &lt;n&gt;</span> 显示过去 N 天的数据</li>
+                            <li><span class="mono">--since &lt;spec&gt;</span> 时间过滤 (7d, 2w, 3h 或 ISO 日期)</li>
+                            <li><span class="mono">--by &lt;dim&gt;</span> 维度分组：day, model, agent, provider, session, project 等</li>
+                            <li><span class="mono">--limit &lt;n&gt;</span> 限制显示的行数</li>
+                            <li><span class="mono">--json</span> 输出 JSON 格式数据</li>
+                            <li><span class="mono">--compare</span> 与上一周期的同等时间段进行对比</li>
+                        </ul>
+                    </div>
+                    <div class="card cyan animate-up stagger-3">
+                        <h3 class="card-title">📈 显示特性</h3>
+                        <ul class="feature-list">
+                            <li>带微型柱状图的每日数据明细</li>
+                            <li>详尽的 Token 分解：输入、输出、缓存读取、缓存写入</li>
+                            <li>精准到每次调用、每个模型及 Agent 的成本追踪</li>
+                            <li>带增量百分比的环比数据分析</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section section-alt" id="other-commands">
+        <div class="section-header animate-up">
+            <div class="section-number">04</div>
+            <h2 class="section-title">其他实用命令</h2>
+            <p class="section-desc">oh-my-magento 提供的完整工具链，覆盖安装、诊断与运行生命周期。</p>
+        </div>
+
+        <div class="grid-cards">
+            <div class="card animate-up stagger-1">
+                <div class="card-icon">⚡</div>
+                <h3 class="card-title">install</h3>
+                <p class="card-text">交互式安装向导，自动配置 OpenCode 插件及环境变量，一键就绪。</p>
+            </div>
+            <div class="card animate-up stagger-2">
+                <div class="card-icon">🩺</div>
+                <h3 class="card-title">doctor</h3>
+                <p class="card-text">全方位健康诊断工具，检查系统环境、配置文件、可用工具和模型状态。</p>
+            </div>
+            <div class="card animate-up stagger-3">
+                <div class="card-icon">🚀</div>
+                <h3 class="card-title">run &lt;message&gt;</h3>
+                <p class="card-text">非交互式会话启动器，支持直接通过命令行传递任务指令，适合集成到自动化流程中。</p>
+            </div>
+            <div class="card animate-up stagger-4">
+                <div class="card-icon">🏷️</div>
+                <h3 class="card-title">get-local-version</h3>
+                <p class="card-text">快速版本检查工具，验证当前安装的插件版本是否为最新。</p>
+            </div>
+            <div class="card animate-up stagger-5">
+                <div class="card-icon">🔑</div>
+                <h3 class="card-title">mcp-oauth</h3>
+                <p class="card-text">OAuth 令牌管理器，专用于配置和管理外部 MCP (Model Context Protocol) 服务的身份验证。</p>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <p class="footer-text">oh-my-magento — The Ultimate AI Orchestration for Magento 2</p>
+        <div class="footer-links">
+            <a href="https://github.com/CaravanOfGlory/oh-my-magento" class="footer-link" target="_blank">GitHub Repository</a>
+            <a href="https://discord.gg/PUwSMR9XNk" class="footer-link" target="_blank">Discord Community</a>
+            <a href="#" class="footer-link">Documentation</a>
+        </div>
+    </footer>
+
+    <script>
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById('scrollProgress').style.width = scrolled + '%';
+        });
+
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.15
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.animate-up, .card, .problem-card, .skill-card, .agent-card').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
