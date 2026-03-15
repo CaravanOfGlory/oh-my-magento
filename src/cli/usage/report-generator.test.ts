@@ -81,7 +81,7 @@ describe("report-generator", () => {
   })
 
   describe("generateReport", () => {
-    test("#given database with messages, #when generating report for today, #then returns complete report", () => {
+    test("#given database with messages, #when generating report for today, #then returns complete report with investment section", () => {
       //#given
       const db = new OpenCodeDB(dbPath)
       const today = new Date()
@@ -91,14 +91,14 @@ describe("report-generator", () => {
       const report = generateReport(db, { date: dateStr })
 
       //#then
-      expect(report.date).toBe(dateStr)
-      expect(report.summary.totalCalls).toBe(2)
-      expect(report.summary.totalTokens).toBe(2900)
-      expect(report.modelBreakdown.length).toBe(2)
-      expect(report.agentBreakdown.length).toBe(2)
+      expect(report.investment).toBeDefined()
+      expect(report.investment.tokens).toBe(2900)
+      expect(report.investment.cost).toBeCloseTo(0.018, 3)
+      expect(report.investment.sessions).toBe(1)
+      expect(report.investment.models_used.length).toBe(2)
     })
 
-    test("#given database with messages, #when generating report, #then model percentages sum to ~100", () => {
+    test("#given database with messages, #when generating report, #then output and efficiency sections are present", () => {
       //#given
       const db = new OpenCodeDB(dbPath)
       const today = new Date()
@@ -108,14 +108,14 @@ describe("report-generator", () => {
       const report = generateReport(db, { date: dateStr })
 
       //#then
-      const totalPct = report.modelBreakdown.reduce((sum, m) => sum + m.percentage, 0)
-      expect(totalPct).toBeGreaterThanOrEqual(98)
-      expect(totalPct).toBeLessThanOrEqual(102)
+      // Output and efficiency may be null if no dev-metrics data
+      expect(report).toHaveProperty("output")
+      expect(report).toHaveProperty("efficiency")
     })
   })
 
   describe("renderReportAsMarkdown", () => {
-    test("#given a usage report, #when rendering as markdown, #then contains all sections", () => {
+    test("#given a usage report, #when rendering as markdown, #then contains investment section", () => {
       //#given
       const db = new OpenCodeDB(dbPath)
       const today = new Date()
@@ -123,17 +123,13 @@ describe("report-generator", () => {
       const report = generateReport(db, { date: dateStr })
 
       //#when
-      const markdown = renderReportAsMarkdown(report)
+      const markdown = renderReportAsMarkdown(report, { user: "test-user", date: dateStr })
 
       //#then
       expect(markdown).toContain("# AI Usage Report")
-      expect(markdown).toContain("## Summary")
-      expect(markdown).toContain("## Model Usage")
-      expect(markdown).toContain("## Agent Usage")
-      expect(markdown).toContain("claude-sonnet-4")
-      expect(markdown).toContain("deepseek-r1")
-      expect(markdown).toContain("Sisyphus")
-      expect(markdown).toContain("Hephaestus")
+      expect(markdown).toContain("## Investment")
+      expect(markdown).toContain("Tokens")
+      expect(markdown).toContain("Cost")
     })
 
     test("#given a usage report, #when rendering, #then user field is populated", () => {
@@ -144,10 +140,10 @@ describe("report-generator", () => {
       const report = generateReport(db, { date: dateStr })
 
       //#when
-      const markdown = renderReportAsMarkdown(report)
+      const markdown = renderReportAsMarkdown(report, { user: "test-user", date: dateStr })
 
       //#then
-      expect(markdown).toContain("**User**:")
+      expect(markdown).toContain("test-user")
     })
   })
 })

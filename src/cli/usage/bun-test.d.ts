@@ -15,6 +15,7 @@ declare module "bun:test" {
     toMatch(expected: RegExp | string): void
     toHaveLength(expected: number): void
     toBeGreaterThan(expected: number): void
+    toBeLessThan(expected: number): void
     toBeCloseTo(expected: number, precision?: number): void
     toThrow(expected?: RegExp | string): void
     toStartWith(expected: string): void

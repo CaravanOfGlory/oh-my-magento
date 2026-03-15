@@ -2,6 +2,9 @@ import { Command } from "commander"
 import { OpenCodeDB } from "./opencode-db"
 import { renderSummary, renderDaily, renderGrouped, renderNoData } from "./render"
 import { executeReport } from "./report-generator"
+import { DevMetricsDB } from "../../features/dev-metrics"
+import { queryByProject, queryByBranch, queryByProjectBranch } from "./project-dimension-queries"
+import type { ProjectAggregation, BranchAggregation, ProjectBranchAggregation } from "./project-dimension-queries"
 import type { UsageOptions, ReportOptions, GroupBy, UsageRow } from "./types"
 
 function parseSince(value: string): Date {
@@ -61,13 +64,63 @@ function computeDeltas(
   })
 }
 
+type DimensionAggregation = ProjectAggregation | BranchAggregation | ProjectBranchAggregation
+
+function mapDimensionToUsageRows(results: DimensionAggregation[]): UsageRow[] {
+  return results.map((r) => ({
+    label: r.label,
+    calls: r.calls,
+    tokens: r.tokens,
+    cost: r.cost,
+    detail: `${r.commits} commits, +${r.linesAdded} lines`,
+  }))
+}
+
+function isProjectDimension(groupBy: GroupBy): groupBy is "project" | "branch" | "project-branch" {
+  return groupBy === "project" || groupBy === "branch" || groupBy === "project-branch"
+}
+
+function fetchProjectDimensionRows(
+  groupBy: "project" | "branch" | "project-branch",
+  opencodeDb: OpenCodeDB,
+  since?: Date,
+  until?: Date,
+): UsageRow[] {
+  let devMetricsDb: DevMetricsDB | undefined
+  try {
+    devMetricsDb = new DevMetricsDB()
+    const dateRange = { since, until }
+
+    switch (groupBy) {
+      case "project":
+        return mapDimensionToUsageRows(queryByProject(devMetricsDb, opencodeDb, dateRange))
+      case "branch":
+        return mapDimensionToUsageRows(queryByBranch(devMetricsDb, opencodeDb, dateRange))
+      case "project-branch":
+        return mapDimensionToUsageRows(queryByProjectBranch(devMetricsDb, opencodeDb, dateRange))
+    }
+  } catch (error) {
+    const msg = error instanceof Error ? error.message : String(error)
+    if (msg.includes("not found") || msg.includes("no such table")) {
+      console.error("No dev-metrics data found. Dev-metrics are collected during OpenCode sessions with oh-my-magento installed.")
+      return []
+    }
+    throw error
+  } finally {
+    devMetricsDb?.close()
+  }
+  return []
+}
+
 function executeUsage(options: UsageOptions): number {
   try {
     const db = new OpenCodeDB()
     const { since, period } = resolveSince(options)
     const groupBy: GroupBy = options.by ?? "day"
 
-    const rows = db.fetchRows(groupBy, since, undefined, options.limit)
+    const rows = isProjectDimension(groupBy)
+      ? fetchProjectDimensionRows(groupBy, db, since)
+      : db.fetchRows(groupBy, since, undefined, options.limit)
     const total = db.totals(since)
 
     if (rows.length === 0) {
@@ -130,7 +183,7 @@ export function createUsageCommand(): Command {
     .description("Track and display OpenCode token usage statistics")
     .option("--days <n>", "Show last N days (default: 7)", parseInt)
     .option("--since <spec>", "Time filter: '7d', '2w', '30d', '3h', or ISO date")
-    .option("--by <dimension>", "Group by: day, model, agent, provider, session")
+    .option("--by <dimension>", "Group by: day, model, agent, provider, session, project, branch, project-branch")
     .option("--limit <n>", "Max rows to display", parseInt)
     .option("--json", "Output as JSON")
     .option("--compare", "Compare with previous period of same length")
@@ -140,6 +193,8 @@ Examples:
   $ bunx oh-my-magento usage --days 30          # Last 30 days
   $ bunx oh-my-magento usage --by model         # Group by model
   $ bunx oh-my-magento usage --by agent         # Agent x Model view
+  $ bunx oh-my-magento usage --by project       # Group by project (requires dev-metrics)
+  $ bunx oh-my-magento usage --by branch        # Group by git branch
   $ bunx oh-my-magento usage --json             # JSON output
   $ bunx oh-my-magento usage --since 7d --compare  # Compare with previous period
 `)
