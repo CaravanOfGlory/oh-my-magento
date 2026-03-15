@@ -47,6 +47,7 @@ export type StoreFile = {
   lastQuotaRefresh?: number
   loopSafetyEnabled?: boolean
   networkRetryEnabled?: boolean
+  lastAccountSwitchAt?: number
 }
 
 export type AccountStatus = "active" | "expired" | "unknown"

@@ -5,6 +5,7 @@ import { log } from "../../shared"
 import { readStoreSafe } from "./store"
 import { loadOfficialCopilotConfig } from "./copilot-loader"
 import { createCopilotRetryingFetch } from "./copilot-network-retry"
+import { createPostSwitchAwareFetch } from "./copilot-session-repair"
 import { initiateDeviceFlow, pollDeviceFlow } from "./copilot-device-flow"
 import type { StoreFile, FetchLike } from "./types"
 
@@ -42,7 +43,7 @@ export function createCopilotAuthHook(options?: {
     log("[copilot-auth-hook] network retry enabled, wrapping fetch")
     return {
       ...config,
-      fetch: createRetryFetch(config.fetch),
+      fetch: createPostSwitchAwareFetch(createRetryFetch(config.fetch)),
     }
   }
 

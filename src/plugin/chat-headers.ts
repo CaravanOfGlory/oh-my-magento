@@ -124,6 +124,8 @@ export function createChatHeadersHandler(args: { ctx: PluginContext }): (input: 
 
     if (!isCopilotProvider(normalizedInput.provider.id)) return
 
+    output.headers["x-opencode-session-id"] = normalizedInput.sessionID
+
     // Do not override x-initiator when @ai-sdk/github-copilot is active.
     // OpenCode's copilot fetch wrapper already sets x-initiator based on
     // the actual request body content. Overriding it here causes a mismatch
