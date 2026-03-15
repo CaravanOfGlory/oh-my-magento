@@ -25,6 +25,7 @@ import {
   createQuestionLabelTruncatorHook,
   createPreemptiveCompactionHook,
   createRuntimeFallbackHook,
+  createDevMetricsCollectorHook,
 } from "../../hooks"
 import { createAnthropicEffortHook } from "../../hooks/anthropic-effort"
 import {
@@ -60,6 +61,7 @@ export type SessionHooks = {
   taskResumeInfo: ReturnType<typeof createTaskResumeInfoHook> | null
   anthropicEffort: ReturnType<typeof createAnthropicEffortHook> | null
   runtimeFallback: ReturnType<typeof createRuntimeFallbackHook> | null
+  devMetricsCollector: ReturnType<typeof createDevMetricsCollectorHook> | null
 }
 
 export function createSessionHooks(args: {
@@ -261,6 +263,12 @@ export function createSessionHooks(args: {
           pluginConfig,
         }))
     : null
+
+  const devMetricsCollector = isHookEnabled("dev-metrics-collector")
+    ? safeHook("dev-metrics-collector", () =>
+        createDevMetricsCollectorHook(ctx))
+    : null
+
   return {
     contextWindowMonitor,
     preemptiveCompaction,
@@ -285,5 +293,6 @@ export function createSessionHooks(args: {
     taskResumeInfo,
     anthropicEffort,
     runtimeFallback,
+    devMetricsCollector,
   }
 }
