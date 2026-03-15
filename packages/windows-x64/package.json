@@ -12,5 +12,11 @@
   ],
   "bin": {
     "oh-my-magento": "bin/oh-my-magento.exe"
-  }
+  },
+  "os": [
+    "win32"
+  ],
+  "cpu": [
+    "x64"
+  ]
 }

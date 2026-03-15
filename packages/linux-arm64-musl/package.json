@@ -12,5 +12,14 @@
   ],
   "bin": {
     "oh-my-magento": "bin/oh-my-magento"
-  }
+  },
+  "os": [
+    "linux"
+  ],
+  "cpu": [
+    "arm64"
+  ],
+  "libc": [
+    "musl"
+  ]
 }
