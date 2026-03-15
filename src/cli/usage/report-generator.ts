@@ -2,7 +2,9 @@ import { execSync } from "node:child_process"
 import { writeFileSync } from "node:fs"
 import { OpenCodeDB } from "./opencode-db"
 import { formatTokens, formatCost, renderReportAsTerminal } from "./render"
-import type { ReportOptions, UsageReport } from "./types"
+import type { ReportOptions } from "./types"
+import { buildReportData } from "./report-data-aggregator"
+import type { DevMetricsReportData } from "../../features/dev-metrics"
 
 function getGitUserName(): string {
   try {
@@ -32,95 +34,63 @@ function buildDateRange(dateLabel: string): { since: Date; until: Date } {
   return { since, until }
 }
 
-export function generateReport(db: OpenCodeDB, options: ReportOptions): UsageReport {
+export function generateReport(db: OpenCodeDB, options: ReportOptions): DevMetricsReportData {
   const { label: dateLabel } = resolveReportDate(options.date)
   const { since, until } = buildDateRange(dateLabel)
-  const userName = getGitUserName()
 
-  const total = db.totals(since, until)
-  const sessions = db.sessionCount(since, until)
-  const modelRows = db.byModel(since, until)
-  const agentRows = db.byAgent(since, until)
-  const cacheData = db.cacheEfficiency(since, until)
-
-  const totalTokens = total.tokens.total || 1
-
-  return {
-    user: userName,
-    date: dateLabel,
-    period: `${dateLabel} full day`,
-    summary: {
-      sessions,
-      totalCalls: total.calls,
-      totalTokens: total.tokens.total,
-      estimatedCost: total.cost,
-    },
-    modelBreakdown: modelRows.map((r) => ({
-      model: r.label,
-      calls: r.calls,
-      tokens: r.tokens.total,
-      percentage: Math.round((r.tokens.total / totalTokens) * 100),
-    })),
-    agentBreakdown: agentRows.map((r) => ({
-      agent: r.label,
-      model: r.detail ?? "(unknown)",
-      calls: r.calls,
-      tokens: r.tokens.total,
-    })),
-    cacheEfficiency: cacheData.map((c) => ({
-      model: c.model,
-      hitRate: Math.round(c.hitRate * 100),
-    })),
-  }
+  return buildReportData({
+    opencodeDb: db,
+    dateRange: { since, until },
+  })
 }
 
-export function renderReportAsMarkdown(report: UsageReport): string {
+export function renderReportAsMarkdown(report: DevMetricsReportData, options: { user: string; date: string }): string {
   const lines: Array<string> = []
 
-  lines.push(`# AI Usage Report — ${report.date}`)
+  lines.push(`# AI Usage Report — ${options.date}`)
   lines.push("")
-  lines.push(`**User**: ${report.user}  |  **Period**: ${report.period}`)
+  lines.push(`**User**: ${options.user}  |  **Period**: ${options.date} full day`)
   lines.push("")
 
-  lines.push("## Summary")
+  lines.push("## Investment")
   lines.push("")
   lines.push("| Metric | Value |")
   lines.push("|--------|-------|")
-  lines.push(`| Sessions | ${report.summary.sessions} |`)
-  lines.push(`| Total Calls | ${report.summary.totalCalls.toLocaleString()} |`)
-  lines.push(`| Total Tokens | ${formatTokens(report.summary.totalTokens)} |`)
-  lines.push(`| Estimated Cost | ${formatCost(report.summary.estimatedCost)} |`)
+  lines.push(`| Sessions | ${report.investment.sessions} |`)
+  lines.push(`| Total Tokens | ${formatTokens(report.investment.tokens)} |`)
+  lines.push(`| Estimated Cost | ${formatCost(report.investment.cost)} |`)
+  lines.push(`| Models Used | ${report.investment.models_used.join(", ")} |`)
   lines.push("")
 
-  if (report.modelBreakdown.length > 0) {
-    lines.push("## Model Usage")
+  if (report.output) {
+    lines.push("## Output")
     lines.push("")
-    lines.push("| Model | Calls | Tokens | Share |")
-    lines.push("|-------|-------|--------|-------|")
-    for (const m of report.modelBreakdown) {
-      lines.push(`| ${m.model} | ${m.calls} | ${formatTokens(m.tokens)} | ${m.percentage}% |`)
-    }
-    lines.push("")
-  }
-
-  if (report.agentBreakdown.length > 0) {
-    lines.push("## Agent Usage")
-    lines.push("")
-    lines.push("| Agent | Model | Calls | Tokens |")
-    lines.push("|-------|-------|-------|--------|")
-    for (const a of report.agentBreakdown) {
-      lines.push(`| ${a.agent} | ${a.model} | ${a.calls} | ${formatTokens(a.tokens)} |`)
-    }
+    lines.push("| Metric | Value |")
+    lines.push("|--------|-------|")
+    lines.push(`| Commits | ${report.output.commits} |`)
+    lines.push(`| Files Changed | ${report.output.files_changed} |`)
+    lines.push(`| Lines Added | ${report.output.lines_added.toLocaleString()} |`)
+    lines.push(`| Lines Removed | ${report.output.lines_removed.toLocaleString()} |`)
+    lines.push(`| Branches | ${report.output.branches.join(", ")} |`)
     lines.push("")
   }
 
-  if (report.cacheEfficiency.length > 0) {
-    lines.push("## Cache Efficiency")
+  if (report.efficiency) {
+    lines.push("## Efficiency")
     lines.push("")
-    lines.push("| Model | Hit Rate |")
-    lines.push("|-------|----------|")
-    for (const c of report.cacheEfficiency) {
-      lines.push(`| ${c.model} | ${c.hitRate}% |`)
+    lines.push("| Metric | Value |")
+    lines.push("|--------|-------|")
+    if (report.efficiency.cost_per_commit !== null) {
+      lines.push(`| Cost per Commit | ${formatCost(report.efficiency.cost_per_commit)} |`)
+    }
+    if (report.efficiency.tokens_per_loc !== null) {
+      lines.push(`| Tokens per LOC | ${report.efficiency.tokens_per_loc.toFixed(2)} |`)
+    }
+    if (report.efficiency.output_density !== null) {
+      lines.push(`| Output Density | ${report.efficiency.output_density.toFixed(2)} LOC/1000 tokens |`)
+    }
+    if (report.efficiency.session_productivity_score !== null) {
+      lines.push(`| Session Productivity | ${report.efficiency.session_productivity_score.toFixed(2)} |`)
     }
     lines.push("")
   }
@@ -132,6 +102,8 @@ export function executeReport(options: ReportOptions): number {
   try {
     const db = new OpenCodeDB()
     const report = generateReport(db, options)
+    const { label: dateLabel } = resolveReportDate(options.date)
+    const userName = getGitUserName()
 
     if (options.json) {
       console.log(JSON.stringify(report, null, 2))
@@ -139,11 +111,11 @@ export function executeReport(options: ReportOptions): number {
     }
 
     if (options.output) {
-      const markdown = renderReportAsMarkdown(report)
+      const markdown = renderReportAsMarkdown(report, { user: userName, date: dateLabel })
       writeFileSync(options.output, markdown, "utf-8")
       console.log(`Report saved to ${options.output}`)
     } else {
-      renderReportAsTerminal(report)
+      renderReportAsTerminal(report, { user: userName, date: dateLabel })
     }
 
     return 0

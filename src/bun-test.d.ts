@@ -4,10 +4,6 @@ declare module "bun:test" {
   export function test(name: string, fn: () => void | Promise<void>): void
   export function beforeEach(fn: () => void | Promise<void>): void
   export function afterEach(fn: () => void | Promise<void>): void
-  export function beforeAll(fn: () => void | Promise<void>): void
-  export function afterAll(fn: () => void | Promise<void>): void
-  export function mock<T extends (...args: never[]) => unknown>(fn: T): T
-
   interface Matchers {
     toBe(expected: unknown): void
     toEqual(expected: unknown): void
@@ -15,11 +11,12 @@ declare module "bun:test" {
     toMatch(expected: RegExp | string): void
     toHaveLength(expected: number): void
     toBeGreaterThan(expected: number): void
+    toBeLessThan(expected: number): void
     toBeCloseTo(expected: number, precision?: number): void
     toThrow(expected?: RegExp | string): void
     toStartWith(expected: string): void
     not: Matchers
   }
 
-  export function expect(received: unknown): Matchers
+  export function expect(value: unknown): Matchers
 }
