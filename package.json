@@ -1,6 +1,6 @@
 {
   "name": "oh-my-magento",
-  "version": "0.1.3",
+  "version": "0.2.0",
   "description": "Magento 2 + Hyvä Enterprise E-Commerce Intelligent Agent Orchestration System - OpenCode Plugin",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -80,16 +80,16 @@
     "@code-yeongyu/comment-checker"
   ],
   "optionalDependencies": {
-    "oh-my-magento-darwin-arm64": "0.1.3",
-    "oh-my-magento-darwin-x64": "0.1.3",
-    "oh-my-magento-darwin-x64-baseline": "0.1.3",
-    "oh-my-magento-linux-arm64": "0.1.3",
-    "oh-my-magento-linux-arm64-musl": "0.1.3",
-    "oh-my-magento-linux-x64": "0.1.3",
-    "oh-my-magento-linux-x64-baseline": "0.1.3",
-    "oh-my-magento-linux-x64-musl": "0.1.3",
-    "oh-my-magento-linux-x64-musl-baseline": "0.1.3",
-    "oh-my-magento-windows-x64": "0.1.3",
-    "oh-my-magento-windows-x64-baseline": "0.1.3"
+    "oh-my-magento-darwin-arm64": "0.2.0",
+    "oh-my-magento-darwin-x64": "0.2.0",
+    "oh-my-magento-darwin-x64-baseline": "0.2.0",
+    "oh-my-magento-linux-arm64": "0.2.0",
+    "oh-my-magento-linux-arm64-musl": "0.2.0",
+    "oh-my-magento-linux-x64": "0.2.0",
+    "oh-my-magento-linux-x64-baseline": "0.2.0",
+    "oh-my-magento-linux-x64-musl": "0.2.0",
+    "oh-my-magento-linux-x64-musl-baseline": "0.2.0",
+    "oh-my-magento-windows-x64": "0.2.0",
+    "oh-my-magento-windows-x64-baseline": "0.2.0"
   }
 }
