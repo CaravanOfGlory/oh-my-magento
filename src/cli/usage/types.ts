@@ -25,7 +25,7 @@ export interface SessionMeta {
   totalCost: number
 }
 
-export type GroupBy = "day" | "model" | "agent" | "provider" | "session"
+export type GroupBy = "day" | "model" | "agent" | "provider" | "session" | "project" | "branch" | "project-branch"
 
 export interface UsageOptions {
   days?: number
