@@ -4,7 +4,7 @@ import { OpenCodeDB } from "./opencode-db"
 import { formatTokens, formatCost, renderReportAsTerminal } from "./render"
 import type { ReportOptions } from "./types"
 import { buildReportData } from "./report-data-aggregator"
-import type { DevMetricsReportData } from "../../features/dev-metrics"
+import type { DevMetricsReportData, DimensionBreakdownEntry } from "../../features/dev-metrics"
 
 function getGitUserName(): string {
   try {
@@ -42,6 +42,17 @@ export function generateReport(db: OpenCodeDB, options: ReportOptions): DevMetri
     opencodeDb: db,
     dateRange: { since, until },
   })
+}
+
+function renderBreakdownAsMarkdown(lines: string[], title: string, entries: DimensionBreakdownEntry[]): void {
+  lines.push(`## ${title}`)
+  lines.push("")
+  lines.push("| Name | Sessions | Tokens | Commits | +Lines |")
+  lines.push("|------|----------|--------|---------|--------|")
+  for (const entry of entries) {
+    lines.push(`| ${entry.label} | ${entry.sessions} | ${formatTokens(entry.tokens)} | ${entry.commits} | ${entry.lines_added.toLocaleString()} |`)
+  }
+  lines.push("")
 }
 
 export function renderReportAsMarkdown(report: DevMetricsReportData, options: { user: string; date: string }): string {
@@ -93,6 +104,14 @@ export function renderReportAsMarkdown(report: DevMetricsReportData, options: { 
       lines.push(`| Session Productivity | ${report.efficiency.session_productivity_score.toFixed(2)} |`)
     }
     lines.push("")
+  }
+
+  if (report.project_breakdown && report.project_breakdown.length > 1) {
+    renderBreakdownAsMarkdown(lines, "Project Breakdown", report.project_breakdown)
+  }
+
+  if (report.branch_breakdown && report.branch_breakdown.length > 0) {
+    renderBreakdownAsMarkdown(lines, "Branch Breakdown", report.branch_breakdown)
   }
 
   return lines.join("\n")

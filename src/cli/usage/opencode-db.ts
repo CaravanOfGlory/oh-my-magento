@@ -39,13 +39,26 @@ export class OpenCodeDB {
 
   totals(since?: Date, until?: Date): UsageRow {
     const rows = tokenQueries.daily(this._path, since, until)
-    if (rows.length > 0) return rows[0]
-    return {
+    const empty: UsageRow = {
       label: "total",
       calls: 0,
       tokens: { input: 0, output: 0, reasoning: 0, cacheRead: 0, cacheWrite: 0, total: 0 },
       cost: 0,
     }
+    if (rows.length === 0) return empty
+    return rows.reduce((acc, r) => ({
+      label: "total",
+      calls: acc.calls + r.calls,
+      tokens: {
+        input: acc.tokens.input + r.tokens.input,
+        output: acc.tokens.output + r.tokens.output,
+        reasoning: acc.tokens.reasoning + r.tokens.reasoning,
+        cacheRead: acc.tokens.cacheRead + r.tokens.cacheRead,
+        cacheWrite: acc.tokens.cacheWrite + r.tokens.cacheWrite,
+        total: acc.tokens.total + r.tokens.total,
+      },
+      cost: acc.cost + r.cost,
+    }), empty)
   }
 
   sessionCount(since?: Date, until?: Date): number {

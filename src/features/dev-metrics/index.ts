@@ -4,6 +4,7 @@ export type {
   SessionOutcome,
   EfficiencyMetrics,
   DevMetricsReportData,
+  DimensionBreakdownEntry,
 } from "./types"
 
 export { DevMetricsDB } from "./dev-metrics-db"

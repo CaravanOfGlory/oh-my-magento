@@ -5,6 +5,7 @@ import { getDataDir } from "../../shared/data-path"
 import type { DevMetricsReportData } from "../../features/dev-metrics"
 import { OpenCodeDB } from "./opencode-db"
 import { calculateAllMetrics } from "./efficiency-calculator"
+import { fetchBreakdowns } from "./report-breakdown-fetcher"
 
 export interface ReportDataAggregatorOptions {
   opencodeDb: OpenCodeDB
@@ -29,13 +30,13 @@ export function buildReportData(
 
   const devMetricsPath = options.devMetricsDbPath ?? getDefaultDevMetricsDbPath()
   if (!existsSync(devMetricsPath)) {
-    return { investment, output: null, efficiency: null }
+    return { investment, output: null, efficiency: null, project_breakdown: null, branch_breakdown: null }
   }
 
   const outputResult = readOutputData(devMetricsPath, dateRange)
   const outputData = outputResult.output
   if (!outputData) {
-    return { investment, output: null, efficiency: null }
+    return { investment, output: null, efficiency: null, project_breakdown: null, branch_breakdown: null }
   }
 
   const metrics = calculateAllMetrics({
@@ -47,6 +48,8 @@ export function buildReportData(
     durationMinutes: outputResult.durationMinutes,
   })
 
+  const breakdowns = fetchBreakdowns(opencodeDb, devMetricsPath, dateRange)
+
   return {
     investment,
     output: outputData,
@@ -56,6 +59,8 @@ export function buildReportData(
       output_density: metrics.outputDensity,
       session_productivity_score: metrics.sessionProductivity,
     },
+    project_breakdown: breakdowns.project.length > 0 ? breakdowns.project : null,
+    branch_breakdown: breakdowns.branch.length > 0 ? breakdowns.branch : null,
   }
 }
 

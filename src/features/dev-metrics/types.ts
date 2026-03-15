@@ -39,6 +39,15 @@ export interface SessionOutcome {
   branch_switched: boolean
 }
 
+export interface DimensionBreakdownEntry {
+  label: string
+  sessions: number
+  tokens: number
+  cost: number
+  commits: number
+  lines_added: number
+}
+
 /**
  * EfficiencyMetrics: Computed productivity metrics
  */
@@ -67,4 +76,6 @@ export interface DevMetricsReportData {
     branches: string[]
   } | null
   efficiency: EfficiencyMetrics | null
+  project_breakdown: DimensionBreakdownEntry[] | null
+  branch_breakdown: DimensionBreakdownEntry[] | null
 }

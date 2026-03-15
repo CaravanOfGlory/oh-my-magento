@@ -1,8 +1,8 @@
 import pc from "picocolors"
-import type { DevMetricsReportData } from "../../features/dev-metrics"
+import type { DevMetricsReportData, DimensionBreakdownEntry } from "../../features/dev-metrics"
 import { formatCost, formatTokens } from "./render-format"
 import { stripAnsi, padRight, padLeft } from "./render-helpers"
-import { topBorder, separator, bottomBorder } from "./render-borders"
+import { topBorder, separator, bottomBorder, headerRow } from "./render-borders"
 
 export function renderReportAsTerminal(report: DevMetricsReportData, options: { user: string; date: string }): void {
   const content = `User: ${pc.cyan(options.user)}  │  Period: ${options.date} full day`
@@ -72,4 +72,43 @@ export function renderReportAsTerminal(report: DevMetricsReportData, options: { 
     }
     console.log(pc.dim(bottomBorder(effW)))
   }
+
+  if (report.project_breakdown && report.project_breakdown.length > 1) {
+    renderBreakdownTable("Project Breakdown", report.project_breakdown)
+  }
+
+  if (report.branch_breakdown && report.branch_breakdown.length > 0) {
+    renderBreakdownTable("Branch Breakdown", report.branch_breakdown)
+  }
+}
+
+function renderBreakdownTable(title: string, entries: DimensionBreakdownEntry[]): void {
+  console.log()
+  console.log(`  ${pc.bold(title)}`)
+
+  const labelWidth = Math.max(16, ...entries.map((e) => e.label.length + 2))
+  const colWidths = [labelWidth, 8, 10, 7, 8]
+  const headers = ["Name", "Sessions", "Tokens", "Commits", "+Lines"]
+
+  console.log(pc.dim(topBorder(colWidths)))
+  console.log(headerRow(headers, colWidths))
+  console.log(pc.dim(separator(colWidths)))
+
+  for (const entry of entries) {
+    console.log(
+      "│" +
+      ` ${padRight(entry.label, colWidths[0])} ` +
+      "│" +
+      ` ${padLeft(String(entry.sessions), colWidths[1])} ` +
+      "│" +
+      ` ${padLeft(formatTokens(entry.tokens), colWidths[2])} ` +
+      "│" +
+      ` ${padLeft(String(entry.commits), colWidths[3])} ` +
+      "│" +
+      ` ${padLeft(`+${entry.lines_added.toLocaleString()}`, colWidths[4])} ` +
+      "│",
+    )
+  }
+
+  console.log(pc.dim(bottomBorder(colWidths)))
 }
