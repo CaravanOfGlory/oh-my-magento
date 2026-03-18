@@ -90,27 +90,6 @@ export const AGENT_MODEL_REQUIREMENTS: Record<string, ModelRequirement> = {
       { providers: ["openai", "github-copilot", "opencode"], model: "gpt-5.2" },
     ],
   },
-  "magento-architect": {
-    fallbackChain: [
-      { providers: ["anthropic", "github-copilot", "opencode"], model: "claude-opus-4-6", variant: "max" },
-      { providers: ["openai", "github-copilot", "opencode"], model: "gpt-5.2", variant: "high" },
-      { providers: ["google", "github-copilot", "opencode"], model: "gemini-3.1-pro", variant: "high" },
-    ],
-  },
-  "magento-upgrader": {
-    fallbackChain: [
-      { providers: ["anthropic", "github-copilot", "opencode"], model: "claude-opus-4-6", variant: "max" },
-      { providers: ["openai", "github-copilot", "opencode"], model: "gpt-5.2", variant: "high" },
-      { providers: ["google", "github-copilot", "opencode"], model: "gemini-3.1-pro", variant: "high" },
-    ],
-  },
-  "magento-payment": {
-    fallbackChain: [
-      { providers: ["anthropic", "github-copilot", "opencode"], model: "claude-sonnet-4-6" },
-      { providers: ["openai", "github-copilot", "opencode"], model: "gpt-5.2" },
-      { providers: ["google", "github-copilot", "opencode"], model: "gemini-3-flash" },
-    ],
-  },
 }
 
 export const CATEGORY_MODEL_REQUIREMENTS: Record<string, ModelRequirement> = {

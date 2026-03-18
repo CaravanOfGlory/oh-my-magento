@@ -98,9 +98,6 @@ export type BuiltinAgentName =
   | "metis"
   | "momus"
   | "atlas"
-  | "magento-architect"
-  | "magento-upgrader"
-  | "magento-payment"
 
 export type OverridableAgentName =
   | "build"
