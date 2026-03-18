@@ -1,5 +1,5 @@
 import { log } from "../shared/logger"
-import type { OhMyMagentoConfig } from "../config"
+import type { OhMyOpenCodeConfig } from "../config"
 
 import { resolveCompactionModel } from "./shared/compaction-model-resolver"
 const DEFAULT_ACTUAL_LIMIT = 200_000
@@ -75,7 +75,7 @@ type PluginInput = {
 
 export function createPreemptiveCompactionHook(
   ctx: PluginInput,
-  pluginConfig: OhMyMagentoConfig,
+  pluginConfig: OhMyOpenCodeConfig,
   modelCacheState?: ModelCacheStateLike,
 ) {
   const compactionInProgress = new Set<string>()

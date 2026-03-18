@@ -1,7 +1,7 @@
 import type { AgentConfig } from "@opencode-ai/sdk";
 import { applyOverrides } from "../agents/builtin-agents/agent-overrides";
 import type { AgentOverrideConfig } from "../agents/types";
-import type { OhMyMagentoConfig } from "../config";
+import type { OhMyOpenCodeConfig } from "../config";
 import { getAgentConfigKey } from "../shared/agent-display-names";
 import { AGENT_NAME_MAP } from "../shared/migration";
 import { mergeCategories } from "../shared/merge-categories";
@@ -27,7 +27,7 @@ export type AgentSummary = {
 
 export function applyCustomAgentOverrides(params: {
   mergedAgents: Record<string, unknown>;
-  userOverrides: OhMyMagentoConfig["custom_agents"] | undefined;
+  userOverrides: OhMyOpenCodeConfig["custom_agents"] | undefined;
   builtinOverrideKeys: Set<string>;
   mergedCategories: ReturnType<typeof mergeCategories>;
   directory: string;

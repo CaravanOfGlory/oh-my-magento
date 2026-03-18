@@ -99,7 +99,7 @@ export class McpOAuthProvider {
     const clientInfo = await getOrRegisterClient({
       registrationEndpoint: metadata.registrationEndpoint,
       serverIdentifier: this.serverUrl,
-      clientName: "oh-my-magento",
+      clientName: "oh-my-opencode",
       redirectUris: [this.redirectUrl()],
       tokenEndpointAuthMethod: "none",
       clientId: this.configClientId,

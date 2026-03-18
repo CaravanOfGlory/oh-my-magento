@@ -1,5 +1,5 @@
 import type { PluginInput } from "@opencode-ai/plugin"
-import type { RuntimeFallbackConfig, OhMyMagentoConfig } from "../../config"
+import type { RuntimeFallbackConfig, OhMyOpenCodeConfig } from "../../config"
 
 export interface FallbackState {
   originalModel: string
@@ -19,7 +19,7 @@ export interface FallbackResult {
 
 export interface RuntimeFallbackOptions {
   config?: RuntimeFallbackConfig
-  pluginConfig?: OhMyMagentoConfig
+  pluginConfig?: OhMyOpenCodeConfig
   session_timeout_ms?: number
 }
 
@@ -32,7 +32,7 @@ export interface HookDeps {
   ctx: PluginInput
   config: Required<RuntimeFallbackConfig>
   options: RuntimeFallbackOptions | undefined
-  pluginConfig: OhMyMagentoConfig | undefined
+  pluginConfig: OhMyOpenCodeConfig | undefined
   sessionStates: Map<string, FallbackState>
   sessionLastAccess: Map<string, number>
   sessionRetryInFlight: Set<string>

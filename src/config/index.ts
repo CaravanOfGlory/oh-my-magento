@@ -1,5 +1,5 @@
 export {
-  OhMyMagentoConfigSchema,
+  OhMyOpenCodeConfigSchema,
   AgentOverrideConfigSchema,
   AgentOverridesSchema,
   CustomAgentOverridesSchema,
@@ -15,8 +15,11 @@ export {
   TmuxLayoutSchema,
 } from "./schema"
 
+// Backwards-compatible alias
+export { OhMyOpenCodeConfigSchema as OhMyMagentoConfigSchema } from "./schema"
+
 export type {
-  OhMyMagentoConfig,
+  OhMyOpenCodeConfig,
   AgentOverrideConfig,
   AgentOverrides,
   CustomAgentOverrides,
@@ -36,3 +39,6 @@ export type {
   FallbackModels,
   CopilotAccountSwitcherConfig,
 } from "./schema"
+
+// Backwards-compatible alias
+export type { OhMyOpenCodeConfig as OhMyMagentoConfig } from "./schema"

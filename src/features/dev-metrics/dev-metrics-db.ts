@@ -15,7 +15,7 @@ export class DevMetricsDB {
   private readonly path: string
 
   constructor(dbPath?: string) {
-    this.path = dbPath ?? join(getDataDir(), "oh-my-magento", "dev-metrics.db")
+    this.path = dbPath ?? join(getDataDir(), "oh-my-opencode", "dev-metrics.db")
 
     const dir = this.path.substring(0, this.path.lastIndexOf("/"))
     if (!existsSync(dir)) {

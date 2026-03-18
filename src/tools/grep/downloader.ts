@@ -39,7 +39,7 @@ function getPlatformKey(): string {
 
 function getInstallDir(): string {
   const homeDir = process.env.HOME || process.env.USERPROFILE || "."
-  return join(homeDir, ".cache", "oh-my-magento", "bin")
+  return join(homeDir, ".cache", "oh-my-opencode", "bin")
 }
 
 function getRgPath(): string {

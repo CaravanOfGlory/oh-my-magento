@@ -17,14 +17,14 @@ const VERSION = PLUGIN_VERSION
 const program = new Command()
 
 program
-  .name("oh-my-magento")
+  .name("oh-my-opencode")
   .description("The ultimate OpenCode plugin - multi-model orchestration, LSP tools, and more")
   .version(VERSION, "-v, --version", "Show version number")
   .enablePositionalOptions()
 
 program
   .command("install")
-  .description("Install and configure oh-my-magento with interactive setup")
+  .description("Install and configure oh-my-opencode with interactive setup")
   .option("--no-tui", "Run in non-interactive mode (requires all options)")
   .option("--claude <value>", "Claude subscription: no, yes, max20")
   .option("--openai <value>", "OpenAI/ChatGPT subscription: no, yes (default: no)")
@@ -36,9 +36,9 @@ program
   .option("--skip-auth", "Skip authentication setup hints")
   .addHelpText("after", `
 Examples:
-  $ bunx oh-my-magento install
-  $ bunx oh-my-magento install --no-tui --claude=max20 --openai=yes --gemini=yes --copilot=no
-  $ bunx oh-my-magento install --no-tui --claude=no --gemini=no --copilot=yes --opencode-zen=yes
+  $ bunx oh-my-opencode install
+  $ bunx oh-my-opencode install --no-tui --claude=max20 --openai=yes --gemini=yes --copilot=no
+  $ bunx oh-my-opencode install --no-tui --claude=no --gemini=no --copilot=yes --opencode-zen=yes
 
 Model Providers (Priority: Native > Copilot > OpenCode Zen > Z.ai > Kimi):
   Claude        Native anthropic/ models (Opus, Sonnet, Haiku)
@@ -81,18 +81,18 @@ program
   .option("--session-id <id>", "Resume existing session instead of creating new one")
   .addHelpText("after", `
 Examples:
-  $ bunx oh-my-magento run "Fix the bug in index.ts"
-  $ bunx oh-my-magento run --agent Sisyphus "Implement feature X"
-  $ bunx oh-my-magento run --port 4321 "Fix the bug"
-  $ bunx oh-my-magento run --attach http://127.0.0.1:4321 "Fix the bug"
-  $ bunx oh-my-magento run --json "Fix the bug" | jq .sessionId
-  $ bunx oh-my-magento run --on-complete "notify-send Done" "Fix the bug"
-  $ bunx oh-my-magento run --session-id ses_abc123 "Continue the work"
+  $ bunx oh-my-opencode run "Fix the bug in index.ts"
+  $ bunx oh-my-opencode run --agent Sisyphus "Implement feature X"
+  $ bunx oh-my-opencode run --port 4321 "Fix the bug"
+  $ bunx oh-my-opencode run --attach http://127.0.0.1:4321 "Fix the bug"
+  $ bunx oh-my-opencode run --json "Fix the bug" | jq .sessionId
+  $ bunx oh-my-opencode run --on-complete "notify-send Done" "Fix the bug"
+  $ bunx oh-my-opencode run --session-id ses_abc123 "Continue the work"
 
 Agent resolution order:
   1) --agent flag
   2) OPENCODE_DEFAULT_AGENT
-  3) oh-my-magento.json "default_run_agent"
+  3) oh-my-opencode.json "default_run_agent"
   4) Sisyphus (fallback)
 
 Available core agents:
@@ -130,9 +130,9 @@ program
   .option("--json", "Output in JSON format for scripting")
   .addHelpText("after", `
 Examples:
-  $ bunx oh-my-magento get-local-version
-  $ bunx oh-my-magento get-local-version --json
-  $ bunx oh-my-magento get-local-version --directory /path/to/project
+  $ bunx oh-my-opencode get-local-version
+  $ bunx oh-my-opencode get-local-version --json
+  $ bunx oh-my-opencode get-local-version --directory /path/to/project
 
 This command shows:
   - Current installed version
@@ -151,16 +151,16 @@ This command shows:
 
 program
   .command("doctor")
-  .description("Check oh-my-magento installation health and diagnose issues")
+  .description("Check oh-my-opencode installation health and diagnose issues")
   .option("--status", "Show compact system dashboard")
   .option("--verbose", "Show detailed diagnostic information")
   .option("--json", "Output results in JSON format")
   .addHelpText("after", `
 Examples:
-  $ bunx oh-my-magento doctor            # Show problems only
-  $ bunx oh-my-magento doctor --status   # Compact dashboard
-  $ bunx oh-my-magento doctor --verbose  # Deep diagnostics
-  $ bunx oh-my-magento doctor --json     # JSON output
+  $ bunx oh-my-opencode doctor            # Show problems only
+  $ bunx oh-my-opencode doctor --status   # Compact dashboard
+  $ bunx oh-my-opencode doctor --verbose  # Deep diagnostics
+  $ bunx oh-my-opencode doctor --json     # JSON output
 `)
   .action(async (options) => {
     const mode = options.status ? "status" : options.verbose ? "verbose" : "default"
@@ -176,7 +176,7 @@ program
   .command("version")
   .description("Show version information")
   .action(() => {
-    console.log(`oh-my-magento v${VERSION}`)
+    console.log(`oh-my-opencode v${VERSION}`)
   })
 
 program.addCommand(createMcpOAuthCommand())
@@ -187,7 +187,7 @@ program
   .description("Manage GitHub Copilot accounts: add, switch, check quotas, toggle Loop Safety/Network Retry")
   .addHelpText("after", `
 Examples:
-  $ bunx oh-my-magento copilot-x
+  $ bunx oh-my-opencode copilot-x
 
 Features:
   - Multi-account management (add, switch, remove)

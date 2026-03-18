@@ -15,10 +15,10 @@ import { injectServerAuthIntoClient, log } from "./shared"
 import { startTmuxCheck } from "./tools"
 import { createCopilotAuthHook } from "./features/copilot-account-switcher"
 
-const OhMyMagentoPlugin: Plugin = async (ctx) => {
+const OhMyOpenCodePlugin: Plugin = async (ctx) => {
   // Initialize config context for plugin runtime (prevents warnings from hooks)
   initConfigContext("opencode", null)
-  log("[OhMyMagentoPlugin] ENTRY - plugin loading", {
+  log("[OhMyOpenCodePlugin] ENTRY - plugin loading", {
     directory: ctx.directory,
   })
 
@@ -99,10 +99,10 @@ const OhMyMagentoPlugin: Plugin = async (ctx) => {
   }
 }
 
-export default OhMyMagentoPlugin
+export default OhMyOpenCodePlugin
 
 export type {
-  OhMyMagentoConfig,
+  OhMyOpenCodeConfig,
   AgentName,
   AgentOverrideConfig,
   AgentOverrides,

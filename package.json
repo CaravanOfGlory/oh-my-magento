@@ -6,7 +6,8 @@
   "types": "dist/index.d.ts",
   "type": "module",
   "bin": {
-    "oh-my-magento": "bin/oh-my-magento.js"
+    "oh-my-magento": "bin/oh-my-magento.js",
+    "oh-my-opencode": "bin/oh-my-magento.js"
   },
   "files": [
     "dist",

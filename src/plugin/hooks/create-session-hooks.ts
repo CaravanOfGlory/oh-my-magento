@@ -1,4 +1,4 @@
-import type { OhMyMagentoConfig, HookName } from "../../config"
+import type { OhMyOpenCodeConfig, HookName } from "../../config"
 import type { ModelCacheState } from "../../plugin-state"
 import type { PluginContext } from "../types"
 
@@ -66,7 +66,7 @@ export type SessionHooks = {
 
 export function createSessionHooks(args: {
   ctx: PluginContext
-  pluginConfig: OhMyMagentoConfig
+  pluginConfig: OhMyOpenCodeConfig
   modelCacheState: ModelCacheState
   isHookEnabled: (hookName: HookName) => boolean
   safeHookEnabled: boolean
