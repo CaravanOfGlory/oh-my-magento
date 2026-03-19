@@ -1,18 +1,20 @@
 #!/usr/bin/env bun
-import { createOhMyMagentoJsonSchema } from "./build-schema-document"
-
-const SCHEMA_OUTPUT_PATH = "assets/oh-my-magento.schema.json"
-const DIST_SCHEMA_OUTPUT_PATH = "dist/oh-my-magento.schema.json"
+import { createOhMyMagentoJsonSchema, createOhMyOpenCodeJsonSchema } from "./build-schema-document"
 
 async function main() {
   console.log("Generating JSON Schema...")
 
-  const finalSchema = createOhMyMagentoJsonSchema()
+  // Generate oh-my-magento schema (our primary)
+  const magentoSchema = createOhMyMagentoJsonSchema()
+  await Bun.write("assets/oh-my-magento.schema.json", JSON.stringify(magentoSchema, null, 2))
+  await Bun.write("dist/oh-my-magento.schema.json", JSON.stringify(magentoSchema, null, 2))
+  console.log("✓ oh-my-magento schema generated")
 
-  await Bun.write(SCHEMA_OUTPUT_PATH, JSON.stringify(finalSchema, null, 2))
-  await Bun.write(DIST_SCHEMA_OUTPUT_PATH, JSON.stringify(finalSchema, null, 2))
-
-  console.log(`✓ JSON Schema generated: ${SCHEMA_OUTPUT_PATH}`)
+  // Generate oh-my-opencode schema (for compatibility)
+  const opencodeSchema = createOhMyOpenCodeJsonSchema()
+  await Bun.write("assets/oh-my-opencode.schema.json", JSON.stringify(opencodeSchema, null, 2))
+  await Bun.write("dist/oh-my-opencode.schema.json", JSON.stringify(opencodeSchema, null, 2))
+  console.log("✓ oh-my-opencode schema generated")
 }
 
 main()

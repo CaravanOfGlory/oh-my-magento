@@ -3,7 +3,7 @@
 import { describe, test, expect, spyOn, beforeEach, afterEach } from "bun:test"
 import { resolveCategoryConfig, createConfigHandler } from "./config-handler"
 import type { CategoryConfig } from "../config/schema"
-import type { OhMyMagentoConfig } from "../config"
+import type { OhMyOpenCodeConfig } from "../config"
 import { getAgentDisplayName } from "../shared/agent-display-names"
 
 import * as agents from "../agents"
@@ -105,7 +105,7 @@ afterEach(() => {
 describe("Sisyphus-Junior model inheritance", () => {
   test("does not inherit UI-selected model as system default", async () => {
     // #given
-    const pluginConfig: OhMyMagentoConfig = {}
+    const pluginConfig: OhMyOpenCodeConfig = {}
     const config: Record<string, unknown> = {
       model: "opencode/kimi-k2.5-free",
       agent: {},
@@ -131,7 +131,7 @@ describe("Sisyphus-Junior model inheritance", () => {
 
   test("uses explicitly configured sisyphus-junior model", async () => {
     // #given
-    const pluginConfig: OhMyMagentoConfig = {
+    const pluginConfig: OhMyOpenCodeConfig = {
       agents: {
         "sisyphus-junior": {
           model: "openai/gpt-5.3-codex",
@@ -162,347 +162,6 @@ describe("Sisyphus-Junior model inheritance", () => {
   })
 })
 
-describe("custom agent overrides", () => {
-  test("passes custom agent summaries into builtin agent prompt builder", async () => {
-    // #given
-    ;(agentLoader.loadUserAgents as any).mockReturnValue({
-      translator: {
-        name: "translator",
-        mode: "subagent",
-        description: "Translate and localize text",
-        prompt: "Translate content",
-      },
-    })
-    const createBuiltinAgentsMock = agents.createBuiltinAgents as unknown as {
-      mock: { calls: unknown[][] }
-    }
-
-    const pluginConfig: OhMyMagentoConfig = {
-      sisyphus_agent: {
-        planner_enabled: true,
-      },
-    }
-    const config: Record<string, unknown> = {
-      model: "anthropic/claude-opus-4-6",
-      agent: {},
-    }
-
-    const handler = createConfigHandler({
-      ctx: { directory: "/tmp" },
-      pluginConfig,
-      modelCacheState: {
-        anthropicContext1MEnabled: false,
-        modelContextLimitsCache: new Map(),
-      },
-    })
-
-    // #when
-    await handler(config)
-
-    // #then
-    const firstCallArgs = createBuiltinAgentsMock.mock.calls[0]
-    expect(firstCallArgs).toBeDefined()
-    expect(Array.isArray(firstCallArgs[7])).toBe(true)
-    expect(firstCallArgs[7]).toEqual(
-      expect.arrayContaining([
-        expect.objectContaining({
-          name: "translator",
-          description: "Translate and localize text",
-        }),
-      ]),
-    )
-  })
-
-  test("applies oh-my-magento agent overrides to custom Claude agents", async () => {
-    // #given
-    ;(agentLoader.loadUserAgents as any).mockReturnValue({
-      translator: {
-        name: "translator",
-        mode: "subagent",
-        description: "(user) translator",
-        prompt: "Base translator prompt",
-      },
-    })
-
-    const pluginConfig: OhMyMagentoConfig = {
-      custom_agents: {
-        translator: {
-          model: "google/gemini-3-flash-preview",
-          temperature: 0,
-          prompt_append: "Always preserve placeholders exactly.",
-        },
-      },
-    }
-
-    const config: Record<string, unknown> = {
-      model: "anthropic/claude-opus-4-6",
-      agent: {},
-    }
-
-    const handler = createConfigHandler({
-      ctx: { directory: "/tmp" },
-      pluginConfig,
-      modelCacheState: {
-        anthropicContext1MEnabled: false,
-        modelContextLimitsCache: new Map(),
-      },
-    })
-
-    // #when
-    await handler(config)
-
-    // #then
-    const agentConfig = config.agent as Record<string, { model?: string; temperature?: number; prompt?: string }>
-    expect(agentConfig.translator).toBeDefined()
-    expect(agentConfig.translator.model).toBe("google/gemini-3-flash-preview")
-    expect(agentConfig.translator.temperature).toBe(0)
-    expect(agentConfig.translator.prompt).toContain("Base translator prompt")
-    expect(agentConfig.translator.prompt).toContain("Always preserve placeholders exactly.")
-  })
-
-  test("prometheus prompt includes custom agent catalog for planning", async () => {
-    // #given
-    ;(agentLoader.loadUserAgents as any).mockReturnValue({
-      translator: {
-        name: "translator",
-        mode: "subagent",
-        description: "Translate and localize locale files",
-        prompt: "Translate content",
-      },
-    })
-
-    const pluginConfig: OhMyMagentoConfig = {
-      sisyphus_agent: {
-        planner_enabled: true,
-      },
-    }
-    const config: Record<string, unknown> = {
-      model: "anthropic/claude-opus-4-6",
-      agent: {},
-    }
-
-    const handler = createConfigHandler({
-      ctx: { directory: "/tmp" },
-      pluginConfig,
-      modelCacheState: {
-        anthropicContext1MEnabled: false,
-        modelContextLimitsCache: new Map(),
-      },
-    })
-
-    // #when
-    await handler(config)
-
-    // #then
-    const agentsConfig = config.agent as Record<string, { prompt?: string }>
-    const pKey = getAgentDisplayName("prometheus")
-    expect(agentsConfig[pKey]).toBeDefined()
-    expect(agentsConfig[pKey].prompt).toContain("<custom_agent_catalog>")
-    expect(agentsConfig[pKey].prompt).toContain("translator")
-    expect(agentsConfig[pKey].prompt).toContain("Translate and localize locale files")
-  })
-
-  test("prometheus prompt excludes unknown custom_agents entries", async () => {
-    // #given
-    ;(agentLoader.loadUserAgents as any).mockReturnValue({
-      translator: {
-        name: "translator",
-        mode: "subagent",
-        description: "Translate and localize locale files",
-        prompt: "Translate content",
-      },
-    })
-
-    const pluginConfig: OhMyMagentoConfig = {
-      custom_agents: {
-        translator: {
-          description: "Translate and localize locale files",
-        },
-        ghostwriter: {
-          description: "This agent does not exist in runtime",
-        },
-      },
-      sisyphus_agent: {
-        planner_enabled: true,
-      },
-    }
-
-    const config: Record<string, unknown> = {
-      model: "anthropic/claude-opus-4-6",
-      agent: {},
-    }
-
-    const handler = createConfigHandler({
-      ctx: { directory: "/tmp" },
-      pluginConfig,
-      modelCacheState: {
-        anthropicContext1MEnabled: false,
-        modelContextLimitsCache: new Map(),
-      },
-    })
-
-    // #when
-    await handler(config)
-
-    // #then
-    const agentsConfig = config.agent as Record<string, { prompt?: string }>
-    const pKey = getAgentDisplayName("prometheus")
-    expect(agentsConfig[pKey]).toBeDefined()
-    expect(agentsConfig[pKey].prompt).toContain("translator")
-    expect(agentsConfig[pKey].prompt).not.toContain("ghostwriter")
-  })
-
-  test("prometheus prompt excludes disabled custom agents from catalog", async () => {
-    // #given
-    ;(agentLoader.loadUserAgents as any).mockReturnValue({
-      translator: {
-        name: "translator",
-        mode: "subagent",
-        description: "Translate and localize locale files",
-        prompt: "Translate content",
-      },
-    })
-
-    const pluginConfig: OhMyMagentoConfig = {
-      disabled_agents: ["translator"],
-      sisyphus_agent: {
-        planner_enabled: true,
-      },
-    }
-    const config: Record<string, unknown> = {
-      model: "anthropic/claude-opus-4-6",
-      agent: {},
-    }
-
-    const handler = createConfigHandler({
-      ctx: { directory: "/tmp" },
-      pluginConfig,
-      modelCacheState: {
-        anthropicContext1MEnabled: false,
-        modelContextLimitsCache: new Map(),
-      },
-    })
-
-    // #when
-    await handler(config)
-
-    // #then
-    const agentsConfig = config.agent as Record<string, { prompt?: string }>
-    const pKey = getAgentDisplayName("prometheus")
-    expect(agentsConfig[pKey]).toBeDefined()
-    expect(agentsConfig[pKey].prompt).not.toContain("translator")
-  })
-
-  test("prometheus custom prompt override still includes custom agent catalog", async () => {
-    // #given
-    ;(agentLoader.loadUserAgents as any).mockReturnValue({
-      translator: {
-        name: "translator",
-        mode: "subagent",
-        description: "Translate and localize locale files",
-        prompt: "Translate content",
-      },
-    })
-
-    const pluginConfig: OhMyMagentoConfig = {
-      agents: {
-        prometheus: {
-          prompt: "Custom planner prompt",
-        },
-      },
-      sisyphus_agent: {
-        planner_enabled: true,
-      },
-    }
-    const config: Record<string, unknown> = {
-      model: "anthropic/claude-opus-4-6",
-      agent: {},
-    }
-
-    const handler = createConfigHandler({
-      ctx: { directory: "/tmp" },
-      pluginConfig,
-      modelCacheState: {
-        anthropicContext1MEnabled: false,
-        modelContextLimitsCache: new Map(),
-      },
-    })
-
-    // #when
-    await handler(config)
-
-    // #then
-    const agentsConfig = config.agent as Record<string, { prompt?: string }>
-    const pKey = getAgentDisplayName("prometheus")
-    expect(agentsConfig[pKey]).toBeDefined()
-    expect(agentsConfig[pKey].prompt).toContain("Custom planner prompt")
-    expect(agentsConfig[pKey].prompt).toContain("<custom_agent_catalog>")
-    expect(agentsConfig[pKey].prompt).toContain("translator")
-  })
-
-  test("custom agent summary merge preserves flags when custom_agents adds description", async () => {
-    // #given
-    ;(agentLoader.loadUserAgents as any).mockReturnValue({
-      translator: {
-        name: "translator",
-        mode: "subagent",
-        description: "",
-        hidden: true,
-        disabled: true,
-        enabled: false,
-        prompt: "Translate content",
-      },
-    })
-    const createBuiltinAgentsMock = agents.createBuiltinAgents as unknown as {
-      mock: { calls: unknown[][] }
-    }
-
-    const pluginConfig: OhMyMagentoConfig = {
-      custom_agents: {
-        translator: {
-          description: "Translate and localize locale files",
-        },
-      },
-      sisyphus_agent: {
-        planner_enabled: true,
-      },
-    }
-    const config: Record<string, unknown> = {
-      model: "anthropic/claude-opus-4-6",
-      agent: {},
-    }
-
-    const handler = createConfigHandler({
-      ctx: { directory: "/tmp" },
-      pluginConfig,
-      modelCacheState: {
-        anthropicContext1MEnabled: false,
-        modelContextLimitsCache: new Map(),
-      },
-    })
-
-    // #when
-    await handler(config)
-
-    // #then
-    const firstCallArgs = createBuiltinAgentsMock.mock.calls[0]
-    const summaries = firstCallArgs[7] as Array<{
-      name: string
-      description: string
-      hidden?: boolean
-      disabled?: boolean
-      enabled?: boolean
-    }>
-    const translatorSummary = summaries.find((summary) => summary.name === "translator")
-
-    expect(translatorSummary).toBeDefined()
-    expect(translatorSummary?.description).toBe("Translate and localize locale files")
-    expect(translatorSummary?.hidden).toBe(true)
-    expect(translatorSummary?.disabled).toBe(true)
-    expect(translatorSummary?.enabled).toBe(false)
-  })
-})
-
 describe("Plan agent demote behavior", () => {
   test("orders core agents as sisyphus -> hephaestus -> prometheus -> atlas", async () => {
     // #given
@@ -515,7 +174,7 @@ describe("Plan agent demote behavior", () => {
       oracle: { name: "oracle", prompt: "test", mode: "subagent" },
       atlas: { name: "atlas", prompt: "test", mode: "primary" },
     })
-    const pluginConfig: OhMyMagentoConfig = {
+    const pluginConfig: OhMyOpenCodeConfig = {
       sisyphus_agent: {
         planner_enabled: true,
       },
@@ -550,7 +209,7 @@ describe("Plan agent demote behavior", () => {
 
   test("plan agent should be demoted to subagent without inheriting prometheus prompt", async () => {
     // #given
-    const pluginConfig: OhMyMagentoConfig = {
+    const pluginConfig: OhMyOpenCodeConfig = {
       sisyphus_agent: {
         planner_enabled: true,
         replace_plan: true,
@@ -588,7 +247,7 @@ describe("Plan agent demote behavior", () => {
 
   test("plan agent remains unchanged when planner is disabled", async () => {
     // #given
-    const pluginConfig: OhMyMagentoConfig = {
+    const pluginConfig: OhMyOpenCodeConfig = {
       sisyphus_agent: {
         planner_enabled: false,
       },
@@ -625,7 +284,7 @@ describe("Plan agent demote behavior", () => {
 
   test("prometheus should have mode 'all' to be callable via task", async () => {
     // given
-    const pluginConfig: OhMyMagentoConfig = {
+    const pluginConfig: OhMyOpenCodeConfig = {
       sisyphus_agent: {
         planner_enabled: true,
       },
@@ -665,7 +324,7 @@ describe("Agent permission defaults", () => {
       hephaestus: { name: "hephaestus", prompt: "test", mode: "primary" },
       oracle: { name: "oracle", prompt: "test", mode: "subagent" },
     })
-    const pluginConfig: OhMyMagentoConfig = {}
+    const pluginConfig: OhMyOpenCodeConfig = {}
     const config: Record<string, unknown> = {
       model: "anthropic/claude-opus-4-6",
       agent: {},
@@ -693,7 +352,7 @@ describe("Agent permission defaults", () => {
 describe("default_agent behavior with Sisyphus orchestration", () => {
   test("canonicalizes configured default_agent with surrounding whitespace", async () => {
     // given
-    const pluginConfig: OhMyMagentoConfig = {}
+    const pluginConfig: OhMyOpenCodeConfig = {}
     const config: Record<string, unknown> = {
       model: "anthropic/claude-opus-4-6",
       default_agent: "  hephaestus  ",
@@ -717,7 +376,7 @@ describe("default_agent behavior with Sisyphus orchestration", () => {
 
   test("canonicalizes configured default_agent when key uses mixed case", async () => {
     // given
-    const pluginConfig: OhMyMagentoConfig = {}
+    const pluginConfig: OhMyOpenCodeConfig = {}
     const config: Record<string, unknown> = {
       model: "anthropic/claude-opus-4-6",
       default_agent: "HePhAeStUs",
@@ -741,7 +400,7 @@ describe("default_agent behavior with Sisyphus orchestration", () => {
 
   test("canonicalizes configured default_agent key to display name", async () => {
     // #given
-    const pluginConfig: OhMyMagentoConfig = {}
+    const pluginConfig: OhMyOpenCodeConfig = {}
     const config: Record<string, unknown> = {
       model: "anthropic/claude-opus-4-6",
       default_agent: "hephaestus",
@@ -765,7 +424,7 @@ describe("default_agent behavior with Sisyphus orchestration", () => {
 
   test("preserves existing display-name default_agent", async () => {
     // #given
-    const pluginConfig: OhMyMagentoConfig = {}
+    const pluginConfig: OhMyOpenCodeConfig = {}
     const displayName = getAgentDisplayName("hephaestus")
     const config: Record<string, unknown> = {
       model: "anthropic/claude-opus-4-6",
@@ -790,7 +449,7 @@ describe("default_agent behavior with Sisyphus orchestration", () => {
 
   test("sets default_agent to sisyphus when missing", async () => {
     // #given
-    const pluginConfig: OhMyMagentoConfig = {}
+    const pluginConfig: OhMyOpenCodeConfig = {}
     const config: Record<string, unknown> = {
       model: "anthropic/claude-opus-4-6",
       agent: {},
@@ -813,7 +472,7 @@ describe("default_agent behavior with Sisyphus orchestration", () => {
 
   test("sets default_agent to sisyphus when configured default_agent is empty after trim", async () => {
     // given
-    const pluginConfig: OhMyMagentoConfig = {}
+    const pluginConfig: OhMyOpenCodeConfig = {}
     const config: Record<string, unknown> = {
       model: "anthropic/claude-opus-4-6",
       default_agent: "    ",
@@ -837,7 +496,7 @@ describe("default_agent behavior with Sisyphus orchestration", () => {
 
   test("preserves custom default_agent names while trimming whitespace", async () => {
     // given
-    const pluginConfig: OhMyMagentoConfig = {}
+    const pluginConfig: OhMyOpenCodeConfig = {}
     const config: Record<string, unknown> = {
       model: "anthropic/claude-opus-4-6",
       default_agent: "  Custom Agent  ",
@@ -861,7 +520,7 @@ describe("default_agent behavior with Sisyphus orchestration", () => {
 
   test("does not normalize configured default_agent when Sisyphus is disabled", async () => {
     // given
-    const pluginConfig: OhMyMagentoConfig = {
+    const pluginConfig: OhMyOpenCodeConfig = {
       sisyphus_agent: {
         disabled: true,
       },
@@ -898,7 +557,7 @@ describe("Prometheus category config resolution", () => {
 
     // then
     expect(config).toBeDefined()
-    expect(config?.model).toBe("openai/gpt-5.3-codex")
+    expect(config?.model).toBe("openai/gpt-5.4")
     expect(config?.variant).toBe("xhigh")
   })
 
@@ -958,7 +617,7 @@ describe("Prometheus category config resolution", () => {
 
     // then - falls back to DEFAULT_CATEGORIES
     expect(config).toBeDefined()
-    expect(config?.model).toBe("openai/gpt-5.3-codex")
+    expect(config?.model).toBe("openai/gpt-5.4")
     expect(config?.variant).toBe("xhigh")
   })
 
@@ -991,13 +650,13 @@ describe("Prometheus category config resolution", () => {
 describe("Prometheus direct override priority over category", () => {
   test("direct reasoningEffort takes priority over category reasoningEffort", async () => {
     // given - category has reasoningEffort=xhigh, direct override says "low"
-    const pluginConfig: OhMyMagentoConfig = {
+    const pluginConfig: OhMyOpenCodeConfig = {
       sisyphus_agent: {
         planner_enabled: true,
       },
       categories: {
         "test-planning": {
-          model: "openai/gpt-5.2",
+          model: "openai/gpt-5.4",
           reasoningEffort: "xhigh",
         },
       },
@@ -1033,13 +692,13 @@ describe("Prometheus direct override priority over category", () => {
 
   test("category reasoningEffort applied when no direct override", async () => {
     // given - category has reasoningEffort but no direct override
-    const pluginConfig: OhMyMagentoConfig = {
+    const pluginConfig: OhMyOpenCodeConfig = {
       sisyphus_agent: {
         planner_enabled: true,
       },
       categories: {
         "reasoning-cat": {
-          model: "openai/gpt-5.2",
+          model: "openai/gpt-5.4",
           reasoningEffort: "high",
         },
       },
@@ -1074,13 +733,13 @@ describe("Prometheus direct override priority over category", () => {
 
   test("direct temperature takes priority over category temperature", async () => {
     // given
-    const pluginConfig: OhMyMagentoConfig = {
+    const pluginConfig: OhMyOpenCodeConfig = {
       sisyphus_agent: {
         planner_enabled: true,
       },
       categories: {
         "temp-cat": {
-          model: "openai/gpt-5.2",
+          model: "openai/gpt-5.4",
           temperature: 0.8,
         },
       },
@@ -1117,7 +776,7 @@ describe("Prometheus direct override priority over category", () => {
   test("prometheus prompt_append is appended to base prompt", async () => {
     // #given - prometheus override with prompt_append
     const customInstructions = "## Custom Project Rules\nUse max 2 commits."
-    const pluginConfig: OhMyMagentoConfig = {
+    const pluginConfig: OhMyOpenCodeConfig = {
       sisyphus_agent: {
         planner_enabled: true,
       },
@@ -1161,7 +820,7 @@ describe("Plan agent model inheritance from prometheus", () => {
       provenance: "provider-fallback",
       variant: "max",
     })
-    const pluginConfig: OhMyMagentoConfig = {
+    const pluginConfig: OhMyOpenCodeConfig = {
       sisyphus_agent: {
         planner_enabled: true,
         replace_plan: true,
@@ -1201,18 +860,18 @@ describe("Plan agent model inheritance from prometheus", () => {
   test("plan agent inherits temperature, reasoningEffort, and other model settings from prometheus", async () => {
     //#given - prometheus configured with category that has temperature and reasoningEffort
     spyOn(shared, "resolveModelPipeline" as any).mockReturnValue({
-      model: "openai/gpt-5.2",
+      model: "openai/gpt-5.4",
       provenance: "override",
       variant: "high",
     })
-    const pluginConfig: OhMyMagentoConfig = {
+    const pluginConfig: OhMyOpenCodeConfig = {
       sisyphus_agent: {
         planner_enabled: true,
         replace_plan: true,
       },
       agents: {
         prometheus: {
-          model: "openai/gpt-5.2",
+          model: "openai/gpt-5.4",
           variant: "high",
           temperature: 0.3,
           top_p: 0.9,
@@ -1243,7 +902,7 @@ describe("Plan agent model inheritance from prometheus", () => {
     const agents = config.agent as Record<string, Record<string, unknown>>
     expect(agents.plan).toBeDefined()
     expect(agents.plan.mode).toBe("subagent")
-    expect(agents.plan.model).toBe("openai/gpt-5.2")
+    expect(agents.plan.model).toBe("openai/gpt-5.4")
     expect(agents.plan.variant).toBe("high")
     expect(agents.plan.temperature).toBe(0.3)
     expect(agents.plan.top_p).toBe(0.9)
@@ -1254,20 +913,20 @@ describe("Plan agent model inheritance from prometheus", () => {
   })
 
   test("plan agent user override takes priority over prometheus inherited settings", async () => {
-    //#given - prometheus resolves to opus, but user has plan override for gpt-5.2
+    //#given - prometheus resolves to opus, but user has plan override for gpt-5.4
     spyOn(shared, "resolveModelPipeline" as any).mockReturnValue({
       model: "anthropic/claude-opus-4-6",
       provenance: "provider-fallback",
       variant: "max",
     })
-    const pluginConfig: OhMyMagentoConfig = {
+    const pluginConfig: OhMyOpenCodeConfig = {
       sisyphus_agent: {
         planner_enabled: true,
         replace_plan: true,
       },
       agents: {
         plan: {
-          model: "openai/gpt-5.2",
+          model: "openai/gpt-5.4",
           variant: "high",
           temperature: 0.5,
         },
@@ -1291,7 +950,7 @@ describe("Plan agent model inheritance from prometheus", () => {
 
     //#then - plan uses its own override, not prometheus settings
     const agents = config.agent as Record<string, Record<string, unknown>>
-    expect(agents.plan.model).toBe("openai/gpt-5.2")
+    expect(agents.plan.model).toBe("openai/gpt-5.4")
     expect(agents.plan.variant).toBe("high")
     expect(agents.plan.temperature).toBe(0.5)
   })
@@ -1303,7 +962,7 @@ describe("Plan agent model inheritance from prometheus", () => {
       provenance: "provider-fallback",
       variant: "max",
     })
-    const pluginConfig: OhMyMagentoConfig = {
+    const pluginConfig: OhMyOpenCodeConfig = {
       sisyphus_agent: {
         planner_enabled: true,
         replace_plan: true,
@@ -1342,7 +1001,7 @@ describe("Deadlock prevention - fetchAvailableModels must not receive client", (
     // - Server waits for plugin init to complete before handling requests
     const fetchSpy = spyOn(shared, "fetchAvailableModels" as any).mockResolvedValue(new Set<string>())
 
-    const pluginConfig: OhMyMagentoConfig = {
+    const pluginConfig: OhMyOpenCodeConfig = {
       sisyphus_agent: {
         planner_enabled: true,
       },
@@ -1382,7 +1041,7 @@ describe("config-handler plugin loading error boundary (#1559)", () => {
     //#given
     ;(pluginLoader.loadAllPluginComponents as any).mockRestore?.()
     spyOn(pluginLoader, "loadAllPluginComponents" as any).mockRejectedValue(new Error("crash"))
-    const pluginConfig: OhMyMagentoConfig = {}
+    const pluginConfig: OhMyOpenCodeConfig = {}
     const config: Record<string, unknown> = {
       model: "anthropic/claude-opus-4-6",
       agent: {},
@@ -1409,7 +1068,7 @@ describe("config-handler plugin loading error boundary (#1559)", () => {
     spyOn(pluginLoader, "loadAllPluginComponents" as any).mockImplementation(
       () => new Promise(() => {})
     )
-    const pluginConfig: OhMyMagentoConfig = {
+    const pluginConfig: OhMyOpenCodeConfig = {
       experimental: { plugin_load_timeout_ms: 100 },
     }
     const config: Record<string, unknown> = {
@@ -1437,7 +1096,7 @@ describe("config-handler plugin loading error boundary (#1559)", () => {
     ;(pluginLoader.loadAllPluginComponents as any).mockRestore?.()
     spyOn(pluginLoader, "loadAllPluginComponents" as any).mockRejectedValue(new Error("crash"))
     const logSpy = shared.log as ReturnType<typeof spyOn>
-    const pluginConfig: OhMyMagentoConfig = {}
+    const pluginConfig: OhMyOpenCodeConfig = {}
     const config: Record<string, unknown> = {
       model: "anthropic/claude-opus-4-6",
       agent: {},
@@ -1474,7 +1133,7 @@ describe("config-handler plugin loading error boundary (#1559)", () => {
       plugins: [{ name: "test-plugin", version: "1.0.0" }],
       errors: [],
     })
-    const pluginConfig: OhMyMagentoConfig = {}
+    const pluginConfig: OhMyOpenCodeConfig = {}
     const config: Record<string, unknown> = {
       model: "anthropic/claude-opus-4-6",
       agent: {},
@@ -1520,7 +1179,7 @@ describe("per-agent todowrite/todoread deny when task_system enabled", () => {
       oracle: { name: "oracle", prompt: "test", mode: "subagent" },
     })
 
-    const pluginConfig: OhMyMagentoConfig = {
+    const pluginConfig: OhMyOpenCodeConfig = {
       experimental: { task_system: true },
     }
     const config: Record<string, unknown> = {
@@ -1557,7 +1216,7 @@ describe("per-agent todowrite/todoread deny when task_system enabled", () => {
       hephaestus: { name: "hephaestus", prompt: "test", mode: "primary" },
     })
 
-    const pluginConfig: OhMyMagentoConfig = {
+    const pluginConfig: OhMyOpenCodeConfig = {
       experimental: { task_system: false },
     }
     const config: Record<string, unknown> = {
@@ -1593,7 +1252,7 @@ describe("per-agent todowrite/todoread deny when task_system enabled", () => {
       sisyphus: { name: "sisyphus", prompt: "test", mode: "primary" },
     })
 
-    const pluginConfig: OhMyMagentoConfig = {}
+    const pluginConfig: OhMyOpenCodeConfig = {}
     const config: Record<string, unknown> = {
       model: "anthropic/claude-opus-4-6",
       agent: {},
@@ -1628,7 +1287,7 @@ describe("disable_omo_env pass-through", () => {
       sisyphus: { name: "sisyphus", prompt: "without-env", mode: "primary" },
     })
 
-    const pluginConfig: OhMyMagentoConfig = {
+    const pluginConfig: OhMyOpenCodeConfig = {
       experimental: { disable_omo_env: true },
     }
     const config: Record<string, unknown> = {
@@ -1664,7 +1323,7 @@ describe("disable_omo_env pass-through", () => {
       sisyphus: { name: "sisyphus", prompt: "with-env", mode: "primary" },
     })
 
-    const pluginConfig: OhMyMagentoConfig = {}
+    const pluginConfig: OhMyOpenCodeConfig = {}
     const config: Record<string, unknown> = {
       model: "anthropic/claude-opus-4-6",
       agent: {},

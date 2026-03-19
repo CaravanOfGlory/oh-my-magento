@@ -1,13 +1,8 @@
 > [!WARNING]
-> **安全警告：注意假冒网站**
+> **临时通知（本周）：维护者响应延迟说明**
 >
-> **ohmyopencode.com 与本项目没有任何关系。** 我们不运营也不认可该网站。
->
-> OhMyMagento 是**免费且开源的**。**不要**从自称“官方”的第三方网站下载安装程序或输入付款信息。
->
-> 假冒网站隐藏在付费墙后，我们**无法验证它分发的内容**。将其所有下载视为**潜在危险**。
->
-> ✅ 官方下载地址：https://github.com/CaravanOfGlory/oh-my-magento/releases
+> 核心维护者 Q 因受伤，本周 issue/PR 回复和发布可能会延迟。
+> 感谢你的耐心与支持。
 
 > [!NOTE]
 >
@@ -17,18 +12,18 @@
 > [!TIP]
 > 加入我们！
 >
-> | [<img alt="Discord link" src="https://img.shields.io/discord/1452487457085063218?color=5865F2&label=discord&labelColor=black&logo=discord&logoColor=white&style=flat-square" width="156px" />](https://discord.gg/PUwSMR9XNk) | 加入我们的 [Discord 社区](https://discord.gg/PUwSMR9XNk)，与贡献者及其他 `oh-my-magento` 用户交流。 |
+> | [<img alt="Discord link" src="https://img.shields.io/discord/1452487457085063218?color=5865F2&label=discord&labelColor=black&logo=discord&logoColor=white&style=flat-square" width="156px" />](https://discord.gg/PUwSMR9XNk) | 加入我们的 [Discord 社区](https://discord.gg/PUwSMR9XNk)，与贡献者及其他 `oh-my-opencode` 用户交流。 |
 > | :-----| :----- |
-> | [<img alt="X link" src="https://img.shields.io/badge/Follow-%40justsisyphus-00CED1?style=flat-square&logo=x&labelColor=black" width="156px" />](https://x.com/justsisyphus) | 关于 `oh-my-magento` 的新闻和更新过去发布在我的 X 账号上。<br /> 因为账号被意外停用，现在由 [@justsisyphus](https://x.com/justsisyphus) 代为发布更新。 |
-> | [<img alt="GitHub Follow" src="https://img.shields.io/github/followers/CaravanOfGlory?style=flat-square&logo=github&labelColor=black&color=24292f" width="156px" />](https://github.com/CaravanOfGlory) | 在 GitHub 上关注 [@CaravanOfGlory](https://github.com/CaravanOfGlory) 获取更多项目信息。 |
+> | [<img alt="X link" src="https://img.shields.io/badge/Follow-%40justsisyphus-00CED1?style=flat-square&logo=x&labelColor=black" width="156px" />](https://x.com/justsisyphus) | 关于 `oh-my-opencode` 的新闻和更新过去发布在我的 X 账号上。<br /> 因为账号被意外停用，现在由 [@justsisyphus](https://x.com/justsisyphus) 代为发布更新。 |
+> | [<img alt="GitHub Follow" src="https://img.shields.io/github/followers/code-yeongyu?style=flat-square&logo=github&labelColor=black&color=24292f" width="156px" />](https://github.com/code-yeongyu) | 在 GitHub 上关注 [@code-yeongyu](https://github.com/code-yeongyu) 获取更多项目信息。 |
 
 <!-- <CENTERED SECTION FOR GITHUB DISPLAY> -->
 
 <div align="center">
 
-[![Oh My OpenCode](./.github/assets/hero.jpg)](https://github.com/CaravanOfGlory/oh-my-magento#oh-my-magento)
+[![Oh My OpenCode](./.github/assets/hero.jpg)](https://github.com/code-yeongyu/oh-my-openagent#oh-my-opencode)
 
-[![Preview](./.github/assets/omo.png)](https://github.com/CaravanOfGlory/oh-my-magento#oh-my-magento)
+[![Preview](./.github/assets/omo.png)](https://github.com/code-yeongyu/oh-my-openagent#oh-my-opencode)
 
 </div>
 
@@ -38,14 +33,14 @@
 
 <div align="center">
 
-[![GitHub Release](https://img.shields.io/github/v/release/CaravanOfGlory/oh-my-magento?color=369eff&labelColor=black&logo=github&style=flat-square)](https://github.com/CaravanOfGlory/oh-my-magento/releases)
-[![npm downloads](https://img.shields.io/npm/dt/oh-my-magento?color=ff6b35&labelColor=black&style=flat-square)](https://www.npmjs.com/package/oh-my-magento)
-[![GitHub Contributors](https://img.shields.io/github/contributors/CaravanOfGlory/oh-my-magento?color=c4f042&labelColor=black&style=flat-square)](https://github.com/CaravanOfGlory/oh-my-magento/graphs/contributors)
-[![GitHub Forks](https://img.shields.io/github/forks/CaravanOfGlory/oh-my-magento?color=8ae8ff&labelColor=black&style=flat-square)](https://github.com/CaravanOfGlory/oh-my-magento/network/members)
-[![GitHub Stars](https://img.shields.io/github/stars/CaravanOfGlory/oh-my-magento?color=ffcb47&labelColor=black&style=flat-square)](https://github.com/CaravanOfGlory/oh-my-magento/stargazers)
-[![GitHub Issues](https://img.shields.io/github/issues/CaravanOfGlory/oh-my-magento?color=ff80eb&labelColor=black&style=flat-square)](https://github.com/CaravanOfGlory/oh-my-magento/issues)
-[![License](https://img.shields.io/badge/license-SUL--1.0-white?labelColor=black&style=flat-square)](https://github.com/CaravanOfGlory/oh-my-magento/blob/dev/LICENSE.md)
-[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/CaravanOfGlory/oh-my-magento)
+[![GitHub Release](https://img.shields.io/github/v/release/code-yeongyu/oh-my-openagent?color=369eff&labelColor=black&logo=github&style=flat-square)](https://github.com/code-yeongyu/oh-my-openagent/releases)
+[![npm downloads](https://img.shields.io/npm/dt/oh-my-opencode?color=ff6b35&labelColor=black&style=flat-square)](https://www.npmjs.com/package/oh-my-opencode)
+[![GitHub Contributors](https://img.shields.io/github/contributors/code-yeongyu/oh-my-openagent?color=c4f042&labelColor=black&style=flat-square)](https://github.com/code-yeongyu/oh-my-openagent/graphs/contributors)
+[![GitHub Forks](https://img.shields.io/github/forks/code-yeongyu/oh-my-openagent?color=8ae8ff&labelColor=black&style=flat-square)](https://github.com/code-yeongyu/oh-my-openagent/network/members)
+[![GitHub Stars](https://img.shields.io/github/stars/code-yeongyu/oh-my-openagent?color=ffcb47&labelColor=black&style=flat-square)](https://github.com/code-yeongyu/oh-my-openagent/stargazers)
+[![GitHub Issues](https://img.shields.io/github/issues/code-yeongyu/oh-my-openagent?color=ff80eb&labelColor=black&style=flat-square)](https://github.com/code-yeongyu/oh-my-openagent/issues)
+[![License](https://img.shields.io/badge/license-SUL--1.0-white?labelColor=black&style=flat-square)](https://github.com/code-yeongyu/oh-my-openagent/blob/dev/LICENSE.md)
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/code-yeongyu/oh-my-openagent)
 
 [English](README.md) | [한국어](README.ko.md) | [日本語](README.ja.md) | [简体中文](README.zh-cn.md)
 
@@ -63,7 +58,7 @@
 
 > “我用 Ohmyopencode 和 ralph loop 花了一晚上的时间，把一个 45k 行代码的 tauri 应用转换成了 SaaS Web 应用。从面试模式开始，让它对我提供的提示词进行提问和提出建议。看着它工作很有趣，今早醒来看到网站基本已经跑起来了，太震撼了！” - [James Hargis](https://x.com/hargabyte/status/2007299688261882202)
 
-> “用 oh-my-magento 吧，你绝对回不去了。” <br/>- [d0t3ch](https://x.com/d0t3ch/status/2001685618200580503)
+> “用 oh-my-opencode 吧，你绝对回不去了。” <br/>- [d0t3ch](https://x.com/d0t3ch/status/2001685618200580503)
 
 > “我很难准确描述它到底哪里牛逼，但开发体验已经达到完全不同的维度了。” - [苔硯:こけすずり](https://x.com/kokesuzuri/status/2008532913961529372?s=20)
 
@@ -96,8 +91,8 @@
 复制并粘贴以下提示词到你的 LLM Agent (Claude Code, AmpCode, Cursor 等):
 
 ```
-Install and configure oh-my-magento by following the instructions here:
-https://raw.githubusercontent.com/CaravanOfGlory/oh-my-magento/refs/heads/dev/docs/guide/installation.md
+Install and configure oh-my-opencode by following the instructions here:
+https://raw.githubusercontent.com/code-yeongyu/oh-my-openagent/refs/heads/dev/docs/guide/installation.md
 ```
 
 或者你可以直接去读 [安装指南](docs/guide/installation.md)，但说真的，让 Agent 去干吧。人类配环境总是容易敲错字母。
@@ -107,7 +102,7 @@ https://raw.githubusercontent.com/CaravanOfGlory/oh-my-magento/refs/heads/dev/do
 获取安装指南并照做：
 
 ```bash
-curl -s https://raw.githubusercontent.com/CaravanOfGlory/oh-my-magento/refs/heads/dev/docs/guide/installation.md
+curl -s https://raw.githubusercontent.com/code-yeongyu/oh-my-openagent/refs/heads/dev/docs/guide/installation.md
 ```
 
 ---
@@ -117,7 +112,7 @@ curl -s https://raw.githubusercontent.com/CaravanOfGlory/oh-my-magento/refs/head
 读文档的时代已经过去了。直接把下面这行发给你的 Agent：
 
 ```
-Read this and tell me why it's not just another boilerplate: https://raw.githubusercontent.com/CaravanOfGlory/oh-my-magento/refs/heads/dev/README.md
+Read this and tell me why it's not just another boilerplate: https://raw.githubusercontent.com/code-yeongyu/oh-my-openagent/refs/heads/dev/README.md
 ```
 
 ## 核心亮点
@@ -136,23 +131,23 @@ Read this and tell me why it's not just another boilerplate: https://raw.githubu
 - [GLM Coding 套餐 ($10)](https://z.ai/subscribe)
 - 如果你能使用按 token 计费的方式，用 kimi 和 gemini 模型花不了多少钱。
 
-|       | 特性                      | 功能说明                                                                                                                        |
-| :---: | :--------------------------- | :---------------------------------------------------------------------------------------------------------------------------------- |
-|   🤖   | **自律军团 (Discipline Agents)** | Sisyphus 负责调度 Hephaestus、Oracle、Librarian 和 Explore。一支完整的 AI 开发团队并行工作。                                       |
-|   ⚡   | **`ultrawork` / `ulw`**      | 一键触发，所有智能体出动。任务完成前绝不罢休。                                                                           |
-|   🚪   | **[IntentGate 意图门](https://factory.ai/news/terminal-bench)**                 | 真正行动前，先分析用户的真实意图。彻底告别被字面意思误导的 AI 废话。                                         |
-|   🔗   | **基于哈希的编辑工具**  | 每次修改都通过 `LINE#ID` 内容哈希验证、0% 错误修改。灵感来自 [oh-my-pi](https://github.com/can1357/oh-my-pi)。[马具问题 →](https://blog.can.ac/2026/02/12/the-harness-problem/) |
-|   🛠️   | **LSP + AST-Grep**           | 工作区级别的重命名、构建前诊断、基于 AST 的重写。为 Agent 提供 IDE 级别的精度。                                              |
-|   🧠   | **后台智能体**        | 同时发射 5+ 个专家并行工作。保持上下文干净，随时获取成果。                                                            |
-|   📚   | **内置 MCP**            | Exa (网络搜索)、Context7 (官方文档)、Grep.app (GitHub 源码搜索)。默认开启。                                                    |
-|   🔁   | **Ralph Loop / `/ulw-loop`** | 自我引用闭环。达不到 100% 完成度绝不停止。                                                                                |
-|   ✅   | **Todo 强制执行**            | Agent 想要摸鱼？系统直接揪着领子拽回来。你的任务，必须完成。                                                                 |
-|   💬   | **注释审查员**          | 剔除带有浓烈 AI 味的冗余注释。写出的代码就像老练的高级工程师写的。                                                                          |
-|   🖥️   | **Tmux 集成**         | 完整的交互式终端支持。跑 REPL、用调试器、用 TUI 工具，全都在实时会话中完成。                                                                        |
-|   🔌   | **Claude Code 兼容**   | 你现有的 Hooks、命令、技能、MCP 和插件？全都能无缝迁移过来。                                                                     |
-|   🎯   | **技能内嵌 MCP**      | 技能自带其所需的 MCP 服务器。按需开启，不会撑爆你的上下文窗口。                                                                               |
-|   📋   | **Prometheus 规划师**       | 动手写代码前，先通过访谈模式做好战略规划。                                                                             |
-|   🔍   | **`/init-deep`**             | 在整个项目目录层级中自动生成 `AGENTS.md`。不仅省 Token，还能大幅提升 Agent 理解力。 |
+|       | 特性                                                            | 功能说明                                                                                                                                                                        |
+| :---: | :-------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+|   🤖   | **自律军团 (Discipline Agents)**                                | Sisyphus 负责调度 Hephaestus、Oracle、Librarian 和 Explore。一支完整的 AI 开发团队并行工作。                                                                                    |
+|   ⚡   | **`ultrawork` / `ulw`**                                         | 一键触发，所有智能体出动。任务完成前绝不罢休。                                                                                                                                  |
+|   🚪   | **[IntentGate 意图门](https://factory.ai/news/terminal-bench)** | 真正行动前，先分析用户的真实意图。彻底告别被字面意思误导的 AI 废话。                                                                                                            |
+|   🔗   | **基于哈希的编辑工具**                                          | 每次修改都通过 `LINE#ID` 内容哈希验证、0% 错误修改。灵感来自 [oh-my-pi](https://github.com/can1357/oh-my-pi)。[马具问题 →](https://blog.can.ac/2026/02/12/the-harness-problem/) |
+|   🛠️   | **LSP + AST-Grep**                                              | 工作区级别的重命名、构建前诊断、基于 AST 的重写。为 Agent 提供 IDE 级别的精度。                                                                                                 |
+|   🧠   | **后台智能体**                                                  | 同时发射 5+ 个专家并行工作。保持上下文干净，随时获取成果。                                                                                                                      |
+|   📚   | **内置 MCP**                                                    | Exa (网络搜索)、Context7 (官方文档)、Grep.app (GitHub 源码搜索)。默认开启。                                                                                                     |
+|   🔁   | **Ralph Loop / `/ulw-loop`**                                    | 自我引用闭环。达不到 100% 完成度绝不停止。                                                                                                                                      |
+|   ✅   | **Todo 强制执行**                                               | Agent 想要摸鱼？系统直接揪着领子拽回来。你的任务，必须完成。                                                                                                                    |
+|   💬   | **注释审查员**                                                  | 剔除带有浓烈 AI 味的冗余注释。写出的代码就像老练的高级工程师写的。                                                                                                              |
+|   🖥️   | **Tmux 集成**                                                   | 完整的交互式终端支持。跑 REPL、用调试器、用 TUI 工具，全都在实时会话中完成。                                                                                                    |
+|   🔌   | **Claude Code 兼容**                                            | 你现有的 Hooks、命令、技能、MCP 和插件？全都能无缝迁移过来。                                                                                                                    |
+|   🎯   | **技能内嵌 MCP**                                                | 技能自带其所需的 MCP 服务器。按需开启，不会撑爆你的上下文窗口。                                                                                                                 |
+|   📋   | **Prometheus 规划师**                                           | 动手写代码前，先通过访谈模式做好战略规划。                                                                                                                                      |
+|   🔍   | **`/init-deep`**                                                | 在整个项目目录层级中自动生成 `AGENTS.md`。不仅省 Token，还能大幅提升 Agent 理解力。                                                                                             |
 
 ### 自律军团 (Discipline Agents)
 
@@ -177,11 +172,11 @@ Read this and tell me why it's not just another boilerplate: https://raw.githubu
 
 当 Sisyphus 把任务分配给子智能体时，他选择的不是具体的模型，而是 **类别 (Category)**。系统会自动将类别映射到最合适的模型：
 
-| 类别             | 作用领域                      |
-| :------------------- | :--------------------------------- |
-| `visual-engineering` | 前端、UI/UX、设计            |
-| `deep`               | 深度自主调研与执行    |
-| `quick`              | 单文件修改、修错字         |
+| 类别                 | 作用领域               |
+| :------------------- | :--------------------- |
+| `visual-engineering` | 前端、UI/UX、设计      |
+| `deep`               | 深度自主调研与执行     |
+| `quick`              | 单文件修改、修错字     |
 | `ultrabrain`         | 复杂硬核逻辑、架构决策 |
 
 智能体只需要说明要做什么类型的工作，框架就会挑选出最合适的模型去干。你完全不需要操心。
@@ -264,19 +259,19 @@ Agent 会自动顺藤摸瓜加载对应的 Context，免去了你所有的手动
 
 ---
 
-> **第一次用 oh-my-magento？** 阅读 **[概述](docs/guide/overview.md)** 了解你拥有哪些功能，或查看 **[编排指南](docs/guide/orchestration.md)** 了解 Agent 如何协作。
+> **第一次用 oh-my-opencode？** 阅读 **[概述](docs/guide/overview.md)** 了解你拥有哪些功能，或查看 **[编排指南](docs/guide/orchestration.md)** 了解 Agent 如何协作。
 
 ## 如何卸载 (Uninstallation)
 
-要移除 oh-my-magento:
+要移除 oh-my-opencode:
 
 1. **从你的 OpenCode 配置文件中去掉插件**
 
-   编辑 `~/.config/opencode/opencode.json` (或 `opencode.jsonc`) ，并把 `"oh-my-magento"` 从 `plugin` 数组中删掉：
+   编辑 `~/.config/opencode/opencode.json` (或 `opencode.jsonc`) ，并把 `"oh-my-opencode"` 从 `plugin` 数组中删掉：
 
    ```bash
    # 如果你有 jq 的话
-   jq '.plugin = [.plugin[] | select(. != "oh-my-magento")]' \
+   jq '.plugin = [.plugin[] | select(. != "oh-my-opencode")]' \
        ~/.config/opencode/opencode.json > /tmp/oc.json && \
        mv /tmp/oc.json ~/.config/opencode/opencode.json
    ```
@@ -285,10 +280,10 @@ Agent 会自动顺藤摸瓜加载对应的 Context，免去了你所有的手动
 
    ```bash
    # 移除全局用户配置
-   rm -f ~/.config/opencode/oh-my-magento.json ~/.config/opencode/oh-my-magento.jsonc
+   rm -f ~/.config/opencode/oh-my-opencode.json ~/.config/opencode/oh-my-opencode.jsonc
 
    # 移除当前项目的配置
-   rm -f .opencode/oh-my-magento.json .opencode/oh-my-magento.jsonc
+   rm -f .opencode/oh-my-opencode.json .opencode/oh-my-opencode.jsonc
    ```
 
 3. **确认卸载成功**

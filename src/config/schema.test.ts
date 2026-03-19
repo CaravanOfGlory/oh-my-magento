@@ -1,3 +1,5 @@
+/// <reference types="bun-types" />
+
 import { describe, expect, test } from "bun:test"
 import {
   AgentOverrideConfigSchema,
@@ -8,7 +10,7 @@ import {
   ExperimentalConfigSchema,
   GitMasterConfigSchema,
   HookNameSchema,
-  OhMyMagentoConfigSchema,
+  OhMyOpenCodeConfigSchema,
 } from "./schema"
 
 describe("disabled_mcps schema", () => {
@@ -19,7 +21,7 @@ describe("disabled_mcps schema", () => {
     }
 
     // when
-    const result = OhMyMagentoConfigSchema.safeParse(config)
+    const result = OhMyOpenCodeConfigSchema.safeParse(config)
 
     // then
     expect(result.success).toBe(true)
@@ -35,7 +37,7 @@ describe("disabled_mcps schema", () => {
     }
 
     // when
-    const result = OhMyMagentoConfigSchema.safeParse(config)
+    const result = OhMyOpenCodeConfigSchema.safeParse(config)
 
     // then
     expect(result.success).toBe(true)
@@ -51,7 +53,7 @@ describe("disabled_mcps schema", () => {
     }
 
     // when
-    const result = OhMyMagentoConfigSchema.safeParse(config)
+    const result = OhMyOpenCodeConfigSchema.safeParse(config)
 
     // then
     expect(result.success).toBe(true)
@@ -67,7 +69,7 @@ describe("disabled_mcps schema", () => {
     }
 
     // when
-    const result = OhMyMagentoConfigSchema.safeParse(config)
+    const result = OhMyOpenCodeConfigSchema.safeParse(config)
 
     // then
     expect(result.success).toBe(true)
@@ -83,7 +85,7 @@ describe("disabled_mcps schema", () => {
     }
 
     // when
-    const result = OhMyMagentoConfigSchema.safeParse(config)
+    const result = OhMyOpenCodeConfigSchema.safeParse(config)
 
     // then
     expect(result.success).toBe(false)
@@ -94,7 +96,7 @@ describe("disabled_mcps schema", () => {
     const config = {}
 
     // when
-    const result = OhMyMagentoConfigSchema.safeParse(config)
+    const result = OhMyOpenCodeConfigSchema.safeParse(config)
 
     // then
     expect(result.success).toBe(true)
@@ -110,7 +112,7 @@ describe("disabled_mcps schema", () => {
     }
 
     // when
-    const result = OhMyMagentoConfigSchema.safeParse(config)
+    const result = OhMyOpenCodeConfigSchema.safeParse(config)
 
     // then
     expect(result.success).toBe(false)
@@ -129,7 +131,7 @@ describe("disabled_mcps schema", () => {
     }
 
     // when
-    const result = OhMyMagentoConfigSchema.safeParse(config)
+    const result = OhMyOpenCodeConfigSchema.safeParse(config)
 
     // then
     expect(result.success).toBe(true)
@@ -266,7 +268,7 @@ describe("AgentOverrideConfigSchema", () => {
   describe("backward compatibility", () => {
     test("still accepts model field (deprecated)", () => {
       // given
-      const config = { model: "openai/gpt-5.2" }
+      const config = { model: "openai/gpt-5.4" }
 
       // when
       const result = AgentOverrideConfigSchema.safeParse(config)
@@ -274,14 +276,14 @@ describe("AgentOverrideConfigSchema", () => {
       // then
       expect(result.success).toBe(true)
       if (result.success) {
-        expect(result.data.model).toBe("openai/gpt-5.2")
+        expect(result.data.model).toBe("openai/gpt-5.4")
       }
     })
 
     test("accepts both model and category (deprecated usage)", () => {
       // given - category should take precedence at runtime, but both should validate
       const config = { 
-        model: "openai/gpt-5.2",
+        model: "openai/gpt-5.4",
         category: "ultrabrain"
       }
 
@@ -291,7 +293,7 @@ describe("AgentOverrideConfigSchema", () => {
       // then
       expect(result.success).toBe(true)
       if (result.success) {
-        expect(result.data.model).toBe("openai/gpt-5.2")
+        expect(result.data.model).toBe("openai/gpt-5.4")
         expect(result.data.category).toBe("ultrabrain")
       }
     })
@@ -343,7 +345,7 @@ describe("AgentOverrideConfigSchema", () => {
 describe("CategoryConfigSchema", () => {
   test("accepts variant as optional string", () => {
     // given
-    const config = { model: "openai/gpt-5.2", variant: "xhigh" }
+    const config = { model: "openai/gpt-5.4", variant: "xhigh" }
 
     // when
     const result = CategoryConfigSchema.safeParse(config)
@@ -371,7 +373,7 @@ describe("CategoryConfigSchema", () => {
 
   test("rejects non-string variant", () => {
     // given
-    const config = { model: "openai/gpt-5.2", variant: 123 }
+    const config = { model: "openai/gpt-5.4", variant: 123 }
 
     // when
     const result = CategoryConfigSchema.safeParse(config)
@@ -405,6 +407,17 @@ describe("HookNameSchema", () => {
     //#then
     expect(result.success).toBe(false)
   })
+
+  test("rejects removed delegate-task-english-directive hook name", () => {
+    //#given
+    const input = "delegate-task-english-directive"
+
+    //#when
+    const result = HookNameSchema.safeParse(input)
+
+    //#then
+    expect(result.success).toBe(false)
+  })
 })
 
 describe("Sisyphus-Junior agent override", () => {
@@ -413,20 +426,20 @@ describe("Sisyphus-Junior agent override", () => {
     const config = {
       agents: {
         "sisyphus-junior": {
-          model: "openai/gpt-5.2",
+          model: "openai/gpt-5.4",
           temperature: 0.2,
         },
       },
     }
 
     // when
-    const result = OhMyMagentoConfigSchema.safeParse(config)
+    const result = OhMyOpenCodeConfigSchema.safeParse(config)
 
     // then
     expect(result.success).toBe(true)
     if (result.success) {
       expect(result.data.agents?.["sisyphus-junior"]).toBeDefined()
-      expect(result.data.agents?.["sisyphus-junior"]?.model).toBe("openai/gpt-5.2")
+      expect(result.data.agents?.["sisyphus-junior"]?.model).toBe("openai/gpt-5.4")
       expect(result.data.agents?.["sisyphus-junior"]?.temperature).toBe(0.2)
     }
   })
@@ -442,7 +455,7 @@ describe("Sisyphus-Junior agent override", () => {
     }
 
     // when
-    const result = OhMyMagentoConfigSchema.safeParse(config)
+    const result = OhMyOpenCodeConfigSchema.safeParse(config)
 
     // then
     expect(result.success).toBe(true)
@@ -467,7 +480,7 @@ describe("Sisyphus-Junior agent override", () => {
     }
 
     // when
-    const result = OhMyMagentoConfigSchema.safeParse(config)
+    const result = OhMyOpenCodeConfigSchema.safeParse(config)
 
     // then
     expect(result.success).toBe(true)
@@ -496,7 +509,7 @@ describe("Sisyphus-Junior agent override", () => {
     }
 
     // when
-    const result = OhMyMagentoConfigSchema.safeParse(config)
+    const result = OhMyOpenCodeConfigSchema.safeParse(config)
 
     // then
     expect(result.success).toBe(true)
@@ -521,7 +534,7 @@ describe("Sisyphus-Junior agent override", () => {
     }
 
     // when
-    const result = OhMyMagentoConfigSchema.safeParse(config)
+    const result = OhMyOpenCodeConfigSchema.safeParse(config)
 
     // then
     expect(result.success).toBe(true)
@@ -529,79 +542,6 @@ describe("Sisyphus-Junior agent override", () => {
       expect(result.data.agents?.metis?.category).toBe("ultrabrain")
       expect(result.data.agents?.momus?.category).toBe("quick")
     }
-  })
-
-  test("schema accepts custom_agents override keys", () => {
-    // given
-    const config = {
-      custom_agents: {
-        translator: {
-          model: "google/gemini-3-flash-preview",
-          temperature: 0,
-        },
-      },
-    }
-
-    // when
-    const result = OhMyMagentoConfigSchema.safeParse(config)
-
-    // then
-    expect(result.success).toBe(true)
-    if (result.success) {
-      expect(result.data.custom_agents?.translator?.model).toBe("google/gemini-3-flash-preview")
-      expect(result.data.custom_agents?.translator?.temperature).toBe(0)
-    }
-  })
-
-  test("schema rejects unknown keys under agents", () => {
-    // given
-    const config = {
-      agents: {
-        sisyphuss: {
-          model: "openai/gpt-5.3-codex",
-        },
-      },
-    }
-
-    // when
-    const result = OhMyMagentoConfigSchema.safeParse(config)
-
-    // then
-    expect(result.success).toBe(false)
-  })
-
-  test("schema rejects built-in agent names under custom_agents", () => {
-    // given
-    const config = {
-      custom_agents: {
-        sisyphus: {
-          model: "openai/gpt-5.3-codex",
-        },
-      },
-    }
-
-    // when
-    const result = OhMyMagentoConfigSchema.safeParse(config)
-
-    // then
-    expect(result.success).toBe(false)
-  })
-
-  test("schema rejects built-in agent names under custom_agents case-insensitively", () => {
-    // given
-    const config = {
-      custom_agents: {
-        Sisyphus: {
-          model: "openai/gpt-5.3-codex",
-        },
-      },
-    }
-
-    // when
-    const result = OhMyMagentoConfigSchema.safeParse(config)
-
-    // then
-    expect(result.success).toBe(false)
   })
 })
 
@@ -689,7 +629,7 @@ describe("BrowserAutomationConfigSchema", () => {
   })
 })
 
-describe("OhMyMagentoConfigSchema - browser_automation_engine", () => {
+describe("OhMyOpenCodeConfigSchema - browser_automation_engine", () => {
   test("accepts browser_automation_engine config", () => {
     // given
     const input = {
@@ -699,7 +639,7 @@ describe("OhMyMagentoConfigSchema - browser_automation_engine", () => {
     }
 
     // when
-    const result = OhMyMagentoConfigSchema.safeParse(input)
+    const result = OhMyOpenCodeConfigSchema.safeParse(input)
 
     // then
     expect(result.success).toBe(true)
@@ -711,7 +651,7 @@ describe("OhMyMagentoConfigSchema - browser_automation_engine", () => {
     const input = {}
 
     // when
-    const result = OhMyMagentoConfigSchema.safeParse(input)
+    const result = OhMyOpenCodeConfigSchema.safeParse(input)
 
     // then
     expect(result.success).toBe(true)
@@ -723,7 +663,7 @@ describe("OhMyMagentoConfigSchema - browser_automation_engine", () => {
     const input = { browser_automation_engine: { provider: "playwright-cli" } }
 
     // when
-    const result = OhMyMagentoConfigSchema.safeParse(input)
+    const result = OhMyOpenCodeConfigSchema.safeParse(input)
 
     // then
     expect(result.success).toBe(true)
@@ -731,13 +671,13 @@ describe("OhMyMagentoConfigSchema - browser_automation_engine", () => {
   })
 })
 
-describe("OhMyMagentoConfigSchema - hashline_edit", () => {
+describe("OhMyOpenCodeConfigSchema - hashline_edit", () => {
   test("accepts hashline_edit as true", () => {
     //#given
     const input = { hashline_edit: true }
 
     //#when
-    const result = OhMyMagentoConfigSchema.safeParse(input)
+    const result = OhMyOpenCodeConfigSchema.safeParse(input)
 
     //#then
     expect(result.success).toBe(true)
@@ -749,7 +689,7 @@ describe("OhMyMagentoConfigSchema - hashline_edit", () => {
     const input = { hashline_edit: false }
 
     //#when
-    const result = OhMyMagentoConfigSchema.safeParse(input)
+    const result = OhMyOpenCodeConfigSchema.safeParse(input)
 
     //#then
     expect(result.success).toBe(true)
@@ -761,7 +701,7 @@ describe("OhMyMagentoConfigSchema - hashline_edit", () => {
     const input = { auto_update: true }
 
     //#when
-    const result = OhMyMagentoConfigSchema.safeParse(input)
+    const result = OhMyOpenCodeConfigSchema.safeParse(input)
 
     //#then
     expect(result.success).toBe(true)
@@ -773,7 +713,7 @@ describe("OhMyMagentoConfigSchema - hashline_edit", () => {
     const input = { hashline_edit: "true" }
 
     //#when
-    const result = OhMyMagentoConfigSchema.safeParse(input)
+    const result = OhMyOpenCodeConfigSchema.safeParse(input)
 
     //#then
     expect(result.success).toBe(false)
@@ -957,6 +897,25 @@ describe("GitMasterConfigSchema", () => {
     //#then
     expect(result.success).toBe(false)
   })
+
+  test("accepts shell-safe git_env_prefix", () => {
+    const config = { git_env_prefix: "MY_HOOK=active" }
+
+    const result = GitMasterConfigSchema.safeParse(config)
+
+    expect(result.success).toBe(true)
+    if (result.success) {
+      expect(result.data.git_env_prefix).toBe("MY_HOOK=active")
+    }
+  })
+
+  test("rejects git_env_prefix with shell metacharacters", () => {
+    const config = { git_env_prefix: "A=1; rm -rf /" }
+
+    const result = GitMasterConfigSchema.safeParse(config)
+
+    expect(result.success).toBe(false)
+  })
 })
 
 describe("skills schema", () => {
@@ -969,7 +928,7 @@ describe("skills schema", () => {
     }
 
     //#when
-    const result = OhMyMagentoConfigSchema.safeParse(config)
+    const result = OhMyOpenCodeConfigSchema.safeParse(config)
 
     //#then
     expect(result.success).toBe(true)

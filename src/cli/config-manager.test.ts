@@ -1,6 +1,6 @@
 import { describe, expect, test, mock, afterEach } from "bun:test"
 
-import { ANTIGRAVITY_PROVIDER_CONFIG, getPluginNameWithVersion, fetchNpmDistTags, generateOmoConfig } from "./config-manager"
+import { getPluginNameWithVersion, fetchNpmDistTags, generateOmoConfig } from "./config-manager"
 import type { InstallConfig } from "./types"
 
 describe("getPluginNameWithVersion", () => {
@@ -23,7 +23,7 @@ describe("getPluginNameWithVersion", () => {
     const result = await getPluginNameWithVersion("2.14.0")
 
     // #then should use @latest tag
-    expect(result).toBe("oh-my-magento@latest")
+    expect(result).toBe("oh-my-opencode@latest")
   })
 
   test("returns @beta when current version matches beta tag", async () => {
@@ -39,7 +39,7 @@ describe("getPluginNameWithVersion", () => {
     const result = await getPluginNameWithVersion("3.0.0-beta.3")
 
     // #then should use @beta tag
-    expect(result).toBe("oh-my-magento@beta")
+    expect(result).toBe("oh-my-opencode@beta")
   })
 
   test("returns @next when current version matches next tag", async () => {
@@ -55,7 +55,7 @@ describe("getPluginNameWithVersion", () => {
     const result = await getPluginNameWithVersion("3.1.0-next.1")
 
     // #then should use @next tag
-    expect(result).toBe("oh-my-magento@next")
+    expect(result).toBe("oh-my-opencode@next")
   })
 
   test("returns prerelease channel tag when no dist-tag matches prerelease version", async () => {
@@ -71,7 +71,7 @@ describe("getPluginNameWithVersion", () => {
     const result = await getPluginNameWithVersion("3.0.0-beta.2")
 
     // #then should preserve prerelease channel
-    expect(result).toBe("oh-my-magento@beta")
+    expect(result).toBe("oh-my-opencode@beta")
   })
 
   test("returns prerelease channel tag when fetch fails", async () => {
@@ -82,7 +82,7 @@ describe("getPluginNameWithVersion", () => {
     const result = await getPluginNameWithVersion("3.0.0-beta.3")
 
     // #then should preserve prerelease channel
-    expect(result).toBe("oh-my-magento@beta")
+    expect(result).toBe("oh-my-opencode@beta")
   })
 
   test("returns bare package name when npm returns non-ok response for stable version", async () => {
@@ -98,7 +98,7 @@ describe("getPluginNameWithVersion", () => {
     const result = await getPluginNameWithVersion("2.14.0")
 
     // #then should fall back to bare package entry
-    expect(result).toBe("oh-my-magento")
+    expect(result).toBe("oh-my-opencode")
   })
 
   test("prioritizes latest over other tags when version matches multiple", async () => {
@@ -114,7 +114,7 @@ describe("getPluginNameWithVersion", () => {
     const result = await getPluginNameWithVersion("3.0.0")
 
     // #then should prioritize @latest
-    expect(result).toBe("oh-my-magento@latest")
+    expect(result).toBe("oh-my-opencode@latest")
   })
 })
 
@@ -135,7 +135,7 @@ describe("fetchNpmDistTags", () => {
     ) as unknown as typeof fetch
 
     // #when fetching dist-tags
-    const result = await fetchNpmDistTags("oh-my-magento")
+    const result = await fetchNpmDistTags("oh-my-opencode")
 
     // #then should return the tags
     expect(result).toEqual({ latest: "2.14.0", beta: "3.0.0-beta.3" })
@@ -146,7 +146,7 @@ describe("fetchNpmDistTags", () => {
     globalThis.fetch = mock(() => Promise.reject(new Error("Network error"))) as unknown as typeof fetch
 
     // #when fetching dist-tags
-    const result = await fetchNpmDistTags("oh-my-magento")
+    const result = await fetchNpmDistTags("oh-my-opencode")
 
     // #then should return null
     expect(result).toBeNull()
@@ -162,80 +162,10 @@ describe("fetchNpmDistTags", () => {
     ) as unknown as typeof fetch
 
     // #when fetching dist-tags
-    const result = await fetchNpmDistTags("oh-my-magento")
+    const result = await fetchNpmDistTags("oh-my-opencode")
 
     // #then should return null
     expect(result).toBeNull()
-  })
-})
-
-describe("config-manager ANTIGRAVITY_PROVIDER_CONFIG", () => {
-  test("all models include full spec (limit + modalities + Antigravity label)", () => {
-    const google = (ANTIGRAVITY_PROVIDER_CONFIG as any).google
-    expect(google).toBeTruthy()
-
-    const models = google.models as Record<string, any>
-    expect(models).toBeTruthy()
-
-    const required = [
-      "antigravity-gemini-3.1-pro",
-      "antigravity-gemini-3-flash",
-      "antigravity-claude-sonnet-4-6",
-      "antigravity-claude-sonnet-4-6-thinking",
-      "antigravity-claude-opus-4-5-thinking",
-    ]
-
-    for (const key of required) {
-      const model = models[key]
-      expect(model).toBeTruthy()
-      expect(typeof model.name).toBe("string")
-      expect(model.name.includes("(Antigravity)")).toBe(true)
-
-      expect(model.limit).toBeTruthy()
-      expect(typeof model.limit.context).toBe("number")
-      expect(typeof model.limit.output).toBe("number")
-
-      expect(model.modalities).toBeTruthy()
-      expect(Array.isArray(model.modalities.input)).toBe(true)
-      expect(Array.isArray(model.modalities.output)).toBe(true)
-    }
-  })
-
-  test("Gemini models have variant definitions", () => {
-    // #given the antigravity provider config
-    const models = (ANTIGRAVITY_PROVIDER_CONFIG as any).google.models as Record<string, any>
-
-    // #when checking Gemini Pro variants
-    const pro = models["antigravity-gemini-3.1-pro"]
-    // #then should have low and high variants
-    expect(pro.variants).toBeTruthy()
-    expect(pro.variants.low).toBeTruthy()
-    expect(pro.variants.high).toBeTruthy()
-
-    // #when checking Gemini Flash variants
-    const flash = models["antigravity-gemini-3-flash"]
-    // #then should have minimal, low, medium, high variants
-    expect(flash.variants).toBeTruthy()
-    expect(flash.variants.minimal).toBeTruthy()
-    expect(flash.variants.low).toBeTruthy()
-    expect(flash.variants.medium).toBeTruthy()
-    expect(flash.variants.high).toBeTruthy()
-  })
-
-  test("Claude thinking models have variant definitions", () => {
-    // #given the antigravity provider config
-    const models = (ANTIGRAVITY_PROVIDER_CONFIG as any).google.models as Record<string, any>
-
-    // #when checking Claude thinking variants
-    const sonnetThinking = models["antigravity-claude-sonnet-4-6-thinking"]
-    const opusThinking = models["antigravity-claude-opus-4-5-thinking"]
-
-    // #then both should have low and max variants
-    for (const model of [sonnetThinking, opusThinking]) {
-      expect(model.variants).toBeTruthy()
-      expect(model.variants.low).toBeTruthy()
-      expect(model.variants.max).toBeTruthy()
-    }
   })
 })
 
@@ -277,7 +207,7 @@ describe("generateOmoConfig - model fallback system", () => {
     const result = generateOmoConfig(config)
 
     // #then Sisyphus is omitted (requires all fallback providers)
-    expect(result.$schema).toBe("https://raw.githubusercontent.com/CaravanOfGlory/oh-my-magento/dev/assets/oh-my-magento.schema.json")
+    expect(result.$schema).toBe("https://raw.githubusercontent.com/code-yeongyu/oh-my-openagent/dev/assets/oh-my-opencode.schema.json")
     expect((result.agents as Record<string, { model: string }>).sisyphus).toBeUndefined()
   })
 
@@ -319,12 +249,13 @@ describe("generateOmoConfig - model fallback system", () => {
     // #when generating config
     const result = generateOmoConfig(config)
 
-    // #then Sisyphus is omitted (requires all fallback providers)
-    expect((result.agents as Record<string, { model: string }>).sisyphus).toBeUndefined()
+    // #then Sisyphus resolves to gpt-5.4 medium (openai is now in sisyphus chain)
+    expect((result.agents as Record<string, { model: string; variant?: string }>).sisyphus.model).toBe("openai/gpt-5.4")
+    expect((result.agents as Record<string, { model: string; variant?: string }>).sisyphus.variant).toBe("medium")
     // #then Oracle should use native OpenAI (first fallback entry)
-    expect((result.agents as Record<string, { model: string }>).oracle.model).toBe("openai/gpt-5.2")
-    // #then multimodal-looker should use native OpenAI (fallback within native tier)
-    expect((result.agents as Record<string, { model: string }>)["multimodal-looker"].model).toBe("openai/gpt-5.2")
+    expect((result.agents as Record<string, { model: string }>).oracle.model).toBe("openai/gpt-5.4")
+    // #then multimodal-looker should use native OpenAI (first fallback entry is gpt-5.4)
+    expect((result.agents as Record<string, { model: string }>)["multimodal-looker"].model).toBe("openai/gpt-5.4")
   })
 
   test("uses haiku for explore when Claude max20", () => {

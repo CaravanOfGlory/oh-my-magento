@@ -50,32 +50,34 @@ describe("collectGitDiffStats", () => {
 
     //#then
     expect(execSyncSpy).not.toHaveBeenCalled()
-    // At least 3 calls (may be more in CI environment)
     expect(execFileSyncSpy.mock.calls.length).toBeGreaterThanOrEqual(3)
 
-    // Find the relevant git calls (not all calls may be from our function)
-    const gitCalls = execFileSyncSpy.mock.calls.filter(
-      (call) => (call as unknown as [string, string[], { cwd?: string }])[0] === "git"
-    )
-    expect(gitCalls.length).toBeGreaterThanOrEqual(3)
+    const calls = execFileSyncSpy.mock.calls as unknown as Array<[string, string[], { cwd?: string }]>
+    const diffCall = calls.find(([, args]) => args[0] === "diff")
+    const statusCall = calls.find(([, args]) => args[0] === "status")
+    const untrackedCall = calls.find(([, args]) => args[0] === "ls-files")
 
-    const [firstCallFile, firstCallArgs, firstCallOpts] = gitCalls[0]! as unknown as [string, string[], { cwd?: string }]
-    expect(firstCallFile).toBe("git")
-    expect(firstCallArgs).toEqual(["diff", "--numstat", "HEAD"])
-    expect(firstCallOpts.cwd).toBe(directory)
-    expect(firstCallArgs.join(" ")).not.toContain(directory)
+    expect(diffCall).toBeDefined()
+    expect(statusCall).toBeDefined()
+    expect(untrackedCall).toBeDefined()
 
-    const [secondCallFile, secondCallArgs, secondCallOpts] = gitCalls[1]! as unknown as [string, string[], { cwd?: string }]
-    expect(secondCallFile).toBe("git")
-    expect(secondCallArgs).toEqual(["status", "--porcelain"])
-    expect(secondCallOpts.cwd).toBe(directory)
-    expect(secondCallArgs.join(" ")).not.toContain(directory)
+    const [diffCallFile, diffCallArgs, diffCallOpts] = diffCall!
+    expect(diffCallFile).toBe("git")
+    expect(diffCallArgs).toEqual(["diff", "--numstat", "HEAD"])
+    expect(diffCallOpts.cwd).toBe(directory)
+    expect(diffCallArgs.join(" ")).not.toContain(directory)
 
-    const [thirdCallFile, thirdCallArgs, thirdCallOpts] = gitCalls[2]! as unknown as [string, string[], { cwd?: string }]
-    expect(thirdCallFile).toBe("git")
-    expect(thirdCallArgs).toEqual(["ls-files", "--others", "--exclude-standard"])
-    expect(thirdCallOpts.cwd).toBe(directory)
-    expect(thirdCallArgs.join(" ")).not.toContain(directory)
+    const [statusCallFile, statusCallArgs, statusCallOpts] = statusCall!
+    expect(statusCallFile).toBe("git")
+    expect(statusCallArgs).toEqual(["status", "--porcelain"])
+    expect(statusCallOpts.cwd).toBe(directory)
+    expect(statusCallArgs.join(" ")).not.toContain(directory)
+
+    const [untrackedCallFile, untrackedCallArgs, untrackedCallOpts] = untrackedCall!
+    expect(untrackedCallFile).toBe("git")
+    expect(untrackedCallArgs).toEqual(["ls-files", "--others", "--exclude-standard"])
+    expect(untrackedCallOpts.cwd).toBe(directory)
+    expect(untrackedCallArgs.join(" ")).not.toContain(directory)
 
     expect(readFileSyncSpy).toHaveBeenCalled()
 

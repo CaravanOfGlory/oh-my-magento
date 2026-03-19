@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Rebrand: oh-my-opencode → oh-my-magento, code-yeongyu → CaravanOfGlory
+# Rebrand: oh-my-opencode → oh-my-magento, code-yeongyu → caravanglory
 # Preserves @code-yeongyu/ npm scope (dependency references)
 #
 # Usage: ./rebrand.sh [PROJECT_ROOT]
@@ -33,9 +33,9 @@ rebrand_file() {
 
   # Step 2: Apply rebrand replacements
   sed -i '' \
-    -e 's/code-yeongyu\/oh-my-opencode/CaravanOfGlory\/oh-my-magento/g' \
-    -e 's/code-yeongyu\/oh-my-magento/CaravanOfGlory\/oh-my-magento/g' \
-    -e 's/code-yeongyu/CaravanOfGlory/g' \
+    -e 's/code-yeongyu\/oh-my-opencode/caravanglory\/oh-my-magento/g' \
+    -e 's/code-yeongyu\/oh-my-magento/caravanglory\/oh-my-magento/g' \
+    -e 's/code-yeongyu/caravanglory/g' \
     -e 's/oh-my-opencode/oh-my-magento/g' \
     -e 's/OhMyOpenCode/OhMyMagento/g' \
     "$file"

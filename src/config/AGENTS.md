@@ -1,16 +1,16 @@
 # src/config/ — Zod v4 Schema System
 
-**Generated:** 2026-02-24
+**Generated:** 2026-03-06
 
 ## OVERVIEW
 
-22 schema files composing `OhMyMagentoConfigSchema`. Zod v4 validation with `safeParse()`. All fields optional — omitted fields use plugin defaults.
+24 schema files composing `OhMyOpenCodeConfigSchema`. Zod v4 validation with `safeParse()`. All fields optional — omitted fields use plugin defaults.
 
 ## SCHEMA TREE
 
 ```
 config/schema/
-├── oh-my-magento-config.ts    # ROOT: OhMyMagentoConfigSchema (composes all below)
+├── oh-my-opencode-config.ts    # ROOT: OhMyOpenCodeConfigSchema (composes all below)
 ├── agent-names.ts              # BuiltinAgentNameSchema (11), OverridableAgentNameSchema (14)
 ├── agent-overrides.ts          # AgentOverrideConfigSchema (21 fields per agent)
 ├── categories.ts               # 8 built-in + custom categories
@@ -29,6 +29,8 @@ config/schema/
 ├── git-master.ts               # commit_footer: boolean | string
 ├── browser-automation.ts       # provider: playwright | agent-browser | playwright-cli
 ├── background-task.ts          # Concurrency limits per model/provider
+├── fallback-models.ts          # FallbackModelsConfigSchema
+├── runtime-fallback.ts         # RuntimeFallbackConfigSchema
 ├── babysitting.ts              # Unstable agent monitoring
 ├── dynamic-context-pruning.ts  # Context pruning settings
 ├── start-work.ts              # StartWorkConfigSchema (auto_commit)
@@ -47,6 +49,6 @@ config/schema/
 ## HOW TO ADD CONFIG
 
 1. Create `src/config/schema/{name}.ts` with Zod schema
-2. Add field to `oh-my-magento-config.ts` root schema
+2. Add field to `oh-my-opencode-config.ts` root schema
 3. Reference via `z.infer<typeof YourSchema>` for TypeScript types
 4. Access in handlers via `pluginConfig.{name}`

@@ -1,13 +1,12 @@
 import { readFileSync, writeFileSync } from "node:fs"
 import type { ConfigMergeResult } from "../types"
+import { PLUGIN_NAME, LEGACY_PLUGIN_NAME } from "../../shared"
 import { getConfigDir } from "./config-context"
 import { ensureConfigDirectoryExists } from "./ensure-config-directory-exists"
 import { formatErrorWithSuggestion } from "./format-error-with-suggestion"
 import { detectConfigFormat } from "./opencode-config-format"
 import { parseOpenCodeConfigFileWithError, type OpenCodeConfig } from "./parse-opencode-config-file"
 import { getPluginNameWithVersion } from "./plugin-name-with-version"
-
-const PACKAGE_NAME = "oh-my-opencode"
 
 export async function addPluginToOpenCodeConfig(currentVersion: string): Promise<ConfigMergeResult> {
   try {
@@ -21,7 +20,7 @@ export async function addPluginToOpenCodeConfig(currentVersion: string): Promise
   }
 
   const { format, path } = detectConfigFormat()
-  const pluginEntry = await getPluginNameWithVersion(currentVersion)
+  const pluginEntry = await getPluginNameWithVersion(currentVersion, PLUGIN_NAME)
 
   try {
     if (format === "none") {
@@ -41,13 +40,30 @@ export async function addPluginToOpenCodeConfig(currentVersion: string): Promise
 
     const config = parseResult.config
     const plugins = config.plugin ?? []
-    const existingIndex = plugins.findIndex((p) => p === PACKAGE_NAME || p.startsWith(`${PACKAGE_NAME}@`))
 
-    if (existingIndex !== -1) {
-      if (plugins[existingIndex] === pluginEntry) {
+    // Check for existing plugin (either current or legacy name, or oh-my-opencode for compatibility)
+    const currentNameIndex = plugins.findIndex(
+      (plugin) => plugin === PLUGIN_NAME || plugin.startsWith(`${PLUGIN_NAME}@`)
+    )
+    const legacyNameIndex = plugins.findIndex(
+      (plugin) => plugin === LEGACY_PLUGIN_NAME || plugin.startsWith(`${LEGACY_PLUGIN_NAME}@`)
+    )
+    const opencodeCompatIndex = plugins.findIndex(
+      (plugin) => plugin === "oh-my-opencode" || plugin.startsWith("oh-my-opencode@")
+    )
+
+    // If either name exists, update to new name
+    if (currentNameIndex !== -1) {
+      if (plugins[currentNameIndex] === pluginEntry) {
         return { success: true, configPath: path }
       }
-      plugins[existingIndex] = pluginEntry
+      plugins[currentNameIndex] = pluginEntry
+    } else if (legacyNameIndex !== -1) {
+      // Upgrade legacy name to new name
+      plugins[legacyNameIndex] = pluginEntry
+    } else if (opencodeCompatIndex !== -1) {
+      // Upgrade oh-my-opencode to oh-my-magento for compatibility
+      plugins[opencodeCompatIndex] = pluginEntry
     } else {
       plugins.push(pluginEntry)
     }

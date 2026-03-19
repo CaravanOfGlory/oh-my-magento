@@ -4,6 +4,8 @@ import { isPlanFamily } from "./constants"
 import { SISYPHUS_JUNIOR_AGENT } from "./sisyphus-junior-agent"
 import { normalizeModelFormat } from "../../shared/model-format-normalizer"
 import { AGENT_MODEL_REQUIREMENTS } from "../../shared/model-requirements"
+import { normalizeFallbackModels } from "../../shared/model-resolver"
+import { buildFallbackChainFromModels } from "../../shared/fallback-chain-from-models"
 import { getAgentDisplayName, getAgentConfigKey } from "../../shared/agent-display-names"
 import { normalizeSDKResponse } from "../../shared"
 import { log } from "../../shared/logger"
@@ -16,11 +18,9 @@ export async function resolveSubagentExecution(
   args: DelegateTaskArgs,
   executorCtx: ExecutorContext,
   parentAgent: string | undefined,
-  categoryExamples: string,
-  inheritedModel?: string,
-  systemDefaultModel?: string,
+  categoryExamples: string
 ): Promise<{ agentToUse: string; categoryModel: { providerID: string; modelID: string; variant?: string } | undefined; fallbackChain?: FallbackEntry[]; error?: string }> {
-  const { client, agentOverrides } = executorCtx
+  const { client, agentOverrides, userCategories } = executorCtx
 
   if (!args.subagent_type?.trim()) {
     return { agentToUse: "", categoryModel: undefined, error: `Agent name cannot be empty.` }
@@ -54,7 +54,11 @@ Create the work plan directly - that's your job as the planning agent.`,
 
   try {
     const agentsResult = await client.app.agents()
-    type AgentInfo = { name: string; mode?: "subagent" | "primary" | "all"; model?: { providerID: string; modelID: string } }
+    type AgentInfo = {
+      name: string
+      mode?: "subagent" | "primary" | "all"
+      model?: string | { providerID: string; modelID: string }
+    }
     const agents = normalizeSDKResponse(agentsResult, [] as AgentInfo[], {
       preferResponseOnMissingData: true,
     })
@@ -97,44 +101,52 @@ Create the work plan directly - that's your job as the planning agent.`,
     const agentOverride = agentOverrides?.[agentConfigKey as keyof typeof agentOverrides]
       ?? (agentOverrides ? Object.entries(agentOverrides).find(([key]) => key.toLowerCase() === agentConfigKey)?.[1] : undefined)
     const agentRequirement = AGENT_MODEL_REQUIREMENTS[agentConfigKey]
-    fallbackChain = agentRequirement?.fallbackChain
+    const normalizedAgentFallbackModels = normalizeFallbackModels(
+      agentOverride?.fallback_models
+      ?? (agentOverride?.category ? userCategories?.[agentOverride.category]?.fallback_models : undefined)
+    )
 
     if (agentOverride?.model || agentRequirement || matchedAgent.model) {
       const availableModels = await getAvailableModelsForDelegateTask(client)
 
-      const normalizedMatchedModel = normalizeModelFormat(matchedAgent.model as Parameters<typeof normalizeModelFormat>[0])
+      const normalizedMatchedModel = matchedAgent.model
+        ? normalizeModelFormat(matchedAgent.model)
+        : undefined
       const matchedAgentModelStr = normalizedMatchedModel
         ? `${normalizedMatchedModel.providerID}/${normalizedMatchedModel.modelID}`
         : undefined
 
       const resolution = resolveModelForDelegateTask({
         userModel: agentOverride?.model,
+        userFallbackModels: normalizedAgentFallbackModels,
         categoryDefaultModel: matchedAgentModelStr,
         fallbackChain: agentRequirement?.fallbackChain,
         availableModels,
         systemDefaultModel: undefined,
       })
 
-      if (resolution) {
+      if (resolution && !('skipped' in resolution)) {
         const normalized = normalizeModelFormat(resolution.model)
         if (normalized) {
           const variantToUse = agentOverride?.variant ?? resolution.variant
           categoryModel = variantToUse ? { ...normalized, variant: variantToUse } : normalized
         }
       }
+
+      const defaultProviderID = categoryModel?.providerID
+        ?? normalizedMatchedModel?.providerID
+        ?? "opencode"
+      const configuredFallbackChain = buildFallbackChainFromModels(
+        normalizedAgentFallbackModels,
+        defaultProviderID,
+      )
+      fallbackChain = configuredFallbackChain ?? agentRequirement?.fallbackChain
     }
 
     if (!categoryModel && matchedAgent.model) {
-      categoryModel = matchedAgent.model
-    }
-
-    if (!categoryModel) {
-      const fallbackModel = inheritedModel ?? systemDefaultModel
-      if (fallbackModel) {
-        const parsedFallback = parseModelString(fallbackModel)
-        if (parsedFallback) {
-          categoryModel = parsedFallback
-        }
+      const normalizedMatchedModel = normalizeModelFormat(matchedAgent.model)
+      if (normalizedMatchedModel) {
+        categoryModel = normalizedMatchedModel
       }
     }
   } catch (error) {

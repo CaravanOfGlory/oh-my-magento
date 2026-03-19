@@ -1,92 +1,92 @@
 # CLI Reference
 
-Complete reference for the `oh-my-magento` command-line interface.
+Complete reference for the `oh-my-opencode` command-line interface.
 
 ## Basic Usage
 
 ```bash
 # Display help
-bunx oh-my-magento
+bunx oh-my-opencode
 
 # Or with npx
-npx oh-my-magento
+npx oh-my-opencode
 ```
 
 ## Commands
 
-| Command | Description |
-|---------|-------------|
-| `install` | Interactive setup wizard |
-| `doctor` | Environment diagnostics and health checks |
-| `run` | OpenCode session runner |
-| `mcp oauth` | MCP OAuth authentication management |
-| `auth` | Google Antigravity OAuth authentication |
-| `get-local-version` | Display local version information |
+| Command             | Description                               |
+| ------------------- | ----------------------------------------- |
+| `install`           | Interactive setup wizard                  |
+| `doctor`            | Environment diagnostics and health checks |
+| `run`               | OpenCode session runner                   |
+| `mcp oauth`         | MCP OAuth authentication management       |
+| `auth`              | Google Antigravity OAuth authentication   |
+| `get-local-version` | Display local version information         |
 
 ---
 
 ## install
 
-Interactive installation tool for initial Oh-My-Magento setup. Provides a TUI based on `@clack/prompts`.
+Interactive installation tool for initial Oh-My-OpenCode setup. Provides a TUI based on `@clack/prompts`.
 
 ### Usage
 
 ```bash
-bunx oh-my-magento install
+bunx oh-my-opencode install
 ```
 
 ### Installation Process
 
 1. **Provider Selection**: Choose your AI provider (Claude, ChatGPT, or Gemini)
 2. **API Key Input**: Enter the API key for your selected provider
-3. **Configuration File Creation**: Generates `opencode.json` or `oh-my-magento.json` files
-4. **Plugin Registration**: Automatically registers the oh-my-magento plugin in OpenCode settings
+3. **Configuration File Creation**: Generates `opencode.json` or `oh-my-opencode.json` files
+4. **Plugin Registration**: Automatically registers the oh-my-opencode plugin in OpenCode settings
 
 ### Options
 
-| Option | Description |
-|--------|-------------|
-| `--no-tui` | Run in non-interactive mode without TUI (for CI/CD environments) |
-| `--verbose` | Display detailed logs |
+| Option      | Description                                                      |
+| ----------- | ---------------------------------------------------------------- |
+| `--no-tui`  | Run in non-interactive mode without TUI (for CI/CD environments) |
+| `--verbose` | Display detailed logs                                            |
 
 ---
 
 ## doctor
 
-Diagnoses your environment to ensure Oh-My-Magento is functioning correctly. Performs 17+ health checks.
+Diagnoses your environment to ensure Oh-My-OpenCode is functioning correctly. Performs 17+ health checks.
 
 ### Usage
 
 ```bash
-bunx oh-my-magento doctor
+bunx oh-my-opencode doctor
 ```
 
 ### Diagnostic Categories
 
-| Category | Check Items |
-|----------|-------------|
-| **Installation** | OpenCode version (>= 1.0.150), plugin registration status |
-| **Configuration** | Configuration file validity, JSONC parsing |
-| **Authentication** | Anthropic, OpenAI, Google API key validity |
-| **Dependencies** | Bun, Node.js, Git installation status |
-| **Tools** | LSP server status, MCP server status |
-| **Updates** | Latest version check |
+| Category           | Check Items                                               |
+| ------------------ | --------------------------------------------------------- |
+| **Installation**   | OpenCode version (>= 1.0.150), plugin registration status |
+| **Configuration**  | Configuration file validity, JSONC parsing                |
+| **Authentication** | Anthropic, OpenAI, Google API key validity                |
+| **Dependencies**   | Bun, Node.js, Git installation status                     |
+| **Tools**          | LSP server status, MCP server status                      |
+| **Updates**        | Latest version check                                      |
 
 ### Options
 
-| Option | Description |
-|--------|-------------|
+| Option              | Description                                                      |
+| ------------------- | ---------------------------------------------------------------- |
 | `--category <name>` | Check specific category only (e.g., `--category authentication`) |
-| `--json` | Output results in JSON format |
-| `--verbose` | Include detailed information |
+| `--json`            | Output results in JSON format                                    |
+| `--verbose`         | Include detailed information                                     |
 
 ### Example Output
 
 ```
-oh-my-magento doctor
+oh-my-opencode doctor
 
 ┌──────────────────────────────────────────────────┐
-│  Oh-My-Magento Doctor                           │
+│  Oh-My-OpenCode Doctor                           │
 └──────────────────────────────────────────────────┘
 
 Installation
@@ -94,7 +94,7 @@ Installation
   ✓ Plugin registered in opencode.json
 
 Configuration
-  ✓ oh-my-magento.json is valid
+  ✓ oh-my-opencode.json is valid
   ⚠ categories.visual-engineering: using default model
 
 Authentication
@@ -119,24 +119,24 @@ Executes OpenCode sessions and monitors task completion.
 ### Usage
 
 ```bash
-bunx oh-my-magento run [prompt]
+bunx oh-my-opencode run [prompt]
 ```
 
 ### Options
 
-| Option | Description |
-|--------|-------------|
-| `--enforce-completion` | Keep session active until all TODOs are completed |
-| `--timeout <seconds>` | Set maximum execution time |
-| `--agent <name>` | Specify agent to use |
-| `--directory <path>` | Set working directory |
-| `--port <number>` | Set port for session |
-| `--attach` | Attach to existing session |
-| `--json` | Output in JSON format |
-| `--no-timestamp` | Disable timestamped output |
-| `--session-id <id>` | Resume existing session |
-| `--on-complete <action>` | Action on completion |
-| `--verbose` | Enable verbose logging |
+| Option                   | Description                                       |
+| ------------------------ | ------------------------------------------------- |
+| `--enforce-completion`   | Keep session active until all TODOs are completed |
+| `--timeout <seconds>`    | Set maximum execution time                        |
+| `--agent <name>`         | Specify agent to use                              |
+| `--directory <path>`     | Set working directory                             |
+| `--port <number>`        | Set port for session                              |
+| `--attach`               | Attach to existing session                        |
+| `--json`                 | Output in JSON format                             |
+| `--no-timestamp`         | Disable timestamped output                        |
+| `--session-id <id>`      | Resume existing session                           |
+| `--on-complete <action>` | Action on completion                              |
+| `--verbose`              | Enable verbose logging                            |
 
 ---
 
@@ -148,25 +148,25 @@ Manages OAuth 2.1 authentication for remote MCP servers.
 
 ```bash
 # Login to an OAuth-protected MCP server
-bunx oh-my-magento mcp oauth login <server-name> --server-url https://api.example.com
+bunx oh-my-opencode mcp oauth login <server-name> --server-url https://api.example.com
 
 # Login with explicit client ID and scopes
-bunx oh-my-magento mcp oauth login my-api --server-url https://api.example.com --client-id my-client --scopes "read,write"
+bunx oh-my-opencode mcp oauth login my-api --server-url https://api.example.com --client-id my-client --scopes "read,write"
 
 # Remove stored OAuth tokens
-bunx oh-my-magento mcp oauth logout <server-name>
+bunx oh-my-opencode mcp oauth logout <server-name>
 
 # Check OAuth token status
-bunx oh-my-magento mcp oauth status [server-name]
+bunx oh-my-opencode mcp oauth status [server-name]
 ```
 
 ### Options
 
-| Option | Description |
-|--------|-------------|
-| `--server-url <url>` | MCP server URL (required for login) |
-| `--client-id <id>` | OAuth client ID (optional if server supports Dynamic Client Registration) |
-| `--scopes <scopes>` | Comma-separated OAuth scopes |
+| Option               | Description                                                               |
+| -------------------- | ------------------------------------------------------------------------- |
+| `--server-url <url>` | MCP server URL (required for login)                                       |
+| `--client-id <id>`   | OAuth client ID (optional if server supports Dynamic Client Registration) |
+| `--scopes <scopes>`  | Comma-separated OAuth scopes                                              |
 
 ### Token Storage
 
@@ -174,31 +174,12 @@ Tokens are stored in `~/.config/opencode/mcp-oauth.json` with `0600` permissions
 
 ---
 
-## auth
-
-Manages Google Antigravity OAuth authentication. Required for using Gemini models.
-
-### Usage
-
-```bash
-# Login
-bunx oh-my-magento auth login
-
-# Logout
-bunx oh-my-magento auth logout
-
-# Check current status
-bunx oh-my-magento auth status
-```
-
----
-
 ## Configuration Files
 
 The CLI searches for configuration files in the following locations (in priority order):
 
-1. **Project Level**: `.opencode/oh-my-magento.json`
-2. **User Level**: `~/.config/opencode/oh-my-magento.json`
+1. **Project Level**: `.opencode/oh-my-opencode.json`
+2. **User Level**: `~/.config/opencode/oh-my-opencode.json`
 
 ### JSONC Support
 
@@ -215,7 +196,7 @@ Configuration files support **JSONC (JSON with Comments)** format. You can use c
   /* Category customization */
   "categories": {
     "visual-engineering": {
-      "model": "google/gemini-3-pro",
+      "model": "google/gemini-3.1-pro",
     },
   },
 }
@@ -238,17 +219,17 @@ bun install -g opencode@latest
 
 ```bash
 # Reinstall plugin
-bunx oh-my-magento install
+bunx oh-my-opencode install
 ```
 
 ### Doctor Check Failures
 
 ```bash
 # Diagnose with detailed information
-bunx oh-my-magento doctor --verbose
+bunx oh-my-opencode doctor --verbose
 
 # Check specific category only
-bunx oh-my-magento doctor --category authentication
+bunx oh-my-opencode doctor --category authentication
 ```
 
 ---
@@ -259,10 +240,10 @@ Use the `--no-tui` option for CI/CD environments.
 
 ```bash
 # Run doctor in CI environment
-bunx oh-my-magento doctor --no-tui --json
+bunx oh-my-opencode doctor --no-tui --json
 
 # Save results to file
-bunx oh-my-magento doctor --json > doctor-report.json
+bunx oh-my-opencode doctor --json > doctor-report.json
 ```
 
 ---
@@ -291,25 +272,25 @@ src/cli/
 Create `src/cli/doctor/checks/my-check.ts`:
 
 ```typescript
-import type { DoctorCheck } from "../types"
+import type { DoctorCheck } from "../types";
 
 export const myCheck: DoctorCheck = {
   name: "my-check",
   category: "environment",
   check: async () => {
     // Check logic
-    const isOk = await someValidation()
+    const isOk = await someValidation();
 
     return {
       status: isOk ? "pass" : "fail",
       message: isOk ? "Everything looks good" : "Something is wrong",
-    }
+    };
   },
-}
+};
 ```
 
 Register in `src/cli/doctor/checks/index.ts`:
 
 ```typescript
-export { myCheck } from "./my-check"
+export { myCheck } from "./my-check";
 ```
