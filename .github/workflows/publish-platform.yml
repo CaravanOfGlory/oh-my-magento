@@ -268,8 +268,3 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
           NPM_CONFIG_PROVENANCE: true
         timeout-minutes: 15
-
-      - name: Restore platform package.json
-        if: steps.check.outputs.skip != 'true' && steps.download.outcome == 'success'
-        run: |
-          git checkout -- packages/${{ matrix.platform }}/package.json
