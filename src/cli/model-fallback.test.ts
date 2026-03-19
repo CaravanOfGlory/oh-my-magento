@@ -523,7 +523,9 @@ describe("generateModelConfig", () => {
   })
 
   describe("librarian agent special cases", () => {
-    test("librarian uses ZAI model when ZAI is available regardless of other providers", () => {
+    // Note: upstream has no special case for librarian — it goes through the normal fallback chain.
+    // The ZAI special case was a fork-specific addition removed to align with upstream behavior.
+    test("librarian resolves through fallback chain when ZAI + Claude available", () => {
       // #given ZAI and Claude are available
       const config = createConfig({
         hasClaude: true,
@@ -533,19 +535,19 @@ describe("generateModelConfig", () => {
       // #when generateModelConfig is called
       const result = generateModelConfig(config)
 
-      // #then librarian should use ZAI_MODEL
-      expect(result.agents?.librarian?.model).toBe("zai-coding-plan/glm-4.7")
+      // #then librarian uses fallback chain (anthropic matches entry 3)
+      expect(result.agents?.librarian?.model).toBe("anthropic/claude-haiku-4-5")
     })
 
-    test("librarian is omitted when no librarian provider matches", () => {
-      // #given only Claude is available (no opencode-go or ZAI)
+    test("librarian resolves through fallback chain when only Claude available", () => {
+      // #given only Claude is available
       const config = createConfig({ hasClaude: true })
 
       // #when generateModelConfig is called
       const result = generateModelConfig(config)
 
-      // #then librarian should be omitted when its dedicated providers are unavailable
-      expect(result.agents?.librarian).toBeUndefined()
+      // #then librarian uses fallback chain (anthropic matches entry 3)
+      expect(result.agents?.librarian?.model).toBe("anthropic/claude-haiku-4-5")
     })
   })
 

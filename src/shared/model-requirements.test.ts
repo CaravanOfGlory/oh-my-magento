@@ -361,23 +361,24 @@ describe("CATEGORY_MODEL_REQUIREMENTS", () => {
     expect(fifth.model).toBe("k2p5")
   })
 
-  test("quick has valid fallbackChain with gpt-5.4-mini as primary and claude-haiku-4-5 as secondary", () => {
+  test("quick has valid fallbackChain with claude-haiku-4-5 as primary and gemini-3-flash as secondary", () => {
     // given - quick category requirement
     const quick = CATEGORY_MODEL_REQUIREMENTS["quick"]
 
     // when - accessing quick requirement
-    // then - fallbackChain exists with gpt-5.4-mini as first entry, haiku as second
+    // then - fallbackChain exists with claude-haiku-4-5 as first entry, gemini-flash as second
     expect(quick).toBeDefined()
     expect(quick.fallbackChain).toBeArray()
     expect(quick.fallbackChain.length).toBeGreaterThan(1)
 
     const primary = quick.fallbackChain[0]
-    expect(primary.model).toBe("gpt-5.4-mini")
-    expect(primary.providers).toContain("openai")
+    expect(primary.model).toBe("claude-haiku-4-5")
+    expect(primary.providers).toContain("anthropic")
+    expect(primary.providers).toContain("github-copilot")
 
     const secondary = quick.fallbackChain[1]
-    expect(secondary.model).toBe("claude-haiku-4-5")
-    expect(secondary.providers).toContain("anthropic")
+    expect(secondary.model).toBe("gemini-3-flash")
+    expect(secondary.providers).toContain("google")
   })
 
   test("unspecified-low has valid fallbackChain with claude-sonnet-4-6 as primary", () => {

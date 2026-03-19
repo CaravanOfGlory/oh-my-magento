@@ -21,7 +21,6 @@ export const AGENT_MODEL_REQUIREMENTS: Record<string, ModelRequirement> = {
         variant: "max",
       },
       { providers: ["opencode-go"], model: "kimi-k2.5" },
-      { providers: ["kimi-for-coding"], model: "k2p5" },
       {
         providers: [
           "opencode",
@@ -33,6 +32,7 @@ export const AGENT_MODEL_REQUIREMENTS: Record<string, ModelRequirement> = {
         ],
         model: "kimi-k2.5",
       },
+      { providers: ["kimi-for-coding"], model: "k2p5" },
       { providers: ["openai", "github-copilot", "opencode"], model: "gpt-5.4", variant: "medium" },
       { providers: ["zai-coding-plan", "opencode"], model: "glm-5" },
       { providers: ["opencode"], model: "big-pickle" },
@@ -251,10 +251,6 @@ export const CATEGORY_MODEL_REQUIREMENTS: Record<string, ModelRequirement> = {
   },
   quick: {
     fallbackChain: [
-      {
-        providers: ["openai", "github-copilot", "opencode"],
-        model: "gpt-5.4-mini",
-      },
       {
         providers: ["anthropic", "github-copilot", "opencode"],
         model: "claude-haiku-4-5",
