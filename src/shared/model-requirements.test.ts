@@ -23,7 +23,7 @@ describe("AGENT_MODEL_REQUIREMENTS", () => {
     expect(primary.variant).toBe("high")
   })
 
-  test("sisyphus has claude-opus-4-6 as primary with k2p5, kimi-k2.5, gpt-5.4 medium fallbacks", () => {
+  test("sisyphus has claude-opus-4-6 as primary with opencode-go/kimi-k2.5, kimi-for-coding/k2p5, gpt-5.4 medium fallbacks", () => {
     // #given - sisyphus agent requirement
     const sisyphus = AGENT_MODEL_REQUIREMENTS["sisyphus"]
 
@@ -44,11 +44,12 @@ describe("AGENT_MODEL_REQUIREMENTS", () => {
     expect(second.model).toBe("kimi-k2.5")
 
     const third = sisyphus.fallbackChain[2]
-    expect(third.providers).toEqual(["kimi-for-coding"])
-    expect(third.model).toBe("k2p5")
+    expect(third.providers).toContain("opencode")
+    expect(third.model).toBe("kimi-k2.5")
 
     const fourth = sisyphus.fallbackChain[3]
-    expect(fourth.model).toBe("kimi-k2.5")
+    expect(fourth.providers).toEqual(["kimi-for-coding"])
+    expect(fourth.model).toBe("k2p5")
 
     const fifth = sisyphus.fallbackChain[4]
     expect(fifth.providers).toContain("openai")
