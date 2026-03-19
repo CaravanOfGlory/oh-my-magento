@@ -4,7 +4,7 @@
 
 ### Problem
 
-When using Ollama as a provider with oh-my-opencode agents, you may encounter:
+When using Ollama as a provider with oh-my-magento agents, you may encounter:
 
 ```
 JSON Parse error: Unexpected EOF
@@ -26,7 +26,7 @@ Claude Code SDK expects a single JSON object, not multiple NDJSON lines, causing
 **Why this happens:**
 - **Ollama API**: Returns streaming responses as NDJSON by design
 - **Claude Code SDK**: Doesn't properly handle NDJSON responses for tool calls
-- **oh-my-opencode**: Passes through the SDK's behavior (can't fix at this layer)
+- **oh-my-magento**: Passes through the SDK's behavior (can't fix at this layer)
 
 ## Solutions
 

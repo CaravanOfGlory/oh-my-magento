@@ -181,6 +181,16 @@
             margin-top: 0.25rem;
         }
 
+        .hero-legend {
+            text-align: center;
+            margin-top: 1rem;
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            opacity: 0;
+            animation: fadeIn 0.8s ease forwards;
+            animation-delay: 1.0s;
+        }
+
         .scroll-hint {
             position: absolute;
             bottom: 3rem;
@@ -1052,15 +1062,15 @@
             <h1 class="hero-title">oh-my-magento</h1>
             <p class="hero-subtitle">
                 基于 oh-my-magento fork，面向 Magento 2 + Hyvä 的专项 AI 编排系统<br>
-                将单一 AI Agent 转化为协调的 Magento 开发团队
+                将单一 AI 转化为协调的 Magento 开发团队
             </p>
             <div class="hero-stats">
                 <div class="stat-item">
-                    <span class="stat-number" data-count="12">0</span>
+                    <span class="stat-number" data-count="9">0</span>
                     <span class="stat-label">Agent</span>
                 </div>
                 <div class="stat-item">
-                    <span class="stat-number" data-count="9">0</span>
+                    <span class="stat-number" data-count="12">0</span>
                     <span class="stat-label">Skill</span>
                 </div>
                 <div class="stat-item">
@@ -1076,6 +1086,10 @@
                     <span class="stat-label">Hook</span>
                 </div>
             </div>
+            <p class="hero-legend">
+                9 内置 Agent（Sisyphus、Hephaestus、Prometheus、Oracle、Librarian 等）+ 12 Magento/Hyvä 专项 Skill
+                <span style="color: var(--accent-purple);">（均位于 .opencode/skills/）</span>
+            </p>
         </div>
         <div class="scroll-hint">向下滚动探索</div>
     </section>
@@ -1126,7 +1140,7 @@
             <div class="section-header">
                 <div class="section-number">02</div>
                 <h2 class="section-title">架构全景</h2>
-                <p class="section-desc">Agent 分层与路由决策系统</p>
+                <p class="section-desc">分层与 Skill 调用系统</p>
             </div>
 
             <!-- Agent Hierarchy -->
@@ -1144,13 +1158,14 @@
                 <div class="agent-layer stagger-2">
                     <div class="layer-label">Specialists</div>
                     <div class="layer-content">
-                        <div class="layer-title">专项 Agent 层</div>
-                        <div class="layer-desc">Magento 领域专家 + 通用领域专家</div>
+                        <div class="layer-title">专项 Skill 层</div>
+                        <div class="layer-desc">Magento 专项 Skill + 通用专家 Agent</div>
                     </div>
                     <div class="layer-agents">
                         <span class="agent-tag magento">magento-architect</span>
                         <span class="agent-tag magento">magento-upgrader</span>
                         <span class="agent-tag magento">magento-payment</span>
+                        <span class="skill-badge">专项 Skill</span>
                         <span class="agent-tag">Hephaestus</span>
                         <span class="agent-tag">Prometheus</span>
                     </div>
@@ -1172,60 +1187,22 @@
 
             <!-- Agent Cards -->
             <div class="agent-cards">
-                <div class="agent-card stagger-1">
-                    <div class="agent-header">
-                        <div class="agent-avatar">🏛️</div>
+                <div class="agent-card stagger-1" style="grid-column: 1 / -1; text-align: center; padding: 2rem;">
+                    <div class="agent-header" style="justify-content: center;">
+                        <div class="agent-avatar">📁</div>
                         <div class="agent-info">
-                            <h3>Magento Architect</h3>
-                            <span class="agent-role">magento-architect</span>
+                            <h3>Magento 专项 Skill</h3>
+                            <span class="agent-role">.opencode/skills/</span>
                         </div>
                     </div>
                     <p class="agent-description">
-                        Magento 2 架构专家，提供模块设计、DI 配置、Plugin/Observer 选择、EAV 属性规划等架构咨询服务。只读模式，不直接编写代码。
+                        magento-architect、magento-upgrader、magento-payment 已从硬编码 TypeScript Agent 转换为 <code>.opencode/skills/</code> SKILL.md 格式，
+                        通过 OpenCode Skill 系统动态加载，提供与原 Agent 相同的 Magento 领域专家能力。
                     </p>
                     <div class="agent-expertise">
-                        <span class="expertise-item">Service Layer & Repository Pattern</span>
-                        <span class="expertise-item">Dependency Injection 配置</span>
-                        <span class="expertise-item">Plugin vs Observer 决策框架</span>
-                        <span class="expertise-item">Hyvä 主题架构规划</span>
-                    </div>
-                </div>
-
-                <div class="agent-card stagger-2">
-                    <div class="agent-header">
-                        <div class="agent-avatar">⬆️</div>
-                        <div class="agent-info">
-                            <h3>Magento Upgrader</h3>
-                            <span class="agent-role">magento-upgrader</span>
-                        </div>
-                    </div>
-                    <p class="agent-description">
-                        版本升级专家，负责大规模升级（如 2.4.6→2.4.8）的全流程：UCT 分析、废弃 API 检测、依赖拓扑排序、分批执行。
-                    </p>
-                    <div class="agent-expertise">
-                        <span class="expertise-item">UCT (Upgrade Compatibility Tool) 集成</span>
-                        <span class="expertise-item">AST-Grep 批量模式检测</span>
-                        <span class="expertise-item">模块依赖图与波浪式升级</span>
-                        <span class="expertise-item">Human-in-the-loop 确认机制</span>
-                    </div>
-                </div>
-
-                <div class="agent-card stagger-3">
-                    <div class="agent-header">
-                        <div class="agent-avatar">💳</div>
-                        <div class="agent-info">
-                            <h3>Magento Payment</h3>
-                            <span class="agent-role">magento-payment</span>
-                        </div>
-                    </div>
-                    <p class="agent-description">
-                        支付集成专家，专注于支付网关集成、PCI-DSS 合规、CSP 配置、Vault 集成、多货币/税务处理。
-                    </p>
-                    <div class="agent-expertise">
-                        <span class="expertise-item">支付网关架构设计</span>
-                        <span class="expertise-item">PCI-DSS 合规检查清单</span>
-                        <span class="expertise-item">Vault 安全存储集成</span>
-                        <span class="expertise-item">多货币与税务计算</span>
+                        <span class="expertise-item">magento-architect — 模块设计、DI 配置、Plugin/Observer 决策</span>
+                        <span class="expertise-item">magento-upgrader — UCT 分析、废弃 API 检测、波浪式升级</span>
+                        <span class="expertise-item">magento-payment — 支付网关、PCI-DSS 合规、Vault 集成</span>
                     </div>
                 </div>
             </div>
@@ -1234,7 +1211,7 @@
             <div class="router-sim">
                 <div class="router-header">
                     <h3 class="router-title">Sisyphus 路由决策模拟</h3>
-                    <p class="router-subtitle">输入关键词，查看 Sisyphus 如何路由到对应的 Agent</p>
+                    <p class="router-subtitle">输入关键词，查看 Sisyphus 如何调用专项 Skill</p>
                 </div>
                 <div class="router-input-container">
                     <input type="text" class="router-input" id="routerInput" placeholder="输入关键词，如：upgrade、payment、di.xml、hyva theme...">
@@ -1253,7 +1230,7 @@
         <div class="section-header">
             <div class="section-number">03</div>
             <h2 class="section-title">核心能力</h2>
-            <p class="section-desc">9 个 Magento/Hyvä 专项 Skill</p>
+            <p class="section-desc">12 个 Magento/Hyvä 专项 Skill</p>
         </div>
 
         <div class="skills-grid">
@@ -1354,6 +1331,39 @@
                     </div>
                 </div>
                 <p class="skill-desc">兼容模块：第三方 Magento 模块的 Hyvä 兼容层开发</p>
+            </div>
+
+            <div class="skill-card stagger-10">
+                <div class="skill-header">
+                    <div class="skill-icon">🏛️</div>
+                    <div>
+                        <div class="skill-name">magento-architect</div>
+                        <div class="skill-domain">Architecture</div>
+                    </div>
+                </div>
+                <p class="skill-desc">架构咨询：模块设计、DI 配置、Plugin/Observer 决策、Hyvä 主题架构。只读模式，不直接写代码。</p>
+            </div>
+
+            <div class="skill-card stagger-11">
+                <div class="skill-header">
+                    <div class="skill-icon">⬆️</div>
+                    <div>
+                        <div class="skill-name">magento-upgrader</div>
+                        <div class="skill-domain">Migration</div>
+                    </div>
+                </div>
+                <p class="skill-desc">版本升级：UCT 分析、废弃 API 检测、波浪式升级执行、回滚策略</p>
+            </div>
+
+            <div class="skill-card stagger-12">
+                <div class="skill-header">
+                    <div class="skill-icon">💳</div>
+                    <div>
+                        <div class="skill-name">magento-payment</div>
+                        <div class="skill-domain">Payment</div>
+                    </div>
+                </div>
+                <p class="skill-desc">支付集成：Payment Provider Gateway、Vault、Luma/Hyvä Checkout、PCI-DSS 合规</p>
             </div>
         </div>
 
@@ -1576,54 +1586,54 @@
         // Router Simulation
         const routerKeywords = {
             'upgrade': {
-                path: ['Sisyphus', 'Keyword Detect', 'Category: magento-backend', 'magento-upgrader'],
-                agent: 'Magento Upgrader',
-                desc: '版本升级专家 - 负责 UCT 分析、废弃 API 检测、波浪式升级执行'
+                path: ['Sisyphus', 'Keyword Detect', 'Category: magento-backend', 'magento-upgrader Skill'],
+                agent: 'Magento Upgrader Skill',
+                desc: 'magento-upgrader — 版本升级专家 - 负责 UCT 分析、废弃 API 检测、波浪式升级执行'
             },
             'version': {
-                path: ['Sisyphus', 'Keyword Detect', 'Category: magento-backend', 'magento-upgrader'],
-                agent: 'Magento Upgrader',
-                desc: '版本升级专家 - 负责 UCT 分析、废弃 API 检测、波浪式升级执行'
+                path: ['Sisyphus', 'Keyword Detect', 'Category: magento-backend', 'magento-upgrader Skill'],
+                agent: 'Magento Upgrader Skill',
+                desc: 'magento-upgrader — 版本升级专家 - 负责 UCT 分析、废弃 API 检测、波浪式升级执行'
             },
             'payment': {
-                path: ['Sisyphus', 'Keyword Detect', 'Category: magento-integration', 'magento-payment'],
-                agent: 'Magento Payment',
-                desc: '支付集成专家 - 负责支付网关、PCI-DSS 合规、Vault 集成'
+                path: ['Sisyphus', 'Keyword Detect', 'Category: magento-integration', 'magento-payment Skill'],
+                agent: 'Magento Payment Skill',
+                desc: 'magento-payment — 支付集成专家 - 负责支付网关、PCI-DSS 合规、Vault 集成'
             },
             'pci': {
-                path: ['Sisyphus', 'Keyword Detect', 'Category: magento-integration', 'magento-payment'],
-                agent: 'Magento Payment',
-                desc: '支付集成专家 - 负责支付网关、PCI-DSS 合规、Vault 集成'
+                path: ['Sisyphus', 'Keyword Detect', 'Category: magento-integration', 'magento-payment Skill'],
+                agent: 'Magento Payment Skill',
+                desc: 'magento-payment — 支付集成专家 - 负责支付网关、PCI-DSS 合规、Vault 集成'
             },
             'di.xml': {
-                path: ['Sisyphus', 'Keyword Detect', 'Category: magento-backend', 'magento-architect'],
-                agent: 'Magento Architect',
-                desc: '架构专家 - 负责 DI 配置、模块设计、架构决策'
+                path: ['Sisyphus', 'Keyword Detect', 'Category: magento-backend', 'magento-architect Skill'],
+                agent: 'Magento Architect Skill',
+                desc: 'magento-architect — 架构专家 - 负责 DI 配置、模块设计、架构决策'
             },
             'module': {
-                path: ['Sisyphus', 'Keyword Detect', 'Category: magento-backend', 'magento-architect'],
-                agent: 'Magento Architect',
-                desc: '架构专家 - 负责模块设计、DI 配置、架构决策'
+                path: ['Sisyphus', 'Keyword Detect', 'Category: magento-backend', 'magento-architect Skill'],
+                agent: 'Magento Architect Skill',
+                desc: 'magento-architect — 架构专家 - 负责模块设计、DI 配置、架构决策'
             },
             'hyva': {
-                path: ['Sisyphus', 'Keyword Detect', 'Category: magento-hyva', 'magento-architect'],
-                agent: 'Magento Architect',
-                desc: '架构专家 - 负责 Hyvä 主题架构、兼容性模块设计'
+                path: ['Sisyphus', 'Keyword Detect', 'Category: magento-hyva', 'magento-architect Skill'],
+                agent: 'Magento Architect Skill',
+                desc: 'magento-architect — 架构专家 - 负责 Hyvä 主题架构、兼容性模块设计'
             },
             'theme': {
-                path: ['Sisyphus', 'Keyword Detect', 'Category: magento-hyva', 'magento-architect'],
-                agent: 'Magento Architect',
-                desc: '架构专家 - 负责 Hyvä 主题架构、兼容性模块设计'
+                path: ['Sisyphus', 'Keyword Detect', 'Category: magento-hyva', 'magento-architect Skill'],
+                agent: 'Magento Architect Skill',
+                desc: 'magento-architect — 架构专家 - 负责 Hyvä 主题架构、兼容性模块设计'
             },
             'plugin': {
-                path: ['Sisyphus', 'Keyword Detect', 'Category: magento-backend', 'magento-architect'],
-                agent: 'Magento Architect',
-                desc: '架构专家 - 负责 Plugin vs Observer 决策、架构设计'
+                path: ['Sisyphus', 'Keyword Detect', 'Category: magento-backend', 'magento-architect Skill'],
+                agent: 'Magento Architect Skill',
+                desc: 'magento-architect — 架构专家 - 负责 Plugin vs Observer 决策、架构设计'
             },
             'observer': {
-                path: ['Sisyphus', 'Keyword Detect', 'Category: magento-backend', 'magento-architect'],
-                agent: 'Magento Architect',
-                desc: '架构专家 - 负责 Plugin vs Observer 决策、架构设计'
+                path: ['Sisyphus', 'Keyword Detect', 'Category: magento-backend', 'magento-architect Skill'],
+                agent: 'Magento Architect Skill',
+                desc: 'magento-architect — 架构专家 - 负责 Plugin vs Observer 决策、架构设计'
             }
         };
 

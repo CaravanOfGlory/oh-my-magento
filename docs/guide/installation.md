@@ -14,8 +14,8 @@ https://raw.githubusercontent.com/caravanglory/oh-my-magento/refs/heads/dev/docs
 Run the interactive installer:
 
 ```bash
-bunx oh-my-opencode install # recommended
-npx oh-my-opencode install # alternative
+bunx oh-my-magento install # recommended
+npx oh-my-magento install # alternative
 ```
 
 > **Note**: The CLI ships with standalone binaries for all major platforms. No runtime (Bun/Node.js) is required for CLI execution after installation.
@@ -96,19 +96,19 @@ Spawn a subagent to handle installation and report back - to save context.
 Based on user's answers, run the CLI installer with appropriate flags:
 
 ```bash
-bunx oh-my-opencode install --no-tui --claude=<yes|no|max20> --gemini=<yes|no> --copilot=<yes|no> [--openai=<yes|no>] [--opencode-go=<yes|no>] [--opencode-zen=<yes|no>] [--zai-coding-plan=<yes|no>]
+bunx oh-my-magento install --no-tui --claude=<yes|no|max20> --gemini=<yes|no> --copilot=<yes|no> [--openai=<yes|no>] [--opencode-go=<yes|no>] [--opencode-zen=<yes|no>] [--zai-coding-plan=<yes|no>]
 ```
 
 **Examples:**
 
-- User has all native subscriptions: `bunx oh-my-opencode install --no-tui --claude=max20 --openai=yes --gemini=yes --copilot=no`
-- User has only Claude: `bunx oh-my-opencode install --no-tui --claude=yes --gemini=no --copilot=no`
-- User has Claude + OpenAI: `bunx oh-my-opencode install --no-tui --claude=yes --openai=yes --gemini=no --copilot=no`
-- User has only GitHub Copilot: `bunx oh-my-opencode install --no-tui --claude=no --gemini=no --copilot=yes`
-- User has Z.ai for Librarian: `bunx oh-my-opencode install --no-tui --claude=yes --gemini=no --copilot=no --zai-coding-plan=yes`
-- User has only OpenCode Zen: `bunx oh-my-opencode install --no-tui --claude=no --gemini=no --copilot=no --opencode-zen=yes`
-- User has OpenCode Go only: `bunx oh-my-opencode install --no-tui --claude=no --openai=no --gemini=no --copilot=no --opencode-go=yes`
-- User has no subscriptions: `bunx oh-my-opencode install --no-tui --claude=no --gemini=no --copilot=no`
+- User has all native subscriptions: `bunx oh-my-magento install --no-tui --claude=max20 --openai=yes --gemini=yes --copilot=no`
+- User has only Claude: `bunx oh-my-magento install --no-tui --claude=yes --gemini=no --copilot=no`
+- User has Claude + OpenAI: `bunx oh-my-magento install --no-tui --claude=yes --openai=yes --gemini=no --copilot=no`
+- User has only GitHub Copilot: `bunx oh-my-magento install --no-tui --claude=no --gemini=no --copilot=yes`
+- User has Z.ai for Librarian: `bunx oh-my-magento install --no-tui --claude=yes --gemini=no --copilot=no --zai-coding-plan=yes`
+- User has only OpenCode Zen: `bunx oh-my-magento install --no-tui --claude=no --gemini=no --copilot=no --opencode-zen=yes`
+- User has OpenCode Go only: `bunx oh-my-magento install --no-tui --claude=no --openai=no --gemini=no --copilot=no --opencode-go=yes`
+- User has no subscriptions: `bunx oh-my-magento install --no-tui --claude=no --gemini=no --copilot=no`
 
 The CLI will:
 
@@ -201,7 +201,7 @@ GitHub Copilot is supported as a **fallback provider** when native providers are
 
 ##### Model Mappings
 
-When GitHub Copilot is the best available provider, oh-my-opencode uses these model assignments:
+When GitHub Copilot is the best available provider, oh-my-magento uses these model assignments:
 
 | Agent         | Model                             |
 | ------------- | --------------------------------- |
@@ -243,7 +243,7 @@ When OpenCode Zen is the best available provider (no native or Copilot), these m
 Run the installer and select "Yes" for GitHub Copilot:
 
 ```bash
-bunx oh-my-opencode install
+bunx oh-my-magento install
 # Select your subscriptions (Claude, ChatGPT, Gemini)
 # When prompted: "Do you have a GitHub Copilot subscription?" → Select "Yes"
 ```
@@ -251,7 +251,7 @@ bunx oh-my-opencode install
 Or use non-interactive mode:
 
 ```bash
-bunx oh-my-opencode install --no-tui --claude=no --openai=no --gemini=no --copilot=yes
+bunx oh-my-magento install --no-tui --claude=no --openai=no --gemini=no --copilot=yes
 ```
 
 Then authenticate with GitHub:
@@ -263,7 +263,7 @@ opencode auth login
 
 ### Step 5: Understand Your Model Setup
 
-You've just configured oh-my-opencode. Here's what got set up and why.
+You've just configured oh-my-magento. Here's what got set up and why.
 
 #### Model Families: What You're Working With
 

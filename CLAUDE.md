@@ -106,5 +106,22 @@ Publish via `gh workflow run publish -f bump=patch` — never run `bun publish` 
 ## Debugging
 
 - Logger writes to `/tmp/oh-my-magento.log`
-- Test locally by pointing OpenCode plugin config to `file:///absolute/path/to/oh-my-magento/dist/index.js`
 - See `AGENTS.md` for detailed architecture documentation
+
+### Local Plugin Testing
+
+`opencode.json` 中的插件默认指向 npm 包版本。要测试本地修改：
+
+```jsonc
+{
+  "plugin": [
+    // 生产：使用 npm 版本
+    // "oh-my-magento@latest"
+
+    // 本地开发：指向 dist/index.js
+    "file:///absolute/path/to/oh-my-magento/dist/index.js"
+  ]
+}
+```
+
+每次修改后重新构建：`bun run build`，然后重启 OpenCode。
