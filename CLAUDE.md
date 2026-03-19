@@ -6,6 +6,20 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 oh-my-magento is an OpenCode plugin that extends Claude Code with multi-agent orchestration (Sisyphus, Hephaestus, Prometheus, etc.), 46 lifecycle hooks, 26 tools, a skill/command/MCP system, and Claude Code compatibility. Built with Bun + TypeScript (Zod v4 validation, ESM output).
 
+## Package & Plugin Naming
+
+This project uses three distinct names that are easy to confuse:
+
+| Name | What it refers to | Examples |
+|------|-------------------|----------|
+| `oh-my-magento` | **Our npm package + CLI binary** (package.json `name`) | `bunx oh-my-magento install`, `~/.config/opencode/oh-my-magento.jsonc`, plugin in `opencode.json` |
+| `oh-my-opencode` | **Upstream npm package** (the original project we forked from) | npm badge URLs, upstream references, `optionalDependencies` |
+| `oh-my-openagent` | **Upstream GitHub repo** (`code-yeongyu/oh-my-openagent`) | Cross-links in README as "this is a fork of..." |
+
+> **Critical rule**: Never conflate `oh-my-opencode` (upstream) with our `oh-my-magento`. Every mention of `oh-my-opencode` in our docs either refers to upstream or is an alias pointing to our binary.
+
+The CLI binary has both names as aliases (`bin` in package.json: both `oh-my-magento` and `oh-my-opencode` → same file), but our canonical name is `oh-my-magento`.
+
 ## Commands
 
 ```bash
@@ -16,10 +30,10 @@ bun test               # Bun test suite (co-located *.test.ts, given/when/then s
 bun test path/to/file  # Run single test file
 bun run clean          # Remove dist/
 
-# CLI (installed as oh-my-opencode or oh-my-magento binary)
-bunx oh-my-opencode install  # Interactive setup
-bunx oh-my-opencode doctor   # Health diagnostics
-bunx oh-my-opencode run      # Non-interactive session
+# CLI (our npm package: oh-my-magento)
+bunx oh-my-magento install  # Interactive setup
+bunx oh-my-magento doctor   # Health diagnostics
+bunx oh-my-magento run      # Non-interactive session
 ```
 
 ## Architecture
@@ -42,6 +56,7 @@ src/
 ```
 
 **Initialization flow**: `OhMyOpenCodePlugin(ctx)` → loadPluginConfig() → createManagers() → createTools() → createHooks() → createPluginInterface()
+(Note: the source class is named `OhMyOpenCodePlugin` — the class name has not been renamed, but all user-facing references use `oh-my-magento`)
 
 ## Key Patterns
 
@@ -90,6 +105,6 @@ Publish via `gh workflow run publish -f bump=patch` — never run `bun publish` 
 
 ## Debugging
 
-- Logger writes to `/tmp/oh-my-opencode.log`
+- Logger writes to `/tmp/oh-my-magento.log`
 - Test locally by pointing OpenCode plugin config to `file:///absolute/path/to/oh-my-magento/dist/index.js`
 - See `AGENTS.md` for detailed architecture documentation
