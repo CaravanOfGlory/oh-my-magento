@@ -5,6 +5,7 @@ import { getLocalVersion } from "./get-local-version"
 import { doctor } from "./doctor"
 import { createMcpOAuthCommand } from "./mcp-oauth"
 import { copilotXCli } from "./copilot-x"
+import { createMinimaxCommand } from "./minimax"
 import { createUsageCommand } from "./usage"
 import type { InstallArgs } from "./types"
 import type { RunOptions } from "./run"
@@ -187,6 +188,7 @@ program
 
 program.addCommand(createMcpOAuthCommand())
 program.addCommand(createUsageCommand())
+program.addCommand(createMinimaxCommand())
 
 program
   .command("copilot-x")
