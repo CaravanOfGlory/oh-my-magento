@@ -4,7 +4,10 @@ on:
   push:
     branches: [master, dev]
   pull_request:
-    branches: [master, dev]
+    branches: [dev]
+
+# dev is the production branch (trunk-based development)
+# master is kept as a mirror of the latest release tag
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
