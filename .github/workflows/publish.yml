@@ -219,9 +219,6 @@ jobs:
       - name: Check if oh-my-openagent already published
         id: check-openagent
         run: |
-      - name: Check if oh-my-openagent already published
-        id: check-openagent
-        run: |
           VERSION="${{ steps.version.outputs.version }}"
           STATUS=$(curl -s -o /dev/null -w "%{http_code}" "https://registry.npmjs.org/oh-my-openagent/${VERSION}")
           if [ "$STATUS" = "200" ]; then
