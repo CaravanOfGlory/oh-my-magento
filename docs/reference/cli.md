@@ -1,6 +1,6 @@
 # CLI Reference
 
-Complete reference for the `oh-my-opencode` command-line interface.
+Complete reference for the `oh-my-magento` command-line interface.
 
 ## Basic Usage
 

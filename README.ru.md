@@ -12,16 +12,13 @@
 
 > [!TIP] Будьте с нами!
 >
-> | [](https://discord.gg/PUwSMR9XNk)   | Вступайте в наш [Discord](https://discord.gg/PUwSMR9XNk), чтобы общаться с контрибьюторами и пользователями `oh-my-opencode`. |
-> | ----------------------------------- | ------------------------------------------------------------ |
-> | [](https://x.com/justsisyphus)      | Новости и обновления `oh-my-opencode` раньше публиковались на моём аккаунте X. <br /> После ошибочной блокировки, [@justsisyphus](https://x.com/justsisyphus) публикует обновления вместо меня. |
-> | [](https://github.com/code-yeongyu) | Подпишитесь на [@code-yeongyu](https://github.com/code-yeongyu) на GitHub, чтобы следить за другими проектами. |
+> | [](https://discord.gg/PUwSMR9XNk)   | Вступайте в наш [Discord](https://discord.gg/PUwSMR9XNk), чтобы общаться с контрибьюторами и пользователями `oh-my-magento`. |
 
 <!-- <CENTERED SECTION FOR GITHUB DISPLAY> --> <div align="center">
 
-[![Oh My OpenCode](./.github/assets/hero.jpg)](https://github.com/code-yeongyu/oh-my-openagent#oh-my-opencode)
+[![Oh My Magento](./.github/assets/hero.jpg)](https://github.com/caravanglory/oh-my-magento#oh-my-magento)
 
-[![Preview](./.github/assets/omo.png)](https://github.com/code-yeongyu/oh-my-openagent#oh-my-opencode)
+[![Preview](./.github/assets/omo.png)](https://github.com/caravanglory/oh-my-magento#oh-my-magento)
 
 </div>
 
@@ -31,7 +28,7 @@
 
 <div align="center">
 
-[![GitHub Release](https://img.shields.io/github/v/release/code-yeongyu/oh-my-openagent?color=369eff&labelColor=black&logo=github&style=flat-square)](https://github.com/code-yeongyu/oh-my-openagent/releases) [![npm downloads](https://img.shields.io/npm/dt/oh-my-opencode?color=ff6b35&labelColor=black&style=flat-square)](https://www.npmjs.com/package/oh-my-opencode) [![GitHub Contributors](https://img.shields.io/github/contributors/code-yeongyu/oh-my-openagent?color=c4f042&labelColor=black&style=flat-square)](https://github.com/code-yeongyu/oh-my-openagent/graphs/contributors) [![GitHub Forks](https://img.shields.io/github/forks/code-yeongyu/oh-my-openagent?color=8ae8ff&labelColor=black&style=flat-square)](https://github.com/code-yeongyu/oh-my-openagent/network/members) [![GitHub Stars](https://img.shields.io/github/stars/code-yeongyu/oh-my-openagent?color=ffcb47&labelColor=black&style=flat-square)](https://github.com/code-yeongyu/oh-my-openagent/stargazers) [![GitHub Issues](https://img.shields.io/github/issues/code-yeongyu/oh-my-openagent?color=ff80eb&labelColor=black&style=flat-square)](https://github.com/code-yeongyu/oh-my-openagent/issues) [![License](https://img.shields.io/badge/license-SUL--1.0-white?labelColor=black&style=flat-square)](https://github.com/code-yeongyu/oh-my-openagent/blob/master/LICENSE.md) [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/code-yeongyu/oh-my-openagent)
+[![GitHub Release](https://img.shields.io/github/v/release/caravanglory/oh-my-magento?color=369eff&labelColor=black&logo=github&style=flat-square)](https://github.com/caravanglory/oh-my-magento/releases) [![npm downloads](https://img.shields.io/npm/dt/oh-my-opencode?color=ff6b35&labelColor=black&style=flat-square)](https://www.npmjs.com/package/oh-my-opencode) [![GitHub Contributors](https://img.shields.io/github/contributors/caravanglory/oh-my-magento?color=c4f042&labelColor=black&style=flat-square)](https://github.com/caravanglory/oh-my-magento/graphs/contributors) [![GitHub Forks](https://img.shields.io/github/forks/caravanglory/oh-my-magento?color=8ae8ff&labelColor=black&style=flat-square)](https://github.com/caravanglory/oh-my-magento/network/members) [![GitHub Stars](https://img.shields.io/github/stars/caravanglory/oh-my-magento?color=ffcb47&labelColor=black&style=flat-square)](https://github.com/caravanglory/oh-my-magento/stargazers) [![GitHub Issues](https://img.shields.io/github/issues/caravanglory/oh-my-magento?color=ff80eb&labelColor=black&style=flat-square)](https://github.com/caravanglory/oh-my-magento/issues) [![License](https://img.shields.io/badge/license-SUL--1.0-white?labelColor=black&style=flat-square)](https://github.com/caravanglory/oh-my-magento/blob/dev/LICENSE.md) [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/caravanglory/oh-my-magento)
 
 English | 한국어 | 日本語 | 简体中文 | Русский
 
@@ -76,8 +73,8 @@ English | 한국어 | 日本語 | 简体中文 | Русский
 Скопируйте и вставьте этот промпт в ваш LLM-агент (Claude Code, AmpCode, Cursor и т.д.):
 
 ```
-Install and configure oh-my-opencode by following the instructions here:
-https://raw.githubusercontent.com/code-yeongyu/oh-my-openagent/refs/heads/dev/docs/guide/installation.md
+Install and configure oh-my-magento by following the instructions here:
+https://raw.githubusercontent.com/caravanglory/oh-my-magento/refs/heads/dev/docs/guide/installation.md
 ```
 
 Или прочитайте руководство по установке, но серьёзно — пусть агент сделает это за вас. Люди ошибаются в конфигах.
@@ -87,7 +84,7 @@ https://raw.githubusercontent.com/code-yeongyu/oh-my-openagent/refs/heads/dev/do
 Загрузите руководство по установке и следуйте ему:
 
 ```bash
-curl -s https://raw.githubusercontent.com/code-yeongyu/oh-my-openagent/refs/heads/dev/docs/guide/installation.md
+curl -s https://raw.githubusercontent.com/caravanglory/oh-my-magento/refs/heads/dev/docs/guide/installation.md
 ```
 
 ------
@@ -97,7 +94,7 @@ curl -s https://raw.githubusercontent.com/code-yeongyu/oh-my-openagent/refs/head
 Мы вышли за пределы эпохи чтения документации. Просто вставьте это в своего агента:
 
 ```
-Read this and tell me why it's not just another boilerplate: https://raw.githubusercontent.com/code-yeongyu/oh-my-openagent/refs/heads/dev/README.md
+Read this and tell me why it's not just another boilerplate: https://raw.githubusercontent.com/caravanglory/oh-my-magento/refs/heads/dev/README.md
 ```
 
 ## Ключевые возможности
@@ -242,11 +239,11 @@ project/
 
 ------
 
-> **Впервые в oh-my-opencode?** Прочитайте **Обзор**, чтобы понять, что у вас есть, или ознакомьтесь с **руководством по оркестрации**, чтобы узнать, как агенты взаимодействуют.
+> **Впервые в oh-my-magento?** Прочитайте **Обзор**, чтобы понять, что у вас есть, или ознакомьтесь с **руководством по оркестрации**, чтобы узнать, как агенты взаимодействуют.
 
 ## Удаление
 
-Чтобы удалить oh-my-opencode:
+Чтобы удалить oh-my-magento:
 
 1. **Удалите плагин из конфига OpenCode**
 
@@ -263,10 +260,10 @@ project/
 
    ```bash
    # Удалить пользовательский конфиг
-   rm -f ~/.config/opencode/oh-my-opencode.json ~/.config/opencode/oh-my-opencode.jsonc
+   rm -f ~/.config/opencode/oh-my-magento.json ~/.config/opencode/oh-my-magento.jsonc
 
    # Удалить конфиг проекта (если существует)
-   rm -f .opencode/oh-my-opencode.json .opencode/oh-my-opencode.jsonc
+   rm -f .opencode/oh-my-magento.json .opencode/oh-my-magento.jsonc
    ```
 
 3. **Проверьте удаление**
@@ -303,7 +300,7 @@ project/
 
 **Краткий обзор:**
 
-- **Расположение конфигов**: `.opencode/oh-my-opencode.jsonc` или `.opencode/oh-my-opencode.json` (проект), `~/.config/opencode/oh-my-opencode.jsonc` или `~/.config/opencode/oh-my-opencode.json` (пользователь)
+- **Расположение конфигов**: `.opencode/oh-my-magento.jsonc` или `.opencode/oh-my-magento.json` (проект), `~/.config/opencode/oh-my-magento.jsonc` или `~/.config/opencode/oh-my-magento.json` (пользователь)
 - **Поддержка JSONC**: Комментарии и конечные запятые поддерживаются
 - **Агенты**: Переопределение моделей, температур, промптов и разрешений для любого агента
 - **Встроенные навыки**: `playwright` (автоматизация браузера), `git-master` (атомарные коммиты)

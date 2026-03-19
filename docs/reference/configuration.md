@@ -1,6 +1,6 @@
 # Configuration Reference
 
-Complete reference for `oh-my-opencode.jsonc` configuration. This document covers every available option with examples.
+Complete reference for `oh-my-magento.jsonc` configuration. This document covers every available option with examples.
 
 ---
 
@@ -44,13 +44,13 @@ Complete reference for `oh-my-opencode.jsonc` configuration. This document cover
 
 Priority order (project overrides user):
 
-1. `.opencode/oh-my-opencode.jsonc` / `.opencode/oh-my-opencode.json`
+1. `.opencode/oh-my-magento.jsonc` / `.opencode/oh-my-magento.json`
 2. User config (`.jsonc` preferred over `.json`):
 
 | Platform    | Path                                      |
 | ----------- | ----------------------------------------- |
-| macOS/Linux | `~/.config/opencode/oh-my-opencode.jsonc` |
-| Windows     | `%APPDATA%\opencode\oh-my-opencode.jsonc` |
+| macOS/Linux | `~/.config/opencode/oh-my-magento.jsonc` |
+| Windows     | `%APPDATA%\opencode\oh-my-magento.jsonc` |
 
 JSONC supports `// line comments`, `/* block comments */`, and trailing commas.
 
@@ -58,7 +58,7 @@ Enable schema autocomplete:
 
 ```json
 {
-  "$schema": "https://raw.githubusercontent.com/code-yeongyu/oh-my-openagent/dev/assets/oh-my-opencode.schema.json"
+  "$schema": "https://raw.githubusercontent.com/caravanglory/oh-my-magento/dev/assets/oh-my-magento.schema.json"
 }
 ```
 
@@ -70,7 +70,7 @@ Here's a practical starting configuration:
 
 ```jsonc
 {
-  "$schema": "https://raw.githubusercontent.com/code-yeongyu/oh-my-openagent/dev/assets/oh-my-opencode.schema.json",
+  "$schema": "https://raw.githubusercontent.com/caravanglory/oh-my-magento/dev/assets/oh-my-magento.schema.json",
 
   "agents": {
     // Main orchestrator: Claude Opus or Kimi K2.5 work best

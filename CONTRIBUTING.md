@@ -63,8 +63,8 @@ If English isn't your first language, don't worry! We value your contributions r
 
 ```bash
 # Clone the repository
-git clone https://github.com/code-yeongyu/oh-my-openagent.git
-cd oh-my-openagent
+git clone https://github.com/caravanglory/oh-my-magento.git
+cd oh-my-magento
 
 # Install dependencies (bun only - never use npm/yarn)
 bun install

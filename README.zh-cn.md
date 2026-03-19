@@ -12,18 +12,15 @@
 > [!TIP]
 > 加入我们！
 >
-> | [<img alt="Discord link" src="https://img.shields.io/discord/1452487457085063218?color=5865F2&label=discord&labelColor=black&logo=discord&logoColor=white&style=flat-square" width="156px" />](https://discord.gg/PUwSMR9XNk) | 加入我们的 [Discord 社区](https://discord.gg/PUwSMR9XNk)，与贡献者及其他 `oh-my-opencode` 用户交流。 |
-> | :-----| :----- |
-> | [<img alt="X link" src="https://img.shields.io/badge/Follow-%40justsisyphus-00CED1?style=flat-square&logo=x&labelColor=black" width="156px" />](https://x.com/justsisyphus) | 关于 `oh-my-opencode` 的新闻和更新过去发布在我的 X 账号上。<br /> 因为账号被意外停用，现在由 [@justsisyphus](https://x.com/justsisyphus) 代为发布更新。 |
-> | [<img alt="GitHub Follow" src="https://img.shields.io/github/followers/code-yeongyu?style=flat-square&logo=github&labelColor=black&color=24292f" width="156px" />](https://github.com/code-yeongyu) | 在 GitHub 上关注 [@code-yeongyu](https://github.com/code-yeongyu) 获取更多项目信息。 |
+> | [<img alt="Discord link" src="https://img.shields.io/discord/1452487457085063218?color=5865F2&label=discord&labelColor=black&logo=discord&logoColor=white&style=flat-square" width="156px" />](https://discord.gg/PUwSMR9XNk) | 加入我们的 [Discord 社区](https://discord.gg/PUwSMR9XNk)，与贡献者及其他 `oh-my-magento` 用户交流。 |
 
 <!-- <CENTERED SECTION FOR GITHUB DISPLAY> -->
 
 <div align="center">
 
-[![Oh My OpenCode](./.github/assets/hero.jpg)](https://github.com/code-yeongyu/oh-my-openagent#oh-my-opencode)
+[![Oh My Magento](./.github/assets/hero.jpg)](https://github.com/caravanglory/oh-my-magento#oh-my-magento)
 
-[![Preview](./.github/assets/omo.png)](https://github.com/code-yeongyu/oh-my-openagent#oh-my-opencode)
+[![Preview](./.github/assets/omo.png)](https://github.com/caravanglory/oh-my-magento#oh-my-magento)
 
 </div>
 
@@ -33,14 +30,14 @@
 
 <div align="center">
 
-[![GitHub Release](https://img.shields.io/github/v/release/code-yeongyu/oh-my-openagent?color=369eff&labelColor=black&logo=github&style=flat-square)](https://github.com/code-yeongyu/oh-my-openagent/releases)
+[![GitHub Release](https://img.shields.io/github/v/release/caravanglory/oh-my-magento?color=369eff&labelColor=black&logo=github&style=flat-square)](https://github.com/caravanglory/oh-my-magento/releases)
 [![npm downloads](https://img.shields.io/npm/dt/oh-my-opencode?color=ff6b35&labelColor=black&style=flat-square)](https://www.npmjs.com/package/oh-my-opencode)
-[![GitHub Contributors](https://img.shields.io/github/contributors/code-yeongyu/oh-my-openagent?color=c4f042&labelColor=black&style=flat-square)](https://github.com/code-yeongyu/oh-my-openagent/graphs/contributors)
-[![GitHub Forks](https://img.shields.io/github/forks/code-yeongyu/oh-my-openagent?color=8ae8ff&labelColor=black&style=flat-square)](https://github.com/code-yeongyu/oh-my-openagent/network/members)
-[![GitHub Stars](https://img.shields.io/github/stars/code-yeongyu/oh-my-openagent?color=ffcb47&labelColor=black&style=flat-square)](https://github.com/code-yeongyu/oh-my-openagent/stargazers)
-[![GitHub Issues](https://img.shields.io/github/issues/code-yeongyu/oh-my-openagent?color=ff80eb&labelColor=black&style=flat-square)](https://github.com/code-yeongyu/oh-my-openagent/issues)
-[![License](https://img.shields.io/badge/license-SUL--1.0-white?labelColor=black&style=flat-square)](https://github.com/code-yeongyu/oh-my-openagent/blob/dev/LICENSE.md)
-[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/code-yeongyu/oh-my-openagent)
+[![GitHub Contributors](https://img.shields.io/github/contributors/caravanglory/oh-my-magento?color=c4f042&labelColor=black&style=flat-square)](https://github.com/caravanglory/oh-my-magento/graphs/contributors)
+[![GitHub Forks](https://img.shields.io/github/forks/caravanglory/oh-my-magento?color=8ae8ff&labelColor=black&style=flat-square)](https://github.com/caravanglory/oh-my-magento/network/members)
+[![GitHub Stars](https://img.shields.io/github/stars/caravanglory/oh-my-magento?color=ffcb47&labelColor=black&style=flat-square)](https://github.com/caravanglory/oh-my-magento/stargazers)
+[![GitHub Issues](https://img.shields.io/github/issues/caravanglory/oh-my-magento?color=ff80eb&labelColor=black&style=flat-square)](https://github.com/caravanglory/oh-my-magento/issues)
+[![License](https://img.shields.io/badge/license-SUL--1.0-white?labelColor=black&style=flat-square)](https://github.com/caravanglory/oh-my-magento/blob/dev/LICENSE.md)
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/caravanglory/oh-my-magento)
 
 [English](README.md) | [한국어](README.ko.md) | [日本語](README.ja.md) | [简体中文](README.zh-cn.md)
 
@@ -91,8 +88,8 @@
 复制并粘贴以下提示词到你的 LLM Agent (Claude Code, AmpCode, Cursor 等):
 
 ```
-Install and configure oh-my-opencode by following the instructions here:
-https://raw.githubusercontent.com/code-yeongyu/oh-my-openagent/refs/heads/dev/docs/guide/installation.md
+Install and configure oh-my-magento by following the instructions here:
+https://raw.githubusercontent.com/caravanglory/oh-my-magento/refs/heads/dev/docs/guide/installation.md
 ```
 
 或者你可以直接去读 [安装指南](docs/guide/installation.md)，但说真的，让 Agent 去干吧。人类配环境总是容易敲错字母。
@@ -102,7 +99,7 @@ https://raw.githubusercontent.com/code-yeongyu/oh-my-openagent/refs/heads/dev/do
 获取安装指南并照做：
 
 ```bash
-curl -s https://raw.githubusercontent.com/code-yeongyu/oh-my-openagent/refs/heads/dev/docs/guide/installation.md
+curl -s https://raw.githubusercontent.com/caravanglory/oh-my-magento/refs/heads/dev/docs/guide/installation.md
 ```
 
 ---
@@ -112,7 +109,7 @@ curl -s https://raw.githubusercontent.com/code-yeongyu/oh-my-openagent/refs/head
 读文档的时代已经过去了。直接把下面这行发给你的 Agent：
 
 ```
-Read this and tell me why it's not just another boilerplate: https://raw.githubusercontent.com/code-yeongyu/oh-my-openagent/refs/heads/dev/README.md
+Read this and tell me why it's not just another boilerplate: https://raw.githubusercontent.com/caravanglory/oh-my-magento/refs/heads/dev/README.md
 ```
 
 ## 核心亮点
@@ -259,11 +256,11 @@ Agent 会自动顺藤摸瓜加载对应的 Context，免去了你所有的手动
 
 ---
 
-> **第一次用 oh-my-opencode？** 阅读 **[概述](docs/guide/overview.md)** 了解你拥有哪些功能，或查看 **[编排指南](docs/guide/orchestration.md)** 了解 Agent 如何协作。
+> **第一次用 oh-my-magento？** 阅读 **[概述](docs/guide/overview.md)** 了解你拥有哪些功能，或查看 **[编排指南](docs/guide/orchestration.md)** 了解 Agent 如何协作。
 
 ## 如何卸载 (Uninstallation)
 
-要移除 oh-my-opencode:
+要移除 oh-my-magento:
 
 1. **从你的 OpenCode 配置文件中去掉插件**
 
@@ -280,10 +277,10 @@ Agent 会自动顺藤摸瓜加载对应的 Context，免去了你所有的手动
 
    ```bash
    # 移除全局用户配置
-   rm -f ~/.config/opencode/oh-my-opencode.json ~/.config/opencode/oh-my-opencode.jsonc
+   rm -f ~/.config/opencode/oh-my-magento.json ~/.config/opencode/oh-my-magento.jsonc
 
    # 移除当前项目的配置
-   rm -f .opencode/oh-my-opencode.json .opencode/oh-my-opencode.jsonc
+   rm -f .opencode/oh-my-magento.json .opencode/oh-my-magento.jsonc
    ```
 
 3. **确认卸载成功**
