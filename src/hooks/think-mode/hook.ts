@@ -1,14 +1,9 @@
 import { detectThinkKeyword, extractPromptText } from "./detector"
-import { getHighVariant, isAlreadyHighVariant } from "./switcher"
+import { isAlreadyHighVariant } from "./switcher"
 import type { ThinkModeState } from "./types"
 import { log } from "../../shared"
 
 const thinkModeState = new Map<string, ThinkModeState>()
-const GITHUB_COPILOT_PROVIDER_ID = "github-copilot"
-
-function isClaudeModel(modelID: string): boolean {
-  return modelID.toLowerCase().startsWith("claude-")
-}
 
 export function clearThinkModeState(sessionID: string): void {
   thinkModeState.delete(sessionID)
@@ -61,29 +56,10 @@ export function createThinkModeHook() {
         return
       }
 
-      if (currentModel.providerID === GITHUB_COPILOT_PROVIDER_ID && isClaudeModel(currentModel.modelID)) {
-        output.message.variant = "max"
-        state.variantSet = true
-        thinkModeState.set(sessionID, state)
-        return
-      }
-
-      const highVariant = getHighVariant(currentModel.modelID)
-
-      if (highVariant) {
-        output.message.model = {
-          providerID: currentModel.providerID,
-          modelID: highVariant,
-        }
-        output.message.variant = "high"
-        state.modelSwitched = true
-        state.variantSet = true
-        log("Think mode: model switched to high variant", {
-          sessionID,
-          from: currentModel.modelID,
-          to: highVariant,
-        })
-      }
+      output.message.variant = "high"
+      state.modelSwitched = false
+      state.variantSet = true
+      log("Think mode: variant set to high", { sessionID })
 
       thinkModeState.set(sessionID, state)
     },

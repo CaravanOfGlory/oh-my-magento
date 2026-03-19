@@ -1,6 +1,6 @@
 # src/agents/ — 11 Agent Definitions
 
-**Generated:** 2026-02-24
+**Generated:** 2026-03-06
 
 ## OVERVIEW
 
@@ -10,16 +10,16 @@ Agent factories following `createXXXAgent(model) → AgentConfig` pattern. Each 
 
 | Agent | Model | Temp | Mode | Fallback Chain | Purpose |
 |-------|-------|------|------|----------------|---------|
-| **Sisyphus** | claude-opus-4-6 | 0.1 | primary | kimi-k2.5 → glm-4.7 → gemini-3-pro | Main orchestrator, plans + delegates |
-| **Hephaestus** | gpt-5.3-codex | 0.1 | primary | NONE (required) | Autonomous deep worker |
-| **Oracle** | gpt-5.2 | 0.1 | subagent | claude-opus-4-6 → gemini-3-pro | Read-only consultation |
-| **Librarian** | glm-4.7 | 0.1 | subagent | big-pickle → claude-sonnet-4-6 | External docs/code search |
-| **Explore** | grok-code-fast-1 | 0.1 | subagent | claude-haiku-4-5 → gpt-5-nano | Contextual grep |
-| **Multimodal-Looker** | gemini-3-flash | 0.1 | subagent | gpt-5.2 → glm-4.6v → ... (6 deep) | PDF/image analysis |
-| **Metis** | claude-opus-4-6 | **0.3** | subagent | kimi-k2.5 → gpt-5.2 → gemini-3-pro | Pre-planning consultant |
-| **Momus** | gpt-5.2 | 0.1 | subagent | claude-opus-4-6 → gemini-3-pro | Plan reviewer |
-| **Atlas** | claude-sonnet-4-6 | 0.1 | primary | kimi-k2.5 → gpt-5.2 → gemini-3-pro | Todo-list orchestrator |
-| **Prometheus** | claude-opus-4-6 | 0.1 | — | kimi-k2.5 → gpt-5.2 → gemini-3-pro | Strategic planner (internal) |
+| **Sisyphus** | claude-opus-4-6 max | 0.1 | all | k2p5 → kimi-k2.5 → gpt-5.4 medium → glm-5 → big-pickle | Main orchestrator, plans + delegates |
+| **Hephaestus** | gpt-5.3-codex medium | 0.1 | all | gpt-5.4 medium (copilot) | Autonomous deep worker |
+| **Oracle** | gpt-5.4 high | 0.1 | subagent | gemini-3.1-pro high → claude-opus-4-6 max | Read-only consultation |
+| **Librarian** | gemini-3-flash | 0.1 | subagent | minimax-m2.5-free → big-pickle | External docs/code search |
+| **Explore** | grok-code-fast-1 | 0.1 | subagent | minimax-m2.5-free → claude-haiku-4-5 → gpt-5-nano | Contextual grep |
+| **Multimodal-Looker** | gpt-5.3-codex medium | 0.1 | subagent | k2p5 → gemini-3-flash → glm-4.6v → gpt-5-nano | PDF/image analysis |
+| **Metis** | claude-opus-4-6 max | **0.3** | subagent | gpt-5.4 high → gemini-3.1-pro high | Pre-planning consultant |
+| **Momus** | gpt-5.4 xhigh | 0.1 | subagent | claude-opus-4-6 max → gemini-3.1-pro high | Plan reviewer |
+| **Atlas** | claude-sonnet-4-6 | 0.1 | primary | gpt-5.4 medium | Todo-list orchestrator |
+| **Prometheus** | claude-opus-4-6 max | 0.1 | — | gpt-5.4 high → gemini-3.1-pro | Strategic planner (internal) |
 | **Sisyphus-Junior** | claude-sonnet-4-6 | 0.1 | all | user-configurable | Category-spawned executor |
 
 ## TOOL RESTRICTIONS
@@ -70,7 +70,7 @@ const createXXXAgent: AgentFactory = (model: string) => ({
 createXXXAgent.mode = "subagent" // or "primary" or "all"
 ```
 
-Model resolution: `AGENT_MODEL_REQUIREMENTS` in `shared/model-requirements.ts` defines fallback chains per agent.
+Model resolution: 4-step: override → category-default → provider-fallback → system-default. Defined in `shared/model-requirements.ts`.
 
 ## MODES
 

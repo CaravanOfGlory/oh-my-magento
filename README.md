@@ -1,14 +1,3 @@
-> [!WARNING]
-> **Security warning: impersonation site**
->
-> **ohmyopencode.com is NOT affiliated with this project.** We do not operate or endorse that site.
->
-> OhMyMagento is **free and open-source**. Do **not** download installers or enter payment details on third-party sites that claim to be "official."
->
-> Because the impersonation site is behind a paywall, we **cannot verify what it distributes**. Treat any downloads from it as **potentially unsafe**.
->
-> ✅ Official downloads: https://github.com/CaravanOfGlory/oh-my-magento/releases
-
 > [!NOTE]
 >
 > [![Sisyphus Labs - Sisyphus is the agent that codes like your team.](./.github/assets/sisyphuslabs.png?v=2)](https://sisyphuslabs.ai)
@@ -19,38 +8,33 @@
 >
 > | [<img alt="Discord link" src="https://img.shields.io/discord/1452487457085063218?color=5865F2&label=discord&labelColor=black&logo=discord&logoColor=white&style=flat-square" width="156px" />](https://discord.gg/PUwSMR9XNk) | Join our [Discord community](https://discord.gg/PUwSMR9XNk) to connect with contributors and fellow `oh-my-magento` users. |
 > | :-----| :----- |
-> | [<img alt="X link" src="https://img.shields.io/badge/Follow-%40justsisyphus-00CED1?style=flat-square&logo=x&labelColor=black" width="156px" />](https://x.com/justsisyphus) | News and updates for `oh-my-magento` used to be posted on my X account. <br /> Since it was suspended mistakenly, [@justsisyphus](https://x.com/justsisyphus) now posts updates on my behalf. |
-> | [<img alt="GitHub Follow" src="https://img.shields.io/github/followers/CaravanOfGlory?style=flat-square&logo=github&labelColor=black&color=24292f" width="156px" />](https://github.com/CaravanOfGlory) | Follow [@CaravanOfGlory](https://github.com/CaravanOfGlory) on GitHub for more projects. |
+> | [<img alt="GitHub Follow" src="https://img.shields.io/github/followers/caravanglory?style=flat-square&logo=github&labelColor=black&color=24292f" width="156px" />](https://github.com/caravanglory) | Follow [@caravanglory](https://github.com/caravanglory) on GitHub for this fork and other projects. |
 
 <!-- <CENTERED SECTION FOR GITHUB DISPLAY> -->
 
 <div align="center">
 
-[![Oh My OpenCode](./.github/assets/hero.jpg)](https://github.com/CaravanOfGlory/oh-my-magento#oh-my-magento)
+[![Oh My Magento](./.github/assets/hero.jpg)](https://github.com/caravanglory/oh-my-magento#oh-my-magento)
 
-[![Preview](./.github/assets/omo.png)](https://github.com/CaravanOfGlory/oh-my-magento#oh-my-magento)
-
+[![Preview](./.github/assets/omo.png)](https://github.com/caravanglory/oh-my-magento#oh-my-magento)
 
 </div>
 
-> Anthropic [**blocked OpenCode because of us.**](https://x.com/thdxr/status/2010149530486911014) **Yes this is true.**
-> They want you locked in. Claude Code's a nice prison, but it's still a prison.
+> This is **oh-my-magento** — a fork of [oh-my-opencode](https://github.com/code-yeongyu/oh-my-openagent) specialized for Magento 2 + Hyvä development. It maintains full compatibility with oh-my-opencode while adding Magento-specific agents, skills, and workflows.
 >
-> We don't do lock-in here. We ride every model. Claude / Kimi / GLM for orchestration. GPT for reasoning. Minimax for speed. Gemini for creativity.
-> The future isn't picking one winner—it's orchestrating them all. Models get cheaper every month. Smarter every month. No single provider will dominate. We're building for that open market, not their walled gardens.
+> All upstream features are preserved. The difference: this fork ships with Magento development tools built in.
 
 <div align="center">
 
-[![GitHub Release](https://img.shields.io/github/v/release/CaravanOfGlory/oh-my-magento?color=369eff&labelColor=black&logo=github&style=flat-square)](https://github.com/CaravanOfGlory/oh-my-magento/releases)
+[![GitHub Release](https://img.shields.io/github/v/release/caravanglory/oh-my-magento?color=369eff&labelColor=black&logo=github&style=flat-square)](https://github.com/caravanglory/oh-my-magento/releases)
 [![npm downloads](https://img.shields.io/npm/dt/oh-my-magento?color=ff6b35&labelColor=black&style=flat-square)](https://www.npmjs.com/package/oh-my-magento)
-[![GitHub Contributors](https://img.shields.io/github/contributors/CaravanOfGlory/oh-my-magento?color=c4f042&labelColor=black&style=flat-square)](https://github.com/CaravanOfGlory/oh-my-magento/graphs/contributors)
-[![GitHub Forks](https://img.shields.io/github/forks/CaravanOfGlory/oh-my-magento?color=8ae8ff&labelColor=black&style=flat-square)](https://github.com/CaravanOfGlory/oh-my-magento/network/members)
-[![GitHub Stars](https://img.shields.io/github/stars/CaravanOfGlory/oh-my-magento?color=ffcb47&labelColor=black&style=flat-square)](https://github.com/CaravanOfGlory/oh-my-magento/stargazers)
-[![GitHub Issues](https://img.shields.io/github/issues/CaravanOfGlory/oh-my-magento?color=ff80eb&labelColor=black&style=flat-square)](https://github.com/CaravanOfGlory/oh-my-magento/issues)
-[![License](https://img.shields.io/badge/license-SUL--1.0-white?labelColor=black&style=flat-square)](https://github.com/CaravanOfGlory/oh-my-magento/blob/dev/LICENSE.md)
-[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/CaravanOfGlory/oh-my-magento)
+[![GitHub Contributors](https://img.shields.io/github/contributors/caravanglory/oh-my-magento?color=c4f042&labelColor=black&style=flat-square)](https://github.com/caravanglory/oh-my-magento/graphs/contributors)
+[![GitHub Forks](https://img.shields.io/github/forks/caravanglory/oh-my-magento?color=8ae8ff&labelColor=black&style=flat-square)](https://github.com/caravanglory/oh-my-magento/network/members)
+[![GitHub Stars](https://img.shields.io/github/stars/caravanglory/oh-my-magento?color=ffcb47&labelColor=black&style=flat-square)](https://github.com/caravanglory/oh-my-magento/stargazers)
+[![GitHub Issues](https://img.shields.io/github/issues/caravanglory/oh-my-magento?color=ff80eb&labelColor=black&style=flat-square)](https://github.com/caravanglory/oh-my-magento/issues)
+[![License](https://img.shields.io/badge/license-SUL--1.0-white?labelColor=black&style=flat-square)](https://github.com/caravanglory/oh-my-magento/blob/dev/LICENSE.md)
 
-[English](README.md) | [한국어](README.ko.md) | [日本語](README.ja.md) | [简体中文](README.zh-cn.md)
+[English](README.md) | [한국어](README.ko.md) | [日本語](README.ja.md) | [简体中文](README.zh-cn.md) | [Русский](README.ru.md)
 
 </div>
 
@@ -66,12 +50,11 @@
 
 > "I converted a 45k line tauri app into a SaaS web app overnight using Ohmyopencode and ralph loop. Started with interview me prompt, asked it for ratings and recommendations on the questions. It was amazing to watch it work and to wake up this morning to a mostly working website!" - [James Hargis](https://x.com/hargabyte/status/2007299688261882202)
 
-> "use oh-my-magento, you will never go back" <br/>- [d0t3ch](https://x.com/d0t3ch/status/2001685618200580503)
+> "use oh-my-magento, you will never go back" <br/>- d0t3ch
 
-> "I haven't really been able to articulate exactly what makes it so great yet, but the development experience has reached a completely different dimension." - [
-苔硯:こけすずり](https://x.com/kokesuzuri/status/2008532913961529372?s=20)
+> "I haven't really been able to articulate exactly what makes it so great yet, but the development experience has reached a completely different dimension." - [苔硯:こけすずり](https://x.com/kokesuzuri/status/2008532913961529372?s=20)
 
-> "Experimenting with open code, oh my opencode and supermemory this weekend to build some minecraft/souls-like abomination."
+> "Experimenting with open code, oh-my-magento and supermemory this weekend to build some minecraft/souls-like abomination."
 > "Asking it to add crouch animations while I go take my post-lunch walk. [Video]" - [MagiMetal](https://x.com/MagiMetal/status/2005374704178373023)
 
 > "You guys should pull this into core and recruit him. Seriously. It's really, really, really good." <br/>- Henning Kilset
@@ -82,13 +65,15 @@
 
 ---
 
-# Oh My OpenCode
+# Oh My Magento
+
+A fork of [oh-my-opencode](https://github.com/code-yeongyu/oh-my-openagent) — specialized for Magento 2 + Hyvä development. Ships with the same multi-model orchestration engine, plus Magento-specific agents and skills.
 
 You're juggling Claude Code, Codex, random OSS models. Configuring workflows. Debugging agents.
 
 We did the work. Tested everything. Kept what actually shipped.
 
-Install OmO. Type `ultrawork`. Done.
+Install the fork. Type `ultrawork`. Done.
 
 
 ## Installation
@@ -99,7 +84,7 @@ Copy and paste this prompt to your LLM agent (Claude Code, AmpCode, Cursor, etc.
 
 ```
 Install and configure oh-my-magento by following the instructions here:
-https://raw.githubusercontent.com/CaravanOfGlory/oh-my-magento/refs/heads/dev/docs/guide/installation.md
+https://raw.githubusercontent.com/caravanglory/oh-my-magento/refs/heads/dev/docs/guide/installation.md
 ```
 
 Or read the [Installation Guide](docs/guide/installation.md), but seriously, let an agent do it. Humans fat-finger configs.
@@ -109,7 +94,7 @@ Or read the [Installation Guide](docs/guide/installation.md), but seriously, let
 Fetch the installation guide and follow it:
 
 ```bash
-curl -s https://raw.githubusercontent.com/CaravanOfGlory/oh-my-magento/refs/heads/dev/docs/guide/installation.md
+curl -s https://raw.githubusercontent.com/caravanglory/oh-my-magento/refs/heads/dev/docs/guide/installation.md
 ```
 
 ---
@@ -119,7 +104,7 @@ curl -s https://raw.githubusercontent.com/CaravanOfGlory/oh-my-magento/refs/head
 We're past the era of reading docs. Just paste this into your agent:
 
 ```
-Read this and tell me why it's not just another boilerplate: https://raw.githubusercontent.com/CaravanOfGlory/oh-my-magento/refs/heads/dev/README.md
+Read this and tell me why it's not just another boilerplate: https://raw.githubusercontent.com/caravanglory/oh-my-magento/refs/heads/dev/README.md
 ```
 
 ## Highlights
@@ -171,10 +156,6 @@ Even only with following subscriptions, ultrawork will work well (this project i
 
 Every agent is tuned to its model's specific strengths. No manual model-juggling. [Learn more →](docs/guide/overview.md)
 
-> Anthropic [blocked OpenCode because of us.](https://x.com/thdxr/status/2010149530486911014) That's why Hephaestus is called "The Legitimate Craftsman." The irony is intentional.
->
-> We run best on Opus, but Kimi K2.5 + GPT-5.3 Codex already beats vanilla Claude Code. Zero config needed.
-
 ### Agent Orchestration
 
 When Sisyphus delegates to a subagent, it doesn't pick a model. It picks a **category**. The category maps automatically to the right model:
@@ -186,7 +167,7 @@ When Sisyphus delegates to a subagent, it doesn't pick a model. It picks a **cat
 | `quick`              | Single-file changes, typos         |
 | `ultrabrain`         | Hard logic, architecture decisions |
 
-Agent says what kind of work. Harness picks the right model. You touch nothing.
+Agent says what kind of work. Harness picks the right model. `ultrabrain` now routes to GPT-5.4 xhigh by default. You touch nothing.
 
 ### Claude Code Compatibility
 
@@ -258,7 +239,7 @@ Skills aren't just prompts. Each brings:
 - Embedded MCP servers, on-demand
 - Scoped permissions. Agents stay in bounds
 
-Built-ins: `playwright` (browser automation), `git-master` (atomic commits, rebase surgery), `frontend-ui-ux` (design-first UI).
+Built-ins: `playwright` (browser automation), `git-master` (atomic commits, rebase surgery), `frontend-ui-ux` (design-first UI), plus Magento-specific skills (`magento-architect`, `magento-upgrader`, `magento-payment`).
 
 Add your own: `.opencode/skills/*/SKILL.md` or `~/.config/opencode/skills/*/SKILL.md`.
 
@@ -308,6 +289,7 @@ See full [Features Documentation](docs/reference/features.md).
 
 **Quick Overview:**
 - **Agents**: Sisyphus (the main agent), Prometheus (planner), Oracle (architecture/debugging), Librarian (docs/code search), Explore (fast codebase grep), Multimodal Looker
+- **Magento Skills**: `magento-architect`, `magento-upgrader`, `magento-payment` — Magento-specific agents via SKILL.md
 - **Background Agents**: Run multiple agents in parallel like a real dev team
 - **LSP & AST Tools**: Refactoring, rename, diagnostics, AST-aware code search
 - **Hash-anchored Edit Tool**: `LINE#ID` references validate content before applying every change. Surgical edits, zero stale-line errors
@@ -315,7 +297,7 @@ See full [Features Documentation](docs/reference/features.md).
 - **Claude Code Compatibility**: Full hook system, commands, skills, agents, MCPs
 - **Built-in MCPs**: websearch (Exa), context7 (docs), grep_app (GitHub search)
 - **Session Tools**: List, read, search, and analyze session history
-- **Productivity Features**: Ralph Loop, Todo Enforcer, Comment Checker, Think Mode, and more
+- **Productivity Features**: Ralph Loop, Todo Enforcer, GPT permission-tail continuation, Comment Checker, Think Mode, and more
 - **Model Setup**: Agent-model matching is built into the [Installation Guide](docs/guide/installation.md#step-5-understand-your-model-setup)
 
 ## Configuration
@@ -332,7 +314,7 @@ See [Configuration Documentation](docs/reference/configuration.md).
 - **Sisyphus Agent**: Main orchestrator with Prometheus (Planner) and Metis (Plan Consultant)
 - **Background Tasks**: Configure concurrency limits per provider/model
 - **Categories**: Domain-specific task delegation (`visual`, `business-logic`, custom)
-- **Hooks**: 25+ built-in hooks, all configurable via `disabled_hooks`
+- **Hooks**: 25+ built-in hooks, including `gpt-permission-continuation`, all configurable via `disabled_hooks`
 - **MCPs**: Built-in websearch (Exa), context7 (docs), grep_app (GitHub search)
 - **LSP**: Full LSP support with refactoring tools
 - **Experimental**: Aggressive truncation, auto-resume, and more
@@ -344,35 +326,13 @@ See [Configuration Documentation](docs/reference/configuration.md).
 
 ---
 
-I burned through $24K in LLM tokens on personal projects. Tried every tool. Configured everything to death. OpenCode won.
+This is the Magento fork of [oh-my-opencode](https://github.com/code-yeongyu/oh-my-openagent). It ships with the same multi-model orchestration engine, with added Magento 2 + Hyvä development agents and skills.
 
-Every problem I hit, the fix is baked into this plugin. Install and go.
-
-If OpenCode is Debian/Arch, OmO is Ubuntu/[Omarchy](https://omarchy.org/).
+If OpenCode is Debian/Arch, oh-my-magento is Ubuntu/OmArchitecture for the Magento ecosystem.
 
 Heavy influence from [AmpCode](https://ampcode.com) and [Claude Code](https://code.claude.com/docs/overview). Features ported, often improved. Still building. It's **Open**Code.
 
-Other harnesses promise multi-model orchestration. We ship it. Stability too. And features that actually work.
-
-I'm this project's most obsessive user:
-- Which model has the sharpest logic?
-- Who's the debugging god?
-- Who writes the best prose?
-- Who dominates frontend?
-- Who owns backend?
-- What's fastest for daily driving?
-- What are competitors shipping?
-
-This plugin is the distillation. Take the best. Got improvements? PRs welcome.
-
-**Stop agonizing over harness choices.**
-**I'll research, steal the best, and ship it here.**
-
-Sounds arrogant? Have a better way? Contribute. You're welcome.
-
 No affiliation with any project/model mentioned. Just personal experimentation.
-
-99% of this project was built with OpenCode. I don't really know TypeScript. **But I personally reviewed and largely rewrote this doc.**
 
 ## Loved by professionals at
 
@@ -382,5 +342,3 @@ No affiliation with any project/model mentioned. Just personal experimentation.
 - [Microsoft](https://microsoft.com)
 - [ELESTYLE](https://elestyle.jp)
   - Making elepay - multi-mobile payment gateway, OneQR - mobile application SaaS for cashless solutions
-
-*Special thanks to [@junhoyeo](https://github.com/junhoyeo) for this amazing hero image.*

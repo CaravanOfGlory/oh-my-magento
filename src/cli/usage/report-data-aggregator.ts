@@ -65,7 +65,7 @@ export function buildReportData(
 }
 
 function getDefaultDevMetricsDbPath(): string {
-  return join(getDataDir(), "oh-my-magento", "dev-metrics.db")
+  return join(getDataDir(), "oh-my-opencode", "dev-metrics.db")
 }
 
 function readOutputData(

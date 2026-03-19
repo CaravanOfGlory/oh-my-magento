@@ -11,6 +11,7 @@ packages/*/bin/oh-my-magento
 packages/*/bin/oh-my-magento.exe
 packages/*/bin/oh-my-opencode
 packages/*/bin/oh-my-opencode.exe
+packages/*/bin/*.map
 
 # IDE
 .idea/

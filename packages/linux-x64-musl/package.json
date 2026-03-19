@@ -1,17 +1,11 @@
 {
-  "name": "oh-my-magento-linux-x64-musl",
-  "version": "0.2.1",
-  "description": "Platform-specific binary for oh-my-magento (linux-x64-musl)",
-  "license": "SUL-1.0",
+  "name": "oh-my-opencode-linux-x64-musl",
+  "version": "3.11.0",
+  "description": "Platform-specific binary for oh-my-opencode (linux-x64-musl)",
+  "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/CaravanOfGlory/oh-my-magento.git"
-  },
-  "files": [
-    "bin"
-  ],
-  "bin": {
-    "oh-my-magento": "bin/oh-my-magento"
+    "url": "https://github.com/code-yeongyu/oh-my-openagent"
   },
   "os": [
     "linux"
@@ -21,5 +15,11 @@
   ],
   "libc": [
     "musl"
-  ]
+  ],
+  "files": [
+    "bin"
+  ],
+  "bin": {
+    "oh-my-opencode": "./bin/oh-my-opencode"
+  }
 }

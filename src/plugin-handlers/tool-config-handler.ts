@@ -1,7 +1,18 @@
-import type { OhMyMagentoConfig } from "../config";
+import type { OhMyOpenCodeConfig } from "../config";
 import { getAgentDisplayName } from "../shared/agent-display-names";
 
 type AgentWithPermission = { permission?: Record<string, unknown> };
+
+function getConfigQuestionPermission(): string | null {
+  const configContent = process.env.OPENCODE_CONFIG_CONTENT;
+  if (!configContent) return null;
+  try {
+    const parsed = JSON.parse(configContent);
+    return parsed?.permission?.question ?? null;
+  } catch {
+    return null;
+  }
+}
 
 function agentByKey(agentResult: Record<string, unknown>, key: string): AgentWithPermission | undefined {
   return (agentResult[key] ?? agentResult[getAgentDisplayName(key)]) as
@@ -11,7 +22,7 @@ function agentByKey(agentResult: Record<string, unknown>, key: string): AgentWit
 
 export function applyToolConfig(params: {
   config: Record<string, unknown>;
-  pluginConfig: OhMyMagentoConfig;
+  pluginConfig: OhMyOpenCodeConfig;
   agentResult: Record<string, unknown>;
 }): void {
   const denyTodoTools = params.pluginConfig.experimental?.task_system
@@ -32,7 +43,11 @@ export function applyToolConfig(params: {
   };
 
   const isCliRunMode = process.env.OPENCODE_CLI_RUN_MODE === "true";
-  const questionPermission = isCliRunMode ? "deny" : "allow";
+  const configQuestionPermission = getConfigQuestionPermission();
+  const questionPermission =
+    configQuestionPermission === "deny" ? "deny" :
+    isCliRunMode ? "deny" :
+    "allow";
 
   const librarian = agentByKey(params.agentResult, "librarian");
   if (librarian) {

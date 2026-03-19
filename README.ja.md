@@ -1,13 +1,8 @@
 > [!WARNING]
-> **セキュリティ警告: 偽装サイトにご注意ください**
+> **一時的なお知らせ（今週）: メンテナー対応遅延のお知らせ**
 >
-> **ohmyopencode.com はこのプロジェクトとは一切関係がありません。** 私たちはそのサイトを運営したり承認したりしていません。
->
-> OhMyMagentoは**無料かつオープンソース**です。「公式」を名乗る第三者のサイトからインストーラーをダウンロードしたり、支払い情報を入力したり**しないでください。**
->
-> 偽装サイトはペイウォールの背後に隠れており、**どのような悪意あるプログラムを配布しているか検証できません**。そこからのダウンロードはすべて**潜在的に危険**であると見なしてください。
->
-> ✅ 公式ダウンロード: https://github.com/CaravanOfGlory/oh-my-magento/releases
+> コアメンテナーのQが負傷したため、今週は Issue/PR への返信とリリースが遅れる可能性があります。
+> ご理解とご支援に感謝します。
 
 > [!NOTE]
 >
@@ -18,17 +13,14 @@
 > 私たちと一緒に！
 >
 > | [<img alt="Discord link" src="https://img.shields.io/discord/1452487457085063218?color=5865F2&label=discord&labelColor=black&logo=discord&logoColor=white&style=flat-square" width="156px" />](https://discord.gg/PUwSMR9XNk) | [Discordコミュニティ](https://discord.gg/PUwSMR9XNk)に参加して、コントリビューターや他の `oh-my-magento` ユーザーと交流しましょう。 |
-> | :-----| :----- |
-> | [<img alt="X link" src="https://img.shields.io/badge/Follow-%40justsisyphus-00CED1?style=flat-square&logo=x&labelColor=black" width="156px" />](https://x.com/justsisyphus) | `oh-my-magento` のニュースやアップデートは私のXアカウントで投稿されていましたが、 <br /> 誤って凍結されてしまったため、現在は [@justsisyphus](https://x.com/justsisyphus) が代わりにアップデートを投稿しています。 |
-> | [<img alt="GitHub Follow" src="https://img.shields.io/github/followers/CaravanOfGlory?style=flat-square&logo=github&labelColor=black&color=24292f" width="156px" />](https://github.com/CaravanOfGlory) | さらに多くのプロジェクトを見たい場合は、GitHubで [@CaravanOfGlory](https://github.com/CaravanOfGlory) をフォローしてください。 |
 
 <!-- <CENTERED SECTION FOR GITHUB DISPLAY> -->
 
 <div align="center">
 
-[![Oh My OpenCode](./.github/assets/hero.jpg)](https://github.com/CaravanOfGlory/oh-my-magento#oh-my-magento)
+[![Oh My Magento](./.github/assets/hero.jpg)](https://github.com/caravanglory/oh-my-magento#oh-my-magento)
 
-[![Preview](./.github/assets/omo.png)](https://github.com/CaravanOfGlory/oh-my-magento#oh-my-magento)
+[![Preview](./.github/assets/omo.png)](https://github.com/caravanglory/oh-my-magento#oh-my-magento)
 
 </div>
 
@@ -38,14 +30,14 @@
 
 <div align="center">
 
-[![GitHub Release](https://img.shields.io/github/v/release/CaravanOfGlory/oh-my-magento?color=369eff&labelColor=black&logo=github&style=flat-square)](https://github.com/CaravanOfGlory/oh-my-magento/releases)
-[![npm downloads](https://img.shields.io/npm/dt/oh-my-magento?color=ff6b35&labelColor=black&style=flat-square)](https://www.npmjs.com/package/oh-my-magento)
-[![GitHub Contributors](https://img.shields.io/github/contributors/CaravanOfGlory/oh-my-magento?color=c4f042&labelColor=black&style=flat-square)](https://github.com/CaravanOfGlory/oh-my-magento/graphs/contributors)
-[![GitHub Forks](https://img.shields.io/github/forks/CaravanOfGlory/oh-my-magento?color=8ae8ff&labelColor=black&style=flat-square)](https://github.com/CaravanOfGlory/oh-my-magento/network/members)
-[![GitHub Stars](https://img.shields.io/github/stars/CaravanOfGlory/oh-my-magento?color=ffcb47&labelColor=black&style=flat-square)](https://github.com/CaravanOfGlory/oh-my-magento/stargazers)
-[![GitHub Issues](https://img.shields.io/github/issues/CaravanOfGlory/oh-my-magento?color=ff80eb&labelColor=black&style=flat-square)](https://github.com/CaravanOfGlory/oh-my-magento/issues)
-[![License](https://img.shields.io/badge/license-SUL--1.0-white?labelColor=black&style=flat-square)](https://github.com/CaravanOfGlory/oh-my-magento/blob/dev/LICENSE.md)
-[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/CaravanOfGlory/oh-my-magento)
+[![GitHub Release](https://img.shields.io/github/v/release/caravanglory/oh-my-magento?color=369eff&labelColor=black&logo=github&style=flat-square)](https://github.com/caravanglory/oh-my-magento/releases)
+[![npm downloads](https://img.shields.io/npm/dt/oh-my-opencode?color=ff6b35&labelColor=black&style=flat-square)](https://www.npmjs.com/package/oh-my-opencode)
+[![GitHub Contributors](https://img.shields.io/github/contributors/caravanglory/oh-my-magento?color=c4f042&labelColor=black&style=flat-square)](https://github.com/caravanglory/oh-my-magento/graphs/contributors)
+[![GitHub Forks](https://img.shields.io/github/forks/caravanglory/oh-my-magento?color=8ae8ff&labelColor=black&style=flat-square)](https://github.com/caravanglory/oh-my-magento/network/members)
+[![GitHub Stars](https://img.shields.io/github/stars/caravanglory/oh-my-magento?color=ffcb47&labelColor=black&style=flat-square)](https://github.com/caravanglory/oh-my-magento/stargazers)
+[![GitHub Issues](https://img.shields.io/github/issues/caravanglory/oh-my-magento?color=ff80eb&labelColor=black&style=flat-square)](https://github.com/caravanglory/oh-my-magento/issues)
+[![License](https://img.shields.io/badge/license-SUL--1.0-white?labelColor=black&style=flat-square)](https://github.com/caravanglory/oh-my-magento/blob/dev/LICENSE.md)
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/caravanglory/oh-my-magento)
 
 [English](README.md) | [한국어](README.ko.md) | [日本語](README.ja.md) | [简体中文](README.zh-cn.md)
 
@@ -63,7 +55,7 @@
 
 > 「Ohmyopencodeとralph loopを使って、45k行のtauriアプリを一晩でSaaSウェブアプリに変換しました。インタビューモードから始めて、私のプロンプトに対して質問や推奨事項を尋ねました。勝手に作業していくのを見るのは楽しかったし、今朝起きたらウェブサイトがほぼ動いているのを見て驚愕しました！」 - [James Hargis](https://x.com/hargabyte/status/2007299688261882202)
 
-> 「oh-my-magentoを使ってください。もう二度と元には戻れません。」 <br/>- [d0t3ch](https://x.com/d0t3ch/status/2001685618200580503)
+> 「oh-my-opencodeを使ってください。もう二度と元には戻れません。」 <br/>- [d0t3ch](https://x.com/d0t3ch/status/2001685618200580503)
 
 > 「何がどうすごいのかまだ上手く言語化できないんですが、開発体験が完全に異次元に到達してしまいました。」 - [苔硯:こけすずり](https://x.com/kokesuzuri/status/2008532913961529372?s=20)
 
@@ -96,7 +88,7 @@ OmOをインストールして、`ultrawork`とタイプしてください。狂
 
 ```
 Install and configure oh-my-magento by following the instructions here:
-https://raw.githubusercontent.com/CaravanOfGlory/oh-my-magento/refs/heads/dev/docs/guide/installation.md
+https://raw.githubusercontent.com/caravanglory/oh-my-magento/refs/heads/dev/docs/guide/installation.md
 ```
 
 もしくは[インストールガイド](docs/guide/installation.md)を直接読んでもいいですが、マジでエージェントにやらせてください。人間は設定で必ずタイポします。
@@ -106,7 +98,7 @@ https://raw.githubusercontent.com/CaravanOfGlory/oh-my-magento/refs/heads/dev/do
 インストールガイドを取得して、それに従ってください：
 
 ```bash
-curl -s https://raw.githubusercontent.com/CaravanOfGlory/oh-my-magento/refs/heads/dev/docs/guide/installation.md
+curl -s https://raw.githubusercontent.com/caravanglory/oh-my-magento/refs/heads/dev/docs/guide/installation.md
 ```
 
 ---
@@ -116,7 +108,7 @@ curl -s https://raw.githubusercontent.com/CaravanOfGlory/oh-my-magento/refs/head
 ドキュメントを読む時代は終わりました。このテキストをエージェントに貼り付けるだけです：
 
 ```
-Read this and tell me why it's not just another boilerplate: https://raw.githubusercontent.com/CaravanOfGlory/oh-my-magento/refs/heads/dev/README.md
+Read this and tell me why it's not just another boilerplate: https://raw.githubusercontent.com/caravanglory/oh-my-magento/refs/heads/dev/README.md
 ```
 
 ## ハイライト
@@ -135,23 +127,23 @@ Read this and tell me why it's not just another boilerplate: https://raw.githubu
 - [GLM Coding プラン ($10)](https://z.ai/subscribe)
 - 従量課金（pay-per-token）の対象であれば、kimiやgeminiモデルを使っても費用はほとんどかかりません。
 
-|       | 機能                      | 何をするのか                                                                                                                        |
-| :---: | :--------------------------- | :---------------------------------------------------------------------------------------------------------------------------------- |
-|   🤖   | **規律あるエージェント (Discipline Agents)** | Sisyphusが Hephaestus、Oracle、Librarian、Exploreをオーケストレーションします。完全なAI開発チームが並列で動きます。 |
-|   ⚡   | **`ultrawork` / `ulw`**      | 一言でOK。すべてのエージェントがアクティブになり、終わるまで止まりません。 |
-|   🚪   | **[IntentGate](https://factory.ai/news/terminal-bench)**                 | ユーザーの真の意図を分析してから分類・行動します。もう文字通りに誤解して的外れなことをすることはありません。 |
-|   🔗   | **ハッシュベースの編集ツール**  | `LINE#ID` のコンテンツハッシュですべての変更を検証します。stale-lineエラー0%。[oh-my-pi](https://github.com/can1357/oh-my-pi)にインスパイアされています。[ハーネス問題 →](https://blog.can.ac/2026/02/12/the-harness-problem/) |
-|   🛠️   | **LSP + AST-Grep**           | ワークスペース単位のリネーム、ビルド前の診断、ASTを考慮した書き換え。エージェントにIDEレベルの精度を提供します。 |
-|   🧠   | **バックグラウンドエージェント**        | 5人以上の専門家を並列で投入します。コンテキストは軽く保ち、結果は準備ができ次第受け取ります。 |
-|   📚   | **組み込みMCP**            | Exa（Web検索）、Context7（公式ドキュメント）、Grep.app（GitHub検索）。常にオンです。 |
-|   🔁   | **Ralph Loop / `/ulw-loop`** | 自己参照ループ。100%完了するまで絶対に止まりません。 |
-|   ✅   | **Todoの強制執行**            | エージェントがサボる？システムが首根っこを掴んで戻します。あなたのタスクは必ず終わります。 |
-|   💬   | **コメントチェッカー**          | コメントからAI臭い無駄話を排除します。シニアエンジニアが書いたようなコードになります。 |
-|   🖥️   | **Tmux統合**         | 完全なインタラクティブターミナル。REPL、デバッガー、TUIアプリがすべてリアルタイムで動きます。 |
-|   🔌   | **Claude Code互換性**   | 既存のフック、コマンド、スキル、MCP、プラグイン？すべてここでそのまま動きます。 |
-|   🎯   | **スキル内蔵MCP**      | スキルが独自のMCPサーバーを持ち歩きます。コンテキストが肥大化しません。 |
-|   📋   | **Prometheusプランナー**       | インタビューモードで、コードを1行触る前に戦略的な計画から立てます。 |
-|   🔍   | **`/init-deep`**             | プロジェクト全体にわたって階層的な `AGENTS.md` ファイルを自動生成します。トークン効率とエージェントのパフォーマンスの両方を向上させます。 |
+|       | 機能                                                     | 何をするのか                                                                                                                                                                                                                   |
+| :---: | :------------------------------------------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|   🤖   | **規律あるエージェント (Discipline Agents)**             | Sisyphusが Hephaestus、Oracle、Librarian、Exploreをオーケストレーションします。完全なAI開発チームが並列で動きます。                                                                                                            |
+|   ⚡   | **`ultrawork` / `ulw`**                                  | 一言でOK。すべてのエージェントがアクティブになり、終わるまで止まりません。                                                                                                                                                     |
+|   🚪   | **[IntentGate](https://factory.ai/news/terminal-bench)** | ユーザーの真の意図を分析してから分類・行動します。もう文字通りに誤解して的外れなことをすることはありません。                                                                                                                   |
+|   🔗   | **ハッシュベースの編集ツール**                           | `LINE#ID` のコンテンツハッシュですべての変更を検証します。stale-lineエラー0%。[oh-my-pi](https://github.com/can1357/oh-my-pi)にインスパイアされています。[ハーネス問題 →](https://blog.can.ac/2026/02/12/the-harness-problem/) |
+|   🛠️   | **LSP + AST-Grep**                                       | ワークスペース単位のリネーム、ビルド前の診断、ASTを考慮した書き換え。エージェントにIDEレベルの精度を提供します。                                                                                                               |
+|   🧠   | **バックグラウンドエージェント**                         | 5人以上の専門家を並列で投入します。コンテキストは軽く保ち、結果は準備ができ次第受け取ります。                                                                                                                                  |
+|   📚   | **組み込みMCP**                                          | Exa（Web検索）、Context7（公式ドキュメント）、Grep.app（GitHub検索）。常にオンです。                                                                                                                                           |
+|   🔁   | **Ralph Loop / `/ulw-loop`**                             | 自己参照ループ。100%完了するまで絶対に止まりません。                                                                                                                                                                           |
+|   ✅   | **Todoの強制執行**                                       | エージェントがサボる？システムが首根っこを掴んで戻します。あなたのタスクは必ず終わります。                                                                                                                                     |
+|   💬   | **コメントチェッカー**                                   | コメントからAI臭い無駄話を排除します。シニアエンジニアが書いたようなコードになります。                                                                                                                                         |
+|   🖥️   | **Tmux統合**                                             | 完全なインタラクティブターミナル。REPL、デバッガー、TUIアプリがすべてリアルタイムで動きます。                                                                                                                                  |
+|   🔌   | **Claude Code互換性**                                    | 既存のフック、コマンド、スキル、MCP、プラグイン？すべてここでそのまま動きます。                                                                                                                                                |
+|   🎯   | **スキル内蔵MCP**                                        | スキルが独自のMCPサーバーを持ち歩きます。コンテキストが肥大化しません。                                                                                                                                                        |
+|   📋   | **Prometheusプランナー**                                 | インタビューモードで、コードを1行触る前に戦略的な計画から立てます。                                                                                                                                                            |
+|   🔍   | **`/init-deep`**                                         | プロジェクト全体にわたって階層的な `AGENTS.md` ファイルを自動生成します。トークン効率とエージェントのパフォーマンスの両方を向上させます。                                                                                      |
 
 ### 規律あるエージェント (Discipline Agents)
 
@@ -176,11 +168,11 @@ Read this and tell me why it's not just another boilerplate: https://raw.githubu
 
 Sisyphusがサブエージェントにタスクを委任する際、モデルを直接選ぶことはありません。**カテゴリー**を選びます。カテゴリーは自動的に適切なモデルにマッピングされます：
 
-| カテゴリー             | 用途                      |
-| :------------------- | :--------------------------------- |
-| `visual-engineering` | フロントエンド、UI/UX、デザイン            |
-| `deep`               | 自律的なリサーチと実行    |
-| `quick`              | 単一ファイルの変更、タイポの修正         |
+| カテゴリー           | 用途                                 |
+| :------------------- | :----------------------------------- |
+| `visual-engineering` | フロントエンド、UI/UX、デザイン      |
+| `deep`               | 自律的なリサーチと実行               |
+| `quick`              | 単一ファイルの変更、タイポの修正     |
 | `ultrabrain`         | ハードロジック、アーキテクチャの決定 |
 
 エージェントがどのような種類の作業かを伝え、ハーネスが適切なモデルを選択します。あなたは何も触る必要はありません。
@@ -273,11 +265,11 @@ oh-my-magentoを削除するには：
 
 1. **OpenCodeの設定からプラグインを削除する**
 
-   `~/.config/opencode/opencode.json`（または `opencode.jsonc`）を編集し、`plugin` 配列から `"oh-my-magento"` を削除します：
+   `~/.config/opencode/opencode.json`（または `opencode.jsonc`）を編集し、`plugin` 配列から `"oh-my-opencode"` を削除します：
 
    ```bash
    # jq を使用する場合
-   jq '.plugin = [.plugin[] | select(. != "oh-my-magento")]' \
+   jq '.plugin = [.plugin[] | select(. != "oh-my-opencode")]' \
        ~/.config/opencode/opencode.json > /tmp/oc.json && \
        mv /tmp/oc.json ~/.config/opencode/opencode.json
    ```

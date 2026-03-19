@@ -1,4 +1,4 @@
-import type { OhMyMagentoConfig } from "./config"
+import type { OhMyOpenCodeConfig } from "./config"
 import type { ModelCacheState } from "./plugin-state"
 import type { PluginContext, TmuxConfig } from "./plugin/types"
 
@@ -19,7 +19,7 @@ export type Managers = {
 
 export function createManagers(args: {
   ctx: PluginContext
-  pluginConfig: OhMyMagentoConfig
+  pluginConfig: OhMyOpenCodeConfig
   tmuxConfig: TmuxConfig
   modelCacheState: ModelCacheState
   backgroundNotificationHookEnabled: boolean
@@ -53,8 +53,8 @@ export function createManagers(args: {
 
         log("[index] onSubagentSessionCreated callback completed")
       },
-      onShutdown: () => {
-        tmuxSessionManager.cleanup().catch((error) => {
+      onShutdown: async () => {
+        await tmuxSessionManager.cleanup().catch((error) => {
           log("[index] tmux cleanup error during shutdown:", error)
         })
       },

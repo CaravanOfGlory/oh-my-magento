@@ -1,11 +1,11 @@
 import { describe, expect, test } from "bun:test"
-import type { OhMyMagentoConfig } from "../config"
+import type { OhMyOpenCodeConfig } from "../config"
 import { applyAgentVariant, resolveAgentVariant, resolveVariantForModel } from "./agent-variant"
 
 describe("resolveAgentVariant", () => {
   test("returns undefined when agent name missing", () => {
     // given
-    const config = {} as OhMyMagentoConfig
+    const config = {} as OhMyOpenCodeConfig
 
     // when
     const variant = resolveAgentVariant(config)
@@ -20,7 +20,7 @@ describe("resolveAgentVariant", () => {
       agents: {
         sisyphus: { variant: "low" },
       },
-    } as OhMyMagentoConfig
+    } as OhMyOpenCodeConfig
 
     // when
     const variant = resolveAgentVariant(config, "sisyphus")
@@ -36,9 +36,9 @@ describe("resolveAgentVariant", () => {
         sisyphus: { category: "ultrabrain" },
       },
       categories: {
-        ultrabrain: { model: "openai/gpt-5.2", variant: "xhigh" },
+        ultrabrain: { model: "openai/gpt-5.4", variant: "xhigh" },
       },
-    } as OhMyMagentoConfig
+    } as OhMyOpenCodeConfig
 
     // when
     const variant = resolveAgentVariant(config, "sisyphus")
@@ -55,7 +55,7 @@ describe("applyAgentVariant", () => {
       agents: {
         sisyphus: { variant: "low" },
       },
-    } as OhMyMagentoConfig
+    } as OhMyOpenCodeConfig
     const message: { variant?: string } = {}
 
     // when
@@ -71,7 +71,7 @@ describe("applyAgentVariant", () => {
       agents: {
         sisyphus: { variant: "low" },
       },
-    } as OhMyMagentoConfig
+    } as OhMyOpenCodeConfig
     const message = { variant: "max" }
 
     // when
@@ -90,7 +90,7 @@ describe("resolveVariantForModel", () => {
       agents: {
         sisyphus: { variant: "high" },
       },
-    } as OhMyMagentoConfig
+    } as OhMyOpenCodeConfig
     const model = { providerID: "anthropic", modelID: "claude-opus-4-6" }
 
     // when
@@ -102,7 +102,7 @@ describe("resolveVariantForModel", () => {
 
   test("returns correct variant for anthropic provider", () => {
     // given
-    const config = {} as OhMyMagentoConfig
+    const config = {} as OhMyOpenCodeConfig
     const model = { providerID: "anthropic", modelID: "claude-opus-4-6" }
 
     // when
@@ -114,7 +114,7 @@ describe("resolveVariantForModel", () => {
 
   test("returns correct variant for openai provider (hephaestus agent)", () => {
     // #given hephaestus has openai/gpt-5.3-codex with variant "medium" in its chain
-    const config = {} as OhMyMagentoConfig
+    const config = {} as OhMyOpenCodeConfig
     const model = { providerID: "openai", modelID: "gpt-5.3-codex" }
 
     // #when
@@ -124,21 +124,21 @@ describe("resolveVariantForModel", () => {
     expect(variant).toBe("medium")
   })
 
-  test("returns undefined for provider not in sisyphus chain", () => {
-    // #given openai is not in sisyphus fallback chain anymore
-    const config = {} as OhMyMagentoConfig
-    const model = { providerID: "openai", modelID: "gpt-5.2" }
+  test("returns medium for openai/gpt-5.4 in sisyphus chain", () => {
+    // #given openai/gpt-5.4 is now in sisyphus fallback chain with variant medium
+    const config = {} as OhMyOpenCodeConfig
+    const model = { providerID: "openai", modelID: "gpt-5.4" }
 
     // when
     const variant = resolveVariantForModel(config, "sisyphus", model)
 
     // then
-    expect(variant).toBeUndefined()
+    expect(variant).toBe("medium")
   })
 
   test("returns undefined for provider not in chain", () => {
     // given
-    const config = {} as OhMyMagentoConfig
+    const config = {} as OhMyOpenCodeConfig
     const model = { providerID: "unknown-provider", modelID: "some-model" }
 
     // when
@@ -150,7 +150,7 @@ describe("resolveVariantForModel", () => {
 
   test("returns undefined for unknown agent", () => {
     // given
-    const config = {} as OhMyMagentoConfig
+    const config = {} as OhMyOpenCodeConfig
     const model = { providerID: "anthropic", modelID: "claude-opus-4-6" }
 
     // when
@@ -162,7 +162,7 @@ describe("resolveVariantForModel", () => {
 
   test("returns variant for zai-coding-plan provider without variant", () => {
     // given
-    const config = {} as OhMyMagentoConfig
+    const config = {} as OhMyOpenCodeConfig
     const model = { providerID: "zai-coding-plan", modelID: "glm-5" }
 
     // when
@@ -178,8 +178,8 @@ describe("resolveVariantForModel", () => {
       agents: {
         "custom-agent": { category: "ultrabrain" },
       },
-    } as OhMyMagentoConfig
-    const model = { providerID: "openai", modelID: "gpt-5.3-codex" }
+    } as OhMyOpenCodeConfig
+    const model = { providerID: "openai", modelID: "gpt-5.4" }
 
     // when
     const variant = resolveVariantForModel(config, "custom-agent", model)
@@ -190,8 +190,8 @@ describe("resolveVariantForModel", () => {
 
   test("returns correct variant for oracle agent with openai", () => {
     // given
-    const config = {} as OhMyMagentoConfig
-    const model = { providerID: "openai", modelID: "gpt-5.2" }
+    const config = {} as OhMyOpenCodeConfig
+    const model = { providerID: "openai", modelID: "gpt-5.4" }
 
     // when
     const variant = resolveVariantForModel(config, "oracle", model)
@@ -202,7 +202,7 @@ describe("resolveVariantForModel", () => {
 
   test("returns correct variant for oracle agent with anthropic", () => {
     // given
-    const config = {} as OhMyMagentoConfig
+    const config = {} as OhMyOpenCodeConfig
     const model = { providerID: "anthropic", modelID: "claude-opus-4-6" }
 
     // when

@@ -1,8 +1,8 @@
-import type { OhMyMagentoConfig } from "../config"
+import type { OhMyOpenCodeConfig } from "../config"
 import { AGENT_MODEL_REQUIREMENTS, CATEGORY_MODEL_REQUIREMENTS } from "./model-requirements"
 
 export function resolveAgentVariant(
-  config: OhMyMagentoConfig,
+  config: OhMyOpenCodeConfig,
   agentName?: string
 ): string | undefined {
   if (!agentName) {
@@ -33,7 +33,7 @@ export function resolveAgentVariant(
 }
 
 export function resolveVariantForModel(
-  config: OhMyMagentoConfig,
+  config: OhMyOpenCodeConfig,
   agentName: string,
   currentModel: { providerID: string; modelID: string },
 ): string | undefined {
@@ -87,7 +87,7 @@ function findVariantInChain(
 }
 
 export function applyAgentVariant(
-  config: OhMyMagentoConfig,
+  config: OhMyOpenCodeConfig,
   agentName: string | undefined,
   message: { variant?: string }
 ): void {

@@ -1,6 +1,6 @@
 # src/cli/ — CLI: install, run, doctor, mcp-oauth
 
-**Generated:** 2026-02-24
+**Generated:** 2026-03-06
 
 ## OVERVIEW
 
@@ -51,9 +51,9 @@ cli/
 
 ## MODEL FALLBACK SYSTEM
 
-Priority: Claude > OpenAI > Gemini > Copilot > OpenCode Zen > Z.ai > Kimi > big-pickle
+No single global priority. CLI install-time resolution uses per-agent fallback chains from `model-fallback-requirements.ts`.
 
-Agent-specific: librarian→ZAI, explore→Haiku/nano, hephaestus→requires OpenAI/Copilot
+Common patterns: Claude/OpenAI/Gemini are preferred when an agent chain includes them, `librarian` prefers ZAI, `sisyphus` falls back through Kimi then GLM-5, and `hephaestus` requires OpenAI-compatible providers.
 
 ## DOCTOR CHECKS
 

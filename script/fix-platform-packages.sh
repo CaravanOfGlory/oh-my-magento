@@ -17,7 +17,7 @@ for dir in "$PACKAGES_DIR"/*/; do
   "license": "SUL-1.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/CaravanOfGlory/oh-my-magento"
+    "url": "https://github.com/caravanglory/oh-my-magento"
   },
   "files": [
     "bin"

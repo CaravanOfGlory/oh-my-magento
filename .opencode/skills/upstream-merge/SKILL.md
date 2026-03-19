@@ -1,11 +1,11 @@
 ---
 name: upstream-merge
-description: "Merge upstream code-yeongyu/oh-my-opencode changes into our CaravanOfGlory/oh-my-magento fork. Handles conflict resolution with automatic rebrand (oh-my-opencode→oh-my-magento). Triggers: 'merge upstream', 'sync upstream', 'sync fork', 'upstream merge', '合并上游', '同步上游'."
+description: "Merge upstream code-yeongyu/oh-my-opencode changes into our caravanglory/oh-my-magento fork. Handles conflict resolution with automatic rebrand (oh-my-opencode→oh-my-magento). Triggers: 'merge upstream', 'sync upstream', 'sync fork', 'upstream merge', '合并上游', '同步上游'."
 ---
 
 # Upstream Merge — Fork Sync with Rebrand
 
-Merge `code-yeongyu/oh-my-opencode:dev` into `CaravanOfGlory/oh-my-magento:dev` with automatic rebrand.
+Merge `code-yeongyu/oh-my-opencode:dev` into `caravanglory/oh-my-magento:dev` with automatic rebrand.
 
 ## Rebrand Rules
 
@@ -13,8 +13,8 @@ Merge `code-yeongyu/oh-my-opencode:dev` into `CaravanOfGlory/oh-my-magento:dev` 
 |------|----|
 | `oh-my-opencode` | `oh-my-magento` |
 | `OhMyOpenCode` | `OhMyMagento` |
-| `code-yeongyu/oh-my-opencode` | `CaravanOfGlory/oh-my-magento` |
-| `code-yeongyu` (non-npm) | `CaravanOfGlory` |
+| `code-yeongyu/oh-my-opencode` | `caravanglory/oh-my-magento` |
+| `code-yeongyu` (non-npm) | `caravanglory` |
 
 **Preserve:** `@code-yeongyu/comment-checker` (npm scope — never change)
 
@@ -114,5 +114,5 @@ Do NOT push unless user explicitly requests it.
 
 **`@code-yeongyu/comment-checker` got rebranded by accident**: The rebrand script uses placeholder protection. If it still happens, restore with:
 ```bash
-sed -i '' 's/@CaravanOfGlory\/comment-checker/@code-yeongyu\/comment-checker/g' package.json
+sed -i '' 's/@caravanglory\/comment-checker/@code-yeongyu\/comment-checker/g' package.json
 ```

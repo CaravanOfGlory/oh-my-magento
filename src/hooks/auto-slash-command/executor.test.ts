@@ -37,6 +37,14 @@ description: Run prompt from daplug
 Execute daplug prompt flow.
 `,
   )
+  writeFileSync(
+    join(pluginInstallPath, "commands", "templated.md"),
+    `---
+description: Templated prompt from daplug
+---
+Echo $ARGUMENTS and \${user_message}.
+`,
+  )
 
   mkdirSync(pluginsHome, { recursive: true })
   writeFileSync(
@@ -164,5 +172,24 @@ describe("auto-slash command executor plugin dispatch", () => {
       'Command "/daplug:missing" not found. Use the skill tool to list available skills and commands.',
     )
     expect(result.error).not.toContain("Marketplace plugin commands")
+  })
+
+  it("replaces $ARGUMENTS placeholders in plugin command templates", async () => {
+    const result = await executeSlashCommand(
+      {
+        command: "daplug:templated",
+        args: "ship it",
+        raw: "/daplug:templated ship it",
+      },
+      {
+        skills: [],
+        pluginsEnabled: true,
+      },
+    )
+
+    expect(result.success).toBe(true)
+    expect(result.replacementText).toContain("Echo ship it and ship it.")
+    expect(result.replacementText).not.toContain("$ARGUMENTS")
+    expect(result.replacementText).not.toContain("${user_message}")
   })
 })

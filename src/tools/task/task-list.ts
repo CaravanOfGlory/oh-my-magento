@@ -1,7 +1,7 @@
 import { tool, type ToolDefinition } from "@opencode-ai/plugin/tool"
 import { join } from "path"
 import { existsSync, readdirSync } from "fs"
-import type { OhMyMagentoConfig } from "../../config/schema"
+import type { OhMyOpenCodeConfig } from "../../config/schema"
 import type { TaskObject, TaskStatus } from "./types"
 import { TaskObjectSchema } from "./types"
 import { readJsonSafe, getTaskDir } from "../../features/claude-tasks/storage"
@@ -14,7 +14,7 @@ interface TaskSummary {
   blockedBy: string[]
 }
 
-export function createTaskList(config: Partial<OhMyMagentoConfig>): ToolDefinition {
+export function createTaskList(config: Partial<OhMyOpenCodeConfig>): ToolDefinition {
   return tool({
     description: `List all active tasks with summary information.
     
@@ -45,6 +45,8 @@ Returns summary format: id, subject, status, owner, blockedBy (not full descript
         }
       }
 
+      const taskMap = new Map(allTasks.map((t) => [t.id, t]))
+
       // Filter out completed and deleted tasks
       const activeTasks = allTasks.filter(
         (task) => task.status !== "completed" && task.status !== "deleted"
@@ -54,7 +56,7 @@ Returns summary format: id, subject, status, owner, blockedBy (not full descript
       const summaries: TaskSummary[] = activeTasks.map((task) => {
         // Filter blockedBy to only include unresolved (non-completed) blockers
         const unresolvedBlockers = task.blockedBy.filter((blockerId) => {
-          const blockerTask = allTasks.find((t) => t.id === blockerId)
+          const blockerTask = taskMap.get(blockerId)
           // Include if blocker doesn't exist (missing) or if it's not completed
           return !blockerTask || blockerTask.status !== "completed"
         })

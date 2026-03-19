@@ -6,7 +6,8 @@
   "types": "dist/index.d.ts",
   "type": "module",
   "bin": {
-    "oh-my-magento": "bin/oh-my-magento.js"
+    "oh-my-magento": "bin/oh-my-magento.js",
+    "oh-my-opencode": "bin/oh-my-magento.js"
   },
   "files": [
     "dist",
@@ -26,6 +27,7 @@
     "build:binaries": "bun run script/build-binaries.ts",
     "build:schema": "bun run script/build-schema.ts",
     "clean": "rm -rf dist",
+    "prepare": "bun run build",
     "postinstall": "node postinstall.mjs",
     "prepublishOnly": "bun run clean && bun run build",
     "typecheck": "tsc --noEmit",
@@ -38,26 +40,29 @@
     "plugin",
     "agents",
     "ai",
-    "ecommerce"
+    "ecommerce",
+    "oracle",
+    "librarian",
+    "llm"
   ],
   "author": "YeonGyu-Kim",
   "license": "SUL-1.0",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/CaravanOfGlory/oh-my-magento.git"
+    "url": "git+https://github.com/caravanglory/oh-my-magento.git"
   },
   "bugs": {
-    "url": "https://github.com/CaravanOfGlory/oh-my-magento/issues"
+    "url": "https://github.com/caravanglory/oh-my-magento/issues"
   },
-  "homepage": "https://github.com/CaravanOfGlory/oh-my-magento#readme",
+  "homepage": "https://github.com/caravanglory/oh-my-magento#readme",
   "dependencies": {
-    "@ast-grep/cli": "^0.40.0",
-    "@ast-grep/napi": "^0.40.0",
+    "@ast-grep/cli": "^0.41.1",
+    "@ast-grep/napi": "^0.41.1",
     "@clack/prompts": "^0.11.0",
     "@code-yeongyu/comment-checker": "^0.7.0",
     "@modelcontextprotocol/sdk": "^1.25.2",
-    "@opencode-ai/plugin": "^1.1.19",
-    "@opencode-ai/sdk": "^1.1.19",
+    "@opencode-ai/plugin": "^1.2.24",
+    "@opencode-ai/sdk": "^1.2.24",
     "commander": "^14.0.2",
     "detect-libc": "^2.0.0",
     "diff": "^8.0.3",
@@ -71,14 +76,9 @@
   "devDependencies": {
     "@types/js-yaml": "^4.0.9",
     "@types/picomatch": "^3.0.2",
-    "bun-types": "1.3.6",
+    "bun-types": "1.3.10",
     "typescript": "^5.7.3"
   },
-  "trustedDependencies": [
-    "@ast-grep/cli",
-    "@ast-grep/napi",
-    "@code-yeongyu/comment-checker"
-  ],
   "optionalDependencies": {
     "oh-my-magento-darwin-arm64": "0.2.1",
     "oh-my-magento-darwin-x64": "0.2.1",
@@ -90,6 +90,25 @@
     "oh-my-magento-linux-x64-musl": "0.2.1",
     "oh-my-magento-linux-x64-musl-baseline": "0.2.1",
     "oh-my-magento-windows-x64": "0.2.1",
-    "oh-my-magento-windows-x64-baseline": "0.2.1"
-  }
+    "oh-my-magento-windows-x64-baseline": "0.2.1",
+    "oh-my-opencode-darwin-arm64": "3.11.0",
+    "oh-my-opencode-darwin-x64": "3.11.0",
+    "oh-my-opencode-darwin-x64-baseline": "3.11.0",
+    "oh-my-opencode-linux-arm64": "3.11.0",
+    "oh-my-opencode-linux-arm64-musl": "3.11.0",
+    "oh-my-opencode-linux-x64": "3.11.0",
+    "oh-my-opencode-linux-x64-baseline": "3.11.0",
+    "oh-my-opencode-linux-x64-musl": "3.11.0",
+    "oh-my-opencode-linux-x64-musl-baseline": "3.11.0",
+    "oh-my-opencode-windows-x64": "3.11.0",
+    "oh-my-opencode-windows-x64-baseline": "3.11.0"
+  },
+  "overrides": {
+    "@opencode-ai/sdk": "^1.2.24"
+  },
+  "trustedDependencies": [
+    "@ast-grep/cli",
+    "@ast-grep/napi",
+    "@code-yeongyu/comment-checker"
+  ]
 }

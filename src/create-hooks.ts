@@ -1,5 +1,5 @@
 import type { AvailableSkill } from "./agents/dynamic-agent-prompt-builder"
-import type { HookName, OhMyMagentoConfig } from "./config"
+import type { HookName, OhMyOpenCodeConfig } from "./config"
 import type { LoadedSkill } from "./features/opencode-skill-loader/types"
 import type { BackgroundManager } from "./features/background-agent"
 import type { PluginContext } from "./plugin/types"
@@ -11,9 +11,23 @@ import { createSkillHooks } from "./plugin/hooks/create-skill-hooks"
 
 export type CreatedHooks = ReturnType<typeof createHooks>
 
+type DisposableHook = { dispose?: () => void } | null | undefined
+
+export type DisposableCreatedHooks = {
+  runtimeFallback?: DisposableHook
+  todoContinuationEnforcer?: DisposableHook
+  autoSlashCommand?: DisposableHook
+}
+
+export function disposeCreatedHooks(hooks: DisposableCreatedHooks): void {
+  hooks.runtimeFallback?.dispose?.()
+  hooks.todoContinuationEnforcer?.dispose?.()
+  hooks.autoSlashCommand?.dispose?.()
+}
+
 export function createHooks(args: {
   ctx: PluginContext
-  pluginConfig: OhMyMagentoConfig
+  pluginConfig: OhMyOpenCodeConfig
   modelCacheState: ModelCacheState
   backgroundManager: BackgroundManager
   isHookEnabled: (hookName: HookName) => boolean
@@ -58,9 +72,16 @@ export function createHooks(args: {
     availableSkills,
   })
 
-  return {
+  const hooks = {
     ...core,
     ...continuation,
     ...skill,
+  }
+
+  return {
+    ...hooks,
+    disposeHooks: (): void => {
+      disposeCreatedHooks(hooks)
+    },
   }
 }

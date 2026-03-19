@@ -1,7 +1,7 @@
 import type { PluginInput } from "@opencode-ai/plugin";
 import { tool, type ToolDefinition } from "@opencode-ai/plugin/tool";
 import { join } from "path";
-import type { OhMyMagentoConfig } from "../../config/schema";
+import type { OhMyOpenCodeConfig } from "../../config/schema";
 import { TaskObjectSchema, TaskUpdateInputSchema } from "./types";
 import {
   getTaskDir,
@@ -19,7 +19,7 @@ function parseTaskId(id: string): string | null {
 }
 
 export function createTaskUpdateTool(
-  config: Partial<OhMyMagentoConfig>,
+  config: Partial<OhMyOpenCodeConfig>,
   ctx?: PluginInput,
 ): ToolDefinition {
    return tool({
@@ -70,7 +70,7 @@ Properly managed dependencies enable maximum parallel execution.`,
 
 async function handleUpdate(
   args: Record<string, unknown>,
-  config: Partial<OhMyMagentoConfig>,
+  config: Partial<OhMyOpenCodeConfig>,
   ctx: PluginInput | undefined,
   context: { sessionID: string },
 ): Promise<string> {

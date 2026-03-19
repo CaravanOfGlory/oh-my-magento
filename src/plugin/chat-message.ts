@@ -1,4 +1,4 @@
-import type { OhMyMagentoConfig } from "../config"
+import type { OhMyOpenCodeConfig } from "../config"
 import type { PluginContext } from "./types"
 
 import { hasConnectedProvidersCache } from "../shared"
@@ -37,7 +37,7 @@ function isStartWorkHookOutput(value: unknown): value is StartWorkHookOutput {
 
 export function createChatMessageHandler(args: {
   ctx: PluginContext
-  pluginConfig: OhMyMagentoConfig
+  pluginConfig: OhMyOpenCodeConfig
   firstMessageVariantGate: FirstMessageVariantGate
   hooks: CreatedHooks
 }): (
@@ -135,16 +135,20 @@ export function createChatMessageHandler(args: {
       const isRalphLoopTemplate =
         promptText.includes("You are starting a Ralph Loop") &&
         promptText.includes("<user-task>")
+      const isUlwLoopTemplate =
+        promptText.includes("You are starting an ULTRAWORK Loop") &&
+        promptText.includes("<user-task>")
       const isCancelRalphTemplate = promptText.includes(
         "Cancel the currently active Ralph Loop",
       )
 
-      if (isRalphLoopTemplate) {
+      if (isRalphLoopTemplate || isUlwLoopTemplate) {
         const taskMatch = promptText.match(/<user-task>\s*([\s\S]*?)\s*<\/user-task>/i)
         const rawTask = taskMatch?.[1]?.trim() || ""
         const parsedArguments = parseRalphLoopArguments(rawTask)
 
         hooks.ralphLoop.startLoop(input.sessionID, parsedArguments.prompt, {
+          ultrawork: isUlwLoopTemplate,
           maxIterations: parsedArguments.maxIterations,
           completionPromise: parsedArguments.completionPromise,
           strategy: parsedArguments.strategy,
@@ -154,6 +158,13 @@ export function createChatMessageHandler(args: {
       }
     }
 
-    applyUltraworkModelOverrideOnMessage(pluginConfig, input.agent, output, pluginContext.client.tui, input.sessionID)
+    await applyUltraworkModelOverrideOnMessage(
+      pluginConfig,
+      input.agent,
+      output,
+      pluginContext.client.tui,
+      input.sessionID,
+      pluginContext.client,
+    )
   }
 }

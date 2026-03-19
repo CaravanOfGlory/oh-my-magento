@@ -43,7 +43,7 @@ describe("createThinkModeHook", () => {
     clearThinkModeState(sessionID)
   })
 
-  it("uses max variant for github-copilot claude models when think keyword is present", async () => {
+  it("sets high variant when think keyword is present", async () => {
     // given
     const hook = createThinkModeHook()
     const input = createHookInput({
@@ -57,17 +57,17 @@ describe("createThinkModeHook", () => {
     await hook["chat.message"](input, output)
 
     // then
-    expect(output.message.variant).toBe("max")
+    expect(output.message.variant).toBe("high")
     expect(output.message.model).toBeUndefined()
   })
 
-  it("supports dotted model IDs by switching to normalized high variant", async () => {
+  it("sets high variant for dotted model IDs", async () => {
     // given
     const hook = createThinkModeHook()
     const input = createHookInput({
       sessionID,
       providerID: "github-copilot",
-      modelID: "gpt-5.2",
+      modelID: "gpt-5.4",
     })
     const output = createHookOutput("ultrathink about this")
 
@@ -76,31 +76,7 @@ describe("createThinkModeHook", () => {
 
     // then
     expect(output.message.variant).toBe("high")
-    expect(output.message.model).toEqual({
-      providerID: "github-copilot",
-      modelID: "gpt-5-2-high",
-    })
-  })
-
-  it("still switches non-github-copilot claude models to high variant", async () => {
-    // given
-    const hook = createThinkModeHook()
-    const input = createHookInput({
-      sessionID,
-      providerID: "anthropic",
-      modelID: "claude-opus-4-6",
-    })
-    const output = createHookOutput("think about this deeply")
-
-    // when
-    await hook["chat.message"](input, output)
-
-    // then
-    expect(output.message.variant).toBe("high")
-    expect(output.message.model).toEqual({
-      providerID: "anthropic",
-      modelID: "claude-opus-4-6-high",
-    })
+    expect(output.message.model).toBeUndefined()
   })
 
   it("skips when message variant is already set", async () => {

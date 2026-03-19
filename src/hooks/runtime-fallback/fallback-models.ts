@@ -1,5 +1,5 @@
-import type { OhMyMagentoConfig } from "../../config"
-import { AGENT_NAMES, agentPattern } from "./agent-resolver"
+import type { OhMyOpenCodeConfig } from "../../config"
+import { agentPattern } from "./agent-resolver"
 import { HOOK_NAME } from "./constants"
 import { log } from "../../shared/logger"
 import { SessionCategoryRegistry } from "../../shared/session-category-registry"
@@ -8,7 +8,7 @@ import { normalizeFallbackModels } from "../../shared/model-resolver"
 export function getFallbackModelsForSession(
   sessionID: string,
   agent: string | undefined,
-  pluginConfig: OhMyMagentoConfig | undefined
+  pluginConfig: OhMyOpenCodeConfig | undefined
 ): string[] {
   if (!pluginConfig) return []
 
@@ -51,19 +51,7 @@ export function getFallbackModelsForSession(
     if (result) return result
   }
 
-  const sisyphusFallback = tryGetFallbackFromAgent("sisyphus")
-  if (sisyphusFallback) {
-    log(`[${HOOK_NAME}] Using sisyphus fallback models (no agent detected)`, { sessionID })
-    return sisyphusFallback
-  }
-
-  for (const agentName of AGENT_NAMES) {
-    const result = tryGetFallbackFromAgent(agentName)
-    if (result) {
-      log(`[${HOOK_NAME}] Using ${agentName} fallback models (no agent detected)`, { sessionID })
-      return result
-    }
-  }
+  log(`[${HOOK_NAME}] No category/agent fallback models resolved for session`, { sessionID, agent })
 
   return []
 }
