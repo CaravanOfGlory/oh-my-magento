@@ -258,7 +258,10 @@ jobs:
         run: |
           cd packages/${{ matrix.platform }}
 
-          TAG_ARG="--tag ${{ inputs.dist_tag || inputs.version }}"
+          TAG_ARG=""
+          if [ -n "${{ inputs.dist_tag }}" ]; then
+            TAG_ARG="--tag ${{ inputs.dist_tag }}"
+          fi
 
           npm publish --access public --provenance $TAG_ARG
         env:
