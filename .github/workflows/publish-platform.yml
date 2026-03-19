@@ -290,12 +290,9 @@ jobs:
         if: steps.check.outputs.skip_opencode != 'true' && steps.download.outcome == 'success'
         run: |
           cd packages/${{ matrix.platform }}
-          
-          TAG_ARG=""
-          if [ -n "${{ inputs.dist_tag }}" ]; then
-            TAG_ARG="--tag ${{ inputs.dist_tag }}"
-          fi
-          
+
+          TAG_ARG="--tag ${{ inputs.dist_tag || inputs.version }}"
+
           npm publish --access public --provenance $TAG_ARG
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
@@ -312,12 +309,9 @@ jobs:
              --arg desc "Platform-specific binary for oh-my-openagent (${{ matrix.platform }})" \
              '.name = $name | .description = $desc | .bin = {"oh-my-openagent": (.bin | to_entries | .[0].value)}' \
              package.json > tmp.json && mv tmp.json package.json
-          
-          TAG_ARG=""
-          if [ -n "${{ inputs.dist_tag }}" ]; then
-            TAG_ARG="--tag ${{ inputs.dist_tag }}"
-          fi
-          
+
+          TAG_ARG="--tag ${{ inputs.dist_tag || inputs.version }}"
+
           npm publish --access public --provenance $TAG_ARG
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
