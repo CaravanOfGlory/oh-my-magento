@@ -8,6 +8,7 @@ import {
   addConfigLoadError,
   parseJsonc,
   detectConfigFile,
+  detectPluginConfigFile,
   migrateConfigFile,
 } from "./shared";
 
@@ -167,7 +168,7 @@ export function loadPluginConfig(
   const userConfigPath =
     userDetected.format !== "none"
       ? userDetected.path
-      : userBasePath + ".json";
+      : path.join(configDir, "oh-my-magento.json");
 
   // Project-level config path - prefer .jsonc over .json
   const projectBasePath = path.join(directory, ".opencode", "oh-my-magento");
@@ -175,7 +176,7 @@ export function loadPluginConfig(
   const projectConfigPath =
     projectDetected.format !== "none"
       ? projectDetected.path
-      : projectBasePath + ".json";
+      : path.join(projectBasePath, "oh-my-magento.json");
 
   // Load user config first (base)
   let config: OhMyOpenCodeConfig =

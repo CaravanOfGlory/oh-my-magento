@@ -550,8 +550,8 @@ describe("createEventHandler - model fallback", () => {
 
     //#then - second fallback entry applied (chain advanced past opencode-go/kimi-k2.5)
     expect(second.message["model"]).toMatchObject({
-      providerID: "kimi-for-coding",
-      modelID: "k2p5",
+      providerID: "opencode",
+      modelID: "kimi-k2.5",
     })
     expect(second.message["variant"]).toBeUndefined()
     expect(abortCalls).toEqual([sessionID, sessionID])
