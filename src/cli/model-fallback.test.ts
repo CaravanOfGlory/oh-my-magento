@@ -525,7 +525,7 @@ describe("generateModelConfig", () => {
   describe("librarian agent special cases", () => {
     // Note: upstream has no special case for librarian — it goes through the normal fallback chain.
     // The ZAI special case was a fork-specific addition removed to align with upstream behavior.
-    test("librarian resolves through fallback chain when ZAI + Claude available", () => {
+    test("librarian uses ZAI model when ZAI is available (regardless of Claude)", () => {
       // #given ZAI and Claude are available
       const config = createConfig({
         hasClaude: true,
@@ -535,19 +535,19 @@ describe("generateModelConfig", () => {
       // #when generateModelConfig is called
       const result = generateModelConfig(config)
 
-      // #then librarian uses fallback chain (anthropic matches entry 3)
-      expect(result.agents?.librarian?.model).toBe("anthropic/claude-haiku-4-5")
+      // #then librarian prefers ZAI over Claude
+      expect(result.agents?.librarian?.model).toBe("zai-coding-plan/glm-4.7")
     })
 
-    test("librarian resolves through fallback chain when only Claude available", () => {
+    test("librarian is unset when only Claude is available (no ZAI special case)", () => {
       // #given only Claude is available
       const config = createConfig({ hasClaude: true })
 
       // #when generateModelConfig is called
       const result = generateModelConfig(config)
 
-      // #then librarian uses fallback chain (anthropic matches entry 3)
-      expect(result.agents?.librarian?.model).toBe("anthropic/claude-haiku-4-5")
+      // #then librarian is not set (no opencodeGo or ZAI, so skip)
+      expect(result.agents?.librarian?.model).toBeUndefined()
     })
   })
 
