@@ -2,9 +2,6 @@ export {
   OhMyMagentoConfigSchema,
 } from "./schema"
 
-// Backwards-compatible alias
-export { OhMyMagentoConfigSchema as OhMyMagentoConfigSchema } from "./schema"
-
 export type {
   OhMyMagentoConfig,
   AgentOverrideConfig,
@@ -26,6 +23,3 @@ export type {
   FallbackModels,
   CopilotAccountSwitcherConfig,
 } from "./schema"
-
-// Backwards-compatible alias
-export type { OhMyMagentoConfig as OhMyMagentoConfig } from "./schema"

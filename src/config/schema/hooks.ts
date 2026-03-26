@@ -52,6 +52,7 @@ export const HookNameSchema = z.enum([
   "read-image-resizer",
   "todo-description-override",
   "webfetch-redirect-guard",
+  "dev-metrics-collector",
 ])
 
 export type HookName = z.infer<typeof HookNameSchema>
