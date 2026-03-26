@@ -227,8 +227,8 @@ describe("generateOmoConfig - model fallback system", () => {
     // #when generating config
     const result = generateOmoConfig(config)
 
-    // #then librarian uses fallback chain (anthropic matches entry 3)
-    expect((result.agents as Record<string, { model: string }>).librarian.model).toBe("anthropic/claude-haiku-4-5")
+    // #then librarian prefers ZAI over Claude (ZAI special case)
+    expect((result.agents as Record<string, { model: string }>).librarian.model).toBe("zai-coding-plan/glm-4.7")
     // #then Sisyphus uses Claude (OR logic)
     expect((result.agents as Record<string, { model: string }>).sisyphus.model).toBe("anthropic/claude-opus-4-6")
   })
