@@ -268,48 +268,48 @@ describe("detectConfigFile", () => {
 describe("detectPluginConfigFile", () => {
   const testDir = join(__dirname, ".test-detect-plugin")
 
-  test("prefers oh-my-openagent over oh-my-opencode", () => {
+  test("prefers oh-my-magento over oh-my-openagent", () => {
     // given
     if (!existsSync(testDir)) mkdirSync(testDir, { recursive: true })
     writeFileSync(join(testDir, "oh-my-openagent.jsonc"), "{}")
-    writeFileSync(join(testDir, "oh-my-opencode.jsonc"), "{}")
+    writeFileSync(join(testDir, "oh-my-magento.jsonc"), "{}")
 
     // when
     const result = detectPluginConfigFile(testDir)
 
     // then
     expect(result.format).toBe("jsonc")
-    expect(result.path).toBe(join(testDir, "oh-my-openagent.jsonc"))
+    expect(result.path).toBe(join(testDir, "oh-my-magento.jsonc"))
 
     rmSync(testDir, { recursive: true, force: true })
   })
 
-  test("falls back to oh-my-opencode when oh-my-openagent doesn't exist", () => {
+  test("falls back to oh-my-magento when oh-my-openagent doesn't exist", () => {
     // given
     if (!existsSync(testDir)) mkdirSync(testDir, { recursive: true })
-    writeFileSync(join(testDir, "oh-my-opencode.jsonc"), "{}")
+    writeFileSync(join(testDir, "oh-my-magento.jsonc"), "{}")
 
     // when
     const result = detectPluginConfigFile(testDir)
 
     // then
     expect(result.format).toBe("jsonc")
-    expect(result.path).toBe(join(testDir, "oh-my-opencode.jsonc"))
+    expect(result.path).toBe(join(testDir, "oh-my-magento.jsonc"))
 
     rmSync(testDir, { recursive: true, force: true })
   })
 
-  test("falls back to oh-my-opencode.json when no jsonc exists", () => {
+  test("falls back to oh-my-magento.json when no jsonc exists", () => {
     // given
     if (!existsSync(testDir)) mkdirSync(testDir, { recursive: true })
-    writeFileSync(join(testDir, "oh-my-opencode.json"), "{}")
+    writeFileSync(join(testDir, "oh-my-magento.json"), "{}")
 
     // when
     const result = detectPluginConfigFile(testDir)
 
     // then
     expect(result.format).toBe("json")
-    expect(result.path).toBe(join(testDir, "oh-my-opencode.json"))
+    expect(result.path).toBe(join(testDir, "oh-my-magento.json"))
 
     rmSync(testDir, { recursive: true, force: true })
   })
@@ -324,23 +324,23 @@ describe("detectPluginConfigFile", () => {
 
     // then
     expect(result.format).toBe("none")
-    expect(result.path).toBe(join(emptyDir, "oh-my-openagent.json"))
+    expect(result.path).toBe(join(emptyDir, "oh-my-magento.json"))
 
     rmSync(testDir, { recursive: true, force: true })
   })
 
-  test("prefers oh-my-openagent.json over oh-my-opencode.jsonc", () => {
+  test("prefers oh-my-magento.json over oh-my-openagent.jsonc", () => {
     // given
     if (!existsSync(testDir)) mkdirSync(testDir, { recursive: true })
-    writeFileSync(join(testDir, "oh-my-openagent.json"), "{}")
-    writeFileSync(join(testDir, "oh-my-opencode.jsonc"), "{}")
+    writeFileSync(join(testDir, "oh-my-magento.json"), "{}")
+    writeFileSync(join(testDir, "oh-my-openagent.jsonc"), "{}")
 
     // when
     const result = detectPluginConfigFile(testDir)
 
     // then
     expect(result.format).toBe("json")
-    expect(result.path).toBe(join(testDir, "oh-my-openagent.json"))
+    expect(result.path).toBe(join(testDir, "oh-my-magento.json"))
 
     rmSync(testDir, { recursive: true, force: true })
   })

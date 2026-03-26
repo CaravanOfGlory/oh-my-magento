@@ -13,12 +13,12 @@ This project uses three distinct names that are easy to confuse:
 | Name | What it refers to | Examples |
 |------|-------------------|----------|
 | `oh-my-magento` | **Our npm package + CLI binary** (package.json `name`) | `bunx oh-my-magento install`, `~/.config/opencode/oh-my-magento.jsonc`, plugin in `opencode.json` |
-| `oh-my-opencode` | **Upstream npm package** (the original project we forked from) | npm badge URLs, upstream references, `optionalDependencies` |
-| `oh-my-openagent` | **Upstream GitHub repo** (`code-yeongyu/oh-my-openagent`) | Cross-links in README as "this is a fork of..." |
+| `oh-my-magento` | **Upstream npm package** (the original project we forked from) | npm badge URLs, upstream references, `optionalDependencies` |
+| `oh-my-openagent` | **Upstream GitHub repo** (`caravanglory/oh-my-openagent`) | Cross-links in README as "this is a fork of..." |
 
-> **Critical rule**: Never conflate `oh-my-opencode` (upstream) with our `oh-my-magento`. Every mention of `oh-my-opencode` in our docs either refers to upstream or is an alias pointing to our binary.
+> **Critical rule**: Never conflate `oh-my-magento` (upstream) with our `oh-my-magento`. Every mention of `oh-my-magento` in our docs either refers to upstream or is an alias pointing to our binary.
 
-The CLI binary has both names as aliases (`bin` in package.json: both `oh-my-magento` and `oh-my-opencode` → same file), but our canonical name is `oh-my-magento`.
+The CLI binary has both names as aliases (`bin` in package.json: both `oh-my-magento` and `oh-my-magento` → same file), but our canonical name is `oh-my-magento`.
 
 ## Commands
 
@@ -55,8 +55,8 @@ src/
 └── plugin-interface.ts   # Plugin interface types
 ```
 
-**Initialization flow**: `OhMyOpenCodePlugin(ctx)` → loadPluginConfig() → createManagers() → createTools() → createHooks() → createPluginInterface()
-(Note: the source class is named `OhMyOpenCodePlugin` — the class name has not been renamed, but all user-facing references use `oh-my-magento`)
+**Initialization flow**: `OhMyMagentoPlugin(ctx)` → loadPluginConfig() → createManagers() → createTools() → createHooks() → createPluginInterface()
+(Note: the source class is named `OhMyMagentoPlugin` — the class name has not been renamed, but all user-facing references use `oh-my-magento`)
 
 ## Key Patterns
 

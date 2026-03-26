@@ -1,4 +1,15 @@
 > [!TIP]
+> **Building in Public**
+>
+> 메인테이너가 Jobdori를 통해 oh-my-magento를 실시간으로 개발하고 있습니다. Jobdori는 OpenClaw를 기반으로 대폭 커스터마이징된 AI 어시스턴트입니다.
+> 모든 기능 개발, 버그 수정, 이슈 트리아지를 Discord에서 실시간으로 확인하세요.
+>
+> [![Building in Public](./.github/assets/building-in-public.png)](https://discord.gg/PUwSMR9XNk)
+>
+> [**→ #building-in-public에서 확인하기**](https://discord.gg/PUwSMR9XNk)
+
+
+> [!TIP]
 > 저희와 함께 하세요!
 >
 > | [<img alt="Discord link" src="https://img.shields.io/discord/1452487457085063218?color=5865F2&label=discord&labelColor=black&logo=discord&logoColor=white&style=flat-square" width="156px" />](https://discord.gg/PUwSMR9XNk) | [Discord 커뮤니티](https://discord.gg/PUwSMR9XNk)에 가입하여 기여자 및 다른 `oh-my-magento` 사용자들과 소통하세요. |
@@ -20,7 +31,7 @@
 <div align="center">
 
 [![GitHub Release](https://img.shields.io/github/v/release/caravanglory/oh-my-magento?color=369eff&labelColor=black&logo=github&style=flat-square)](https://github.com/caravanglory/oh-my-magento/releases)
-[![npm downloads](https://img.shields.io/npm/dt/oh-my-opencode?color=ff6b35&labelColor=black&style=flat-square)](https://www.npmjs.com/package/oh-my-opencode)
+[![npm downloads](https://img.shields.io/npm/dt/oh-my-magento?color=ff6b35&labelColor=black&style=flat-square)](https://www.npmjs.com/package/oh-my-magento)
 [![GitHub Contributors](https://img.shields.io/github/contributors/caravanglory/oh-my-magento?color=c4f042&labelColor=black&style=flat-square)](https://github.com/caravanglory/oh-my-magento/graphs/contributors)
 [![GitHub Forks](https://img.shields.io/github/forks/caravanglory/oh-my-magento?color=8ae8ff&labelColor=black&style=flat-square)](https://github.com/caravanglory/oh-my-magento/network/members)
 [![GitHub Stars](https://img.shields.io/github/stars/caravanglory/oh-my-magento?color=ffcb47&labelColor=black&style=flat-square)](https://github.com/caravanglory/oh-my-magento/stargazers)
@@ -44,7 +55,7 @@
 
 > "Ohmyopencode와 ralph loop를 써서 45k 라인짜리 tauri 앱을 하룻밤 만에 SaaS 웹앱으로 변환했어요. 인터뷰 모드로 시작해서, 제가 쓴 프롬프트에 대해 질문하고 추천을 부탁했죠. 일하는 걸 지켜보는 것도 재밌었고, 아침에 일어났더니 웹사이트가 대부분 돌아가고 있는 걸 보고 경악했습니다!" - [James Hargis](https://x.com/hargabyte/status/2007299688261882202)
 
-> "oh-my-opencode 쓰세요, 다시는 예전으로 못 돌아갑니다." <br/>- [d0t3ch](https://x.com/d0t3ch/status/2001685618200580503)
+> "oh-my-magento 쓰세요, 다시는 예전으로 못 돌아갑니다." <br/>- [d0t3ch](https://x.com/d0t3ch/status/2001685618200580503)
 
 > "뭐가 이렇게 대단한 건지 아직 정확하게 말로 표현하긴 어려운데, 개발 경험 자체가 완전히 다른 차원에 도달해버렸어요." - [苔硯:こけすずり](https://x.com/kokesuzuri/status/2008532913961529372?s=20)
 
@@ -249,15 +260,15 @@ project/
 
 ## 제거 (Uninstallation)
 
-oh-my-opencode를 지우려면:
+oh-my-magento를 지우려면:
 
 1. **OpenCode 설정에서 플러그인 제거**
 
-   `~/.config/opencode/opencode.json` (또는 `opencode.jsonc`)를 열고 `plugin` 배열에서 `"oh-my-opencode"`를 지우세요.
+   `~/.config/opencode/opencode.json` (또는 `opencode.jsonc`)를 열고 `plugin` 배열에서 `"oh-my-magento"`를 지우세요.
 
    ```bash
    # jq 사용 시
-   jq '.plugin = [.plugin[] | select(. != "oh-my-opencode")]' \
+   jq '.plugin = [.plugin[] | select(. != "oh-my-magento")]' \
        ~/.config/opencode/opencode.json > /tmp/oc.json && \
        mv /tmp/oc.json ~/.config/opencode/opencode.json
    ```

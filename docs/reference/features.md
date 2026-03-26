@@ -1,8 +1,8 @@
-# Oh-My-Magento Features Reference
+# Oh-My-OpenAgent Features Reference
 
 ## Agents
 
-Oh-My-Magento provides 11 specialized AI agents. Each has distinct expertise, optimized models, and tool permissions.
+Oh-My-OpenAgent provides 11 specialized AI agents. Each has distinct expertise, optimized models, and tool permissions.
 
 ### Core Agents
 
@@ -11,8 +11,8 @@ Oh-My-Magento provides 11 specialized AI agents. Each has distinct expertise, op
 | **Sisyphus**          | `claude-opus-4-6`  | The default orchestrator. Plans, delegates, and executes complex tasks using specialized subagents with aggressive parallel execution. Todo-driven workflow with extended thinking (32k budget). Fallback: `glm-5` → `big-pickle`.                                                                                                                               |
 | **Hephaestus**        | `gpt-5.3-codex`    | The Legitimate Craftsman. Autonomous deep worker inspired by AmpCode's deep mode. Goal-oriented execution with thorough research before action. Explores codebase patterns, completes tasks end-to-end without premature stopping. Named after the Greek god of forge and craftsmanship. Fallback: `gpt-5.4` on GitHub Copilot. Requires a GPT-capable provider. |
 | **Oracle**            | `gpt-5.4`          | Architecture decisions, code review, debugging. Read-only consultation with stellar logical reasoning and deep analysis. Inspired by AmpCode. Fallback: `gemini-3.1-pro` → `claude-opus-4-6`.                                                                                                                                                                    |
-| **Librarian**         | `gemini-3-flash`   | Multi-repo analysis, documentation lookup, OSS implementation examples. Deep codebase understanding with evidence-based answers. Fallback: `minimax-m2.5-free` → `big-pickle`.                                                                                                                                                                                   |
-| **Explore**           | `grok-code-fast-1` | Fast codebase exploration and contextual grep. Fallback: `minimax-m2.5-free` → `claude-haiku-4-5` → `gpt-5-nano`.                                                                                                                                                                                                                                                |
+| **Librarian**         | `minimax-m2.7`     | Multi-repo analysis, documentation lookup, OSS implementation examples. Deep codebase understanding with evidence-based answers. Fallback: `minimax-m2.7-highspeed` → `claude-haiku-4-5` → `gpt-5-nano`.                                                                                                                                                         |
+| **Explore**           | `grok-code-fast-1` | Fast codebase exploration and contextual grep. Fallback: `minimax-m2.7-highspeed` → `minimax-m2.7` → `claude-haiku-4-5` → `gpt-5-nano`.                                                                                                                                                                                                                          |
 | **Multimodal-Looker** | `gpt-5.3-codex`    | Visual content specialist. Analyzes PDFs, images, diagrams to extract information. Fallback: `k2p5` → `gemini-3-flash` → `glm-4.6v` → `gpt-5-nano`.                                                                                                                                                                                                              |
 
 ### Planning Agents
@@ -90,7 +90,7 @@ When running inside tmux:
 - Each pane shows agent output live
 - Auto-cleanup when agents complete
 
-Customize agent models, prompts, and permissions in `oh-my-magento.json`.
+Customize agent models, prompts, and permissions in `oh-my-openagent.json`.
 
 ## Category System
 
@@ -129,7 +129,7 @@ task({
 
 ### Custom Categories
 
-You can define custom categories in `oh-my-magento.json`.
+You can define custom categories in `oh-my-openagent.json`.
 
 #### Category Configuration Schema
 
@@ -237,7 +237,7 @@ Skills provide specialized workflows with embedded MCP servers and detailed inst
 
 ### Browser Automation Options
 
-Oh-My-Magento provides two browser automation providers, configurable via `browser_automation_engine.provider`.
+Oh-My-OpenAgent provides two browser automation providers, configurable via `browser_automation_engine.provider`.
 
 #### Option 1: Playwright MCP (Default)
 
@@ -558,7 +558,7 @@ Requires `experimental.task_system: true` in config.
 
 #### Task System Details
 
-**Note on Claude Code Alignment**: This implementation follows Claude Code's internal Task tool signatures (`TaskCreate`, `TaskUpdate`, `TaskList`, `TaskGet`) and field naming conventions (`subject`, `blockedBy`, `blocks`, etc.). However, Anthropic has not published official documentation for these tools. This is Oh My Magento's own implementation based on observed Claude Code behavior and internal specifications.
+**Note on Claude Code Alignment**: This implementation follows Claude Code's internal Task tool signatures (`TaskCreate`, `TaskUpdate`, `TaskList`, `TaskGet`) and field naming conventions (`subject`, `blockedBy`, `blocks`, etc.). However, Anthropic has not published official documentation for these tools. This is Oh My OpenAgent's own implementation based on observed Claude Code behavior and internal specifications.
 
 **Task Schema**:
 
@@ -844,7 +844,7 @@ When a skill MCP has `oauth` configured:
 Pre-authenticate via CLI:
 
 ```bash
-bunx oh-my-magento mcp oauth login <server-name> --server-url https://api.example.com
+bunx oh-my-openagent mcp oauth login <server-name> --server-url https://api.example.com
 ```
 
 ## Context Injection

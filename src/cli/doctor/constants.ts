@@ -41,8 +41,8 @@ export const EXIT_CODES = {
 
 export const MIN_OPENCODE_VERSION = "1.0.150"
 
-export const NPM_PACKAGE_NAME = "oh-my-opencode"
+export const NPM_PACKAGE_NAME = "oh-my-magento"
 
 export const OPENCODE_BINARIES = ["opencode", "opencode-desktop"] as const
 
-export const PACKAGE_NAME = "oh-my-opencode"
+export const PACKAGE_NAME = "oh-my-magento"

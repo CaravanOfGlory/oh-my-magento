@@ -1,5 +1,5 @@
 import * as z from "zod"
-import { OhMyOpenCodeConfigSchema } from "../src/config/schema"
+import { OhMyMagentoConfigSchema } from "../src/config/schema"
 
 function asRecord(value: unknown): Record<string, unknown> | undefined {
   return typeof value === "object" && value !== null ? (value as Record<string, unknown>) : undefined
@@ -36,7 +36,7 @@ function dedupeCustomAgentOverrideSchema(schema: Record<string, unknown>): Recor
 }
 
 export function createOhMyMagentoJsonSchema(): Record<string, unknown> {
-  const jsonSchema = z.toJSONSchema(OhMyOpenCodeConfigSchema, {
+  const jsonSchema = z.toJSONSchema(OhMyMagentoConfigSchema, {
     target: "draft-7",
     unrepresentable: "any",
   })
@@ -52,17 +52,17 @@ export function createOhMyMagentoJsonSchema(): Record<string, unknown> {
   return dedupeCustomAgentOverrideSchema(schema)
 }
 
-export function createOhMyOpenCodeJsonSchema(): Record<string, unknown> {
-  const jsonSchema = z.toJSONSchema(OhMyOpenCodeConfigSchema, {
+export function createOhMyMagentoJsonSchema(): Record<string, unknown> {
+  const jsonSchema = z.toJSONSchema(OhMyMagentoConfigSchema, {
     target: "draft-7",
     unrepresentable: "any",
   })
 
   return {
     $schema: "http://json-schema.org/draft-07/schema#",
-    $id: "https://raw.githubusercontent.com/code-yeongyu/oh-my-openagent/dev/assets/oh-my-opencode.schema.json",
+    $id: "https://raw.githubusercontent.com/caravanglory/oh-my-openagent/dev/assets/oh-my-magento.schema.json",
     title: "Oh My OpenCode Configuration",
-    description: "Configuration schema for oh-my-opencode plugin",
+    description: "Configuration schema for oh-my-magento plugin",
     ...jsonSchema,
   }
 }

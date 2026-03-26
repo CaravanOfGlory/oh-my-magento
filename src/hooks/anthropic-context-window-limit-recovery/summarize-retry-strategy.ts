@@ -1,5 +1,5 @@
 import type { AutoCompactState } from "./types"
-import type { OhMyOpenCodeConfig } from "../../config"
+import type { OhMyMagentoConfig } from "../../config"
 import { RETRY_CONFIG } from "./types"
 import type { Client } from "./client"
 import { clearSessionState, getEmptyContentAttempt, getOrCreateRetryState } from "./state"
@@ -15,7 +15,7 @@ export async function runSummarizeRetryStrategy(params: {
   autoCompactState: AutoCompactState
   client: Client
   directory: string
-  pluginConfig: OhMyOpenCodeConfig
+  pluginConfig: OhMyMagentoConfig
   errorType?: string
   messageIndex?: number
 }): Promise<void> {
@@ -114,6 +114,7 @@ export async function runSummarizeRetryStrategy(params: {
           body: summarizeBody as never,
           query: { directory: params.directory },
         })
+        clearSessionState(params.autoCompactState, params.sessionID)
         return
       } catch {
         const remainingTimeMs = SUMMARIZE_RETRY_TOTAL_TIMEOUT_MS - (Date.now() - retryState.firstAttemptTime)

@@ -1,12 +1,12 @@
 export {
-  OhMyOpenCodeConfigSchema,
+  OhMyMagentoConfigSchema,
 } from "./schema"
 
 // Backwards-compatible alias
-export { OhMyOpenCodeConfigSchema as OhMyMagentoConfigSchema } from "./schema"
+export { OhMyMagentoConfigSchema as OhMyMagentoConfigSchema } from "./schema"
 
 export type {
-  OhMyOpenCodeConfig,
+  OhMyMagentoConfig,
   AgentOverrideConfig,
   AgentOverrides,
   McpName,
@@ -22,9 +22,10 @@ export type {
   SisyphusConfig,
   SisyphusTasksConfig,
   RuntimeFallbackConfig,
+  ModelCapabilitiesConfig,
   FallbackModels,
   CopilotAccountSwitcherConfig,
 } from "./schema"
 
 // Backwards-compatible alias
-export type { OhMyOpenCodeConfig as OhMyMagentoConfig } from "./schema"
+export type { OhMyMagentoConfig as OhMyMagentoConfig } from "./schema"

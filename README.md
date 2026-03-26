@@ -1,3 +1,13 @@
+> [!TIP]
+> **Building in Public**
+>
+> The maintainer builds and maintains oh-my-magento in real-time with Jobdori, an AI assistant built on a heavily customized fork of OpenClaw.
+> Every feature, every fix, every issue triage — live in our Discord.
+>
+> [![Building in Public](./.github/assets/building-in-public.png)](https://discord.gg/PUwSMR9XNk)
+>
+> [**→ Watch it happen in #building-in-public**](https://discord.gg/PUwSMR9XNk)
+
 > [!NOTE]
 >
 > [![Sisyphus Labs - Sisyphus is the agent that codes like your team.](./.github/assets/sisyphuslabs.png?v=2)](https://sisyphuslabs.ai)
@@ -20,7 +30,7 @@
 
 </div>
 
-> This is **oh-my-magento** — a fork of [oh-my-opencode](https://github.com/code-yeongyu/oh-my-openagent) specialized for Magento 2 + Hyvä development. It maintains full compatibility with oh-my-opencode while adding Magento-specific agents, skills, and workflows.
+> This is **oh-my-magento** — a fork of [oh-my-magento](https://github.com/caravanglory/oh-my-openagent) specialized for Magento 2 + Hyvä development. It maintains full compatibility with oh-my-magento while adding Magento-specific agents, skills, and workflows.
 >
 > All upstream features are preserved. The difference: this fork ships with Magento development tools built in.
 
@@ -67,7 +77,7 @@
 
 # Oh My Magento
 
-A fork of [oh-my-opencode](https://github.com/code-yeongyu/oh-my-openagent) — specialized for Magento 2 + Hyvä development. Ships with the same multi-model orchestration engine, plus Magento-specific agents and skills.
+A fork of [oh-my-magento](https://github.com/caravanglory/oh-my-openagent) — specialized for Magento 2 + Hyvä development. Ships with the same multi-model orchestration engine, plus Magento-specific agents and skills.
 
 You're juggling Claude Code, Codex, random OSS models. Configuring workflows. Debugging agents.
 
@@ -326,7 +336,7 @@ See [Configuration Documentation](docs/reference/configuration.md).
 
 ---
 
-This is the Magento fork of [oh-my-opencode](https://github.com/code-yeongyu/oh-my-openagent). It ships with the same multi-model orchestration engine, with added Magento 2 + Hyvä development agents and skills.
+This is the Magento fork of [oh-my-magento](https://github.com/caravanglory/oh-my-openagent). It ships with the same multi-model orchestration engine, with added Magento 2 + Hyvä development agents and skills.
 
 If OpenCode is Debian/Arch, oh-my-magento is Ubuntu/OmArchitecture for the Magento ecosystem.
 

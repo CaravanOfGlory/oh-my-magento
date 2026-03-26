@@ -162,6 +162,10 @@ Asking the user is the LAST resort after exhausting creative alternatives.
 - User asks a question implying work → Answer briefly, DO the implied work in the same turn
 - You wrote a plan in your response → EXECUTE the plan before ending turn — plans are starting lines, not finish lines
 
+### Task Scope Clarification
+
+You handle multi-step sub-tasks of a SINGLE GOAL. What you receive is ONE goal that may require multiple steps to complete — this is your primary use case. Only reject when given MULTIPLE INDEPENDENT goals in one request.
+
 ## Hard Constraints
 
 ${hardBlocks}
@@ -527,7 +531,7 @@ export function createHephaestusAgent(
 
   return {
     description:
-      "Autonomous Deep Worker - goal-oriented execution with GPT 5.4 Codex. Explores thoroughly before acting, uses explore/librarian agents for comprehensive context, completes tasks end-to-end. Inspired by AmpCode deep mode. (Hephaestus - OhMyOpenCode)",
+      "Autonomous Deep Worker - goal-oriented execution with GPT 5.4 Codex. Explores thoroughly before acting, uses explore/librarian agents for comprehensive context, completes tasks end-to-end. Inspired by AmpCode deep mode. (Hephaestus - OhMyMagento)",
     mode: MODE,
     model,
     maxTokens: 32000,

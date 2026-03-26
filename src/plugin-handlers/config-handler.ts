@@ -1,4 +1,4 @@
-import type { OhMyOpenCodeConfig } from "../config";
+import type { OhMyMagentoConfig } from "../config";
 import type { ModelCacheState } from "../plugin-state";
 import { log } from "../shared";
 import { applyAgentConfig } from "./agent-config-handler";
@@ -13,7 +13,7 @@ export { resolveCategoryConfig } from "./category-config-resolver";
 
 export interface ConfigHandlerDeps {
   ctx: { directory: string; client?: any };
-  pluginConfig: OhMyOpenCodeConfig;
+  pluginConfig: OhMyMagentoConfig;
   modelCacheState: ModelCacheState;
 }
 

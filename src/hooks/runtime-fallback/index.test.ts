@@ -77,7 +77,7 @@ describe("runtime-fallback", () => {
     model: string,
     fallbackModels: string[],
     variant?: string,
-  ): OhMyOpenCodeConfig {
+  ): OhMyMagentoConfig {
     return {
       categories: {
         [categoryName]: {

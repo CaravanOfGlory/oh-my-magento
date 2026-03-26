@@ -1,9 +1,9 @@
-import type { OhMyOpenCodeConfig } from "../config"
+import type { OhMyMagentoConfig } from "../config"
 import type { PluginContext } from "./types"
 
 import { hasConnectedProvidersCache } from "../shared"
-import { setSessionModel } from "../shared/session-model-state"
-import { setSessionAgent } from "../features/claude-code-session-state"
+import { getSessionModel, setSessionModel } from "../shared/session-model-state"
+import { getMainSessionID, setSessionAgent, subagentSessions } from "../features/claude-code-session-state"
 import { applyUltraworkModelOverrideOnMessage } from "./ultrawork-model-override"
 import { parseRalphLoopArguments } from "../hooks/ralph-loop/command-arguments"
 
@@ -23,6 +23,8 @@ export type ChatMessageInput = {
 }
 type StartWorkHookOutput = { parts: Array<{ type: string; text?: string }> }
 
+type SessionModelOverride = { providerID: string; modelID: string }
+
 function isStartWorkHookOutput(value: unknown): value is StartWorkHookOutput {
   if (typeof value !== "object" || value === null) return false
   const record = value as Record<string, unknown>
@@ -35,9 +37,56 @@ function isStartWorkHookOutput(value: unknown): value is StartWorkHookOutput {
   })
 }
 
+function hasExplicitAgentModelOverride(
+  agent: string | undefined,
+  pluginConfig: OhMyMagentoConfig
+): boolean {
+  const configuredAgents = pluginConfig.agents
+  if (!agent || !configuredAgents || !(agent in configuredAgents)) {
+    return false
+  }
+
+  const configuredAgent = configuredAgents[agent as keyof typeof configuredAgents]
+  const configuredModel = configuredAgent?.model
+  return typeof configuredModel === "string" && configuredModel.trim().length > 0
+}
+
+function getStoredMainSessionModel(
+  input: ChatMessageInput,
+  pluginConfig: OhMyMagentoConfig,
+  isFirstMessage: boolean,
+  output: ChatMessageHandlerOutput
+): SessionModelOverride | undefined {
+  if (isFirstMessage) {
+    return undefined
+  }
+
+  if (subagentSessions.has(input.sessionID)) {
+    return undefined
+  }
+
+  if (getMainSessionID() !== input.sessionID) {
+    return undefined
+  }
+
+  if (input.model) {
+    return undefined
+  }
+
+  if (output.message["model"] !== undefined) {
+    return undefined
+  }
+
+  if (hasExplicitAgentModelOverride(input.agent, pluginConfig)) {
+    return undefined
+  }
+
+  return getSessionModel(input.sessionID)
+}
+
 export function createChatMessageHandler(args: {
   ctx: PluginContext
-  pluginConfig: OhMyOpenCodeConfig
+  pluginConfig: OhMyMagentoConfig
   firstMessageVariantGate: FirstMessageVariantGate
   hooks: CreatedHooks
 }): (
@@ -74,8 +123,19 @@ export function createChatMessageHandler(args: {
       setSessionAgent(input.sessionID, input.agent)
     }
 
-    if (firstMessageVariantGate.shouldOverride(input.sessionID)) {
+    const isFirstMessage = firstMessageVariantGate.shouldOverride(input.sessionID)
+    if (isFirstMessage) {
       firstMessageVariantGate.markApplied(input.sessionID)
+    }
+
+    const storedMainSessionModel = getStoredMainSessionModel(
+      input,
+      pluginConfig,
+      isFirstMessage,
+      output,
+    )
+    if (storedMainSessionModel) {
+      output.message["model"] = storedMainSessionModel
     }
 
     if (!isRuntimeFallbackEnabled) {

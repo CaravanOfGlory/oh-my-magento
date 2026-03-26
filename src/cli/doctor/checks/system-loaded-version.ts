@@ -1,10 +1,10 @@
 import { existsSync, readFileSync } from "node:fs"
 import { homedir } from "node:os"
 import { join } from "node:path"
-
+import { resolveSymlink } from "../../../shared/file-utils"
 import { getLatestVersion } from "../../../hooks/auto-update-checker/checker"
 import { extractChannel } from "../../../hooks/auto-update-checker"
-import { NPM_PACKAGE_NAME } from "../constants"
+import { PACKAGE_NAME } from "../constants"
 import { getOpenCodeCacheDir, getOpenCodeConfigPaths, parseJsonc } from "../../../shared"
 
 interface PackageJsonShape {
@@ -36,6 +36,11 @@ function resolveOpenCodeCacheDir(): string {
   return platformDefault
 }
 
+function resolveExistingDir(dirPath: string): string {
+  if (!existsSync(dirPath)) return dirPath
+  return resolveSymlink(dirPath)
+}
+
 function readPackageJson(filePath: string): PackageJsonShape | null {
   if (!existsSync(filePath)) return null
 
@@ -55,17 +60,18 @@ function normalizeVersion(value: string | undefined): string | null {
 
 export function getLoadedPluginVersion(): LoadedVersionInfo {
   const configPaths = getOpenCodeConfigPaths({ binary: "opencode" })
-  const cacheDir = resolveOpenCodeCacheDir()
+  const configDir = resolveExistingDir(configPaths.configDir)
+  const cacheDir = resolveExistingDir(resolveOpenCodeCacheDir())
   const candidates = [
     {
-      cacheDir: configPaths.configDir,
-      cachePackagePath: configPaths.packageJson,
-      installedPackagePath: join(configPaths.configDir, "node_modules", NPM_PACKAGE_NAME, "package.json"),
+      cacheDir: configDir,
+      cachePackagePath: join(configDir, "package.json"),
+      installedPackagePath: join(configDir, "node_modules", PACKAGE_NAME, "package.json"),
     },
     {
       cacheDir,
       cachePackagePath: join(cacheDir, "package.json"),
-      installedPackagePath: join(cacheDir, "node_modules", NPM_PACKAGE_NAME, "package.json"),
+      installedPackagePath: join(cacheDir, "node_modules", PACKAGE_NAME, "package.json"),
     },
   ]
 
@@ -76,7 +82,7 @@ export function getLoadedPluginVersion(): LoadedVersionInfo {
   const cachePackage = readPackageJson(cachePackagePath)
   const installedPackage = readPackageJson(installedPackagePath)
 
-  const expectedVersion = normalizeVersion(cachePackage?.dependencies?.[NPM_PACKAGE_NAME])
+  const expectedVersion = normalizeVersion(cachePackage?.dependencies?.[PACKAGE_NAME])
   const loadedVersion = normalizeVersion(installedPackage?.version)
 
   return {

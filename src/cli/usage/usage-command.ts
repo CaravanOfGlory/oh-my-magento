@@ -102,7 +102,7 @@ function fetchProjectDimensionRows(
   } catch (error) {
     const msg = error instanceof Error ? error.message : String(error)
     if (msg.includes("not found") || msg.includes("no such table")) {
-      console.error("No dev-metrics data found. Dev-metrics are collected during OpenCode sessions with oh-my-opencode installed.")
+      console.error("No dev-metrics data found. Dev-metrics are collected during OpenCode sessions with oh-my-magento installed.")
       return []
     }
     throw error
@@ -189,14 +189,14 @@ export function createUsageCommand(): Command {
     .option("--compare", "Compare with previous period of same length")
     .addHelpText("after", `
 Examples:
-  $ bunx oh-my-opencode usage                    # Last 7 days, daily breakdown
-  $ bunx oh-my-opencode usage --days 30          # Last 30 days
-  $ bunx oh-my-opencode usage --by model         # Group by model
-  $ bunx oh-my-opencode usage --by agent         # Agent x Model view
-  $ bunx oh-my-opencode usage --by project       # Group by project (requires dev-metrics)
-  $ bunx oh-my-opencode usage --by branch        # Group by git branch
-  $ bunx oh-my-opencode usage --json             # JSON output
-  $ bunx oh-my-opencode usage --since 7d --compare  # Compare with previous period
+  $ bunx oh-my-magento usage                    # Last 7 days, daily breakdown
+  $ bunx oh-my-magento usage --days 30          # Last 30 days
+  $ bunx oh-my-magento usage --by model         # Group by model
+  $ bunx oh-my-magento usage --by agent         # Agent x Model view
+  $ bunx oh-my-magento usage --by project       # Group by project (requires dev-metrics)
+  $ bunx oh-my-magento usage --by branch        # Group by git branch
+  $ bunx oh-my-magento usage --json             # JSON output
+  $ bunx oh-my-magento usage --since 7d --compare  # Compare with previous period
 `)
     .action(async (options) => {
       const usageOptions: UsageOptions = {
@@ -219,10 +219,10 @@ Examples:
     .option("--output <path>", "Save report to file")
     .addHelpText("after", `
 Examples:
-  $ bunx oh-my-opencode usage report                  # Today's report (Markdown)
-  $ bunx oh-my-opencode usage report --date 2026-03-14  # Specific date
-  $ bunx oh-my-opencode usage report --json            # JSON format
-  $ bunx oh-my-opencode usage report --output report.md  # Save to file
+  $ bunx oh-my-magento usage report                  # Today's report (Markdown)
+  $ bunx oh-my-magento usage report --date 2026-03-14  # Specific date
+  $ bunx oh-my-magento usage report --json            # JSON format
+  $ bunx oh-my-magento usage report --output report.md  # Save to file
 `)
     .action(async (options) => {
       const reportOptions: ReportOptions = {

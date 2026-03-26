@@ -1,4 +1,4 @@
-import type { HookName, OhMyOpenCodeConfig } from "../../config"
+import type { HookName, OhMyMagentoConfig } from "../../config"
 import type { ModelCacheState } from "../../plugin-state"
 import type { PluginContext } from "../types"
 
@@ -15,6 +15,7 @@ import {
   createReadImageResizerHook,
   createJsonErrorRecoveryHook,
   createTodoDescriptionOverrideHook,
+  createWebFetchRedirectGuardHook,
 } from "../../hooks"
 import {
   getOpenCodeVersion,
@@ -37,11 +38,12 @@ export type ToolGuardHooks = {
   jsonErrorRecovery: ReturnType<typeof createJsonErrorRecoveryHook> | null
   readImageResizer: ReturnType<typeof createReadImageResizerHook> | null
   todoDescriptionOverride: ReturnType<typeof createTodoDescriptionOverrideHook> | null
+  webfetchRedirectGuard: ReturnType<typeof createWebFetchRedirectGuardHook> | null
 }
 
 export function createToolGuardHooks(args: {
   ctx: PluginContext
-  pluginConfig: OhMyOpenCodeConfig
+  pluginConfig: OhMyMagentoConfig
   modelCacheState: ModelCacheState
   isHookEnabled: (hookName: HookName) => boolean
   safeHookEnabled: boolean
@@ -117,6 +119,10 @@ export function createToolGuardHooks(args: {
     ? safeHook("todo-description-override", () => createTodoDescriptionOverrideHook())
     : null
 
+  const webfetchRedirectGuard = isHookEnabled("webfetch-redirect-guard")
+    ? safeHook("webfetch-redirect-guard", () => createWebFetchRedirectGuardHook(ctx))
+    : null
+
   return {
     commentChecker,
     toolOutputTruncator,
@@ -130,5 +136,6 @@ export function createToolGuardHooks(args: {
     jsonErrorRecovery,
     readImageResizer,
     todoDescriptionOverride,
+    webfetchRedirectGuard,
   }
 }

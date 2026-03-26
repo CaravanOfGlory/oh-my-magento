@@ -1,9 +1,10 @@
 import { afterEach, describe, expect, it } from "bun:test"
-import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs"
+import { mkdirSync, mkdtempSync, rmSync, symlinkSync, writeFileSync } from "node:fs"
 import { tmpdir } from "node:os"
 import { dirname, join } from "node:path"
 
-import { NPM_PACKAGE_NAME } from "../constants"
+import { PACKAGE_NAME } from "../constants"
+import { resolveSymlink } from "../../../shared/file-utils"
 
 const systemLoadedVersionModulePath = "./system-loaded-version?system-loaded-version-test"
 
@@ -55,15 +56,15 @@ describe("system loaded version", () => {
       process.env.XDG_CACHE_HOME = cacheHome
 
       writeJson(join(configDir, "package.json"), {
-        dependencies: { [NPM_PACKAGE_NAME]: "1.2.3" },
+        dependencies: { [PACKAGE_NAME]: "1.2.3" },
       })
-      writeJson(join(configDir, "node_modules", NPM_PACKAGE_NAME, "package.json"), {
+      writeJson(join(configDir, "node_modules", PACKAGE_NAME, "package.json"), {
         version: "1.2.3",
       })
       writeJson(join(cacheDir, "package.json"), {
-        dependencies: { [NPM_PACKAGE_NAME]: "9.9.9" },
+        dependencies: { [PACKAGE_NAME]: "9.9.9" },
       })
-      writeJson(join(cacheDir, "node_modules", NPM_PACKAGE_NAME, "package.json"), {
+      writeJson(join(cacheDir, "node_modules", PACKAGE_NAME, "package.json"), {
         version: "9.9.9",
       })
 
@@ -73,7 +74,7 @@ describe("system loaded version", () => {
       //#then
       expect(loadedVersion.cacheDir).toBe(configDir)
       expect(loadedVersion.cachePackagePath).toBe(join(configDir, "package.json"))
-      expect(loadedVersion.installedPackagePath).toBe(join(configDir, "node_modules", NPM_PACKAGE_NAME, "package.json"))
+      expect(loadedVersion.installedPackagePath).toBe(join(configDir, "node_modules", PACKAGE_NAME, "package.json"))
       expect(loadedVersion.expectedVersion).toBe("1.2.3")
       expect(loadedVersion.loadedVersion).toBe("1.2.3")
     })
@@ -88,9 +89,9 @@ describe("system loaded version", () => {
       process.env.XDG_CACHE_HOME = cacheHome
 
       writeJson(join(cacheDir, "package.json"), {
-        dependencies: { [NPM_PACKAGE_NAME]: "2.3.4" },
+        dependencies: { [PACKAGE_NAME]: "2.3.4" },
       })
-      writeJson(join(cacheDir, "node_modules", NPM_PACKAGE_NAME, "package.json"), {
+      writeJson(join(cacheDir, "node_modules", PACKAGE_NAME, "package.json"), {
         version: "2.3.4",
       })
 
@@ -100,9 +101,34 @@ describe("system loaded version", () => {
       //#then
       expect(loadedVersion.cacheDir).toBe(cacheDir)
       expect(loadedVersion.cachePackagePath).toBe(join(cacheDir, "package.json"))
-      expect(loadedVersion.installedPackagePath).toBe(join(cacheDir, "node_modules", NPM_PACKAGE_NAME, "package.json"))
+      expect(loadedVersion.installedPackagePath).toBe(join(cacheDir, "node_modules", PACKAGE_NAME, "package.json"))
       expect(loadedVersion.expectedVersion).toBe("2.3.4")
       expect(loadedVersion.loadedVersion).toBe("2.3.4")
+    })
+
+    it("resolves symlinked config directories before selecting install path", () => {
+      //#given
+      const realConfigDir = createTemporaryDirectory("omo-real-config-")
+      const symlinkBaseDir = createTemporaryDirectory("omo-symlink-base-")
+      const symlinkConfigDir = join(symlinkBaseDir, "config-link")
+
+      symlinkSync(realConfigDir, symlinkConfigDir, process.platform === "win32" ? "junction" : "dir")
+      process.env.OPENCODE_CONFIG_DIR = symlinkConfigDir
+
+      writeJson(join(realConfigDir, "package.json"), {
+        dependencies: { [PACKAGE_NAME]: "4.5.6" },
+      })
+      writeJson(join(realConfigDir, "node_modules", PACKAGE_NAME, "package.json"), {
+        version: "4.5.6",
+      })
+
+      //#when
+      const loadedVersion = getLoadedPluginVersion()
+
+      //#then
+      expect(loadedVersion.cacheDir).toBe(resolveSymlink(symlinkConfigDir))
+      expect(loadedVersion.expectedVersion).toBe("4.5.6")
+      expect(loadedVersion.loadedVersion).toBe("4.5.6")
     })
   })
 

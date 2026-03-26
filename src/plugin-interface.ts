@@ -1,5 +1,5 @@
 import type { PluginContext, PluginInterface, ToolsRecord } from "./plugin/types"
-import type { OhMyOpenCodeConfig } from "./config"
+import type { OhMyMagentoConfig } from "./config"
 
 import { createChatParamsHandler } from "./plugin/chat-params"
 import { createChatHeadersHandler } from "./plugin/chat-headers"
@@ -15,7 +15,7 @@ import type { Managers } from "./create-managers"
 
 export function createPluginInterface(args: {
   ctx: PluginContext
-  pluginConfig: OhMyOpenCodeConfig
+  pluginConfig: OhMyMagentoConfig
   firstMessageVariantGate: {
     shouldOverride: (sessionID: string) => boolean
     markApplied: (sessionID: string) => void
@@ -32,7 +32,13 @@ export function createPluginInterface(args: {
   return {
     tool: tools,
 
-    "chat.params": createChatParamsHandler({ anthropicEffort: hooks.anthropicEffort }),
+    "chat.params": async (input: unknown, output: unknown) => {
+      const handler = createChatParamsHandler({
+        anthropicEffort: hooks.anthropicEffort,
+        client: ctx.client,
+      })
+      await handler(input, output)
+    },
 
     "chat.headers": createChatHeadersHandler({ ctx }),
 

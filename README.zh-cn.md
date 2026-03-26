@@ -4,6 +4,17 @@
 > 核心维护者 Q 因受伤，本周 issue/PR 回复和发布可能会延迟。
 > 感谢你的耐心与支持。
 
+> [!TIP]
+> **Building in Public**
+>
+> 维护者正在使用 Jobdori 实时开发和维护 oh-my-magento。Jobdori 是基于 OpenClaw 深度定制的 AI 助手。
+> 每个功能开发、每次修复、每次 Issue 分类，都在 Discord 上实时进行。
+>
+> [![Building in Public](./.github/assets/building-in-public.png)](https://discord.gg/PUwSMR9XNk)
+>
+> [**→ 在 #building-in-public 频道中查看**](https://discord.gg/PUwSMR9XNk)
+
+
 > [!NOTE]
 >
 > [![Sisyphus Labs - Sisyphus is the agent that codes like your team.](./.github/assets/sisyphuslabs.png?v=2)](https://sisyphuslabs.ai)
@@ -31,7 +42,7 @@
 <div align="center">
 
 [![GitHub Release](https://img.shields.io/github/v/release/caravanglory/oh-my-magento?color=369eff&labelColor=black&logo=github&style=flat-square)](https://github.com/caravanglory/oh-my-magento/releases)
-[![npm downloads](https://img.shields.io/npm/dt/oh-my-opencode?color=ff6b35&labelColor=black&style=flat-square)](https://www.npmjs.com/package/oh-my-opencode)
+[![npm downloads](https://img.shields.io/npm/dt/oh-my-magento?color=ff6b35&labelColor=black&style=flat-square)](https://www.npmjs.com/package/oh-my-magento)
 [![GitHub Contributors](https://img.shields.io/github/contributors/caravanglory/oh-my-magento?color=c4f042&labelColor=black&style=flat-square)](https://github.com/caravanglory/oh-my-magento/graphs/contributors)
 [![GitHub Forks](https://img.shields.io/github/forks/caravanglory/oh-my-magento?color=8ae8ff&labelColor=black&style=flat-square)](https://github.com/caravanglory/oh-my-magento/network/members)
 [![GitHub Stars](https://img.shields.io/github/stars/caravanglory/oh-my-magento?color=ffcb47&labelColor=black&style=flat-square)](https://github.com/caravanglory/oh-my-magento/stargazers)
@@ -55,7 +66,7 @@
 
 > “我用 Ohmyopencode 和 ralph loop 花了一晚上的时间，把一个 45k 行代码的 tauri 应用转换成了 SaaS Web 应用。从面试模式开始，让它对我提供的提示词进行提问和提出建议。看着它工作很有趣，今早醒来看到网站基本已经跑起来了，太震撼了！” - [James Hargis](https://x.com/hargabyte/status/2007299688261882202)
 
-> “用 oh-my-opencode 吧，你绝对回不去了。” <br/>- [d0t3ch](https://x.com/d0t3ch/status/2001685618200580503)
+> “用 oh-my-magento 吧，你绝对回不去了。” <br/>- [d0t3ch](https://x.com/d0t3ch/status/2001685618200580503)
 
 > “我很难准确描述它到底哪里牛逼，但开发体验已经达到完全不同的维度了。” - [苔硯:こけすずり](https://x.com/kokesuzuri/status/2008532913961529372?s=20)
 
@@ -264,11 +275,11 @@ Agent 会自动顺藤摸瓜加载对应的 Context，免去了你所有的手动
 
 1. **从你的 OpenCode 配置文件中去掉插件**
 
-   编辑 `~/.config/opencode/opencode.json` (或 `opencode.jsonc`) ，并把 `"oh-my-opencode"` 从 `plugin` 数组中删掉：
+   编辑 `~/.config/opencode/opencode.json` (或 `opencode.jsonc`) ，并把 `"oh-my-magento"` 从 `plugin` 数组中删掉：
 
    ```bash
    # 如果你有 jq 的话
-   jq '.plugin = [.plugin[] | select(. != "oh-my-opencode")]' \
+   jq '.plugin = [.plugin[] | select(. != "oh-my-magento")]' \
        ~/.config/opencode/opencode.json > /tmp/oc.json && \
        mv /tmp/oc.json ~/.config/opencode/opencode.json
    ```

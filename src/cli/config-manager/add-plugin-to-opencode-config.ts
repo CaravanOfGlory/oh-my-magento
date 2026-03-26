@@ -41,7 +41,7 @@ export async function addPluginToOpenCodeConfig(currentVersion: string): Promise
     const config = parseResult.config
     const plugins = config.plugin ?? []
 
-    // Check for existing plugin (either current or legacy name, or oh-my-opencode for compatibility)
+    // Check for existing plugin (either current or legacy name, or oh-my-magento for compatibility)
     const currentNameIndex = plugins.findIndex(
       (plugin) => plugin === PLUGIN_NAME || plugin.startsWith(`${PLUGIN_NAME}@`)
     )
@@ -49,7 +49,7 @@ export async function addPluginToOpenCodeConfig(currentVersion: string): Promise
       (plugin) => plugin === LEGACY_PLUGIN_NAME || plugin.startsWith(`${LEGACY_PLUGIN_NAME}@`)
     )
     const opencodeCompatIndex = plugins.findIndex(
-      (plugin) => plugin === "oh-my-opencode" || plugin.startsWith("oh-my-opencode@")
+      (plugin) => plugin === "oh-my-magento" || plugin.startsWith("oh-my-magento@")
     )
 
     // If either name exists, update to new name
@@ -62,7 +62,7 @@ export async function addPluginToOpenCodeConfig(currentVersion: string): Promise
       // Upgrade legacy name to new name
       plugins[legacyNameIndex] = pluginEntry
     } else if (opencodeCompatIndex !== -1) {
-      // Upgrade oh-my-opencode to oh-my-magento for compatibility
+      // Upgrade oh-my-magento to oh-my-magento for compatibility
       plugins[opencodeCompatIndex] = pluginEntry
     } else {
       plugins.push(pluginEntry)

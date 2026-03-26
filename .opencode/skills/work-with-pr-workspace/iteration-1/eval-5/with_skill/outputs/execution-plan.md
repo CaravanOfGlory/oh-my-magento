@@ -20,7 +20,7 @@
 
 ### Problem Analysis
 
-The comment-checker delegates to an external Go binary (`code-yeongyu/go-claude-code-comment-checker` v0.4.1). The binary contains the regex `(?i)^[\s#/*-]*note:\s*\w` which matches ANY comment starting with "Note:" followed by a word character. This flags legitimate technical notes like:
+The comment-checker delegates to an external Go binary (`caravanglory/go-claude-code-comment-checker` v0.4.1). The binary contains the regex `(?i)^[\s#/*-]*note:\s*\w` which matches ANY comment starting with "Note:" followed by a word character. This flags legitimate technical notes like:
 
 - `// Note: Thread-safe by design`
 - `# Note: See RFC 7231 for details`
@@ -47,11 +47,11 @@ Full list of 24 embedded regex patterns extracted from the binary:
 
 Since the regex lives in the Go binary and this repo wraps it, the fix is two-pronged:
 
-**A. Go binary update** (separate repo: `code-yeongyu/go-claude-code-comment-checker`):
+**A. Go binary update** (separate repo: `caravanglory/go-claude-code-comment-checker`):
 - Relax `(?i)^[\s#/*-]*note:\s*\w` to only match AI-style memo patterns like `Note: this was changed...`, `Note: implementation details...`
 - Add `--exclude-pattern` CLI flag for user-configurable exclusions
 
-**B. This repo (oh-my-opencode)** - the PR scope:
+**B. This repo (oh-my-magento)** - the PR scope:
 1. Add `exclude_patterns` config field to `CommentCheckerConfigSchema`
 2. Pass `--exclude-pattern` flags to the CLI binary
 3. Add integration tests with mock binaries for false positive scenarios

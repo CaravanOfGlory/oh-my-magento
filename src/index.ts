@@ -17,10 +17,10 @@ import { startTmuxCheck } from "./tools"
 
 let activePluginDispose: PluginDispose | null = null
 
-const OhMyOpenCodePlugin: Plugin = async (ctx) => {
+const OhMyMagentoPlugin: Plugin = async (ctx) => {
   // Initialize config context for plugin runtime (prevents warnings from hooks)
   initConfigContext("opencode", null)
-  log("[OhMyOpenCodePlugin] ENTRY - plugin loading", {
+  log("[OhMyMagentoPlugin] ENTRY - plugin loading", {
     directory: ctx.directory,
   })
 
@@ -89,6 +89,7 @@ const OhMyOpenCodePlugin: Plugin = async (ctx) => {
   activePluginDispose = dispose
 
   return {
+    name: "oh-my-openagent",
     ...pluginInterface,
 
     "experimental.session.compacting": async (
@@ -108,10 +109,10 @@ const OhMyOpenCodePlugin: Plugin = async (ctx) => {
   }
 }
 
-export default OhMyOpenCodePlugin
+export default OhMyMagentoPlugin
 
 export type {
-  OhMyOpenCodeConfig,
+  OhMyMagentoConfig,
   AgentName,
   AgentOverrideConfig,
   AgentOverrides,

@@ -29,9 +29,9 @@ describe("detectCurrentConfig - single package detection", () => {
     delete process.env.OPENCODE_CONFIG_DIR
   })
 
-  it("detects oh-my-opencode in plugin array", () => {
+  it("detects oh-my-magento in plugin array", () => {
     // given
-    const config = { plugin: ["oh-my-opencode"] }
+    const config = { plugin: ["oh-my-magento"] }
     writeFileSync(testConfigPath, JSON.stringify(config, null, 2) + "\n", "utf-8")
 
     // when
@@ -41,9 +41,9 @@ describe("detectCurrentConfig - single package detection", () => {
     expect(result.isInstalled).toBe(true)
   })
 
-  it("detects oh-my-opencode with version pin", () => {
+  it("detects oh-my-magento with version pin", () => {
     // given
-    const config = { plugin: ["oh-my-opencode@3.11.0"] }
+    const config = { plugin: ["oh-my-magento@3.11.0"] }
     writeFileSync(testConfigPath, JSON.stringify(config, null, 2) + "\n", "utf-8")
 
     // when
@@ -103,7 +103,7 @@ describe("detectCurrentConfig - single package detection", () => {
 
   it("detects OpenCode Go from the existing omo config", () => {
     // given
-    writeFileSync(testConfigPath, JSON.stringify({ plugin: ["oh-my-opencode"] }, null, 2) + "\n", "utf-8")
+    writeFileSync(testConfigPath, JSON.stringify({ plugin: ["oh-my-magento"] }, null, 2) + "\n", "utf-8")
     writeFileSync(
       testOmoConfigPath,
       JSON.stringify({ agents: { atlas: { model: "opencode-go/kimi-k2.5" } } }, null, 2) + "\n",
@@ -138,9 +138,9 @@ describe("addPluginToOpenCodeConfig - single package writes", () => {
     delete process.env.OPENCODE_CONFIG_DIR
   })
 
-  it("keeps oh-my-opencode when it already exists", async () => {
+  it("keeps oh-my-magento when it already exists", async () => {
     // given
-    const config = { plugin: ["oh-my-opencode"] }
+    const config = { plugin: ["oh-my-magento"] }
     writeFileSync(testConfigPath, JSON.stringify(config, null, 2) + "\n", "utf-8")
 
     // when
@@ -152,9 +152,9 @@ describe("addPluginToOpenCodeConfig - single package writes", () => {
     expect(savedConfig.plugin).toContain(PLUGIN_NAME)
   })
 
-  it("replaces version-pinned oh-my-opencode@X.Y.Z", async () => {
+  it("replaces version-pinned oh-my-magento@X.Y.Z", async () => {
     // given
-    const config = { plugin: ["oh-my-opencode@3.10.0"] }
+    const config = { plugin: ["oh-my-magento@3.10.0"] }
     writeFileSync(testConfigPath, JSON.stringify(config, null, 2) + "\n", "utf-8")
 
     // when
@@ -164,7 +164,7 @@ describe("addPluginToOpenCodeConfig - single package writes", () => {
     expect(result.success).toBe(true)
     const savedConfig = JSON.parse(readFileSync(testConfigPath, "utf-8"))
     expect(savedConfig.plugin).toContain(PLUGIN_NAME)
-    expect(savedConfig.plugin).not.toContain("oh-my-opencode@3.10.0")
+    expect(savedConfig.plugin).not.toContain("oh-my-magento@3.10.0")
   })
 
   it("recognizes oh-my-openagent as already installed (legacy name)", async () => {

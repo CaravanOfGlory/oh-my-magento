@@ -1,5 +1,18 @@
 import * as path from "node:path"
 import * as os from "node:os"
+import { accessSync, constants, mkdirSync } from "node:fs"
+
+function resolveWritableDirectory(preferredDir: string, fallbackSuffix: string): string {
+  try {
+    mkdirSync(preferredDir, { recursive: true })
+    accessSync(preferredDir, constants.W_OK)
+    return preferredDir
+  } catch {
+    const fallbackDir = path.join(os.tmpdir(), fallbackSuffix)
+    mkdirSync(fallbackDir, { recursive: true })
+    return fallbackDir
+  }
+}
 
 /**
  * Returns the user-level data directory.
@@ -10,7 +23,8 @@ import * as os from "node:os"
  * including Windows, so we match that behavior exactly.
  */
 export function getDataDir(): string {
-  return process.env.XDG_DATA_HOME ?? path.join(os.homedir(), ".local", "share")
+  const preferredDir = process.env.XDG_DATA_HOME ?? path.join(os.homedir(), ".local", "share")
+  return resolveWritableDirectory(preferredDir, "opencode-data")
 }
 
 /**
@@ -27,15 +41,16 @@ export function getOpenCodeStorageDir(): string {
  * - All platforms: XDG_CACHE_HOME or ~/.cache
  */
 export function getCacheDir(): string {
-  return process.env.XDG_CACHE_HOME ?? path.join(os.homedir(), ".cache")
+  const preferredDir = process.env.XDG_CACHE_HOME ?? path.join(os.homedir(), ".cache")
+  return resolveWritableDirectory(preferredDir, "opencode-cache")
 }
 
 /**
- * Returns the oh-my-opencode cache directory.
- * All platforms: ~/.cache/oh-my-opencode
+ * Returns the oh-my-magento cache directory.
+ * All platforms: ~/.cache/oh-my-magento
  */
 export function getOmoOpenCodeCacheDir(): string {
-  return path.join(getCacheDir(), "oh-my-opencode")
+  return path.join(getCacheDir(), "oh-my-magento")
 }
 
 /**

@@ -7,14 +7,16 @@ import { SISYPHUS_JUNIOR_AGENT } from "./sisyphus-junior-agent"
 import { resolveCategoryConfig } from "./categories"
 import { parseModelString } from "./model-string-parser"
 import { CATEGORY_MODEL_REQUIREMENTS } from "../../shared/model-requirements"
-import { normalizeFallbackModels } from "../../shared/model-resolver"
-import { buildFallbackChainFromModels } from "../../shared/fallback-chain-from-models"
+import { normalizeFallbackModels, flattenToFallbackModelStrings } from "../../shared/model-resolver"
+import { buildFallbackChainFromModels, findMostSpecificFallbackEntry } from "../../shared/fallback-chain-from-models"
 import { getAvailableModelsForDelegateTask } from "./available-models"
 import { resolveModelForDelegateTask } from "./model-selection"
 
+import type { DelegatedModelConfig } from "./types"
+
 export interface CategoryResolutionResult {
   agentToUse: string
-  categoryModel: { providerID: string; modelID: string; variant?: string } | undefined
+  categoryModel: DelegatedModelConfig | undefined
   categoryPromptAppend: string | undefined
   maxPromptTokens?: number
   modelInfo: ModelFallbackInfo | undefined
@@ -62,7 +64,7 @@ export async function resolveCategoryExecution(
 
 To use this category:
 1. Connect a provider with this model: ${requirement.requiresModel}
-2. Or configure an alternative model in your oh-my-opencode.json for this category
+2. Or configure an alternative model in your oh-my-magento.json for this category
 
 Available categories: ${allCategoryNames}`,
       }
@@ -84,8 +86,10 @@ Available categories: ${allCategoryNames}`,
   const normalizedConfiguredFallbackModels = normalizeFallbackModels(resolved.config.fallback_models)
   let actualModel: string | undefined
   let modelInfo: ModelFallbackInfo | undefined
-  let categoryModel: { providerID: string; modelID: string; variant?: string } | undefined
+  let categoryModel: DelegatedModelConfig | undefined
   let isModelResolutionSkipped = false
+  let fallbackEntry: FallbackEntry | undefined
+  let matchedFallback = false
 
   const overrideModel = sisyphusJuniorModel
   const explicitCategoryModel = userCategories?.[args.category!]?.model
@@ -108,8 +112,9 @@ Available categories: ${allCategoryNames}`,
   } else {
     const resolution = resolveModelForDelegateTask({
       userModel: explicitCategoryModel ?? overrideModel,
-      userFallbackModels: normalizedConfiguredFallbackModels,
+      userFallbackModels: flattenToFallbackModelStrings(normalizedConfiguredFallbackModels),
       categoryDefaultModel: resolved.model,
+      isUserConfiguredCategoryModel: resolved.isUserConfiguredModel,
       fallbackChain: requirement.fallbackChain,
       availableModels,
       systemDefaultModel,
@@ -118,7 +123,14 @@ Available categories: ${allCategoryNames}`,
     if (resolution && "skipped" in resolution) {
       isModelResolutionSkipped = true
     } else if (resolution) {
-      const { model: resolvedModel, variant: resolvedVariant } = resolution
+      const {
+        model: resolvedModel,
+        variant: resolvedVariant,
+        fallbackEntry: resolvedFallbackEntry,
+        matchedFallback: resolvedMatchedFallback,
+      } = resolution
+      fallbackEntry = resolvedFallbackEntry
+      matchedFallback = resolvedMatchedFallback === true
       actualModel = resolvedModel
 
       if (!parseModelString(actualModel)) {
@@ -178,7 +190,7 @@ Available categories: ${allCategoryNames}`,
 
 Configure in one of:
 1. OpenCode: Set "model" in opencode.json
-2. Oh-My-OpenCode: Set category model in oh-my-opencode.json
+2. Oh-My-OpenCode: Set category model in oh-my-magento.json
 3. Provider: Connect a provider with available models
 
 Current category: ${args.category}
@@ -187,7 +199,7 @@ Available categories: ${categoryNames.join(", ")}`,
   }
 
   const resolvedModel = actualModel?.toLowerCase()
-  const isUnstableAgent = resolved.config.is_unstable_agent === true || (resolvedModel ? resolvedModel.includes("gemini") || resolvedModel.includes("minimax") || resolvedModel.includes("kimi") : false)
+  const isUnstableAgent = resolved.config.is_unstable_agent ?? (resolvedModel ? resolvedModel.includes("gemini") || resolvedModel.includes("minimax") || resolvedModel.includes("kimi") : false)
 
   const defaultProviderID = categoryModel?.providerID
     ?? parseModelString(actualModel ?? "")?.providerID
@@ -196,6 +208,28 @@ Available categories: ${categoryNames.join(", ")}`,
     normalizedConfiguredFallbackModels,
     defaultProviderID,
   )
+
+  // Only promote fallback-only settings when resolution actually selected a fallback model.
+  const effectiveEntry = matchedFallback && categoryModel
+    ? (
+        fallbackEntry
+        ?? (configuredFallbackChain
+          ? findMostSpecificFallbackEntry(categoryModel.providerID, categoryModel.modelID, configuredFallbackChain)
+          : undefined)
+      )
+    : undefined
+
+  if (categoryModel && effectiveEntry) {
+    categoryModel = {
+      ...categoryModel,
+      variant: userCategories?.[args.category!]?.variant ?? effectiveEntry.variant ?? categoryModel.variant,
+      reasoningEffort: effectiveEntry.reasoningEffort,
+      temperature: effectiveEntry.temperature,
+      top_p: effectiveEntry.top_p,
+      maxTokens: effectiveEntry.maxTokens,
+      thinking: effectiveEntry.thinking,
+    }
+  }
 
   return {
     agentToUse: SISYPHUS_JUNIOR_AGENT,

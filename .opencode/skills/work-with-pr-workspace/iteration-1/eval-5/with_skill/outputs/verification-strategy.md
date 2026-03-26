@@ -72,4 +72,4 @@ bun run build                                  # Build succeeds
    git worktree remove ../omo-wt/fix/comment-checker-note-false-positive
    git branch -d fix/comment-checker-note-false-positive
    ```
-4. File issue on `code-yeongyu/go-claude-code-comment-checker` to add `--exclude-pattern` flag support and relax the `note:` regex upstream
+4. File issue on `caravanglory/go-claude-code-comment-checker` to add `--exclude-pattern` flag support and relax the `note:` regex upstream

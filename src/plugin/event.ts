@@ -1,4 +1,4 @@
-import type { OhMyOpenCodeConfig } from "../config";
+import type { OhMyMagentoConfig } from "../config";
 import type { PluginContext } from "./types";
 
 import {
@@ -16,7 +16,7 @@ import {
   setSessionFallbackChain,
   setPendingModelFallback,
 } from "../hooks/model-fallback/hook";
-import { getFallbackModelsForSession } from "../hooks/runtime-fallback/fallback-models";
+import { getRawFallbackModels } from "../hooks/runtime-fallback/fallback-models";
 import { resetMessageCursor } from "../shared";
 import { getAgentConfigKey } from "../shared/agent-display-names";
 import { readConnectedProvidersCache } from "../shared/connected-providers-cache";
@@ -25,6 +25,7 @@ import { shouldRetryError } from "../shared/model-error-classifier";
 import { buildFallbackChainFromModels } from "../shared/fallback-chain-from-models";
 import { extractRetryAttempt, normalizeRetryStatusMessage } from "../shared/retry-status-utils";
 import { clearSessionModel, getSessionModel, setSessionModel } from "../shared/session-model-state";
+import { clearSessionPromptParams } from "../shared/session-prompt-params-state";
 import { deleteSessionTools } from "../shared/session-tools-store";
 import { lspManager } from "../tools";
 
@@ -107,13 +108,13 @@ function applyUserConfiguredFallbackChain(
   sessionID: string,
   agentName: string,
   currentProviderID: string,
-  pluginConfig: OhMyOpenCodeConfig,
+  pluginConfig: OhMyMagentoConfig,
 ): void {
   const agentKey = getAgentConfigKey(agentName);
-  const configuredFallbackModels = getFallbackModelsForSession(sessionID, agentKey, pluginConfig);
-  if (configuredFallbackModels.length === 0) return;
+  const rawFallbackModels = getRawFallbackModels(sessionID, agentKey, pluginConfig);
+  if (!rawFallbackModels || rawFallbackModels.length === 0) return;
 
-  const fallbackChain = buildFallbackChainFromModels(configuredFallbackModels, currentProviderID);
+  const fallbackChain = buildFallbackChainFromModels(rawFallbackModels, currentProviderID);
 
   if (fallbackChain && fallbackChain.length > 0) {
     setSessionFallbackChain(sessionID, fallbackChain);
@@ -127,7 +128,7 @@ function isCompactionAgent(agent: string): boolean {
 type EventInput = Parameters<NonNullable<NonNullable<CreatedHooks["writeExistingFileGuard"]>["event"]>>[0];
 export function createEventHandler(args: {
   ctx: PluginContext;
-  pluginConfig: OhMyOpenCodeConfig;
+  pluginConfig: OhMyMagentoConfig;
   firstMessageVariantGate: FirstMessageVariantGate;
   managers: Managers;
   hooks: CreatedHooks;
@@ -336,6 +337,7 @@ export function createEventHandler(args: {
         resetMessageCursor(sessionInfo.id);
         firstMessageVariantGate.clear(sessionInfo.id);
         clearSessionModel(sessionInfo.id);
+        clearSessionPromptParams(sessionInfo.id);
         syncSubagentSessions.delete(sessionInfo.id);
         if (wasSyncSubagentSession) {
           subagentSessions.delete(sessionInfo.id);

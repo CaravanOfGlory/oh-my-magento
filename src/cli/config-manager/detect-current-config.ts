@@ -58,7 +58,7 @@ function detectProvidersFromOmoConfig(): {
 function isOurPlugin(plugin: string): boolean {
   return plugin === PLUGIN_NAME || plugin.startsWith(`${PLUGIN_NAME}@`) ||
          plugin === LEGACY_PLUGIN_NAME || plugin.startsWith(`${LEGACY_PLUGIN_NAME}@`) ||
-         plugin === "oh-my-opencode" || plugin.startsWith("oh-my-opencode@")
+         plugin === "oh-my-magento" || plugin.startsWith("oh-my-magento@")
 }
 
 export function detectCurrentConfig(): DetectedConfig {
