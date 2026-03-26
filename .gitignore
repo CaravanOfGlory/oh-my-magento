@@ -31,6 +31,9 @@ npm-debug.log*
 package-lock.json
 yarn.lock
 
+# Claude Code
+.claude/
+
 # Environment
 .env
 .env.local
