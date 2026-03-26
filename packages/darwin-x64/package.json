@@ -1,6 +1,6 @@
 {
   "name": "oh-my-magento-darwin-x64",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": "Platform-specific binary for oh-my-magento (darwin-x64)",
   "license": "MIT",
   "repository": {

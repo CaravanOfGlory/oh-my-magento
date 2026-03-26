@@ -1,12 +1,11 @@
 {
   "name": "oh-my-magento",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": "Magento 2 + Hyvä Enterprise E-Commerce Intelligent Agent Orchestration System - OpenCode Plugin",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "type": "module",
   "bin": {
-    "oh-my-magento": "bin/oh-my-magento.js",
     "oh-my-magento": "bin/oh-my-magento.js"
   },
   "files": [
@@ -82,17 +81,17 @@
     "typescript": "^5.7.3"
   },
   "optionalDependencies": {
-    "oh-my-magento-darwin-arm64": "0.3.2",
-    "oh-my-magento-darwin-x64": "0.3.2",
-    "oh-my-magento-darwin-x64-baseline": "0.3.2",
-    "oh-my-magento-linux-arm64": "0.3.2",
-    "oh-my-magento-linux-arm64-musl": "0.3.2",
-    "oh-my-magento-linux-x64": "0.3.2",
-    "oh-my-magento-linux-x64-baseline": "0.3.2",
-    "oh-my-magento-linux-x64-musl": "0.3.2",
-    "oh-my-magento-linux-x64-musl-baseline": "0.3.2",
-    "oh-my-magento-windows-x64": "0.3.2",
-    "oh-my-magento-windows-x64-baseline": "0.3.2"
+    "oh-my-magento-darwin-arm64": "0.3.3",
+    "oh-my-magento-darwin-x64": "0.3.3",
+    "oh-my-magento-darwin-x64-baseline": "0.3.3",
+    "oh-my-magento-linux-arm64": "0.3.3",
+    "oh-my-magento-linux-arm64-musl": "0.3.3",
+    "oh-my-magento-linux-x64": "0.3.3",
+    "oh-my-magento-linux-x64-baseline": "0.3.3",
+    "oh-my-magento-linux-x64-musl": "0.3.3",
+    "oh-my-magento-linux-x64-musl-baseline": "0.3.3",
+    "oh-my-magento-windows-x64": "0.3.3",
+    "oh-my-magento-windows-x64-baseline": "0.3.3"
   },
   "overrides": {
     "@opencode-ai/sdk": "^1.2.24"
