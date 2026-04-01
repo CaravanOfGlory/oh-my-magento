@@ -96,13 +96,13 @@ describe("AGENT_MODEL_REQUIREMENTS", () => {
     const explore = AGENT_MODEL_REQUIREMENTS["explore"]
 
     // when - accessing explore requirement
-    // then - fallbackChain: grok → minimax-m2.7-highspeed → minimax-m2.7 → haiku → nano
     expect(explore).toBeDefined()
     expect(explore.fallbackChain).toBeArray()
     expect(explore.fallbackChain).toHaveLength(5)
 
     const primary = explore.fallbackChain[0]
     expect(primary.providers).toContain("github-copilot")
+    expect(primary.providers).toContain("xai")
     expect(primary.model).toBe("grok-code-fast-1")
 
     const secondary = explore.fallbackChain[1]
@@ -320,20 +320,21 @@ describe("CATEGORY_MODEL_REQUIREMENTS", () => {
     expect(primary.providers[0]).toBe("openai")
   })
 
-  test("deep has valid fallbackChain with gpt-5.3-codex as primary", () => {
+  test("deep has valid fallbackChain with gpt-5.4 as primary", () => {
     // given - deep category requirement
     const deep = CATEGORY_MODEL_REQUIREMENTS["deep"]
 
     // when - accessing deep requirement
-    // then - fallbackChain exists with gpt-5.3-codex as first entry, medium variant
+    // then - fallbackChain exists with gpt-5.4 as first entry, medium variant
     expect(deep).toBeDefined()
     expect(deep.fallbackChain).toBeArray()
     expect(deep.fallbackChain.length).toBeGreaterThan(0)
 
     const primary = deep.fallbackChain[0]
     expect(primary.variant).toBe("medium")
-    expect(primary.model).toBe("gpt-5.3-codex")
-    expect(primary.providers[0]).toBe("openai")
+    expect(primary.model).toBe("gpt-5.4")
+    expect(primary.providers).toContain("openai")
+    expect(primary.providers).toContain("github-copilot")
   })
 
   test("visual-engineering has valid fallbackChain with gemini-3.1-pro high as primary", () => {
@@ -594,12 +595,12 @@ describe("ModelRequirement type", () => {
 })
 
 describe("requiresModel field in categories", () => {
-  test("deep category has requiresModel set to gpt-5.3-codex", () => {
+  test("deep category no longer has requiresModel (gpt-5.4 is widely available)", () => {
     // given
     const deep = CATEGORY_MODEL_REQUIREMENTS["deep"]
 
     // when / #then
-    expect(deep.requiresModel).toBe("gpt-5.3-codex")
+    expect(deep.requiresModel).toBeUndefined()
   })
 
   test("artistry category has requiresModel set to gemini-3.1-pro", () => {

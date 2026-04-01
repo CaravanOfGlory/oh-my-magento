@@ -3,7 +3,6 @@ import { mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs"
 import { tmpdir } from "node:os"
 import { join } from "node:path"
 
-import { PLUGIN_NAME } from "../../shared"
 import { resetConfigContext } from "./config-context"
 import { detectCurrentConfig } from "./detect-current-config"
 import { addPluginToOpenCodeConfig } from "./add-plugin-to-opencode-config"
@@ -29,10 +28,9 @@ describe("detectCurrentConfig - single package detection", () => {
     delete process.env.OPENCODE_CONFIG_DIR
   })
 
-  it("detects oh-my-magento in plugin array", () => {
+  it("detects both legacy and canonical plugin entries", () => {
     // given
-    const config = { plugin: ["oh-my-magento"] }
-    writeFileSync(testConfigPath, JSON.stringify(config, null, 2) + "\n", "utf-8")
+    writeFileSync(testConfigPath, JSON.stringify({ plugin: ["oh-my-openagent", "oh-my-magento@3.11.0"] }, null, 2) + "\n", "utf-8")
 
     // when
     const result = detectCurrentConfig()
@@ -41,58 +39,9 @@ describe("detectCurrentConfig - single package detection", () => {
     expect(result.isInstalled).toBe(true)
   })
 
-  it("detects oh-my-magento with version pin", () => {
+  it("returns false when plugin not present with similar name", () => {
     // given
-    const config = { plugin: ["oh-my-magento@3.11.0"] }
-    writeFileSync(testConfigPath, JSON.stringify(config, null, 2) + "\n", "utf-8")
-
-    // when
-    const result = detectCurrentConfig()
-
-    // then
-    expect(result.isInstalled).toBe(true)
-  })
-
-  it("detects oh-my-openagent as installed (legacy name)", () => {
-    // given
-    const config = { plugin: ["oh-my-openagent"] }
-    writeFileSync(testConfigPath, JSON.stringify(config, null, 2) + "\n", "utf-8")
-
-    // when
-    const result = detectCurrentConfig()
-
-    // then
-    expect(result.isInstalled).toBe(true)
-  })
-
-  it("detects oh-my-openagent with version pin as installed (legacy name)", () => {
-    // given
-    const config = { plugin: ["oh-my-openagent@3.11.0"] }
-    writeFileSync(testConfigPath, JSON.stringify(config, null, 2) + "\n", "utf-8")
-
-    // when
-    const result = detectCurrentConfig()
-
-    // then
-    expect(result.isInstalled).toBe(true)
-  })
-
-  it("returns false when plugin not present", () => {
-    // given
-    const config = { plugin: ["some-other-plugin"] }
-    writeFileSync(testConfigPath, JSON.stringify(config, null, 2) + "\n", "utf-8")
-
-    // when
-    const result = detectCurrentConfig()
-
-    // then
-    expect(result.isInstalled).toBe(false)
-  })
-
-  it("returns false when plugin not present (even with similar name)", () => {
-    // given - not exactly oh-my-openagent
-    const config = { plugin: ["oh-my-openagent-extra"] }
-    writeFileSync(testConfigPath, JSON.stringify(config, null, 2) + "\n", "utf-8")
+    writeFileSync(testConfigPath, JSON.stringify({ plugin: ["oh-my-magento-extra"] }, null, 2) + "\n", "utf-8")
 
     // when
     const result = detectCurrentConfig()
@@ -103,12 +52,8 @@ describe("detectCurrentConfig - single package detection", () => {
 
   it("detects OpenCode Go from the existing omo config", () => {
     // given
-    writeFileSync(testConfigPath, JSON.stringify({ plugin: ["oh-my-magento"] }, null, 2) + "\n", "utf-8")
-    writeFileSync(
-      testOmoConfigPath,
-      JSON.stringify({ agents: { atlas: { model: "opencode-go/kimi-k2.5" } } }, null, 2) + "\n",
-      "utf-8",
-    )
+    writeFileSync(testConfigPath, JSON.stringify({ plugin: ["oh-my-openagent"] }, null, 2) + "\n", "utf-8")
+    writeFileSync(testOmoConfigPath, JSON.stringify({ agents: { atlas: { model: "opencode-go/kimi-k2.5" } } }, null, 2) + "\n", "utf-8")
 
     // when
     const result = detectCurrentConfig()
@@ -138,92 +83,83 @@ describe("addPluginToOpenCodeConfig - single package writes", () => {
     delete process.env.OPENCODE_CONFIG_DIR
   })
 
-  it("keeps oh-my-magento when it already exists", async () => {
+  it("writes canonical plugin entry for new installs", async () => {
     // given
-    const config = { plugin: ["oh-my-magento"] }
-    writeFileSync(testConfigPath, JSON.stringify(config, null, 2) + "\n", "utf-8")
+    writeFileSync(testConfigPath, JSON.stringify({}, null, 2) + "\n", "utf-8")
 
     // when
-    const result = await addPluginToOpenCodeConfig("3.11.0")
+    const result = await addPluginToOpenCodeConfig("3.14.0")
 
     // then
     expect(result.success).toBe(true)
     const savedConfig = JSON.parse(readFileSync(testConfigPath, "utf-8"))
-    expect(savedConfig.plugin).toContain(PLUGIN_NAME)
+    expect(savedConfig.plugin).toEqual(["oh-my-magento"])
   })
 
-  it("replaces version-pinned oh-my-magento@X.Y.Z", async () => {
+  it("upgrades a bare legacy plugin entry to canonical", async () => {
     // given
-    const config = { plugin: ["oh-my-magento@3.10.0"] }
-    writeFileSync(testConfigPath, JSON.stringify(config, null, 2) + "\n", "utf-8")
+    writeFileSync(testConfigPath, JSON.stringify({ plugin: ["oh-my-openagent"] }, null, 2) + "\n", "utf-8")
 
     // when
-    const result = await addPluginToOpenCodeConfig("3.11.0")
+    const result = await addPluginToOpenCodeConfig("3.14.0")
 
     // then
     expect(result.success).toBe(true)
     const savedConfig = JSON.parse(readFileSync(testConfigPath, "utf-8"))
-    expect(savedConfig.plugin).toContain(PLUGIN_NAME)
-    expect(savedConfig.plugin).not.toContain("oh-my-magento@3.10.0")
+    expect(savedConfig.plugin).toEqual(["oh-my-magento"])
   })
 
-  it("recognizes oh-my-openagent as already installed (legacy name)", async () => {
+  it("upgrades a version-pinned legacy entry to canonical", async () => {
     // given
-    const config = { plugin: ["oh-my-openagent"] }
-    writeFileSync(testConfigPath, JSON.stringify(config, null, 2) + "\n", "utf-8")
+    writeFileSync(testConfigPath, JSON.stringify({ plugin: ["oh-my-openagent@3.10.0"] }, null, 2) + "\n", "utf-8")
 
     // when
-    const result = await addPluginToOpenCodeConfig("3.11.0")
+    const result = await addPluginToOpenCodeConfig("3.14.0")
 
     // then
     expect(result.success).toBe(true)
     const savedConfig = JSON.parse(readFileSync(testConfigPath, "utf-8"))
-    // Should upgrade to our plugin name
-    expect(savedConfig.plugin).toContain(PLUGIN_NAME)
-    expect(savedConfig.plugin).not.toContain("oh-my-openagent")
+    expect(savedConfig.plugin).toEqual(["oh-my-magento@3.10.0"])
   })
 
-  it("replaces version-pinned oh-my-openagent@X.Y.Z with new name", async () => {
+  it("removes stale legacy entry when canonical and legacy entries both exist", async () => {
     // given
-    const config = { plugin: ["oh-my-openagent@3.10.0"] }
-    writeFileSync(testConfigPath, JSON.stringify(config, null, 2) + "\n", "utf-8")
+    writeFileSync(testConfigPath, JSON.stringify({ plugin: ["oh-my-magento", "oh-my-openagent"] }, null, 2) + "\n", "utf-8")
 
     // when
-    const result = await addPluginToOpenCodeConfig("3.11.0")
+    const result = await addPluginToOpenCodeConfig("3.14.0")
 
     // then
     expect(result.success).toBe(true)
     const savedConfig = JSON.parse(readFileSync(testConfigPath, "utf-8"))
-    // Legacy should be replaced with our plugin name
-    expect(savedConfig.plugin).toContain(PLUGIN_NAME)
-    expect(savedConfig.plugin).not.toContain("oh-my-openagent")
+    expect(savedConfig.plugin).toEqual(["oh-my-magento"])
   })
 
-  it("adds new plugin when none exists", async () => {
+  it("preserves a canonical entry when it already exists", async () => {
     // given
-    const config = {}
-    writeFileSync(testConfigPath, JSON.stringify(config, null, 2) + "\n", "utf-8")
+    writeFileSync(testConfigPath, JSON.stringify({ plugin: ["oh-my-magento@3.10.0"] }, null, 2) + "\n", "utf-8")
 
     // when
-    const result = await addPluginToOpenCodeConfig("3.11.0")
+    const result = await addPluginToOpenCodeConfig("3.14.0")
 
     // then
     expect(result.success).toBe(true)
     const savedConfig = JSON.parse(readFileSync(testConfigPath, "utf-8"))
-    expect(savedConfig.plugin).toContain(PLUGIN_NAME)
+    expect(savedConfig.plugin).toEqual(["oh-my-magento@3.10.0"])
   })
 
-  it("adds plugin when plugin array is empty", async () => {
+  it("rewrites quoted jsonc plugin field in place", async () => {
     // given
-    const config = { plugin: [] }
-    writeFileSync(testConfigPath, JSON.stringify(config, null, 2) + "\n", "utf-8")
+    testConfigPath = join(testConfigDir, "opencode.jsonc")
+    writeFileSync(testConfigPath, '{\n  "plugin": ["oh-my-openagent"]\n}\n', "utf-8")
 
     // when
-    const result = await addPluginToOpenCodeConfig("3.11.0")
+    const result = await addPluginToOpenCodeConfig("3.14.0")
 
     // then
     expect(result.success).toBe(true)
-    const savedConfig = JSON.parse(readFileSync(testConfigPath, "utf-8"))
-    expect(savedConfig.plugin).toContain(PLUGIN_NAME)
+    const savedContent = readFileSync(testConfigPath, "utf-8")
+    expect(savedContent.includes('"plugin": [\n    "oh-my-magento"\n  ]')).toBe(true)
+    expect(savedContent.includes("oh-my-openagent")).toBe(false)
   })
 })
