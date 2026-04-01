@@ -3,10 +3,7 @@ import { install } from "./install"
 import { run } from "./run"
 import { getLocalVersion } from "./get-local-version"
 import { doctor } from "./doctor"
-import { refreshModelCapabilities } from "./refresh-model-capabilities"
 import { createMcpOAuthCommand } from "./mcp-oauth"
-import { copilotXCli } from "./copilot-x"
-import { createMinimaxCommand } from "./minimax"
 import { createUsageCommand } from "./usage"
 import type { InstallArgs } from "./types"
 import type { RunOptions } from "./run"
@@ -35,7 +32,6 @@ program
   .option("--opencode-zen <value>", "OpenCode Zen access: no, yes (default: no)")
   .option("--zai-coding-plan <value>", "Z.ai Coding Plan subscription: no, yes (default: no)")
   .option("--kimi-for-coding <value>", "Kimi For Coding subscription: no, yes (default: no)")
-  .option("--opencode-go <value>", "OpenCode Go subscription: no, yes (default: no)")
   .option("--skip-auth", "Skip authentication setup hints")
   .addHelpText("after", `
 Examples:
@@ -45,8 +41,8 @@ Examples:
 
 Model Providers (Priority: Native > Copilot > OpenCode Zen > Z.ai > Kimi):
   Claude        Native anthropic/ models (Opus, Sonnet, Haiku)
-  OpenAI        Native openai/ models (GPT-5.4 for Oracle)
-  Gemini        Native google/ models (Gemini 3.1 Pro, Flash)
+  OpenAI        Native openai/ models (GPT-5.2 for Oracle)
+  Gemini        Native google/ models (Gemini 3 Pro, Flash)
   Copilot       github-copilot/ models (fallback)
   OpenCode Zen  opencode/ models (opencode/claude-opus-4-6, etc.)
    Z.ai          zai-coding-plan/glm-5 (visual-engineering fallback)
@@ -62,7 +58,6 @@ Model Providers (Priority: Native > Copilot > OpenCode Zen > Z.ai > Kimi):
       opencodeZen: options.opencodeZen,
       zaiCodingPlan: options.zaiCodingPlan,
       kimiForCoding: options.kimiForCoding,
-      opencodeGo: options.opencodeGo,
       skipAuth: options.skipAuth ?? false,
     }
     const exitCode = await install(args)
@@ -75,7 +70,6 @@ program
    .passThroughOptions()
   .description("Run opencode with todo/background task completion enforcement")
   .option("-a, --agent <name>", "Agent to use (default: from CLI/env/config, fallback: Sisyphus)")
-  .option("-m, --model <provider/model>", "Model override (e.g., anthropic/claude-sonnet-4)")
   .option("-d, --directory <path>", "Working directory")
   .option("-p, --port <port>", "Server port (attaches if port already in use)", parseInt)
   .option("--attach <url>", "Attach to existing opencode server URL")
@@ -93,8 +87,6 @@ Examples:
   $ bunx oh-my-magento run --json "Fix the bug" | jq .sessionId
   $ bunx oh-my-magento run --on-complete "notify-send Done" "Fix the bug"
   $ bunx oh-my-magento run --session-id ses_abc123 "Continue the work"
-  $ bunx oh-my-magento run --model anthropic/claude-sonnet-4 "Fix the bug"
-  $ bunx oh-my-magento run --agent Sisyphus --model openai/gpt-5.4 "Implement feature X"
 
 Agent resolution order:
   1) --agent flag
@@ -117,7 +109,6 @@ Unlike 'opencode run', this command waits until:
     const runOptions: RunOptions = {
       message,
       agent: options.agent,
-      model: options.model,
       directory: options.directory,
       port: options.port,
       attach: options.attach,
@@ -181,21 +172,6 @@ Examples:
   })
 
 program
-  .command("refresh-model-capabilities")
-  .description("Refresh the cached models.dev-based model capabilities snapshot")
-  .option("-d, --directory <path>", "Working directory to read oh-my-magento config from")
-  .option("--source-url <url>", "Override the models.dev source URL")
-  .option("--json", "Output refresh summary as JSON")
-  .action(async (options) => {
-    const exitCode = await refreshModelCapabilities({
-      directory: options.directory,
-      sourceUrl: options.sourceUrl,
-      json: options.json ?? false,
-    })
-    process.exit(exitCode)
-  })
-
-program
   .command("version")
   .description("Show version information")
   .action(() => {
@@ -204,27 +180,6 @@ program
 
 program.addCommand(createMcpOAuthCommand())
 program.addCommand(createUsageCommand())
-program.addCommand(createMinimaxCommand())
-
-program
-  .command("copilot-x")
-  .description("Manage GitHub Copilot accounts: add, switch, check quotas, toggle Loop Safety/Network Retry")
-  .addHelpText("after", `
-Examples:
-  $ bunx oh-my-magento copilot-x
-
-Features:
-  - Multi-account management (add, switch, remove)
-  - OAuth device flow login
-  - Import from auth.json
-  - Quota and model checking
-  - Guided Loop Safety toggle
-  - Copilot Network Retry toggle
-`)
-  .action(async () => {
-    const exitCode = await copilotXCli()
-    process.exit(exitCode)
-  })
 
 export function runCli(): void {
   program.parse()
