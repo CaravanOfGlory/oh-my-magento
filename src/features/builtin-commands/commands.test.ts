@@ -101,6 +101,33 @@ describe("loadBuiltinCommands", () => {
     //#then
     expect(commands["start-work"].agent).toBe("atlas")
   })
+
+	test("should include Magento and Hyva specialization commands", () => {
+		//#given
+
+		//#when
+		const commands = loadBuiltinCommands()
+
+		//#then
+		expect(commands["magento-upgrade"]).toBeDefined()
+		expect(commands["magento-new-module"]).toBeDefined()
+		expect(commands["magento-payment-setup"]).toBeDefined()
+		expect(commands["hyva-new-theme"]).toBeDefined()
+		expect(commands["hyva-compat-module"]).toBeDefined()
+	})
+
+	test("should exclude Magento and Hyva specialization commands when disabled", () => {
+		//#given
+		const disabledCommands: BuiltinCommandName[] = ["magento-upgrade", "hyva-compat-module"]
+
+		//#when
+		const commands = loadBuiltinCommands(disabledCommands)
+
+		//#then
+		expect(commands["magento-upgrade"]).toBeUndefined()
+		expect(commands["hyva-compat-module"]).toBeUndefined()
+		expect(commands["magento-new-module"]).toBeDefined()
+	})
 })
 
 describe("loadBuiltinCommands — remove-ai-slops", () => {

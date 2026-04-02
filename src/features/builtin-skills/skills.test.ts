@@ -12,7 +12,7 @@ describe("createBuiltinSkills", () => {
 		const browserSkill = skills.find((s) => s.name === "playwright")
 		expect(browserSkill).toBeDefined()
 		expect(browserSkill!.description).toContain("browser")
-		expect(browserSkill!.mcpConfig).toHaveProperty("playwright")
+		expect(browserSkill!.mcpConfig && "playwright" in browserSkill!.mcpConfig).toBe(true)
 	})
 
 	test("returns playwright skill when browserProvider is 'playwright'", () => {
@@ -77,7 +77,26 @@ describe("createBuiltinSkills", () => {
 		}
 	})
 
-	test("returns exactly 6 skills regardless of provider", () => {
+	test("includes Magento and Hyva specialization skills", () => {
+		// given
+
+		// when
+		const skills = createBuiltinSkills()
+		const names = skills.map((s) => s.name)
+
+		// then
+		expect(names).toContain("magento-upgrade-analysis")
+		expect(names).toContain("magento-module-scaffold")
+		expect(names).toContain("magento-debugging")
+		expect(names).toContain("magento-xml-config")
+		expect(names).toContain("magento-testing")
+		expect(names).toContain("magento-performance")
+		expect(names).toContain("hyva-theme")
+		expect(names).toContain("hyva-checkout")
+		expect(names).toContain("hyva-compat-module")
+	})
+
+	test("returns exactly 15 skills regardless of provider", () => {
 		// given
 
 		// when
@@ -85,8 +104,8 @@ describe("createBuiltinSkills", () => {
 		const agentBrowserSkills = createBuiltinSkills({ browserProvider: "agent-browser" })
 
 		// then
-		expect(defaultSkills).toHaveLength(6)
-		expect(agentBrowserSkills).toHaveLength(6)
+		expect(defaultSkills).toHaveLength(15)
+		expect(agentBrowserSkills).toHaveLength(15)
 	})
 
 	test("should exclude playwright when it is in disabledSkills", () => {
@@ -103,7 +122,7 @@ describe("createBuiltinSkills", () => {
 		expect(skills.map((s) => s.name)).toContain("dev-browser")
 		expect(skills.map((s) => s.name)).toContain("review-work")
 		expect(skills.map((s) => s.name)).toContain("ai-slop-remover")
-		expect(skills.length).toBe(5)
+		expect(skills.length).toBe(14)
 	})
 
 	test("should exclude multiple skills when they are in disabledSkills", () => {
@@ -120,13 +139,29 @@ describe("createBuiltinSkills", () => {
 		expect(skills.map((s) => s.name)).toContain("dev-browser")
 		expect(skills.map((s) => s.name)).toContain("review-work")
 		expect(skills.map((s) => s.name)).toContain("ai-slop-remover")
-		expect(skills.length).toBe(4)
+		expect(skills.length).toBe(13)
 	})
 
 	test("should return an empty array when all skills are disabled", () => {
 		// #given
 		const options = {
-			disabledSkills: new Set(["playwright", "frontend-ui-ux", "git-master", "dev-browser", "review-work", "ai-slop-remover"]),
+			disabledSkills: new Set([
+				"playwright",
+				"frontend-ui-ux",
+				"git-master",
+				"dev-browser",
+				"review-work",
+				"ai-slop-remover",
+				"magento-upgrade-analysis",
+				"magento-module-scaffold",
+				"magento-debugging",
+				"magento-xml-config",
+				"magento-testing",
+				"magento-performance",
+				"hyva-theme",
+				"hyva-checkout",
+				"hyva-compat-module",
+			]),
 		}
 
 		// #when
@@ -144,7 +179,7 @@ describe("createBuiltinSkills", () => {
 		const skills = createBuiltinSkills(options)
 
 		// #then
-		expect(skills.length).toBe(6)
+		expect(skills.length).toBe(15)
 	})
 
 	test("review-work skill has correct structure", () => {

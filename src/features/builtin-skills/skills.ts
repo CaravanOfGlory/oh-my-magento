@@ -10,6 +10,15 @@ import {
   devBrowserSkill,
   reviewWorkSkill,
   aiSlopRemoverSkill,
+  magentoUpgradeAnalysisSkill,
+  magentoModuleScaffoldSkill,
+  magentoDebuggingSkill,
+  magentoXmlConfigSkill,
+  magentoTestingSkill,
+  magentoPerformanceSkill,
+  hyvaThemeSkill,
+  hyvaCheckoutSkill,
+  hyvaCompatModuleSkill,
 } from "./skills/index"
 
 export interface CreateBuiltinSkillsOptions {
@@ -29,7 +38,23 @@ export function createBuiltinSkills(options: CreateBuiltinSkillsOptions = {}): B
     browserSkill = playwrightSkill
   }
 
-  const skills = [browserSkill, frontendUiUxSkill, gitMasterSkill, devBrowserSkill, reviewWorkSkill, aiSlopRemoverSkill]
+  const skills = [
+    browserSkill,
+    frontendUiUxSkill,
+    gitMasterSkill,
+    devBrowserSkill,
+    reviewWorkSkill,
+    aiSlopRemoverSkill,
+    magentoUpgradeAnalysisSkill,
+    magentoModuleScaffoldSkill,
+    magentoDebuggingSkill,
+    magentoXmlConfigSkill,
+    magentoTestingSkill,
+    magentoPerformanceSkill,
+    hyvaThemeSkill,
+    hyvaCheckoutSkill,
+    hyvaCompatModuleSkill,
+  ]
 
   if (!disabledSkills) {
     return skills
