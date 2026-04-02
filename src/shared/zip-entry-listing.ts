@@ -2,6 +2,26 @@ import { spawn } from "bun"
 
 import type { ArchiveEntry } from "./archive-entry-validator"
 
+function parsePythonListedZipEntry(line: string): ArchiveEntry | null {
+	const [type, entryPath, linkPath = ""] = line.split("\t")
+	if (type !== "file" && type !== "directory" && type !== "symlink") {
+		return null
+	}
+
+	if (type === "symlink") {
+		return {
+			path: entryPath,
+			type,
+			linkPath,
+		}
+	}
+
+	return {
+		path: entryPath,
+		type,
+	}
+}
+
 function parseTarListedZipEntry(line: string): ArchiveEntry | null {
 	const match = line.match(/^([^\s])\S*\s+\d+\s+\S+\s+\S+\s+\d+\s+\w+\s+\d+\s+(?:\d{2}:\d{2}|\d{4})\s+(.*)$/)
 	if (!match) {
@@ -25,7 +45,28 @@ function parseTarListedZipEntry(line: string): ArchiveEntry | null {
 }
 
 export async function listZipEntriesWithTar(archivePath: string): Promise<ArchiveEntry[]> {
-	const proc = spawn(["tar", "-tvf", archivePath], {
+	const proc = spawn([
+		"python3",
+		"-c",
+		[
+			"import stat, sys, zipfile",
+			"with zipfile.ZipFile(sys.argv[1]) as archive:",
+			"    for entry in archive.infolist():",
+			"        mode = (entry.external_attr >> 16) & 0xFFFF",
+			"        if stat.S_ISLNK(mode):",
+			"            file_type = 'symlink'",
+			"            with archive.open(entry) as handle:",
+			"                target = handle.read().decode('utf-8', errors='replace')",
+			"        elif entry.filename.endswith('/'):",
+			"            file_type = 'directory'",
+			"            target = ''",
+			"        else:",
+			"            file_type = 'file'",
+			"            target = ''",
+			"        print(f'{file_type}\t{entry.filename}\t{target}')",
+		].join("\n"),
+		archivePath,
+	], {
 		stdout: "pipe",
 		stderr: "pipe",
 	})
@@ -44,7 +85,7 @@ export async function listZipEntriesWithTar(archivePath: string): Promise<Archiv
 		.split(/\r?\n/)
 		.map(line => line.trim())
 		.filter(Boolean)
-		.map(line => parseTarListedZipEntry(line))
+		.map(line => parsePythonListedZipEntry(line))
 		.filter((entry): entry is ArchiveEntry => entry !== null)
 }
 
