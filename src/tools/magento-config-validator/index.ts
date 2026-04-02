@@ -1,0 +1,1 @@
+export { createMagentoConfigValidator } from "./tools"
