@@ -8,6 +8,11 @@ import { REFACTOR_TEMPLATE } from "./templates/refactor"
 import { START_WORK_TEMPLATE } from "./templates/start-work"
 import { HANDOFF_TEMPLATE } from "./templates/handoff"
 import { REMOVE_AI_SLOPS_TEMPLATE } from "./templates/remove-ai-slops"
+import { MAGENTO_UPGRADE_TEMPLATE } from "./templates/magento-upgrade"
+import { MAGENTO_NEW_MODULE_TEMPLATE } from "./templates/magento-new-module"
+import { MAGENTO_PAYMENT_SETUP_TEMPLATE } from "./templates/magento-payment-setup"
+import { HYVA_NEW_THEME_TEMPLATE } from "./templates/hyva-new-theme"
+import { HYVA_COMPAT_MODULE_TEMPLATE } from "./templates/hyva-compat-module"
 
 export interface LoadBuiltinCommandsOptions {
   useRegisteredAgents?: boolean
@@ -118,8 +123,43 @@ Timestamp: $TIMESTAMP
 
 <user-request>
 $ARGUMENTS
-</user-request>`,
+      </user-request>`,
       argumentHint: "[goal]",
+    },
+    "magento-upgrade": {
+      description: "(builtin) Analyze and execute a Magento 2 upgrade workflow",
+      template: `<command-instruction>
+${MAGENTO_UPGRADE_TEMPLATE}
+</command-instruction>`,
+      argumentHint: '"2.4.8" [--dry-run] [--module=Vendor_Module]',
+    },
+    "magento-new-module": {
+      description: "(builtin) Scaffold a new Magento 2 module",
+      template: `<command-instruction>
+${MAGENTO_NEW_MODULE_TEMPLATE}
+</command-instruction>`,
+      argumentHint: '"Vendor_Module" [--with-api] [--with-admin] [--with-frontend] [--with-db] [--with-hyva] [--with-all]',
+    },
+    "magento-payment-setup": {
+      description: "(builtin) Set up a Magento 2 payment gateway integration",
+      template: `<command-instruction>
+${MAGENTO_PAYMENT_SETUP_TEMPLATE}
+</command-instruction>`,
+      argumentHint: '"gateway-name" [--sandbox-only] [--hyva-only] [--hosted]',
+    },
+    "hyva-new-theme": {
+      description: "(builtin) Create a new Hyva child theme for Magento 2",
+      template: `<command-instruction>
+${HYVA_NEW_THEME_TEMPLATE}
+</command-instruction>`,
+      argumentHint: '"Vendor/theme-name" [--with-overrides] [--color-primary=#HEX] [--color-secondary=#HEX]',
+    },
+    "hyva-compat-module": {
+      description: "(builtin) Create a Hyva compatibility module for a Luma-dependent extension",
+      template: `<command-instruction>
+${HYVA_COMPAT_MODULE_TEMPLATE}
+</command-instruction>`,
+      argumentHint: '"Vendor_Module" [--output=Vendor_HyvaCompatModule] [--templates-only] [--dry-run]',
     },
   }
 }
