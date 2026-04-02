@@ -233,6 +233,7 @@ describe("OpenCodeDB", () => {
         const sisyphusRows = rows.filter((r) => r.label === "Sisyphus")
         expect(sisyphusRows.length).toBe(1)
         expect(sisyphusRows[0].detail).toBe("claude-sonnet-4")
+        expect(sisyphusRows[0].calls).toBe(2)
       })
     })
 

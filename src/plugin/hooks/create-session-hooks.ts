@@ -25,6 +25,7 @@ import {
   createQuestionLabelTruncatorHook,
   createPreemptiveCompactionHook,
   createRuntimeFallbackHook,
+  createLegacyPluginToastHook,
   createDevMetricsCollectorHook,
 } from "../../hooks"
 import { createAnthropicEffortHook } from "../../hooks/anthropic-effort"
@@ -61,6 +62,7 @@ export type SessionHooks = {
   taskResumeInfo: ReturnType<typeof createTaskResumeInfoHook> | null
   anthropicEffort: ReturnType<typeof createAnthropicEffortHook> | null
   runtimeFallback: ReturnType<typeof createRuntimeFallbackHook> | null
+  legacyPluginToast: ReturnType<typeof createLegacyPluginToastHook> | null
   devMetricsCollector: ReturnType<typeof createDevMetricsCollectorHook> | null
 }
 
@@ -265,9 +267,12 @@ export function createSessionHooks(args: {
         }))
     : null
 
+  const legacyPluginToast = isHookEnabled("legacy-plugin-toast")
+    ? safeHook("legacy-plugin-toast", () => createLegacyPluginToastHook(ctx))
+    : null
+
   const devMetricsCollector = isHookEnabled("dev-metrics-collector")
-    ? safeHook("dev-metrics-collector", () =>
-        createDevMetricsCollectorHook(ctx))
+    ? safeHook("dev-metrics-collector", () => createDevMetricsCollectorHook(ctx))
     : null
 
   return {
@@ -294,6 +299,7 @@ export function createSessionHooks(args: {
     taskResumeInfo,
     anthropicEffort,
     runtimeFallback,
+    legacyPluginToast,
     devMetricsCollector,
   }
 }

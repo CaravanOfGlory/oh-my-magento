@@ -222,6 +222,11 @@ export function createConnectedProvidersCacheStore(
 		}
 	}
 
+	function _resetMemCacheForTesting(): void {
+		memConnected = undefined
+		memProviderModels = undefined
+	}
+
 	return {
 		readConnectedProvidersCache,
 		hasConnectedProvidersCache,
@@ -229,7 +234,7 @@ export function createConnectedProvidersCacheStore(
 		hasProviderModelsCache,
 		writeProviderModelsCache,
 		updateConnectedProvidersCache,
-		writeConnectedProvidersCache,
+		_resetMemCacheForTesting,
 	}
 }
 
@@ -270,5 +275,5 @@ export const {
 	hasProviderModelsCache,
 	writeProviderModelsCache,
 	updateConnectedProvidersCache,
-	writeConnectedProvidersCache,
+	_resetMemCacheForTesting,
 } = defaultConnectedProvidersCacheStore

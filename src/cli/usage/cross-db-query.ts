@@ -16,7 +16,7 @@ import {
 import { attachDevMetricsDb, BASE_SELECT, type OpenCodeDBWithPath } from "./cross-db-query-support"
 
 function getDbPath(opencodeDb: OpenCodeDB): string {
-  return (opencodeDb as OpenCodeDBWithPath).path
+  return (opencodeDb as unknown as { path: string }).path
 }
 
 export function getEnrichedSessionData(

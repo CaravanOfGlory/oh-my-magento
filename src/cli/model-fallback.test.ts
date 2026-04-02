@@ -458,7 +458,7 @@ describe("generateModelConfig", () => {
       const result = generateModelConfig(config)
 
       // #then
-      expect(result.agents?.hephaestus?.model).toBe("openai/gpt-5.3-codex")
+      expect(result.agents?.hephaestus?.model).toBe("openai/gpt-5.4")
       expect(result.agents?.hephaestus?.variant).toBe("medium")
     })
 
@@ -484,7 +484,7 @@ describe("generateModelConfig", () => {
       const result = generateModelConfig(config)
 
       // #then
-      expect(result.agents?.hephaestus?.model).toBe("opencode/gpt-5.3-codex")
+      expect(result.agents?.hephaestus?.model).toBe("opencode/gpt-5.4")
       expect(result.agents?.hephaestus?.variant).toBe("medium")
     })
 
@@ -561,7 +561,7 @@ describe("generateModelConfig", () => {
 
       // #then should include correct schema URL
       expect(result.$schema).toBe(
-        "https://raw.githubusercontent.com/caravanglory/oh-my-openagent/dev/assets/oh-my-magento.schema.json"
+        "https://raw.githubusercontent.com/caravanglory/oh-my-magento/dev/assets/oh-my-magento.schema.json"
       )
     })
   })

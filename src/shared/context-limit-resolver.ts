@@ -1,13 +1,6 @@
 import process from "node:process"
 
 const DEFAULT_ANTHROPIC_ACTUAL_LIMIT = 200_000
-const ANTHROPIC_NO_HEADER_GA_MODEL_IDS = new Set([
-  "claude-opus-4-6",
-  "claude-opus-4.6",
-  "claude-sonnet-4-6",
-  "claude-sonnet-4.6",
-])
-
 export type ContextLimitModelCacheState = {
   anthropicContext1MEnabled: boolean
   modelContextLimitsCache?: Map<string, number>
@@ -26,8 +19,8 @@ function getAnthropicActualLimit(modelCacheState?: ContextLimitModelCacheState):
     : DEFAULT_ANTHROPIC_ACTUAL_LIMIT
 }
 
-function isAnthropicNoHeaderGaModel(modelID: string): boolean {
-  return ANTHROPIC_NO_HEADER_GA_MODEL_IDS.has(modelID.toLowerCase())
+function supportsCachedAnthropicLimit(modelID: string): boolean {
+  return /^claude-(opus|sonnet)-4(?:-|\.)6(?:-high)?$/.test(modelID)
 }
 
 export function resolveActualContextLimit(
@@ -40,7 +33,7 @@ export function resolveActualContextLimit(
     if (explicit1M === 1_000_000) return explicit1M
 
     const cachedLimit = modelCacheState?.modelContextLimitsCache?.get(`${providerID}/${modelID}`)
-    if (cachedLimit && isAnthropicNoHeaderGaModel(modelID)) return cachedLimit
+    if (cachedLimit && supportsCachedAnthropicLimit(modelID)) return cachedLimit
 
     return DEFAULT_ANTHROPIC_ACTUAL_LIMIT
   }

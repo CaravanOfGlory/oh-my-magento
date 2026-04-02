@@ -8,11 +8,7 @@ export const BuiltinCommandNameSchema = z.enum([
   "refactor",
   "start-work",
   "stop-continuation",
-  "magento-upgrade",
-  "magento-new-module",
-  "magento-payment-setup",
-  "hyva-new-theme",
-  "hyva-compat-module",
+  "remove-ai-slops",
 ])
 
 export type BuiltinCommandName = z.infer<typeof BuiltinCommandNameSchema>

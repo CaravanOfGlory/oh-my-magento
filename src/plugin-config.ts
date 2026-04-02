@@ -10,6 +10,8 @@ import {
   detectPluginConfigFile,
   migrateConfigFile,
 } from "./shared";
+import { migrateLegacyConfigFile } from "./shared/migrate-legacy-config-file";
+import { CONFIG_BASENAME, LEGACY_CONFIG_BASENAME } from "./shared/plugin-identity";
 
 const PARTIAL_STRING_ARRAY_KEYS = new Set([
   "disabled_mcps",
@@ -166,7 +168,12 @@ export function loadPluginConfig(
   const userConfigPath =
     userDetected.format !== "none"
       ? userDetected.path
-      : path.join(configDir, "oh-my-magento.json");
+      : path.join(configDir, `${CONFIG_BASENAME}.json`);
+
+  // Auto-copy legacy config file to canonical name if needed
+  if (userDetected.format !== "none" && path.basename(userDetected.path).startsWith(LEGACY_CONFIG_BASENAME)) {
+    migrateLegacyConfigFile(userDetected.path);
+  }
 
   // Project-level config path - prefer .jsonc over .json
   const projectBasePath = path.join(directory, ".opencode");
@@ -174,11 +181,16 @@ export function loadPluginConfig(
   const projectConfigPath =
     projectDetected.format !== "none"
       ? projectDetected.path
-      : path.join(projectBasePath, "oh-my-magento.json");
+      : path.join(projectBasePath, `${CONFIG_BASENAME}.json`);
 
-  // Load user config first (base)
+  // Auto-copy legacy project config file to canonical name if needed
+  if (projectDetected.format !== "none" && path.basename(projectDetected.path).startsWith(LEGACY_CONFIG_BASENAME)) {
+    migrateLegacyConfigFile(projectDetected.path);
+  }
+
+  // Load user config first (base). Parse empty config through Zod to apply field defaults.
   let config: OhMyMagentoConfig =
-    loadConfigFromPath(userConfigPath, ctx) ?? {};
+    loadConfigFromPath(userConfigPath, ctx) ?? OhMyMagentoConfigSchema.parse({});
 
   // Override with project config
   const projectConfig = loadConfigFromPath(projectConfigPath, ctx);

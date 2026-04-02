@@ -20,18 +20,18 @@ export const STATUS_COLORS = {
 
 export const CHECK_IDS = {
   SYSTEM: "system",
-  PLATFORM_BINARY: "platform-binary",
   CONFIG: "config",
   TOOLS: "tools",
   MODELS: "models",
+  PLATFORM_BINARY: "platform-binary",
 } as const
 
 export const CHECK_NAMES: Record<string, string> = {
   [CHECK_IDS.SYSTEM]: "System",
-  [CHECK_IDS.PLATFORM_BINARY]: "Platform Binary",
   [CHECK_IDS.CONFIG]: "Configuration",
   [CHECK_IDS.TOOLS]: "Tools",
   [CHECK_IDS.MODELS]: "Models",
+  [CHECK_IDS.PLATFORM_BINARY]: "Platform Binary",
 } as const
 
 export const EXIT_CODES = {
@@ -41,8 +41,6 @@ export const EXIT_CODES = {
 
 export const MIN_OPENCODE_VERSION = "1.0.150"
 
-export const NPM_PACKAGE_NAME = "oh-my-magento"
+export const PACKAGE_NAME = PLUGIN_NAME
 
 export const OPENCODE_BINARIES = ["opencode", "opencode-desktop"] as const
-
-export const PACKAGE_NAME = "oh-my-magento"

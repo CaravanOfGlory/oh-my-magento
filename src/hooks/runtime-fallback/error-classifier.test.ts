@@ -253,6 +253,17 @@ describe("quota error detection (fixes #2747)", () => {
     expect(retryable).toBe(true)
   })
 
+  test("treats hard usage-limit wording as retryable", () => {
+    //#given
+    const error = { message: "You've reached your usage limit for this month. Please upgrade to continue." }
+
+    //#when
+    const retryable = isRetryableError(error, [429, 503])
+
+    //#then
+    expect(retryable).toBe(true)
+  })
+
   test("classifies QuotaExceededError by errorName even without quota keywords in message", () => {
     //#given
     const error = { name: "QuotaExceededError", message: "Request failed." }
@@ -275,5 +286,22 @@ describe("quota error detection (fixes #2747)", () => {
     //#then
     expect(errorType).toBe("quota_exceeded")
     expect(retryable).toBe(true)
+  })
+
+  test("detects model_not_supported errors as retryable for fallback chain", () => {
+    //#given
+    const error1 = { message: "model_not_supported" }
+    const error2 = { message: "The model 'gpt-4-foo' is not supported by this API" }
+    const error3 = { message: "model not supported on free tier" }
+
+    //#when
+    const retryable1 = isRetryableError(error1, [400, 404])
+    const retryable2 = isRetryableError(error2, [400, 404])
+    const retryable3 = isRetryableError(error3, [400, 404])
+
+    //#then
+    expect(retryable1).toBe(true)
+    expect(retryable2).toBe(true)
+    expect(retryable3).toBe(true)
   })
 })
