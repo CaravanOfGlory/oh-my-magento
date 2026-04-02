@@ -355,11 +355,6 @@ export function createEventHandler(args: {
         },
       );
 
-      if (hooks.devMetricsCollector && sessionInfo?.id) {
-        await hooks.devMetricsCollector.onSessionCreated(sessionInfo.id, pluginContext.directory).catch((err: unknown) => {
-          log("[event] dev-metrics-collector session.created error:", { error: err });
-        });
-      }
     }
 
     if (event.type === "session.deleted") {
@@ -393,11 +388,6 @@ export function createEventHandler(args: {
           sessionID: sessionInfo.id,
         });
 
-        if (hooks.devMetricsCollector) {
-          await hooks.devMetricsCollector.onSessionDeleted(sessionInfo.id, pluginContext.directory).catch((err: unknown) => {
-            log("[event] dev-metrics-collector session.deleted error:", { error: err });
-          });
-        }
       }
     }
 

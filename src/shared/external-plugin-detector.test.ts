@@ -296,13 +296,13 @@ describe("external-plugin-detector", () => {
       expect(result.pluginName).toBeNull()
     })
 
-    test("should return detected=false when only oh-my-opencode is configured", () => {
-      // given - opencode.json with only oh-my-opencode
+    test("should return detected=false when only oh-my-magento is configured", () => {
+      // given - opencode.json with only oh-my-magento
       const opencodeDir = path.join(tempDir, ".opencode")
       fs.mkdirSync(opencodeDir, { recursive: true })
       fs.writeFileSync(
         path.join(opencodeDir, "opencode.json"),
-        JSON.stringify({ plugin: ["oh-my-opencode"] })
+        JSON.stringify({ plugin: ["oh-my-magento"] })
       )
 
       // when
@@ -311,7 +311,7 @@ describe("external-plugin-detector", () => {
       // then
       expect(result.detected).toBe(false)
       expect(result.pluginName).toBeNull()
-      expect(result.allPlugins).toContain("oh-my-opencode")
+      expect(result.allPlugins).toContain("oh-my-magento")
     })
 
     test("should detect opencode-skills plugin", () => {
@@ -320,7 +320,7 @@ describe("external-plugin-detector", () => {
       fs.mkdirSync(opencodeDir, { recursive: true })
       fs.writeFileSync(
         path.join(opencodeDir, "opencode.json"),
-        JSON.stringify({ plugin: ["oh-my-opencode", "opencode-skills"] })
+        JSON.stringify({ plugin: ["oh-my-magento", "opencode-skills"] })
       )
 
       // when
@@ -337,7 +337,7 @@ describe("external-plugin-detector", () => {
       fs.mkdirSync(opencodeDir, { recursive: true })
       fs.writeFileSync(
         path.join(opencodeDir, "opencode.json"),
-        JSON.stringify({ plugin: ["oh-my-opencode", "opencode-skills@1.2.3"] })
+        JSON.stringify({ plugin: ["oh-my-magento", "opencode-skills@1.2.3"] })
       )
 
       // when
@@ -354,7 +354,7 @@ describe("external-plugin-detector", () => {
       fs.mkdirSync(opencodeDir, { recursive: true })
       fs.writeFileSync(
         path.join(opencodeDir, "opencode.json"),
-        JSON.stringify({ plugin: ["oh-my-opencode", "@opencode/skills"] })
+        JSON.stringify({ plugin: ["oh-my-magento", "@opencode/skills"] })
       )
 
       // when

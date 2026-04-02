@@ -30,9 +30,9 @@ function getLibcFamily() {
 function getPackageBaseName() {
   try {
     const packageJson = JSON.parse(readFileSync(new URL("./package.json", import.meta.url), "utf8"));
-    return packageJson.name || "oh-my-opencode";
+    return packageJson.name || "oh-my-magento";
   } catch {
-    return "oh-my-opencode";
+    return "oh-my-magento";
   }
 }
 

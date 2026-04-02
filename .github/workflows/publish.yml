@@ -70,10 +70,10 @@ jobs:
           bun test src/hooks/session-recovery/recover-tool-result-missing.test.ts
           # legacy-plugin-toast mock isolation (hook.test.ts mocks ./auto-migrate)
           bun test src/hooks/legacy-plugin-toast/hook.test.ts
-          # src/plugin — ALL isolated (mock.module pollution crosses between files)
-          for f in src/plugin/*.test.ts; do bun test "$f"; done
-          # src/features/background-agent — ALL isolated (mock.module pollution)
-          for f in src/features/background-agent/*.test.ts; do bun test "$f"; done
+          # src/plugin - ALL isolated (mock.module pollution crosses between files)
+          for f in $(find src/plugin -name '*.test.ts' | sort); do bun test "$f"; done
+          # src/features/background-agent - ALL isolated (mock.module pollution)
+          for f in $(find src/features/background-agent -name '*.test.ts' | sort); do bun test "$f"; done
 
       - name: Run remaining tests
         run: |
@@ -146,7 +146,7 @@ jobs:
   publish-main:
     runs-on: ubuntu-latest
     needs: [test, typecheck]
-    if: github.repository == 'caravanglory/oh-my-magento'
+    if: github.repository == 'caravanglory/oh-my-openagent'
     outputs:
       version: ${{ steps.version.outputs.version }}
       dist_tag: ${{ steps.version.outputs.dist_tag }}
@@ -257,20 +257,20 @@ jobs:
             npm publish --access public --provenance
           fi
 
-      - name: Check if oh-my-magento already published
+      - name: Check if oh-my-openagent already published
         id: check-openagent
         env:
           VERSION: ${{ steps.version.outputs.version }}
         run: |
-          STATUS=$(curl -s -o /dev/null -w "%{http_code}" "https://registry.npmjs.org/oh-my-magento/${VERSION}")
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" "https://registry.npmjs.org/oh-my-openagent/${VERSION}")
           if [ "$STATUS" = "200" ]; then
             echo "skip=true" >> $GITHUB_OUTPUT
-            echo "✓ oh-my-magento@${VERSION} already published"
+            echo "✓ oh-my-openagent@${VERSION} already published"
           else
             echo "skip=false" >> $GITHUB_OUTPUT
           fi
 
-      - name: Publish oh-my-magento
+      - name: Publish oh-my-openagent
         if: steps.check-openagent.outputs.skip != 'true'
         env:
           VERSION: ${{ steps.version.outputs.version }}
@@ -278,13 +278,13 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
           NPM_CONFIG_PROVENANCE: true
         run: |
-          # Update package name, version, and optionalDependencies for oh-my-magento
+          # Update package name, version, and optionalDependencies for oh-my-openagent
           jq --arg v "$VERSION" '
-            .name = "oh-my-magento" |
+            .name = "oh-my-openagent" |
             .version = $v |
             .optionalDependencies = (
               .optionalDependencies | to_entries |
-              map(.key = (.key | sub("^oh-my-magento-"; "oh-my-magento-")) | .value = $v) |
+              map(.key = (.key | sub("^oh-my-magento-"; "oh-my-openagent-")) | .value = $v) |
               from_entries
             )
           ' package.json > tmp.json && mv tmp.json package.json

@@ -92,7 +92,7 @@ When running inside tmux:
 - Auto-cleanup when agents complete
 - **Stable agent ordering**: core-agent tab cycling is deterministic via injected runtime order field (Sisyphus: 1, Hephaestus: 2, Prometheus: 3, Atlas: 4)
 
-Customize agent models, prompts, and permissions in `oh-my-opencode.jsonc`.
+Customize agent models, prompts, and permissions in `oh-my-magento.jsonc`.
 
 ## Category System
 
@@ -131,7 +131,7 @@ task({
 
 ### Custom Categories
 
-You can define custom categories in your plugin config file. During the rename transition, both `oh-my-openagent.json[c]` and legacy `oh-my-opencode.json[c]` basenames are recognized.
+You can define custom categories in your plugin config file. During the rename transition, both `oh-my-openagent.json[c]` and legacy `oh-my-magento.json[c]` basenames are recognized.
 
 #### Category Configuration Schema
 
@@ -194,7 +194,7 @@ When you use a Category, a special agent called **Sisyphus-Junior** performs the
 
 ### Rename Compatibility
 
-The published package and binary remain `oh-my-opencode`. Inside `opencode.json`, the compatibility layer now prefers the plugin entry `oh-my-openagent`, while legacy `oh-my-opencode` entries still load with a warning. Plugin config files (`oh-my-openagent.json[c]` or legacy `oh-my-opencode.json[c]`) are recognized during the transition. Run `bunx oh-my-opencode doctor` to check for legacy package name warnings.
+The published package and binary remain `oh-my-magento`. Inside `opencode.json`, the compatibility layer now prefers the plugin entry `oh-my-openagent`, while legacy `oh-my-magento` entries still load with a warning. Plugin config files (`oh-my-openagent.json[c]` or legacy `oh-my-magento.json[c]`) are recognized during the transition. Run `bunx oh-my-magento doctor` to check for legacy package name warnings.
 
 ### Fallback Models
 
@@ -915,7 +915,7 @@ When a skill MCP has `oauth` configured:
 Pre-authenticate via CLI:
 
 ```bash
-bunx oh-my-opencode mcp oauth login <server-name> --server-url https://api.example.com
+bunx oh-my-magento mcp oauth login <server-name> --server-url https://api.example.com
 ```
 
 ## Model Capabilities
@@ -927,7 +927,7 @@ Model capabilities are models.dev-backed, with a refreshable cache and compatibi
 Update the local cache with the latest model information:
 
 ```bash
-bunx oh-my-opencode refresh-model-capabilities
+bunx oh-my-magento refresh-model-capabilities
 ```
 
 Configure automatic refresh at startup:
@@ -945,7 +945,7 @@ Configure automatic refresh at startup:
 
 ### Capability Diagnostics
 
-Run `bunx oh-my-opencode doctor` to see capability diagnostics including:
+Run `bunx oh-my-magento doctor` to see capability diagnostics including:
 - effective model resolution for agents and categories
 - warnings when configured models rely on compatibility fallback
 - override compatibility details alongside model resolution output

@@ -11,7 +11,7 @@ import {
   migrateConfigFile,
 } from "./shared";
 import { migrateLegacyConfigFile } from "./shared/migrate-legacy-config-file";
-import { CONFIG_BASENAME, LEGACY_CONFIG_BASENAME } from "./shared/plugin-identity";
+import { LEGACY_CONFIG_BASENAME } from "./shared/plugin-identity";
 
 const PARTIAL_STRING_ARRAY_KEYS = new Set([
   "disabled_mcps",
@@ -20,6 +20,7 @@ const PARTIAL_STRING_ARRAY_KEYS = new Set([
   "disabled_hooks",
   "disabled_commands",
   "disabled_tools",
+  "mcp_env_allowlist",
 ]);
 
 export function parseConfigPartially(
@@ -154,6 +155,12 @@ export function mergeConfigs(
         ...(override.disabled_tools ?? []),
       ]),
     ],
+    mcp_env_allowlist: [
+      ...new Set([
+        ...(base.mcp_env_allowlist ?? []),
+        ...(override.mcp_env_allowlist ?? []),
+      ]),
+    ],
     claude_code: deepMerge(base.claude_code, override.claude_code),
   };
 }
@@ -168,7 +175,7 @@ export function loadPluginConfig(
   const userConfigPath =
     userDetected.format !== "none"
       ? userDetected.path
-      : path.join(configDir, `${CONFIG_BASENAME}.json`);
+      : path.join(configDir, "oh-my-magento.json");
 
   // Auto-copy legacy config file to canonical name if needed
   if (userDetected.format !== "none" && path.basename(userDetected.path).startsWith(LEGACY_CONFIG_BASENAME)) {
@@ -181,7 +188,7 @@ export function loadPluginConfig(
   const projectConfigPath =
     projectDetected.format !== "none"
       ? projectDetected.path
-      : path.join(projectBasePath, `${CONFIG_BASENAME}.json`);
+      : path.join(projectBasePath, "oh-my-magento.json");
 
   // Auto-copy legacy project config file to canonical name if needed
   if (projectDetected.format !== "none" && path.basename(projectDetected.path).startsWith(LEGACY_CONFIG_BASENAME)) {

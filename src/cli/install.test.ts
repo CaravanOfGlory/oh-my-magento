@@ -30,7 +30,7 @@ describe("install CLI - binary check behavior", () => {
 
     // Capture console output
     console.log = mockConsoleLog
-    mockConsoleLog.mockClear()
+    mockConsoleLog.mockReset()
   })
 
   afterEach(() => {

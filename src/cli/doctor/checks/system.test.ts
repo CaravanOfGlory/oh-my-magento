@@ -15,7 +15,7 @@ const mockGetOpenCodeVersion = mock(async () => "1.0.200")
 const mockCompareVersions = mock((_leftVersion?: string, _rightVersion?: string) => true)
 const mockGetPluginInfo = mock((): PluginInfo => ({
   registered: true,
-  entry: "oh-my-opencode",
+  entry: "oh-my-magento",
   isPinned: false,
   pinnedVersion: null,
   configPath: null,
@@ -24,7 +24,7 @@ const mockGetPluginInfo = mock((): PluginInfo => ({
 const mockGetLoadedPluginVersion = mock(() => ({
   cacheDir: "/Users/test/Library/Caches/opencode with spaces",
   cachePackagePath: "/tmp/package.json",
-  installedPackagePath: "/tmp/node_modules/oh-my-opencode/package.json",
+  installedPackagePath: "/tmp/node_modules/oh-my-magento/package.json",
   expectedVersion: "3.0.0",
   loadedVersion: "3.1.0",
 }))
@@ -62,7 +62,7 @@ describe("system check", () => {
     mockCompareVersions.mockReturnValue(true)
     mockGetPluginInfo.mockReturnValue({
       registered: true,
-      entry: "oh-my-openagent",
+      entry: "oh-my-magento",
       isPinned: false,
       pinnedVersion: null,
       configPath: null,
@@ -71,7 +71,7 @@ describe("system check", () => {
     mockGetLoadedPluginVersion.mockReturnValue({
       cacheDir: "/Users/test/Library/Caches/opencode with spaces",
       cachePackagePath: "/tmp/package.json",
-      installedPackagePath: "/tmp/node_modules/oh-my-opencode/package.json",
+      installedPackagePath: "/tmp/node_modules/oh-my-magento/package.json",
       expectedVersion: "3.0.0",
       loadedVersion: "3.1.0",
     })
@@ -97,15 +97,13 @@ describe("system check", () => {
       mockGetLoadedPluginVersion.mockReturnValue({
         cacheDir: "/Users/test/Library/Caches/opencode with spaces",
         cachePackagePath: "/tmp/package.json",
-        installedPackagePath: "/tmp/node_modules/oh-my-opencode/package.json",
+        installedPackagePath: "/tmp/node_modules/oh-my-magento/package.json",
         expectedVersion: "3.0.0-canary.1",
         loadedVersion: "3.0.0-canary.1",
       })
       mockGetLatestPluginVersion.mockResolvedValue("3.0.0-canary.2")
       mockGetSuggestedInstallTag.mockReturnValue("canary")
-      mockCompareVersions.mockImplementation((leftVersion?: string, rightVersion?: string) => {
-        return !(leftVersion === "3.0.0-canary.1" && rightVersion === "3.0.0-canary.2")
-      })
+      mockCompareVersions.mockReturnValue(false)
       const { checkSystem } = await importFreshSystemModule()
 
       //#when
@@ -138,9 +136,9 @@ describe("system check", () => {
       //#then
       const legacyEntryIssue = result.issues.find((issue) => issue.title === "Using legacy package name")
       expect(legacyEntryIssue?.severity).toBe("warning")
-      expect(legacyEntryIssue?.fix).toBe(
-        'Update your opencode.json plugin entry: "oh-my-openagent" → "oh-my-magento"'
-      )
+        expect(legacyEntryIssue?.fix).toBe(
+          'Update your opencode.json plugin entry: "oh-my-openagent" → "oh-my-magento"'
+        )
     })
 
     it("adds a warning for a version-pinned legacy entry", async () => {
@@ -161,9 +159,9 @@ describe("system check", () => {
       //#then
       const legacyEntryIssue = result.issues.find((issue) => issue.title === "Using legacy package name")
       expect(legacyEntryIssue?.severity).toBe("warning")
-      expect(legacyEntryIssue?.fix).toBe(
-        'Update your opencode.json plugin entry: "oh-my-openagent@3.0.0" → "oh-my-magento@3.0.0"'
-      )
+        expect(legacyEntryIssue?.fix).toBe(
+          'Update your opencode.json plugin entry: "oh-my-openagent@3.0.0" → "oh-my-magento@3.0.0"'
+        )
     })
 
     it("does not warn for a canonical plugin entry", async () => {

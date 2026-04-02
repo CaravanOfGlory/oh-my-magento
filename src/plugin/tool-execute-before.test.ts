@@ -289,17 +289,17 @@ describe("createToolRegistry", () => {
       test("#then it enforces the exact cap deterministically", () => {
         const result = createToolRegistry(
           createRegistryInput({
-            experimental: { max_tools: 15 },
+            experimental: { max_tools: 10 },
           }),
         )
 
-        expect(Object.keys(result.filteredTools)).toHaveLength(15)
+        expect(Object.keys(result.filteredTools)).toHaveLength(10)
       })
 
       test("#then it keeps the task tool when lower-priority tools can satisfy the cap", () => {
         const result = createToolRegistry(
           createRegistryInput({
-            experimental: { max_tools: 15 },
+            experimental: { max_tools: 10 },
           }),
         )
 

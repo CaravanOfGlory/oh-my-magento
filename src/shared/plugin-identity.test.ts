@@ -28,8 +28,8 @@ describe("plugin-identity constants", () => {
   })
 
   describe("LEGACY_CONFIG_BASENAME", () => {
-    it("equals oh-my-opencode", () => {
-      expect(LEGACY_CONFIG_BASENAME).toBe("oh-my-opencode")
+    it("equals oh-my-openagent", () => {
+      expect(LEGACY_CONFIG_BASENAME).toBe("oh-my-openagent")
     })
   })
 

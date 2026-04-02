@@ -93,8 +93,8 @@ describe("logLegacyPluginStartupWarning", () => {
       //#then
       expect(consoleWarnSpy).toHaveBeenCalled()
       const firstCall = consoleWarnSpy.mock.calls[0]?.[0] as string
-      expect(firstCall).toContain("oh-my-openagent")
       expect(firstCall).toContain("oh-my-magento")
+      expect(firstCall).toContain("oh-my-openagent")
     })
 
     it("#then attempts auto-migration of the opencode.json", async () => {

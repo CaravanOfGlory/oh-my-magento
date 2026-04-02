@@ -158,7 +158,7 @@ export function createToolRegistry(args: {
     },
   })
 
-  const getSessionIDForMcp = (): string => getMainSessionID() || ""
+  const getSessionIDForMcp = (): string | undefined => getMainSessionID()
 
   const skillMcpTool = createSkillMcpTool({
     manager: managers.skillMcpManager,

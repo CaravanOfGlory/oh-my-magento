@@ -30,7 +30,7 @@ describe("detectCurrentConfig - single package detection", () => {
 
   it("detects both legacy and canonical plugin entries", () => {
     // given
-    writeFileSync(testConfigPath, JSON.stringify({ plugin: ["oh-my-openagent", "oh-my-magento@3.11.0"] }, null, 2) + "\n", "utf-8")
+    writeFileSync(testConfigPath, JSON.stringify({ plugin: ["oh-my-magento", "oh-my-openagent@3.11.0"] }, null, 2) + "\n", "utf-8")
 
     // when
     const result = detectCurrentConfig()
@@ -41,7 +41,7 @@ describe("detectCurrentConfig - single package detection", () => {
 
   it("returns false when plugin not present with similar name", () => {
     // given
-    writeFileSync(testConfigPath, JSON.stringify({ plugin: ["oh-my-magento-extra"] }, null, 2) + "\n", "utf-8")
+    writeFileSync(testConfigPath, JSON.stringify({ plugin: ["oh-my-openagent-extra"] }, null, 2) + "\n", "utf-8")
 
     // when
     const result = detectCurrentConfig()
@@ -52,7 +52,7 @@ describe("detectCurrentConfig - single package detection", () => {
 
   it("detects OpenCode Go from the existing omo config", () => {
     // given
-    writeFileSync(testConfigPath, JSON.stringify({ plugin: ["oh-my-openagent"] }, null, 2) + "\n", "utf-8")
+    writeFileSync(testConfigPath, JSON.stringify({ plugin: ["oh-my-magento"] }, null, 2) + "\n", "utf-8")
     writeFileSync(testOmoConfigPath, JSON.stringify({ agents: { atlas: { model: "opencode-go/kimi-k2.5" } } }, null, 2) + "\n", "utf-8")
 
     // when
@@ -88,7 +88,7 @@ describe("addPluginToOpenCodeConfig - single package writes", () => {
     writeFileSync(testConfigPath, JSON.stringify({}, null, 2) + "\n", "utf-8")
 
     // when
-    const result = await addPluginToOpenCodeConfig("3.14.0")
+    const result = await addPluginToOpenCodeConfig("3.11.0")
 
     // then
     expect(result.success).toBe(true)
@@ -98,10 +98,10 @@ describe("addPluginToOpenCodeConfig - single package writes", () => {
 
   it("upgrades a bare legacy plugin entry to canonical", async () => {
     // given
-    writeFileSync(testConfigPath, JSON.stringify({ plugin: ["oh-my-openagent"] }, null, 2) + "\n", "utf-8")
+    writeFileSync(testConfigPath, JSON.stringify({ plugin: ["oh-my-magento"] }, null, 2) + "\n", "utf-8")
 
     // when
-    const result = await addPluginToOpenCodeConfig("3.14.0")
+    const result = await addPluginToOpenCodeConfig("3.11.0")
 
     // then
     expect(result.success).toBe(true)
@@ -111,10 +111,10 @@ describe("addPluginToOpenCodeConfig - single package writes", () => {
 
   it("upgrades a version-pinned legacy entry to canonical", async () => {
     // given
-    writeFileSync(testConfigPath, JSON.stringify({ plugin: ["oh-my-openagent@3.10.0"] }, null, 2) + "\n", "utf-8")
+    writeFileSync(testConfigPath, JSON.stringify({ plugin: ["oh-my-magento@3.10.0"] }, null, 2) + "\n", "utf-8")
 
     // when
-    const result = await addPluginToOpenCodeConfig("3.14.0")
+    const result = await addPluginToOpenCodeConfig("3.11.0")
 
     // then
     expect(result.success).toBe(true)
@@ -127,7 +127,7 @@ describe("addPluginToOpenCodeConfig - single package writes", () => {
     writeFileSync(testConfigPath, JSON.stringify({ plugin: ["oh-my-magento", "oh-my-openagent"] }, null, 2) + "\n", "utf-8")
 
     // when
-    const result = await addPluginToOpenCodeConfig("3.14.0")
+    const result = await addPluginToOpenCodeConfig("3.11.0")
 
     // then
     expect(result.success).toBe(true)
@@ -140,7 +140,7 @@ describe("addPluginToOpenCodeConfig - single package writes", () => {
     writeFileSync(testConfigPath, JSON.stringify({ plugin: ["oh-my-magento@3.10.0"] }, null, 2) + "\n", "utf-8")
 
     // when
-    const result = await addPluginToOpenCodeConfig("3.14.0")
+    const result = await addPluginToOpenCodeConfig("3.11.0")
 
     // then
     expect(result.success).toBe(true)
@@ -151,10 +151,10 @@ describe("addPluginToOpenCodeConfig - single package writes", () => {
   it("rewrites quoted jsonc plugin field in place", async () => {
     // given
     testConfigPath = join(testConfigDir, "opencode.jsonc")
-    writeFileSync(testConfigPath, '{\n  "plugin": ["oh-my-openagent"]\n}\n', "utf-8")
+    writeFileSync(testConfigPath, '{\n  "plugin": ["oh-my-magento"]\n}\n', "utf-8")
 
     // when
-    const result = await addPluginToOpenCodeConfig("3.14.0")
+    const result = await addPluginToOpenCodeConfig("3.11.0")
 
     // then
     expect(result.success).toBe(true)

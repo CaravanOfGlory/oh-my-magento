@@ -1,4 +1,6 @@
-import { afterEach, beforeEach, describe, expect, it } from "bun:test"
+/// <reference path="../../bun-test.d.ts" />
+
+import { afterEach, beforeEach, describe, expect, it, mock } from "bun:test"
 import { mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs"
 import { tmpdir } from "node:os"
 import { join } from "node:path"
@@ -19,9 +21,9 @@ describe("migrateLegacyPluginEntry", () => {
     rmSync(testDir, { recursive: true, force: true })
   })
 
-  describe("#given opencode.json contains legacy plugin entry", () => {
+  describe("#given opencode.json contains oh-my-openagent plugin entry", () => {
     describe("#when migrating the config", () => {
-      it("#then replaces legacy name with canonical name", async () => {
+      it("#then replaces oh-my-openagent with oh-my-magento", async () => {
         const configPath = join(testDir, "opencode.json")
         writeFileSync(configPath, JSON.stringify({ plugin: ["oh-my-openagent@latest"] }, null, 2))
         const { migrateLegacyPluginEntry } = await importFreshMigrationModule()
@@ -36,9 +38,9 @@ describe("migrateLegacyPluginEntry", () => {
     })
   })
 
-  describe("#given opencode.json contains bare legacy entry", () => {
+  describe("#given opencode.json contains bare oh-my-openagent entry", () => {
     describe("#when migrating the config", () => {
-      it("#then replaces with canonical name", async () => {
+      it("#then replaces with oh-my-magento", async () => {
         const configPath = join(testDir, "opencode.json")
         writeFileSync(configPath, JSON.stringify({ plugin: ["oh-my-openagent"] }, null, 2))
         const { migrateLegacyPluginEntry } = await importFreshMigrationModule()
@@ -53,7 +55,44 @@ describe("migrateLegacyPluginEntry", () => {
     })
   })
 
-  describe("#given opencode.json contains pinned legacy version", () => {
+  describe("#given renaming the temp file fails after writing the migrated config", () => {
+    describe("#when migrating the config", () => {
+      it("#then keeps the original config untouched and writes the migrated content to a sibling temp file", async () => {
+        const configPath = join(testDir, "opencode.json")
+        const originalContent = JSON.stringify({ plugin: ["oh-my-openagent@latest"] }, null, 2)
+        const tempPath = `${configPath}.tmp`
+        writeFileSync(configPath, originalContent)
+
+        const fs = await import("node:fs")
+        const originalRenameSync = fs.renameSync
+
+        mock.module("node:fs", () => ({
+          ...fs,
+          renameSync: () => {
+            throw new Error("simulated rename failure")
+          },
+        }))
+
+        try {
+          const { migrateLegacyPluginEntry } = await importFreshMigrationModule()
+
+          const result = migrateLegacyPluginEntry(configPath)
+
+          expect(result).toBe(false)
+          expect(readFileSync(configPath, "utf-8")).toBe(originalContent)
+          expect(readFileSync(tempPath, "utf-8")).toContain("oh-my-magento@latest")
+          expect(readFileSync(tempPath, "utf-8")).not.toContain("oh-my-openagent")
+        } finally {
+          mock.module("node:fs", () => ({
+            ...fs,
+            renameSync: originalRenameSync,
+          }))
+        }
+      })
+    })
+  })
+
+  describe("#given opencode.json contains pinned oh-my-openagent version", () => {
     describe("#when migrating the config", () => {
       it("#then preserves the version pin", async () => {
         const configPath = join(testDir, "opencode.json")
@@ -69,7 +108,7 @@ describe("migrateLegacyPluginEntry", () => {
     })
   })
 
-  describe("#given opencode.json already uses canonical name", () => {
+  describe("#given opencode.json already uses oh-my-magento", () => {
     describe("#when checking for migration", () => {
       it("#then returns false and does not modify the file", async () => {
         const configPath = join(testDir, "opencode.json")

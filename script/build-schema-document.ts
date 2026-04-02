@@ -52,7 +52,7 @@ export function createOhMyMagentoJsonSchema(): Record<string, unknown> {
   return dedupeCustomAgentOverrideSchema(schema)
 }
 
-export function createOhMyOpenCodeJsonSchema(): Record<string, unknown> {
+export function createOhMyMagentoJsonSchema(): Record<string, unknown> {
   const jsonSchema = z.toJSONSchema(OhMyMagentoConfigSchema, {
     target: "draft-7",
     unrepresentable: "any",

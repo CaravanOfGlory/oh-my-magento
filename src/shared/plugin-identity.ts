@@ -1,6 +1,6 @@
 export { PLUGIN_NAME } from "./version"
 export const LEGACY_PLUGIN_NAME = "oh-my-openagent"
 export const CONFIG_BASENAME = "oh-my-magento"
-export const LEGACY_CONFIG_BASENAME = "oh-my-opencode"
+export const LEGACY_CONFIG_BASENAME = "oh-my-openagent"
 export const LOG_FILENAME = "oh-my-magento.log"
 export const CACHE_DIR_NAME = "oh-my-magento"

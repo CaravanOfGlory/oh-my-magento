@@ -12,8 +12,8 @@ declare module "bun:test" {
   }
 
   export function describe(name: string, fn: () => void): void
-  export function it(name: string, fn: () => void | Promise<void>): void
   export function test(name: string, fn: () => void | Promise<void>): void
+  export function it(name: string, fn: () => void | Promise<void>): void
   export function beforeEach(fn: () => void | Promise<void>): void
   export function afterEach(fn: () => void | Promise<void>): void
   export function beforeAll(fn: () => void | Promise<void>): void
@@ -29,6 +29,8 @@ declare module "bun:test" {
 
   interface Matchers {
     toBe(expected: unknown): void
+    toBeDefined(): void
+    toBeUndefined(): void
     toBeNull(): void
     toEqual(expected: unknown): void
     toContain(expected: unknown): void
@@ -38,7 +40,6 @@ declare module "bun:test" {
     toHaveBeenCalledTimes(expected: number): void
     toHaveBeenCalledWith(...expected: unknown[]): void
     toBeGreaterThan(expected: number): void
-    toBeCloseTo(expected: number, precision?: number): void
     toThrow(expected?: RegExp | string): void
     toStartWith(expected: string): void
     not: Matchers

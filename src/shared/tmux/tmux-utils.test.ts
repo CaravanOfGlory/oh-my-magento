@@ -168,7 +168,7 @@ describe("resetServerCheck", () => {
 
 describe("markServerRunningInProcess", () => {
   const originalFetch = globalThis.fetch
-  const SERVER_RUNNING_KEY = Symbol.for("oh-my-opencode:server-running-in-process")
+  const SERVER_RUNNING_KEY = Symbol.for("oh-my-magento:server-running-in-process")
 
   beforeEach(() => {
     resetServerCheck()

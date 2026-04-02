@@ -30,17 +30,17 @@ export function logLegacyPluginStartupWarning(): void {
   })
 
   console.warn(
-    `[oh-my-openagent] WARNING: Your opencode.json uses the legacy package name "${LEGACY_PLUGIN_NAME}".`
+    `[oh-my-magento] WARNING: Your opencode.json uses the legacy package name "${LEGACY_PLUGIN_NAME}".`
     + ` The package has been renamed to "${PLUGIN_NAME}".`
     + ` Attempting auto-migration...`,
   )
 
   const migrated = migrateLegacyPluginEntry(result.configPath!)
   if (migrated) {
-    console.warn(`[oh-my-openagent] Auto-migrated opencode.json: ${result.legacyEntries.join(", ")} -> ${suggestedEntries.join(", ")}`)
+    console.warn(`[oh-my-magento] Auto-migrated opencode.json: ${result.legacyEntries.join(", ")} -> ${suggestedEntries.join(", ")}`)
   } else {
     console.warn(
-      `[oh-my-openagent] Could not auto-migrate. Please manually update your opencode.json:`
+      `[oh-my-magento] Could not auto-migrate. Please manually update your opencode.json:`
       + ` ${result.legacyEntries.map((e, i) => `"${e}" -> "${suggestedEntries[i]}"`).join(", ")}`,
     )
   }
