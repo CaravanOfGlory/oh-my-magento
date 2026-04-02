@@ -26,6 +26,10 @@ import {
   createTaskList,
   createTaskUpdateTool,
   createHashlineEditTool,
+  createMagentoCliTool,
+  createMagentoComposerTool,
+  createMagentoConfigValidator,
+  createMagentoModuleScanner,
 } from "../tools"
 import { getMainSessionID } from "../features/claude-code-session-state"
 import { filterDisabledTools } from "../shared/disabled-tools"
@@ -206,6 +210,10 @@ export function createToolRegistry(args: {
     interactive_bash,
     ...taskToolsRecord,
     ...hashlineToolsRecord,
+    ...createMagentoCliTool(ctx),
+    ...createMagentoComposerTool(ctx),
+    ...createMagentoConfigValidator(ctx),
+    ...createMagentoModuleScanner(ctx),
   }
 
   for (const toolDefinition of Object.values(allTools)) {
