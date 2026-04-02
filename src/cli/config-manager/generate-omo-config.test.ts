@@ -48,7 +48,7 @@ describe("generateOmoConfig - model fallback system", () => {
     const result = generateOmoConfig(config)
 
     //#then
-    expect(result.$schema).toBe("https://raw.githubusercontent.com/code-yeongyu/oh-my-openagent/dev/assets/oh-my-opencode.schema.json")
+    expect(result.$schema).toBe("https://raw.githubusercontent.com/caravanglory/oh-my-magento/dev/assets/oh-my-magento.schema.json")
     expect((result.agents as Record<string, { model: string }>).sisyphus).toBeUndefined()
   })
 
