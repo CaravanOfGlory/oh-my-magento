@@ -20,6 +20,15 @@ export const BuiltinSkillNameSchema = z.enum([
   "dev-browser",
   "frontend-ui-ux",
   "git-master",
+  "magento-module-scaffold",
+  "magento-xml-config",
+  "magento-testing",
+  "magento-performance",
+  "magento-upgrade-analysis",
+  "magento-debugging",
+  "hyva-theme",
+  "hyva-checkout",
+  "hyva-compat-module",
 ])
 
 export const OverridableAgentNameSchema = z.enum([
