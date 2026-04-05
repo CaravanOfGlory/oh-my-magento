@@ -1,6 +1,6 @@
 {
   "name": "oh-my-magento-windows-x64-baseline",
-  "version": "0.3.7",
+  "version": "0.3.8",
   "description": "Platform-specific binary for oh-my-magento (windows-x64-baseline, no AVX2)",
   "license": "MIT",
   "repository": {
