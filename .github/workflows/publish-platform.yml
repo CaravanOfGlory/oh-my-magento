@@ -106,8 +106,28 @@ jobs:
             echo "skip_openagent=true" >> $GITHUB_OUTPUT
             echo "✓ oh-my-openagent-${{ matrix.platform }}@${VERSION} already published"
           else
-            echo "skip_openagent=false" >> $GITHUB_OUTPUT
-            echo "→ oh-my-openagent-${{ matrix.platform }}@${VERSION} needs publishing"
+            # Check if oh-my-openagent-* latest is higher than our version
+            LATEST=$(curl -s "https://registry.npmjs.org/oh-my-openagent-${{ matrix.platform }}/latest" | jq -r '.version // "0.0.0"')
+            if [ -n "$LATEST" ] && [ "$LATEST" != "null" ]; then
+              OUR_MAJOR=$(echo "$VERSION" | cut -d. -f1)
+              OUR_MINOR=$(echo "$VERSION" | cut -d. -f2)
+              OUR_PATCH=$(echo "$VERSION" | cut -d. -f3 | cut -d- -f1)
+              LATEST_MAJOR=$(echo "$LATEST" | cut -d. -f1)
+              LATEST_MINOR=$(echo "$LATEST" | cut -d. -f2)
+              LATEST_PATCH=$(echo "$LATEST" | cut -d. -f3 | cut -d- -f1)
+              if [ "$OUR_MAJOR" -lt "$LATEST_MAJOR" ] || \
+                 { [ "$OUR_MAJOR" -eq "$LATEST_MAJOR" ] && [ "$OUR_MINOR" -lt "$LATEST_MINOR" ]; } || \
+                 { [ "$OUR_MAJOR" -eq "$LATEST_MAJOR" ] && [ "$OUR_MINOR" -eq "$LATEST_MINOR" ] && [ "$OUR_PATCH" -le "$LATEST_PATCH" ]; }; then
+                echo "skip_openagent=true" >> $GITHUB_OUTPUT
+                echo "✓ oh-my-openagent-${{ matrix.platform }}@${VERSION} is lower than latest ${LATEST}, skipping"
+              else
+                echo "skip_openagent=false" >> $GITHUB_OUTPUT
+                echo "→ oh-my-openagent-${{ matrix.platform }}@${VERSION} needs publishing"
+              fi
+            else
+              echo "skip_openagent=false" >> $GITHUB_OUTPUT
+              echo "→ oh-my-openagent-${{ matrix.platform }}@${VERSION} needs publishing"
+            fi
           fi
           
           # Skip build only if BOTH are already published
@@ -293,7 +313,26 @@ jobs:
             echo "skip_openagent=true" >> $GITHUB_OUTPUT
             echo "✓ oh-my-openagent-${{ matrix.platform }}@${VERSION} already published"
           else
-            echo "skip_openagent=false" >> $GITHUB_OUTPUT
+            # Check if oh-my-openagent-* latest is higher than our version
+            LATEST=$(curl -s "https://registry.npmjs.org/oh-my-openagent-${{ matrix.platform }}/latest" | jq -r '.version // "0.0.0"')
+            if [ -n "$LATEST" ] && [ "$LATEST" != "null" ]; then
+              OUR_MAJOR=$(echo "$VERSION" | cut -d. -f1)
+              OUR_MINOR=$(echo "$VERSION" | cut -d. -f2)
+              OUR_PATCH=$(echo "$VERSION" | cut -d. -f3 | cut -d- -f1)
+              LATEST_MAJOR=$(echo "$LATEST" | cut -d. -f1)
+              LATEST_MINOR=$(echo "$LATEST" | cut -d. -f2)
+              LATEST_PATCH=$(echo "$LATEST" | cut -d. -f3 | cut -d- -f1)
+              if [ "$OUR_MAJOR" -lt "$LATEST_MAJOR" ] || \
+                 { [ "$OUR_MAJOR" -eq "$LATEST_MAJOR" ] && [ "$OUR_MINOR" -lt "$LATEST_MINOR" ]; } || \
+                 { [ "$OUR_MAJOR" -eq "$LATEST_MAJOR" ] && [ "$OUR_MINOR" -eq "$LATEST_MINOR" ] && [ "$OUR_PATCH" -le "$LATEST_PATCH" ]; }; then
+                echo "skip_openagent=true" >> $GITHUB_OUTPUT
+                echo "✓ oh-my-openagent-${{ matrix.platform }}@${VERSION} is lower than latest ${LATEST}, skipping"
+              else
+                echo "skip_openagent=false" >> $GITHUB_OUTPUT
+              fi
+            else
+              echo "skip_openagent=false" >> $GITHUB_OUTPUT
+            fi
           fi
           
           # Need artifact if either package needs publishing
