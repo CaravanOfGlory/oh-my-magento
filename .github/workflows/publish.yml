@@ -189,7 +189,27 @@ jobs:
             echo "skip=true" >> $GITHUB_OUTPUT
             echo "✓ oh-my-openagent@${VERSION} already published"
           else
-            echo "skip=false" >> $GITHUB_OUTPUT
+            # Check if oh-my-openagent latest is higher than our version
+            LATEST=$(curl -s https://registry.npmjs.org/oh-my-openagent/latest | jq -r '.version // "0.0.0"')
+            if [ -n "$LATEST" ] && [ "$LATEST" != "null" ]; then
+              # Compare versions: if our version is lower than latest, skip (don't downgrade)
+              OUR_MAJOR=$(echo "$VERSION" | cut -d. -f1)
+              OUR_MINOR=$(echo "$VERSION" | cut -d. -f2)
+              OUR_PATCH=$(echo "$VERSION" | cut -d. -f3 | cut -d- -f1)
+              LATEST_MAJOR=$(echo "$LATEST" | cut -d. -f1)
+              LATEST_MINOR=$(echo "$LATEST" | cut -d. -f2)
+              LATEST_PATCH=$(echo "$LATEST" | cut -d. -f3 | cut -d- -f1)
+              if [ "$OUR_MAJOR" -lt "$LATEST_MAJOR" ] || \
+                 { [ "$OUR_MAJOR" -eq "$LATEST_MAJOR" ] && [ "$OUR_MINOR" -lt "$LATEST_MINOR" ]; } || \
+                 { [ "$OUR_MAJOR" -eq "$LATEST_MAJOR" ] && [ "$OUR_MINOR" -eq "$LATEST_MINOR" ] && [ "$OUR_PATCH" -le "$LATEST_PATCH" ]; }; then
+                echo "skip=true" >> $GITHUB_OUTPUT
+                echo "✓ oh-my-openagent@${VERSION} is lower than latest ${LATEST}, skipping to avoid downgrade"
+              else
+                echo "skip=false" >> $GITHUB_OUTPUT
+              fi
+            else
+              echo "skip=false" >> $GITHUB_OUTPUT
+            fi
           fi
 
       - name: Publish oh-my-openagent
@@ -218,7 +238,7 @@ jobs:
           fi
 
       - name: Restore package.json
-        if: always() && steps.check-openagent.outputs.skip != 'true'
+        if: always()
         run: |
           git checkout -- package.json
 
