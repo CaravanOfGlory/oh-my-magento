@@ -332,9 +332,9 @@ describe("loadPluginConfig", () => {
     const userConfigDir = join(rootDir, "user-config")
     const projectDir = join(rootDir, "project")
     const projectConfigDir = join(projectDir, ".opencode")
-    const legacyConfigPath = join(projectConfigDir, "oh-my-magento.jsonc")
+    const legacyConfigPath = join(projectConfigDir, "oh-my-openagent.jsonc")
     const backupConfigPath = `${legacyConfigPath}.bak`
-    const canonicalConfigPath = join(projectConfigDir, "oh-my-openagent.jsonc")
+    const canonicalConfigPath = join(projectConfigDir, "oh-my-magento.jsonc")
 
     tempDirs.push(rootDir)
     mkdirSync(userConfigDir, { recursive: true })
@@ -361,8 +361,8 @@ describe("loadPluginConfig", () => {
     const userConfigDir = join(rootDir, "user-config")
     const projectDir = join(rootDir, "project")
     const projectConfigDir = join(projectDir, ".opencode")
-    const legacyConfigPath = join(projectConfigDir, "oh-my-magento.jsonc")
-    const canonicalConfigPath = join(projectConfigDir, "oh-my-openagent.jsonc")
+    const legacyConfigPath = join(projectConfigDir, "oh-my-openagent.jsonc")
+    const canonicalConfigPath = join(projectConfigDir, "oh-my-magento.jsonc")
 
     tempDirs.push(rootDir)
     mkdirSync(userConfigDir, { recursive: true })
