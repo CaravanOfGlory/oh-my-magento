@@ -1,6 +1,6 @@
 {
   "name": "oh-my-magento-linux-arm64-musl",
-  "version": "3.14.0",
+  "version": "0.3.7",
   "description": "Platform-specific binary for oh-my-magento (linux-arm64-musl)",
   "license": "MIT",
   "repository": {
