@@ -16,40 +16,44 @@ describe("migrateLegacyConfigFile", () => {
     rmSync(testDir, { recursive: true, force: true })
   })
 
-  describe("#given oh-my-openagent.jsonc exists but oh-my-magento.jsonc does not", () => {
+  describe("#given oh-my-magento.jsonc exists but oh-my-openagent.jsonc does not", () => {
     describe("#when migrating the config file", () => {
-      it("#then copies to oh-my-magento.jsonc", () => {
-        const legacyPath = join(testDir, "oh-my-openagent.jsonc")
+      it("#then writes oh-my-openagent.jsonc and renames the legacy file to a backup", () => {
+        const legacyPath = join(testDir, "oh-my-magento.jsonc")
+        const backupPath = join(testDir, "oh-my-magento.jsonc.bak")
         writeFileSync(legacyPath, '{ "agents": {} }')
 
         const result = migrateLegacyConfigFile(legacyPath)
 
         expect(result).toBe(true)
-        expect(existsSync(join(testDir, "oh-my-magento.jsonc"))).toBe(true)
-        expect(readFileSync(join(testDir, "oh-my-magento.jsonc"), "utf-8")).toBe('{ "agents": {} }')
+        expect(existsSync(join(testDir, "oh-my-openagent.jsonc"))).toBe(true)
+        expect(existsSync(legacyPath)).toBe(false)
+        expect(existsSync(backupPath)).toBe(true)
+        expect(readFileSync(join(testDir, "oh-my-openagent.jsonc"), "utf-8")).toBe('{ "agents": {} }')
+        expect(readFileSync(backupPath, "utf-8")).toBe('{ "agents": {} }')
       })
     })
   })
 
-  describe("#given oh-my-openagent.json exists but oh-my-magento.json does not", () => {
+  describe("#given oh-my-magento.json exists but oh-my-openagent.json does not", () => {
     describe("#when migrating the config file", () => {
-      it("#then copies to oh-my-magento.json", () => {
-        const legacyPath = join(testDir, "oh-my-openagent.json")
+      it("#then copies to oh-my-openagent.json", () => {
+        const legacyPath = join(testDir, "oh-my-magento.json")
         writeFileSync(legacyPath, '{ "agents": {} }')
 
         const result = migrateLegacyConfigFile(legacyPath)
 
         expect(result).toBe(true)
-        expect(existsSync(join(testDir, "oh-my-magento.json"))).toBe(true)
+        expect(existsSync(join(testDir, "oh-my-openagent.json"))).toBe(true)
       })
     })
   })
 
-  describe("#given oh-my-magento.jsonc already exists", () => {
+  describe("#given oh-my-openagent.jsonc already exists", () => {
     describe("#when attempting migration", () => {
       it("#then returns false and does not overwrite", () => {
-        const legacyPath = join(testDir, "oh-my-openagent.jsonc")
-        const canonicalPath = join(testDir, "oh-my-magento.jsonc")
+        const legacyPath = join(testDir, "oh-my-magento.jsonc")
+        const canonicalPath = join(testDir, "oh-my-openagent.jsonc")
         writeFileSync(legacyPath, '{ "old": true }')
         writeFileSync(canonicalPath, '{ "new": true }')
 
@@ -64,7 +68,7 @@ describe("migrateLegacyConfigFile", () => {
   describe("#given the file does not exist", () => {
     describe("#when attempting migration", () => {
       it("#then returns false", () => {
-        const result = migrateLegacyConfigFile(join(testDir, "oh-my-openagent.jsonc"))
+        const result = migrateLegacyConfigFile(join(testDir, "oh-my-magento.jsonc"))
 
         expect(result).toBe(false)
       })

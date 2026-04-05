@@ -27,7 +27,6 @@ export async function resolveSession(options: {
     const res = await client.session.create({
       body: {
         title: "oh-my-magento run",
-        // In CLI run mode there's no TUI to answer questions.
         permission: [
           { permission: "question", action: "deny" as const, pattern: "*" },
         ],

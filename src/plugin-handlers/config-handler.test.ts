@@ -31,6 +31,8 @@ function createPluginConfig(overrides: Partial<OhMyMagentoConfig> = {}): OhMyMag
   }
 }
 
+let setAdditionalAllowedMcpEnvVarsSpy: ReturnType<typeof spyOn> | undefined
+
 beforeEach(() => {
   spyOn(agents, "createBuiltinAgents" as any).mockResolvedValue({
     sisyphus: { name: "sisyphus", prompt: "test", mode: "primary" },
@@ -57,7 +59,7 @@ beforeEach(() => {
   spyOn(agentLoader, "loadProjectAgents" as any).mockReturnValue({})
 
   spyOn(mcpLoader, "loadMcpConfigs" as any).mockResolvedValue({ servers: {} })
-  spyOn(mcpLoader, "setAdditionalAllowedMcpEnvVars").mockImplementation(() => {})
+  setAdditionalAllowedMcpEnvVarsSpy = spyOn(mcpLoader, "setAdditionalAllowedMcpEnvVars").mockImplementation(() => {})
 
   spyOn(pluginLoader, "loadAllPluginComponents" as any).mockResolvedValue({
     commands: {},
@@ -104,7 +106,7 @@ afterEach(() => {
   ;(agentLoader.loadUserAgents as any)?.mockRestore?.()
   ;(agentLoader.loadProjectAgents as any)?.mockRestore?.()
   ;(mcpLoader.loadMcpConfigs as any)?.mockRestore?.()
-  ;(mcpLoader.setAdditionalAllowedMcpEnvVars as any)?.mockRestore?.()
+  setAdditionalAllowedMcpEnvVarsSpy?.mockRestore()
   ;(pluginLoader.loadAllPluginComponents as any)?.mockRestore?.()
   ;(mcpModule.createBuiltinMcps as any)?.mockRestore?.()
   ;(shared.log as any)?.mockRestore?.()
@@ -1279,6 +1281,10 @@ describe("per-agent todowrite/todoread deny when task_system enabled", () => {
     await handler(config)
 
     //#then
+    const lastCall =
+      createBuiltinAgentsMock.mock.calls[createBuiltinAgentsMock.mock.calls.length - 1]
+    expect(lastCall?.[11]).toBe(false)
+
     const agentResult = config.agent as Record<string, { permission?: Record<string, unknown> }>
     expect(agentResult[getAgentDisplayName("sisyphus")]?.permission?.todowrite).toBeUndefined()
     expect(agentResult[getAgentDisplayName("sisyphus")]?.permission?.todoread).toBeUndefined()
@@ -1313,6 +1319,10 @@ describe("per-agent todowrite/todoread deny when task_system enabled", () => {
     await handler(config)
 
     //#then
+    const lastCall =
+      createBuiltinAgentsMock.mock.calls[createBuiltinAgentsMock.mock.calls.length - 1]
+    expect(lastCall?.[11]).toBe(false)
+
     const agentResult = config.agent as Record<string, { permission?: Record<string, unknown> }>
     expect(agentResult[getAgentDisplayName("sisyphus")]?.permission?.todowrite).toBe("deny")
     expect(agentResult[getAgentDisplayName("sisyphus")]?.permission?.todoread).toBe("deny")

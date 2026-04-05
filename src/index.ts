@@ -5,6 +5,7 @@ import type { HookName } from "./config"
 
 import { createHooks } from "./create-hooks"
 import { createManagers } from "./create-managers"
+import { createRuntimeTmuxConfig, isTmuxIntegrationEnabled } from "./create-runtime-tmux-config"
 import { createTools } from "./create-tools"
 import { createPluginInterface } from "./plugin-interface"
 import { createPluginDispose, type PluginDispose } from "./plugin-dispose"
@@ -12,7 +13,6 @@ import { createPluginDispose, type PluginDispose } from "./plugin-dispose"
 import { loadPluginConfig } from "./plugin-config"
 import { createModelCacheState } from "./plugin-state"
 import { createFirstMessageVariantGate } from "./shared/first-message-variant"
-import { PLUGIN_NAME } from "./shared/plugin-identity"
 import { injectServerAuthIntoClient, log, logLegacyPluginStartupWarning } from "./shared"
 import { detectExternalSkillPlugin, getSkillPluginConflictWarning } from "./shared/external-plugin-detector"
 import { lspManager } from "./tools/lsp/client"
@@ -21,24 +21,25 @@ import { startTmuxCheck } from "./tools"
 let activePluginDispose: PluginDispose | null = null
 
 const OhMyMagentoPlugin: Plugin = async (ctx) => {
-  // Initialize config context for plugin runtime (prevents warnings from hooks)
   initConfigContext("opencode", null)
   log("[OhMyMagentoPlugin] ENTRY - plugin loading", {
     directory: ctx.directory,
   })
   logLegacyPluginStartupWarning()
 
-  // Detect conflicting skill plugins (e.g., opencode-skills)
   const skillPluginCheck = detectExternalSkillPlugin(ctx.directory)
   if (skillPluginCheck.detected && skillPluginCheck.pluginName) {
     console.warn(getSkillPluginConflictWarning(skillPluginCheck.pluginName))
   }
 
   injectServerAuthIntoClient(ctx.client)
-  startTmuxCheck()
   await activePluginDispose?.()
 
   const pluginConfig = loadPluginConfig(ctx.directory, ctx)
+  const tmuxIntegrationEnabled = isTmuxIntegrationEnabled(pluginConfig)
+  if (tmuxIntegrationEnabled) {
+    startTmuxCheck()
+  }
   const disabledHooks = new Set(pluginConfig.disabled_hooks ?? [])
 
   const isHookEnabled = (hookName: HookName): boolean => !disabledHooks.has(hookName)
@@ -46,14 +47,7 @@ const OhMyMagentoPlugin: Plugin = async (ctx) => {
 
   const firstMessageVariantGate = createFirstMessageVariantGate()
 
-  const tmuxConfig = {
-    enabled: pluginConfig.tmux?.enabled ?? false,
-    layout: pluginConfig.tmux?.layout ?? "main-vertical",
-    main_pane_size: pluginConfig.tmux?.main_pane_size ?? 60,
-    main_pane_min_width: pluginConfig.tmux?.main_pane_min_width ?? 120,
-    agent_pane_min_width: pluginConfig.tmux?.agent_pane_min_width ?? 40,
-    isolation: pluginConfig.tmux?.isolation ?? "session",
-  }
+  const tmuxConfig = createRuntimeTmuxConfig(pluginConfig)
 
   const modelCacheState = createModelCacheState()
 
@@ -101,7 +95,7 @@ const OhMyMagentoPlugin: Plugin = async (ctx) => {
   activePluginDispose = dispose
 
   return {
-    name: PLUGIN_NAME,
+    name: "oh-my-openagent",
     ...pluginInterface,
 
     "experimental.session.compacting": async (
@@ -133,7 +127,4 @@ export type {
   BuiltinCommandName,
 } from "./config"
 
-// NOTE: Do NOT export functions from main index.ts!
-// OpenCode treats ALL exports as plugin instances and calls them.
-// Config error utilities are available via "./shared/config-errors" for internal use only.
 export type { ConfigLoadError } from "./shared/config-errors"

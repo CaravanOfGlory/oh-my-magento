@@ -2,9 +2,6 @@ import { describe, it, expect, beforeEach, afterEach } from "bun:test"
 import { applyToolConfig } from "./tool-config-handler"
 import type { OhMyMagentoConfig } from "../config"
 
-const TASK_AGENTS = ["atlas", "sisyphus", "hephaestus", "prometheus", "sisyphus-junior"] as const
-const QUESTION_AGENTS = ["sisyphus", "hephaestus", "prometheus"] as const
-
 function createParams(overrides: {
   taskSystem?: boolean
   agents?: string[]
@@ -68,22 +65,26 @@ describe("applyToolConfig", () => {
         expect(tools.todoread).toBe(false)
       })
 
-      for (const agentName of TASK_AGENTS) {
-        it(`#then should deny todo tools for ${agentName} agent`, () => {
-          const params = createParams({
-            taskSystem: true,
-            agents: [agentName],
-          })
-
-          applyToolConfig(params)
-
-          const agent = params.agentResult[agentName] as {
-            permission: Record<string, unknown>
-          }
-          expect(agent.permission.todowrite).toBe("deny")
-          expect(agent.permission.todoread).toBe("deny")
+      it.each([
+        "atlas",
+        "sisyphus",
+        "hephaestus",
+        "prometheus",
+        "sisyphus-junior",
+      ])("#then should deny todo tools for %s agent", (agentName) => {
+        const params = createParams({
+          taskSystem: true,
+          agents: [agentName],
         })
-      }
+
+        applyToolConfig(params)
+
+        const agent = params.agentResult[agentName] as {
+          permission: Record<string, unknown>
+        }
+        expect(agent.permission.todowrite).toBe("deny")
+        expect(agent.permission.todoread).toBe("deny")
+      })
     })
   })
 
@@ -110,8 +111,9 @@ describe("applyToolConfig", () => {
     })
 
     describe("#when config explicitly denies question permission", () => {
-      for (const agentName of QUESTION_AGENTS) {
-        it(`#then should deny question for ${agentName} even without CLI_RUN_MODE`, () => {
+      it.each(["sisyphus", "hephaestus", "prometheus"])(
+        "#then should deny question for %s even without CLI_RUN_MODE",
+        (agentName) => {
           process.env.OPENCODE_CONFIG_CONTENT = JSON.stringify({
             permission: { question: "deny" },
           })
@@ -124,13 +126,14 @@ describe("applyToolConfig", () => {
             permission: Record<string, unknown>
           }
           expect(agent.permission.question).toBe("deny")
-        })
-      }
+        },
+      )
     })
 
     describe("#when config does not deny question permission", () => {
-      for (const agentName of QUESTION_AGENTS) {
-        it(`#then should allow question for ${agentName} in interactive mode`, () => {
+      it.each(["sisyphus", "hephaestus", "prometheus"])(
+        "#then should allow question for %s in interactive mode",
+        (agentName) => {
           process.env.OPENCODE_CONFIG_CONTENT = JSON.stringify({
             permission: { question: "allow" },
           })
@@ -143,13 +146,14 @@ describe("applyToolConfig", () => {
             permission: Record<string, unknown>
           }
           expect(agent.permission.question).toBe("allow")
-        })
-      }
+        },
+      )
     })
 
     describe("#when CLI_RUN_MODE is true and config does not deny", () => {
-      for (const agentName of QUESTION_AGENTS) {
-        it(`#then should deny question for ${agentName} via CLI_RUN_MODE`, () => {
+      it.each(["sisyphus", "hephaestus", "prometheus"])(
+        "#then should deny question for %s via CLI_RUN_MODE",
+        (agentName) => {
           process.env.OPENCODE_CONFIG_CONTENT = JSON.stringify({
             permission: {},
           })
@@ -162,13 +166,14 @@ describe("applyToolConfig", () => {
             permission: Record<string, unknown>
           }
           expect(agent.permission.question).toBe("deny")
-        })
-      }
+        },
+      )
     })
 
     describe("#when config deny overrides CLI_RUN_MODE allow", () => {
-      for (const agentName of QUESTION_AGENTS) {
-        it(`#then should deny question for ${agentName} when config says deny regardless of CLI_RUN_MODE`, () => {
+      it.each(["sisyphus", "hephaestus", "prometheus"])(
+        "#then should deny question for %s when config says deny regardless of CLI_RUN_MODE",
+        (agentName) => {
           process.env.OPENCODE_CONFIG_CONTENT = JSON.stringify({
             permission: { question: "deny" },
           })
@@ -181,49 +186,67 @@ describe("applyToolConfig", () => {
             permission: Record<string, unknown>
           }
           expect(agent.permission.question).toBe("deny")
-        })
-      }
+        },
+      )
     })
   })
 
   describe("#given task_system is disabled", () => {
     describe("#when applying tool config", () => {
-      for (const agentName of TASK_AGENTS) {
-        it(`#then should NOT deny todo tools for ${agentName} agent`, () => {
-          const params = createParams({
-            taskSystem: false,
-            agents: [agentName],
-          })
-
-          applyToolConfig(params)
-
-          const agent = params.agentResult[agentName] as {
-            permission: Record<string, unknown>
-          }
-          expect(agent.permission.todowrite).toBeUndefined()
-          expect(agent.permission.todoread).toBeUndefined()
+      it.each([
+        "atlas",
+        "sisyphus",
+        "hephaestus",
+        "prometheus",
+        "sisyphus-junior",
+      ])("#then should NOT deny todo tools for %s agent", (agentName) => {
+        const params = createParams({
+          taskSystem: false,
+          agents: [agentName],
         })
-      }
+
+        applyToolConfig(params)
+
+        const agent = params.agentResult[agentName] as {
+          permission: Record<string, unknown>
+        }
+        expect(agent.permission.todowrite).toBeUndefined()
+        expect(agent.permission.todoread).toBeUndefined()
+      })
     })
   })
 
   describe("#given task_system is undefined", () => {
     describe("#when applying tool config", () => {
-      for (const agentName of TASK_AGENTS) {
-        it(`#then should deny todo tools for ${agentName} agent by default`, () => {
-          const params = createParams({
-            agents: [agentName],
-          })
+      it("#then should not disable todo tools globally by default", () => {
+        const params = createParams({})
 
-          applyToolConfig(params)
+        applyToolConfig(params)
 
-          const agent = params.agentResult[agentName] as {
-            permission: Record<string, unknown>
-          }
-          expect(agent.permission.todowrite).toBe("deny")
-          expect(agent.permission.todoread).toBe("deny")
+        const tools = params.config.tools as Record<string, unknown>
+        expect(tools.todowrite).toBeUndefined()
+        expect(tools.todoread).toBeUndefined()
+      })
+
+      it.each([
+        "atlas",
+        "sisyphus",
+        "hephaestus",
+        "prometheus",
+        "sisyphus-junior",
+      ])("#then should NOT deny todo tools for %s agent by default", (agentName) => {
+        const params = createParams({
+          agents: [agentName],
         })
-      }
+
+        applyToolConfig(params)
+
+        const agent = params.agentResult[agentName] as {
+          permission: Record<string, unknown>
+        }
+        expect(agent.permission.todowrite).toBeUndefined()
+        expect(agent.permission.todoread).toBeUndefined()
+      })
     })
   })
 
@@ -252,8 +275,9 @@ describe("applyToolConfig", () => {
     })
 
     describe("#when question is in disabled_tools", () => {
-      for (const agentName of QUESTION_AGENTS) {
-        it(`#then should deny question for ${agentName} agent`, () => {
+      it.each(["sisyphus", "hephaestus", "prometheus"])(
+        "#then should deny question for %s agent",
+        (agentName) => {
           const params = createParams({
             agents: [agentName],
             disabledTools: ["question"],
@@ -265,13 +289,14 @@ describe("applyToolConfig", () => {
             permission: Record<string, unknown>
           }
           expect(agent.permission.question).toBe("deny")
-        })
-      }
+        },
+      )
     })
 
     describe("#when question is in disabled_tools alongside other tools", () => {
-      for (const agentName of QUESTION_AGENTS) {
-        it(`#then should deny question for ${agentName} agent`, () => {
+      it.each(["sisyphus", "hephaestus", "prometheus"])(
+        "#then should deny question for %s agent",
+        (agentName) => {
           const params = createParams({
             agents: [agentName],
             disabledTools: ["todowrite", "question", "interactive_bash"],
@@ -283,13 +308,14 @@ describe("applyToolConfig", () => {
             permission: Record<string, unknown>
           }
           expect(agent.permission.question).toBe("deny")
-        })
-      }
+        },
+      )
     })
 
     describe("#when disabled_tools does not include question", () => {
-      for (const agentName of QUESTION_AGENTS) {
-        it(`#then should allow question for ${agentName} agent`, () => {
+      it.each(["sisyphus", "hephaestus", "prometheus"])(
+        "#then should allow question for %s agent",
+        (agentName) => {
           const params = createParams({
             agents: [agentName],
             disabledTools: ["todowrite", "interactive_bash"],
@@ -301,8 +327,8 @@ describe("applyToolConfig", () => {
             permission: Record<string, unknown>
           }
           expect(agent.permission.question).toBe("allow")
-        })
-      }
+        },
+      )
     })
   })
 })

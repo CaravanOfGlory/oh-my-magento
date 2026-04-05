@@ -5,6 +5,7 @@ import type {
   AvailableCategory,
 } from "../agents/dynamic-agent-prompt-builder"
 import type { OhMyMagentoConfig } from "../config"
+import { isInteractiveBashEnabled } from "../create-runtime-tmux-config"
 import type { PluginContext, ToolsRecord } from "./types"
 
 import {
@@ -26,15 +27,10 @@ import {
   createTaskList,
   createTaskUpdateTool,
   createHashlineEditTool,
-  createMagentoCliTool,
-  createMagentoComposerTool,
-  createMagentoConfigValidator,
-  createMagentoModuleScanner,
-  createProjectTrackerSyncTool,
 } from "../tools"
 import { getMainSessionID } from "../features/claude-code-session-state"
 import { filterDisabledTools } from "../shared/disabled-tools"
-import { log } from "../shared"
+import { isTaskSystemEnabled, log } from "../shared"
 
 import type { Managers } from "../create-managers"
 import type { SkillContext } from "./skill-context"
@@ -66,13 +62,13 @@ const LOW_PRIORITY_TOOL_ORDER = [
   "grep",
   "skill_mcp",
   "skill",
+  "task",
   "lsp_rename",
   "lsp_prepare_rename",
   "lsp_find_references",
   "lsp_goto_definition",
   "lsp_symbols",
   "lsp_diagnostics",
-  "task",
 ] as const
 
 export function trimToolsToCap(filteredTools: ToolsRecord, maxTools: number): void {
@@ -108,9 +104,16 @@ export function createToolRegistry(args: {
   managers: Pick<Managers, "backgroundManager" | "tmuxSessionManager" | "skillMcpManager">
   skillContext: SkillContext
   availableCategories: AvailableCategory[]
+  interactiveBashEnabled?: boolean
 }): ToolRegistryResult {
-  const { ctx, pluginConfig, managers, skillContext, availableCategories } = args
-
+  const {
+    ctx,
+    pluginConfig,
+    managers,
+    skillContext,
+    availableCategories,
+    interactiveBashEnabled = isInteractiveBashEnabled(),
+  } = args
   const backgroundTools = createBackgroundTools(managers.backgroundManager, ctx.client)
   const callOmoAgent = createCallOmoAgent(
     ctx,
@@ -180,8 +183,7 @@ export function createToolRegistry(args: {
     nativeSkills: "skills" in ctx ? (ctx as { skills: SkillLoadOptions["nativeSkills"] }).skills : undefined,
   })
 
-  // task_system defaults to true since v3.14 — delegation (oracle, subagents) requires it
-  const taskSystemEnabled = pluginConfig.experimental?.task_system ?? true
+  const taskSystemEnabled = isTaskSystemEnabled(pluginConfig)
   const taskToolsRecord: Record<string, ToolDefinition> = taskSystemEnabled
     ? {
         task_create: createTaskCreateTool(pluginConfig, ctx),
@@ -208,14 +210,9 @@ export function createToolRegistry(args: {
     task: delegateTask,
     skill_mcp: skillMcpTool,
     skill: skillTool,
-    interactive_bash,
+    ...(interactiveBashEnabled ? { interactive_bash } : {}),
     ...taskToolsRecord,
     ...hashlineToolsRecord,
-    ...createMagentoCliTool(ctx),
-    ...createMagentoComposerTool(ctx),
-    ...createMagentoConfigValidator(ctx),
-    ...createMagentoModuleScanner(ctx),
-    ...createProjectTrackerSyncTool(),
   }
 
   for (const toolDefinition of Object.values(allTools)) {

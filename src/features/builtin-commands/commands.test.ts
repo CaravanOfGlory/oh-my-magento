@@ -130,7 +130,7 @@ describe("loadBuiltinCommands", () => {
 	})
 })
 
-describe("loadBuiltinCommands — remove-ai-slops", () => {
+describe("loadBuiltinCommands - remove-ai-slops", () => {
   test("should include remove-ai-slops command in loaded commands", () => {
     //#given
     const disabledCommands: BuiltinCommandName[] = []

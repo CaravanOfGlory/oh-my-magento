@@ -1,16 +1,16 @@
 # src/config/ — Zod v4 Schema System
 
-**Generated:** 2026-03-06
+**Generated:** 2026-04-05
 
 ## OVERVIEW
 
-24 schema files composing `OhMyMagentoConfigSchema`. Zod v4 validation with `safeParse()`. All fields optional — omitted fields use plugin defaults.
+27 schema files composing `OhMyMagentoConfigSchema`. Zod v4 validation with `safeParse()`. All fields optional — omitted fields use plugin defaults.
 
 ## SCHEMA TREE
 
 ```
 config/schema/
-├── oh-my-magento-config.ts  # ROOT: OhMyMagentoConfigSchema (composes all below)
+├── oh-my-magento-config.ts    # ROOT: OhMyMagentoConfigSchema (composes all below)
 ├── agent-names.ts              # BuiltinAgentNameSchema (11), OverridableAgentNameSchema (14)
 ├── agent-overrides.ts          # AgentOverrideConfigSchema (21 fields per agent)
 ├── categories.ts               # 8 built-in + custom categories
@@ -34,13 +34,16 @@ config/schema/
 ├── babysitting.ts              # Unstable agent monitoring
 ├── dynamic-context-pruning.ts  # Context pruning settings
 ├── start-work.ts              # StartWorkConfigSchema (auto_commit)
+├── openclaw.ts                # OpenClaw integration settings
+├── git-env-prefix.ts          # Git environment prefix config
+├── model-capabilities.ts      # Model capabilities config
 └── internal/permission.ts      # AgentPermissionSchema
 
 ```
 
-## ROOT SCHEMA FIELDS (28)
+## ROOT SCHEMA FIELDS (32)
 
-`$schema`, `new_task_system_enabled`, `default_run_agent`, `disabled_mcps`, `disabled_agents`, `disabled_skills`, `disabled_hooks`, `disabled_commands`, `disabled_tools`, `hashline_edit`, `agents`, `categories`, `claude_code`, `sisyphus_agent`, `comment_checker`, `experimental`, `auto_update`, `skills`, `ralph_loop`, `background_task`, `notification`, `babysitting`, `git_master`, `browser_automation_engine`, `websearch`, `tmux`, `sisyphus`, `start_work`, `_migrations`
+`$schema`, `new_task_system_enabled`, `default_run_agent`, `disabled_mcps`, `disabled_agents`, `disabled_skills`, `disabled_hooks`, `disabled_commands`, `disabled_tools`, `hashline_edit`, `agents`, `categories`, `claude_code`, `sisyphus_agent`, `comment_checker`, `experimental`, `auto_update`, `skills`, `ralph_loop`, `background_task`, `notification`, `babysitting`, `git_master`, `browser_automation_engine`, `websearch`, `tmux`, `sisyphus`, `start_work`, `_migrations`, `model_fallback`, `model_capabilities`, `openclaw`, `mcp_env_allowlist`
 
 ## AGENT OVERRIDE FIELDS (21)
 
