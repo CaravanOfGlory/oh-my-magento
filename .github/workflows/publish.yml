@@ -68,7 +68,7 @@ jobs:
   publish-main:
     runs-on: ubuntu-latest
     needs: [test, typecheck]
-    if: github.repository == 'caravanglory/oh-my-openagent'
+    if: github.repository == 'caravanglory/oh-my-magento'
     outputs:
       version: ${{ steps.version.outputs.version }}
       dist_tag: ${{ steps.version.outputs.dist_tag }}
