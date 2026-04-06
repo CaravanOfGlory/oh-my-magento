@@ -47,9 +47,9 @@
 ## MULTI-LEVEL CONFIG MERGE
 
 ```
-User (~/.config/opencode/oh-my-magento.jsonc)
+User (~/.config/opencode/oh-my-opencode.jsonc)
   ↓ deepMerge
-Project (.opencode/oh-my-magento.jsonc)
+Project (.opencode/oh-my-opencode.jsonc)
   ↓ Zod defaults
 Final Config
 ```

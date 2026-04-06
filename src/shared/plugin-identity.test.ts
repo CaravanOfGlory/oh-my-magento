@@ -3,6 +3,7 @@ import {
   PLUGIN_NAME,
   LEGACY_PLUGIN_NAME,
   CONFIG_BASENAME,
+  FORMER_CONFIG_BASENAME,
   LEGACY_CONFIG_BASENAME,
   LOG_FILENAME,
   CACHE_DIR_NAME,
@@ -22,8 +23,14 @@ describe("plugin-identity constants", () => {
   })
 
   describe("CONFIG_BASENAME", () => {
+    it("equals oh-my-opencode", () => {
+      expect(CONFIG_BASENAME).toBe("oh-my-opencode")
+    })
+  })
+
+  describe("FORMER_CONFIG_BASENAME", () => {
     it("equals oh-my-magento", () => {
-      expect(CONFIG_BASENAME).toBe("oh-my-magento")
+      expect(FORMER_CONFIG_BASENAME).toBe("oh-my-magento")
     })
   })
 

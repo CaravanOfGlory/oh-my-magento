@@ -40,7 +40,7 @@ bunx oh-my-magento install
 
 1. **Subscription Selection**: Choose which providers and subscriptions you actually have
 2. **Plugin Registration**: Registers `oh-my-openagent` in OpenCode settings, or upgrades a legacy `oh-my-magento` entry during the compatibility window
-3. **Configuration File Creation**: Writes the generated OmO config to `oh-my-magento.json` in the active OpenCode config directory
+3. **Configuration File Creation**: Writes the generated OmO config to `oh-my-opencode.json` in the active OpenCode config directory
 4. **Authentication Hints**: Shows the `opencode auth login` steps for the providers you selected, unless `--skip-auth` is set
 
 ### Options
@@ -106,7 +106,7 @@ System
   ✓ Plugin registered in opencode.json
 
 Config
-  ✓ oh-my-magento.jsonc is valid
+  ✓ oh-my-opencode.jsonc is valid
   ✓ Model resolution: all agents have valid fallback chains
   ⚠ categories.visual-engineering: using default model
 
@@ -228,10 +228,10 @@ Tokens are stored in `~/.config/opencode/mcp-oauth.json` with `0600` permissions
 
 The runtime loads user config as the base config, then merges project config on top:
 
-1. **Project Level**: `.opencode/oh-my-openagent.jsonc`, `.opencode/oh-my-openagent.json`, `.opencode/oh-my-magento.jsonc`, or `.opencode/oh-my-magento.json`
-2. **User Level**: `~/.config/opencode/oh-my-openagent.jsonc`, `~/.config/opencode/oh-my-openagent.json`, `~/.config/opencode/oh-my-magento.jsonc`, or `~/.config/opencode/oh-my-magento.json`
+1. **Project Level**: `.opencode/oh-my-openagent.jsonc`, `.opencode/oh-my-openagent.json`, `.opencode/oh-my-opencode.jsonc`, or `.opencode/oh-my-opencode.json`
+2. **User Level**: `~/.config/opencode/oh-my-openagent.jsonc`, `~/.config/opencode/oh-my-openagent.json`, `~/.config/opencode/oh-my-opencode.jsonc`, or `~/.config/opencode/oh-my-opencode.json`
 
-**Naming Note**: The published package and binary are still `oh-my-magento`. Inside `opencode.json`, the compatibility layer now prefers the plugin entry `oh-my-openagent`. Plugin config loading recognizes both `oh-my-openagent.*` and legacy `oh-my-magento.*` basenames. If both basenames exist in the same directory, the legacy `oh-my-magento.*` file currently wins.
+**Naming Note**: The published package and binary are still `oh-my-magento`. Inside `opencode.json`, the compatibility layer now prefers the plugin entry `oh-my-openagent`. Plugin config loading recognizes both `oh-my-openagent.*` and legacy `oh-my-opencode.*` basenames. If both basenames exist in the same directory, the legacy `oh-my-opencode.*` file currently wins.
 
 ### Filename Compatibility
 

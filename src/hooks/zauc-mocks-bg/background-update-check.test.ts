@@ -49,7 +49,7 @@ async function createRunner() {
       configJson: "/config/opencode.json",
       configJsonc: "/config/opencode.jsonc",
       packageJson: "/config/package.json",
-      omoConfig: "/config/oh-my-magento.json",
+      omoConfig: "/config/oh-my-opencode.json",
     }),
     invalidatePackage: mockInvalidatePackage as never,
     extractChannel: mockExtractChannel,

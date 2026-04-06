@@ -18,6 +18,8 @@ Merge `code-yeongyu/oh-my-opencode:dev` into `caravanglory/oh-my-magento:dev` wi
 
 **Preserve:** `@code-yeongyu/comment-checker` (npm scope — never change)
 
+**Exception: CONFIG_BASENAME** — The config file basename stays as `"oh-my-opencode"` (matching upstream). The rebrand script includes a post-rebrand fixup that restores this value in `src/shared/plugin-identity.ts`. Do NOT change CONFIG_BASENAME to `"oh-my-magento"`.
+
 ## Procedure
 
 ### Phase 1: Setup & Fetch

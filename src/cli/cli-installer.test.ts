@@ -43,7 +43,7 @@ describe("runCliInstaller", () => {
       }),
       spyOn(configManager, "writeOmoConfig").mockReturnValue({
         success: true,
-        configPath: "/tmp/oh-my-magento.jsonc",
+        configPath: "/tmp/oh-my-opencode.jsonc",
       }),
     ]
 

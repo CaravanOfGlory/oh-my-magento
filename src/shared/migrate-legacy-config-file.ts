@@ -2,7 +2,7 @@ import { existsSync, readFileSync, renameSync, rmSync } from "node:fs"
 import { join, dirname, basename } from "node:path"
 
 import { log } from "./logger"
-import { CONFIG_BASENAME, LEGACY_CONFIG_BASENAME } from "./plugin-identity"
+import { CONFIG_BASENAME, FORMER_CONFIG_BASENAME, LEGACY_CONFIG_BASENAME } from "./plugin-identity"
 import { writeFileAtomically } from "./write-file-atomically"
 
 function buildCanonicalPath(legacyPath: string): string {
@@ -44,7 +44,8 @@ function archiveLegacyConfigFile(legacyPath: string): boolean {
 
 export function migrateLegacyConfigFile(legacyPath: string): boolean {
   if (!existsSync(legacyPath)) return false
-  if (!basename(legacyPath).startsWith(LEGACY_CONFIG_BASENAME)) return false
+  const base = basename(legacyPath)
+  if (!base.startsWith(LEGACY_CONFIG_BASENAME) && !base.startsWith(FORMER_CONFIG_BASENAME)) return false
 
   const canonicalPath = buildCanonicalPath(legacyPath)
   if (existsSync(canonicalPath)) return false

@@ -119,7 +119,7 @@ Both oh-my-magento and ${pluginName} listen to session.idle events.
 
    To use oh-my-magento's notifications instead, either:
    1. Remove ${pluginName} from your opencode.json plugins
-   2. Or set "notification": { "force_enable": true } in oh-my-magento.json`
+   2. Or set "notification": { "force_enable": true } in oh-my-opencode.json`
 }
 
 
@@ -134,6 +134,6 @@ Both oh-my-magento and ${pluginName} scan ~/.config/opencode/skills/ and registe
 
    Consider either:
    1. Remove ${pluginName} from your opencode.json plugins to use oh-my-magento's skill loading
-   2. Or disable oh-my-magento's skill loading by setting "claude_code.skills": false in oh-my-magento.json
+   2. Or disable oh-my-magento's skill loading by setting "claude_code.skills": false in oh-my-opencode.json
    3. Or uninstall oh-my-magento if you prefer ${pluginName}'s skill management`
 }

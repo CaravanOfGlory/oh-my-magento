@@ -72,7 +72,7 @@ OhMyMagentoPlugin(ctx)
 ## MULTI-LEVEL CONFIG
 
 ```
-Project (.opencode/oh-my-magento.jsonc)  →  User (~/.config/opencode/oh-my-magento.jsonc)  →  Defaults
+Project (.opencode/oh-my-opencode.jsonc)  →  User (~/.config/opencode/oh-my-opencode.jsonc)  →  Defaults
 ```
 
 - `agents`, `categories`, `claude_code`: deep merged recursively (prototype-pollution-safe)

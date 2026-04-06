@@ -271,10 +271,10 @@ project/
 
    ```bash
    # Удалить пользовательский конфиг
-   rm -f ~/.config/opencode/oh-my-magento.json ~/.config/opencode/oh-my-magento.jsonc
+   rm -f ~/.config/opencode/oh-my-opencode.json ~/.config/opencode/oh-my-opencode.jsonc
 
    # Удалить конфиг проекта (если существует)
-   rm -f .opencode/oh-my-magento.json .opencode/oh-my-magento.jsonc
+   rm -f .opencode/oh-my-opencode.json .opencode/oh-my-opencode.jsonc
    ```
 
 3. **Проверьте удаление**
@@ -311,7 +311,7 @@ project/
 
 **Краткий обзор:**
 
-- **Расположение конфигов**: `.opencode/oh-my-magento.jsonc` или `.opencode/oh-my-magento.json` (проект), `~/.config/opencode/oh-my-magento.jsonc` или `~/.config/opencode/oh-my-magento.json` (пользователь)
+- **Расположение конфигов**: `.opencode/oh-my-opencode.jsonc` или `.opencode/oh-my-opencode.json` (проект), `~/.config/opencode/oh-my-opencode.jsonc` или `~/.config/opencode/oh-my-opencode.json` (пользователь)
 - **Поддержка JSONC**: Комментарии и конечные запятые поддерживаются
 - **Агенты**: Переопределение моделей, температур, промптов и разрешений для любого агента
 - **Встроенные навыки**: `playwright` (автоматизация браузера), `git-master` (атомарные коммиты)

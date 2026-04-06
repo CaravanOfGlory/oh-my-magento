@@ -77,3 +77,14 @@ if [ -n "$REMAINING" ]; then
 fi
 
 echo "Verification passed — no stale oh-my-opencode references."
+
+# Post-rebrand fixup: restore config basename to match upstream
+# The rebrand above converts oh-my-opencode → oh-my-magento everywhere,
+# but CONFIG_BASENAME must stay as "oh-my-opencode" (matching upstream).
+IDENTITY_FILE="${ROOT}/src/shared/plugin-identity.ts"
+if [ -f "$IDENTITY_FILE" ]; then
+  sed -i '' 's/CONFIG_BASENAME = "oh-my-magento"/CONFIG_BASENAME = "oh-my-opencode"/' "$IDENTITY_FILE"
+  # Also update FORMER_CONFIG_BASENAME if it got rebranded
+  sed -i '' 's/FORMER_CONFIG_BASENAME = "oh-my-openagent"/FORMER_CONFIG_BASENAME = "oh-my-magento"/' "$IDENTITY_FILE"
+  echo "  fixup: restored CONFIG_BASENAME = \"oh-my-opencode\" in plugin-identity.ts"
+fi
