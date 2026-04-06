@@ -40,7 +40,7 @@ describe("generateModelConfig OpenAI-only model catalog", () => {
 
     // #then
     expect(result.categories?.artistry).toEqual({ model: "openai/gpt-5.4", variant: "xhigh" })
-    expect(result.categories?.quick).toEqual({ model: "openai/gpt-5.4-mini" })
+    expect(result.categories?.quick).toEqual({ model: "openai/gpt-5.3-codex", variant: "low" })
     expect(result.categories?.["visual-engineering"]).toEqual({ model: "openai/gpt-5.4", variant: "high" })
     expect(result.categories?.writing).toEqual({ model: "openai/gpt-5.4", variant: "medium" })
   })
@@ -55,6 +55,6 @@ describe("generateModelConfig OpenAI-only model catalog", () => {
     // #then
     expect(result.agents?.explore).toMatchObject({ model: "opencode-go/minimax-m2.7" })
     expect(result.agents?.librarian).toMatchObject({ model: "opencode-go/minimax-m2.7" })
-    expect(result.categories?.quick).toMatchObject({ model: "openai/gpt-5.4-mini" })
+    expect(result.categories?.quick).toMatchObject({ model: "opencode-go/minimax-m2.7" })
   })
 })
