@@ -361,7 +361,7 @@ describe("loadPluginConfig", () => {
     const userConfigDir = join(rootDir, "user-config")
     const projectDir = join(rootDir, "project")
     const projectConfigDir = join(projectDir, ".opencode")
-    const legacyConfigPath = join(projectConfigDir, "oh-my-magento.json")
+    const legacyConfigPath = join(projectConfigDir, "oh-my-opencode.json")
 
     tempDirs.push(rootDir)
     mkdirSync(userConfigDir, { recursive: true })

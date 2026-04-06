@@ -228,10 +228,10 @@ Tokens are stored in `~/.config/opencode/mcp-oauth.json` with `0600` permissions
 
 The runtime loads user config as the base config, then merges project config on top:
 
-1. **Project Level**: `.opencode/oh-my-openagent.jsonc`, `.opencode/oh-my-openagent.json`, `.opencode/oh-my-opencode.jsonc`, or `.opencode/oh-my-opencode.json`
-2. **User Level**: `~/.config/opencode/oh-my-openagent.jsonc`, `~/.config/opencode/oh-my-openagent.json`, `~/.config/opencode/oh-my-opencode.jsonc`, or `~/.config/opencode/oh-my-opencode.json`
+1. **Project Level**: `.opencode/oh-my-opencode.jsonc`, `.opencode/oh-my-opencode.json`, or legacy `.opencode/oh-my-magento.jsonc` / `.opencode/oh-my-magento.json`
+2. **User Level**: `~/.config/opencode/oh-my-opencode.jsonc`, `~/.config/opencode/oh-my-opencode.json`, or legacy `~/.config/opencode/oh-my-magento.jsonc` / `~/.config/opencode/oh-my-magento.json`
 
-**Naming Note**: The published package and binary are still `oh-my-magento`. Inside `opencode.json`, the compatibility layer now prefers the plugin entry `oh-my-openagent`. Plugin config loading recognizes both `oh-my-openagent.*` and legacy `oh-my-opencode.*` basenames. If both basenames exist in the same directory, the legacy `oh-my-opencode.*` file currently wins.
+**Naming Note**: The published package and binary are still `oh-my-magento`. Inside `opencode.json`, the compatibility layer now prefers the plugin entry `oh-my-openagent`. Plugin config loading recognizes `oh-my-opencode.*` (canonical), `oh-my-magento.*` (former), and `oh-my-openagent.*` (legacy) basenames.
 
 ### Filename Compatibility
 

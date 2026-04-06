@@ -131,7 +131,7 @@ task({
 
 ### Custom Categories
 
-You can define custom categories in your plugin config file. During the rename transition, both `oh-my-openagent.json[c]` and legacy `oh-my-opencode.json[c]` basenames are recognized.
+You can define custom categories in your plugin config file. During the rename transition, both `oh-my-opencode.json[c]` and legacy `oh-my-magento.json[c]` basenames are recognized.
 
 #### Category Configuration Schema
 
@@ -194,7 +194,7 @@ When you use a Category, a special agent called **Sisyphus-Junior** performs the
 
 ### Rename Compatibility
 
-The published package and binary remain `oh-my-magento`. Inside `opencode.json`, the compatibility layer now prefers the plugin entry `oh-my-openagent`, while legacy `oh-my-magento` entries still load with a warning. Plugin config files (`oh-my-openagent.json[c]` or legacy `oh-my-opencode.json[c]`) are recognized during the transition. Run `bunx oh-my-magento doctor` to check for legacy package name warnings.
+The published package and binary remain `oh-my-magento`. Inside `opencode.json`, the compatibility layer now prefers the plugin entry `oh-my-openagent`, while legacy `oh-my-magento` entries still load with a warning. Plugin config files use `oh-my-opencode.json[c]` (canonical), with `oh-my-magento.json[c]` (former) and `oh-my-openagent.json[c]` (legacy) also recognized during the transition. Run `bunx oh-my-magento doctor` to check for legacy package name warnings.
 
 ### Fallback Models
 

@@ -172,7 +172,7 @@ export async function runMinimaxTui(): Promise<number> {
       writeFileSync(configPath, JSON.stringify(patch, null, 2) + "\n")
     }
   } catch (err) {
-    console.error(formatErrorWithSuggestion(err, "write oh-my-magento config"))
+    console.error(formatErrorWithSuggestion(err, "write oh-my-opencode config"))
     return 1
   }
 

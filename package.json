@@ -1,7 +1,7 @@
 {
   "name": "oh-my-magento",
-  "version": "0.3.8",
-  "description": "Magento 2 + Hyvä Enterprise E-Commerce Intelligent Agent Orchestration System - OpenCode Plugin",
+  "version": "3.15.3",
+  "description": "The Best AI Agent Harness - Batteries-Included OpenCode Plugin with Multi-Model Orchestration, Parallel Background Agents, and Crafted LSP/AST Tools",
   "main": "./dist/index.js",
   "types": "dist/index.d.ts",
   "type": "module",
@@ -35,15 +35,12 @@
     "test": "bun test"
   },
   "keywords": [
-    "magento2",
-    "hyva",
     "opencode",
     "plugin",
-    "agents",
-    "ai",
-    "ecommerce",
     "oracle",
     "librarian",
+    "agents",
+    "ai",
     "llm"
   ],
   "author": "YeonGyu-Kim",
@@ -72,7 +69,8 @@
     "picocolors": "^1.1.1",
     "picomatch": "^4.0.2",
     "vscode-jsonrpc": "^8.2.0",
-    "zod": "^4.1.8"
+    "zod-to-json-schema": "^3.25.1",
+    "zod": "^3.24.0"
   },
   "devDependencies": {
     "@types/js-yaml": "^4.0.9",
@@ -81,17 +79,17 @@
     "typescript": "^5.7.3"
   },
   "optionalDependencies": {
-    "oh-my-magento-darwin-arm64": "0.3.8",
-    "oh-my-magento-darwin-x64": "0.3.8",
-    "oh-my-magento-darwin-x64-baseline": "0.3.8",
-    "oh-my-magento-linux-arm64": "0.3.8",
-    "oh-my-magento-linux-arm64-musl": "0.3.8",
-    "oh-my-magento-linux-x64": "0.3.8",
-    "oh-my-magento-linux-x64-baseline": "0.3.8",
-    "oh-my-magento-linux-x64-musl": "0.3.8",
-    "oh-my-magento-linux-x64-musl-baseline": "0.3.8",
-    "oh-my-magento-windows-x64": "0.3.8",
-    "oh-my-magento-windows-x64-baseline": "0.3.8"
+    "oh-my-magento-darwin-arm64": "3.15.3",
+    "oh-my-magento-darwin-x64": "3.15.3",
+    "oh-my-magento-darwin-x64-baseline": "3.15.3",
+    "oh-my-magento-linux-arm64": "3.15.3",
+    "oh-my-magento-linux-arm64-musl": "3.15.3",
+    "oh-my-magento-linux-x64": "3.15.3",
+    "oh-my-magento-linux-x64-baseline": "3.15.3",
+    "oh-my-magento-linux-x64-musl": "3.15.3",
+    "oh-my-magento-linux-x64-musl-baseline": "3.15.3",
+    "oh-my-magento-windows-x64": "3.15.3",
+    "oh-my-magento-windows-x64-baseline": "3.15.3"
   },
   "overrides": {
     "@opencode-ai/sdk": "^1.2.24"

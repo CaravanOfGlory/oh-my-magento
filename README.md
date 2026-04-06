@@ -111,7 +111,7 @@ Fetch the installation guide and follow it:
 curl -s https://raw.githubusercontent.com/caravanglory/oh-my-magento/refs/heads/dev/docs/guide/installation.md
 ```
 
-**Note**: Use the published package and binary name `oh-my-magento`. Inside `opencode.json`, the compatibility layer now prefers the plugin entry `oh-my-openagent`, while legacy `oh-my-magento` entries still load with a warning. Plugin config files still commonly use `oh-my-opencode.json` or `oh-my-opencode.jsonc`, and both legacy and renamed basenames are recognized during the transition.
+**Note**: Use the published package and binary name `oh-my-magento`. Inside `opencode.json`, the compatibility layer now prefers the plugin entry `oh-my-openagent`, while legacy `oh-my-magento` entries still load with a warning. Plugin config files use `oh-my-opencode.json[c]` as the canonical basename; former `oh-my-magento.json[c]` and legacy `oh-my-openagent.json[c]` are also recognized during the transition.
 
 ---
 
@@ -288,12 +288,14 @@ To remove oh-my-magento:
 
    ```bash
    # Remove plugin config files recognized during the compatibility window
-   rm -f ~/.config/opencode/oh-my-openagent.jsonc ~/.config/opencode/oh-my-openagent.json \
-         ~/.config/opencode/oh-my-opencode.jsonc ~/.config/opencode/oh-my-opencode.json
+   rm -f ~/.config/opencode/oh-my-opencode.jsonc ~/.config/opencode/oh-my-opencode.json \
+         ~/.config/opencode/oh-my-magento.jsonc ~/.config/opencode/oh-my-magento.json \
+         ~/.config/opencode/oh-my-openagent.jsonc ~/.config/opencode/oh-my-openagent.json
 
    # Remove project config (if exists)
-   rm -f .opencode/oh-my-openagent.jsonc .opencode/oh-my-openagent.json \
-         .opencode/oh-my-opencode.jsonc .opencode/oh-my-opencode.json
+   rm -f .opencode/oh-my-opencode.jsonc .opencode/oh-my-opencode.json \
+         .opencode/oh-my-magento.jsonc .opencode/oh-my-magento.json \
+         .opencode/oh-my-openagent.jsonc .opencode/oh-my-openagent.json
    ```
 
 3. **Verify removal**
@@ -332,7 +334,7 @@ Opinionated defaults, adjustable if you insist.
 See [Configuration Documentation](docs/reference/configuration.md).
 
 **Quick Overview:**
-- **Config Locations**: The compatibility layer recognizes both `oh-my-openagent.json[c]` and legacy `oh-my-opencode.json[c]` plugin config files. Existing installs still commonly use the legacy basename.
+- **Config Locations**: The canonical config file is `oh-my-opencode.json[c]`. The compatibility layer also recognizes former `oh-my-magento.json[c]` and legacy `oh-my-openagent.json[c]` basenames.
 - **JSONC Support**: Comments and trailing commas supported
 - **Agents**: Override models, temperatures, prompts, and permissions for any agent
 - **Built-in Skills**: `playwright` (browser automation), `git-master` (atomic commits)
