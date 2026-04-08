@@ -91,9 +91,6 @@
     "oh-my-magento-windows-x64": "0.3.9",
     "oh-my-magento-windows-x64-baseline": "0.3.9"
   },
-  "overrides": {
-    "@opencode-ai/sdk": "^1.2.24"
-  },
   "trustedDependencies": [
     "@ast-grep/cli",
     "@ast-grep/napi",
