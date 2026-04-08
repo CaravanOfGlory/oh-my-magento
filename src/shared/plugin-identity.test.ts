@@ -2,6 +2,8 @@ import { describe, it, expect } from "bun:test"
 import {
   PLUGIN_NAME,
   LEGACY_PLUGIN_NAME,
+  OPENCODE_PLUGIN_NAME,
+  OPENCODE_LEGACY_PLUGIN_NAME,
   CONFIG_BASENAME,
   FORMER_CONFIG_BASENAME,
   LEGACY_CONFIG_BASENAME,
@@ -19,6 +21,18 @@ describe("plugin-identity constants", () => {
   describe("LEGACY_PLUGIN_NAME", () => {
     it("equals oh-my-openagent", () => {
       expect(LEGACY_PLUGIN_NAME).toBe("oh-my-openagent")
+    })
+  })
+
+  describe("OPENCODE_PLUGIN_NAME", () => {
+    it("equals oh-my-openagent (canonical opencode.json entry)", () => {
+      expect(OPENCODE_PLUGIN_NAME).toBe("oh-my-openagent")
+    })
+  })
+
+  describe("OPENCODE_LEGACY_PLUGIN_NAME", () => {
+    it("equals oh-my-magento (legacy opencode.json entry)", () => {
+      expect(OPENCODE_LEGACY_PLUGIN_NAME).toBe("oh-my-magento")
     })
   })
 

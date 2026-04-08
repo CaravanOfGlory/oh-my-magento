@@ -1,6 +1,6 @@
 import { readFileSync, writeFileSync } from "node:fs"
 import type { ConfigMergeResult } from "../types"
-import { PLUGIN_NAME, LEGACY_PLUGIN_NAME } from "../../shared"
+import { PLUGIN_NAME, LEGACY_PLUGIN_NAME, OPENCODE_PLUGIN_NAME, OPENCODE_LEGACY_PLUGIN_NAME } from "../../shared"
 import { backupConfigFile } from "./backup-config"
 import { getConfigDir } from "./config-context"
 import { ensureConfigDirectoryExists } from "./ensure-config-directory-exists"
@@ -22,7 +22,7 @@ export async function addPluginToOpenCodeConfig(currentVersion: string): Promise
   }
 
   const { format, path } = detectConfigFormat()
-  const pluginEntry = await getPluginNameWithVersion(currentVersion, PLUGIN_NAME)
+  const pluginEntry = await getPluginNameWithVersion(currentVersion, OPENCODE_PLUGIN_NAME)
 
   try {
     if (format === "none") {
@@ -44,14 +44,14 @@ export async function addPluginToOpenCodeConfig(currentVersion: string): Promise
     const plugins = config.plugin ?? []
 
     const canonicalEntries = plugins.filter(
-      (plugin) => plugin === PLUGIN_NAME || plugin.startsWith(`${PLUGIN_NAME}@`)
+      (plugin) => plugin === OPENCODE_PLUGIN_NAME || plugin.startsWith(`${OPENCODE_PLUGIN_NAME}@`)
     )
     const legacyEntries = plugins.filter(
-      (plugin) => plugin === LEGACY_PLUGIN_NAME || plugin.startsWith(`${LEGACY_PLUGIN_NAME}@`)
+      (plugin) => plugin === OPENCODE_LEGACY_PLUGIN_NAME || plugin.startsWith(`${OPENCODE_LEGACY_PLUGIN_NAME}@`)
     )
     const otherPlugins = plugins.filter(
-      (plugin) => !(plugin === PLUGIN_NAME || plugin.startsWith(`${PLUGIN_NAME}@`))
-        && !(plugin === LEGACY_PLUGIN_NAME || plugin.startsWith(`${LEGACY_PLUGIN_NAME}@`))
+      (plugin) => !(plugin === OPENCODE_PLUGIN_NAME || plugin.startsWith(`${OPENCODE_PLUGIN_NAME}@`))
+        && !(plugin === OPENCODE_LEGACY_PLUGIN_NAME || plugin.startsWith(`${OPENCODE_LEGACY_PLUGIN_NAME}@`))
     )
 
     const existingEntry = canonicalEntries[0] ?? legacyEntries[0]

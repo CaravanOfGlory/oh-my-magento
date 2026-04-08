@@ -2,6 +2,7 @@ import { describe, expect, test } from "bun:test"
 import { detectConfigFile, detectPluginConfigFile, parseJsonc, parseJsoncSafe, readJsoncFile } from "./jsonc-parser"
 import { existsSync, mkdirSync, rmSync, writeFileSync } from "node:fs"
 import { join } from "node:path"
+import { CONFIG_BASENAME, FORMER_CONFIG_BASENAME, LEGACY_CONFIG_BASENAME } from "./plugin-identity"
 
 describe("parseJsonc", () => {
   test("parses plain JSON", () => {
@@ -330,68 +331,84 @@ describe("detectConfigFile", () => {
 describe("detectPluginConfigFile", () => {
   const testDir = join(__dirname, ".test-detect-plugin")
 
-  test("prefers oh-my-magento over oh-my-magento when both jsonc files exist", () => {
+  test("prefers canonical over former when both jsonc files exist", () => {
     // given
     if (!existsSync(testDir)) mkdirSync(testDir, { recursive: true })
-    writeFileSync(join(testDir, "oh-my-magento.jsonc"), "{}")
-    writeFileSync(join(testDir, "oh-my-magento.jsonc"), "{}")
+    const canonicalFile = join(testDir, `${CONFIG_BASENAME}.jsonc`)
+    const formerFile = join(testDir, `${FORMER_CONFIG_BASENAME}.jsonc`)
+    writeFileSync(canonicalFile, '{"canonical": true}')
+    if (FORMER_CONFIG_BASENAME !== CONFIG_BASENAME) {
+      writeFileSync(formerFile, '{"former": true}')
+    }
 
     // when
     const result = detectPluginConfigFile(testDir)
 
     // then
     expect(result.format).toBe("jsonc")
-    expect(result.path).toBe(join(testDir, "oh-my-magento.jsonc"))
-    expect(result.legacyPath).toBe(join(testDir, "oh-my-magento.jsonc"))
+    expect(result.path).toBe(canonicalFile)
+    if (FORMER_CONFIG_BASENAME !== CONFIG_BASENAME) {
+      expect(result.legacyPath).toBe(formerFile)
+    } else {
+      expect(result.legacyPath).toBeUndefined()
+    }
 
     rmSync(testDir, { recursive: true, force: true })
   })
 
-  test("falls back to oh-my-magento when oh-my-magento doesn't exist", () => {
+  test("falls back to canonical when only canonical jsonc exists", () => {
     // given
     if (!existsSync(testDir)) mkdirSync(testDir, { recursive: true })
-    writeFileSync(join(testDir, "oh-my-magento.jsonc"), "{}")
+    writeFileSync(join(testDir, `${CONFIG_BASENAME}.jsonc`), "{}")
 
     // when
     const result = detectPluginConfigFile(testDir)
 
     // then
     expect(result.format).toBe("jsonc")
-    expect(result.path).toBe(join(testDir, "oh-my-magento.jsonc"))
+    expect(result.path).toBe(join(testDir, `${CONFIG_BASENAME}.jsonc`))
     expect(result.legacyPath).toBeUndefined()
 
     rmSync(testDir, { recursive: true, force: true })
   })
 
-  test("falls back to oh-my-openagent when neither oh-my-magento nor oh-my-magento exists", () => {
+  test("falls back to legacy when neither canonical nor former exists", () => {
     // given
     if (!existsSync(testDir)) mkdirSync(testDir, { recursive: true })
-    writeFileSync(join(testDir, "oh-my-openagent.jsonc"), "{}")
+    writeFileSync(join(testDir, `${LEGACY_CONFIG_BASENAME}.jsonc`), "{}")
 
     // when
     const result = detectPluginConfigFile(testDir)
 
     // then
     expect(result.format).toBe("jsonc")
-    expect(result.path).toBe(join(testDir, "oh-my-openagent.jsonc"))
+    expect(result.path).toBe(join(testDir, `${LEGACY_CONFIG_BASENAME}.jsonc`))
     expect(result.legacyPath).toBeUndefined()
 
     rmSync(testDir, { recursive: true, force: true })
   })
 
-  test("loads oh-my-magento.json before oh-my-magento.json when no jsonc exists", () => {
+  test("loads canonical json when no jsonc exists", () => {
     // given
     if (!existsSync(testDir)) mkdirSync(testDir, { recursive: true })
-    writeFileSync(join(testDir, "oh-my-magento.json"), "{}")
-    writeFileSync(join(testDir, "oh-my-magento.json"), "{}")
+    const canonicalJson = join(testDir, `${CONFIG_BASENAME}.json`)
+    const formerJson = join(testDir, `${FORMER_CONFIG_BASENAME}.json`)
+    writeFileSync(canonicalJson, '{"canonical": true}')
+    if (FORMER_CONFIG_BASENAME !== CONFIG_BASENAME) {
+      writeFileSync(formerJson, '{"former": true}')
+    }
 
     // when
     const result = detectPluginConfigFile(testDir)
 
     // then
     expect(result.format).toBe("json")
-    expect(result.path).toBe(join(testDir, "oh-my-magento.json"))
-    expect(result.legacyPath).toBe(join(testDir, "oh-my-magento.json"))
+    expect(result.path).toBe(canonicalJson)
+    if (FORMER_CONFIG_BASENAME !== CONFIG_BASENAME) {
+      expect(result.legacyPath).toBe(formerJson)
+    } else {
+      expect(result.legacyPath).toBeUndefined()
+    }
 
     rmSync(testDir, { recursive: true, force: true })
   })
@@ -406,7 +423,7 @@ describe("detectPluginConfigFile", () => {
 
     // then
     expect(result.format).toBe("none")
-    expect(result.path).toBe(join(emptyDir, "oh-my-magento.json"))
+    expect(result.path).toBe(join(emptyDir, `${CONFIG_BASENAME}.json`))
 
     rmSync(testDir, { recursive: true, force: true })
   })
@@ -414,31 +431,39 @@ describe("detectPluginConfigFile", () => {
   test("prefers canonical jsonc over former json when both exist", () => {
     // given
     if (!existsSync(testDir)) mkdirSync(testDir, { recursive: true })
-    writeFileSync(join(testDir, "oh-my-magento.json"), "{}")
-    writeFileSync(join(testDir, "oh-my-magento.jsonc"), "{}")
+    const canonicalJsonc = join(testDir, `${CONFIG_BASENAME}.jsonc`)
+    const formerJson = join(testDir, `${FORMER_CONFIG_BASENAME}.json`)
+    writeFileSync(canonicalJsonc, '{"canonical": true}')
+    if (FORMER_CONFIG_BASENAME !== CONFIG_BASENAME) {
+      writeFileSync(formerJson, '{"former": true}')
+    }
 
     // when
     const result = detectPluginConfigFile(testDir)
 
     // then
     expect(result.format).toBe("jsonc")
-    expect(result.path).toBe(join(testDir, "oh-my-magento.jsonc"))
-    expect(result.legacyPath).toBe(join(testDir, "oh-my-magento.json"))
+    expect(result.path).toBe(canonicalJsonc)
+    if (FORMER_CONFIG_BASENAME !== CONFIG_BASENAME) {
+      expect(result.legacyPath).toBe(formerJson)
+    } else {
+      expect(result.legacyPath).toBeUndefined()
+    }
 
     rmSync(testDir, { recursive: true, force: true })
   })
 
-  test("loads oh-my-magento when only canonical jsonc exists", () => {
+  test("loads canonical when only canonical jsonc exists", () => {
     // given
     if (!existsSync(testDir)) mkdirSync(testDir, { recursive: true })
-    writeFileSync(join(testDir, "oh-my-magento.jsonc"), "{}")
+    writeFileSync(join(testDir, `${CONFIG_BASENAME}.jsonc`), "{}")
 
     // when
     const result = detectPluginConfigFile(testDir)
 
     // then
     expect(result.format).toBe("jsonc")
-    expect(result.path).toBe(join(testDir, "oh-my-magento.jsonc"))
+    expect(result.path).toBe(join(testDir, `${CONFIG_BASENAME}.jsonc`))
     expect(result.legacyPath).toBeUndefined()
 
     rmSync(testDir, { recursive: true, force: true })

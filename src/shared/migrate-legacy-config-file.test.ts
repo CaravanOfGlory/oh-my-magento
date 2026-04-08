@@ -3,6 +3,7 @@ import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node
 import { tmpdir } from "node:os"
 import { join } from "node:path"
 import { migrateLegacyConfigFile } from "./migrate-legacy-config-file"
+import { CONFIG_BASENAME, FORMER_CONFIG_BASENAME } from "./plugin-identity"
 
 describe("migrateLegacyConfigFile", () => {
   let testDir = ""
@@ -35,20 +36,32 @@ describe("migrateLegacyConfigFile", () => {
     })
   })
 
-  describe("#given oh-my-magento.jsonc exists but oh-my-magento.jsonc does not", () => {
+  describe("#given former config file exists but canonical does not", () => {
     describe("#when migrating the config file", () => {
-      it("#then writes oh-my-magento.jsonc and renames the former file to a backup", () => {
-        const formerPath = join(testDir, "oh-my-magento.jsonc")
-        const backupPath = join(testDir, "oh-my-magento.jsonc.bak")
+      it("#then migrates to canonical and archives the former file (when basenames differ)", () => {
+        // When FORMER_CONFIG_BASENAME === CONFIG_BASENAME, the "former" file
+        // is already the canonical file, so migration correctly returns false.
+        // This test only exercises the migration path when they differ.
+        if (FORMER_CONFIG_BASENAME === CONFIG_BASENAME) {
+          // Same basename: former IS canonical, so migration is a no-op
+          const formerPath = join(testDir, `${FORMER_CONFIG_BASENAME}.jsonc`)
+          writeFileSync(formerPath, '{ "agents": {} }')
+          const result = migrateLegacyConfigFile(formerPath)
+          expect(result).toBe(false)
+          return
+        }
+
+        const formerPath = join(testDir, `${FORMER_CONFIG_BASENAME}.jsonc`)
+        const backupPath = join(testDir, `${FORMER_CONFIG_BASENAME}.jsonc.bak`)
         writeFileSync(formerPath, '{ "agents": {} }')
 
         const result = migrateLegacyConfigFile(formerPath)
 
         expect(result).toBe(true)
-        expect(existsSync(join(testDir, "oh-my-magento.jsonc"))).toBe(true)
+        expect(existsSync(join(testDir, `${CONFIG_BASENAME}.jsonc`))).toBe(true)
         expect(existsSync(formerPath)).toBe(false)
         expect(existsSync(backupPath)).toBe(true)
-        expect(readFileSync(join(testDir, "oh-my-magento.jsonc"), "utf-8")).toBe('{ "agents": {} }')
+        expect(readFileSync(join(testDir, `${CONFIG_BASENAME}.jsonc`), "utf-8")).toBe('{ "agents": {} }')
       })
     })
   })

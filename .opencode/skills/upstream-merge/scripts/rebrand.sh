@@ -89,6 +89,6 @@ echo "Verification passed — no stale oh-my-opencode references."
 IDENTITY_FILE="${ROOT}/src/shared/plugin-identity.ts"
 if [ -f "$IDENTITY_FILE" ]; then
   # Use ^export const anchor to avoid matching FORMER_CONFIG_BASENAME
-  sed -i '' 's/^export const CONFIG_BASENAME = "oh-my-magento"/export const CONFIG_BASENAME = "oh-my-opencode"/' "$IDENTITY_FILE"
+  sed -i '' 's/^export const CONFIG_BASENAME = "oh-my-magento"/export const CONFIG_BASENAME = "oh-my-magento"/' "$IDENTITY_FILE"
   echo "  fixup: restored CONFIG_BASENAME = \"oh-my-opencode\" in plugin-identity.ts"
 fi

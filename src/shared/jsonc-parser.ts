@@ -85,21 +85,25 @@ export function detectPluginConfigFile(dir: string): {
   const legacyResult = detectConfigFile(join(dir, LEGACY_CONFIG_BASENAME))
 
   if (canonicalResult.format !== "none") {
+    const formerPath =
+      formerResult.format !== "none" && formerResult.path !== canonicalResult.path
+        ? formerResult.path
+        : legacyResult.format !== "none"
+          ? legacyResult.path
+          : undefined
     return {
       ...canonicalResult,
-      legacyPath:
-        formerResult.format !== "none"
-          ? formerResult.path
-          : legacyResult.format !== "none"
-            ? legacyResult.path
-            : undefined,
+      legacyPath: formerPath,
     }
   }
 
   if (formerResult.format !== "none") {
     return {
       ...formerResult,
-      legacyPath: legacyResult.format !== "none" ? legacyResult.path : undefined,
+      legacyPath:
+        legacyResult.format !== "none" && legacyResult.path !== formerResult.path
+          ? legacyResult.path
+          : undefined,
     }
   }
 

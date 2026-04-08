@@ -9,8 +9,8 @@ export function createOhMyMagentoJsonSchema(): Record<string, unknown> {
 
   return {
     $schema: "http://json-schema.org/draft-07/schema#",
-    $id: "https://raw.githubusercontent.com/caravanglory/oh-my-openagent/dev/assets/oh-my-magento.schema.json",
-    title: "Oh My OpenCode Configuration",
+    $id: "https://raw.githubusercontent.com/caravanglory/oh-my-magento/dev/assets/oh-my-magento.schema.json",
+    title: "Oh My Magento Configuration",
     description: "Configuration schema for oh-my-magento plugin",
     ...jsonSchema,
   }
