@@ -1,6 +1,6 @@
 export function stripAnsi(str: string): string {
   // eslint-disable-next-line no-control-regex
-  return str.replace(/\x1B\[\d+m/g, "")
+  return str.replace(/\x1B\[[\d;]*[A-Za-z]/g, "")
 }
 
 export function padRight(str: string, len: number): string {
@@ -9,7 +9,7 @@ export function padRight(str: string, len: number): string {
     let visibleCount = 0
     let insideEscape = false
     for (let i = 0; i < str.length; i++) {
-      if (str[i] === "\\x1B") insideEscape = true
+      if (str[i] === "\x1B") insideEscape = true
       if (!insideEscape) visibleCount++
       truncated += str[i]
       if (str[i] === "m" && insideEscape) insideEscape = false
