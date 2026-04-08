@@ -22,6 +22,9 @@ find_files() {
     -not -path '*/.bun/*' \
     -not -path '*/local-ignore/*' \
     -not -path '*/.opencode/skills/upstream-merge/*' \
+    -not -name '*.test.ts' \
+    -not -name '*.spec.ts' \
+    -not -name '*.test.ts.snap' \
     -not -name 'CLA.md' \
     -not -name 'signatures'
 }
@@ -63,11 +66,12 @@ done < <(find_files)
 echo ""
 echo "Done. Rebranded ${TOTAL} files."
 
-# Verification pass
+# Verification pass (exclude test files — they intentionally reference legacy names for migration testing)
 REMAINING=$(grep -rl 'oh-my-opencode\|OhMyOpenCode' "${ROOT}" \
   --include='*.ts' --include='*.json' --include='*.md' --include='*.html' --include='*.mjs' \
   --exclude-dir=node_modules --exclude-dir=.git --exclude-dir=dist --exclude-dir=.bun \
   --exclude-dir=local-ignore --exclude-dir=upstream-merge \
+  --exclude='*.test.ts' --exclude='*.spec.ts' --exclude='*.test.ts.snap' \
   --exclude=CLA.md --exclude=cla.json 2>/dev/null || true)
 if [ -n "$REMAINING" ]; then
   echo ""
