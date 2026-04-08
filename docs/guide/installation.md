@@ -167,7 +167,7 @@ Read the [opencode-antigravity-auth documentation](https://github.com/NoeFabris/
 
 ##### Plugin config model override
 
-The `opencode-antigravity-auth` plugin uses different model names than the built-in Google auth. Override the agent models in your plugin config file (`oh-my-opencode.json[c]`), while the compatibility layer also recognizes former `oh-my-magento.json[c]` and legacy `oh-my-openagent.json[c]` basenames.
+The `opencode-antigravity-auth` plugin uses different model names than the built-in Google auth. Override the agent models in your plugin config file (`oh-my-magento.json[c]`), while the compatibility layer also recognizes former `oh-my-magento.json[c]` and legacy `oh-my-openagent.json[c]` basenames.
 
 ```json
 {
@@ -370,7 +370,7 @@ This is why Prometheus and Atlas ship separate prompts per model family — they
 
 #### Custom Model Configuration
 
-If the user wants to override which model an agent uses, you can customize in your plugin config file. Existing installs still commonly use `oh-my-opencode.json[c]`, while the compatibility layer also recognizes former `oh-my-magento.json[c]` and legacy `oh-my-openagent.json[c]` basenames.
+If the user wants to override which model an agent uses, you can customize in your plugin config file. Existing installs still commonly use `oh-my-magento.json[c]`, while the compatibility layer also recognizes former `oh-my-magento.json[c]` and legacy `oh-my-openagent.json[c]` basenames.
 
 ```jsonc
 {

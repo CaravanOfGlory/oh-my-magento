@@ -277,10 +277,10 @@ oh-my-magento를 지우려면:
 
    ```bash
    # 사용자 설정 제거
-   rm -f ~/.config/opencode/oh-my-opencode.json ~/.config/opencode/oh-my-opencode.jsonc
+   rm -f ~/.config/opencode/oh-my-magento.json ~/.config/opencode/oh-my-magento.jsonc
 
    # 프로젝트 설정 제거 (있는 경우)
-   rm -f .opencode/oh-my-opencode.json .opencode/oh-my-opencode.jsonc
+   rm -f .opencode/oh-my-magento.json .opencode/oh-my-magento.jsonc
    ```
 
 3. **제거 확인**

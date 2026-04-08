@@ -23,8 +23,8 @@ describe("plugin-identity constants", () => {
   })
 
   describe("CONFIG_BASENAME", () => {
-    it("equals oh-my-opencode", () => {
-      expect(CONFIG_BASENAME).toBe("oh-my-opencode")
+    it("equals oh-my-magento", () => {
+      expect(CONFIG_BASENAME).toBe("oh-my-magento")
     })
   })
 

@@ -1,6 +1,6 @@
 # oh-my-magento — O P E N C O D E Plugin
 
-**Generated:** 2026-04-05 | **Commit:** c9be5bb51 | **Branch:** dev
+**Generated:** 2026-04-08 | **Commit:** 4f196f49 | **Branch:** dev
 
 ## OVERVIEW
 
@@ -72,7 +72,7 @@ OhMyMagentoPlugin(ctx)
 ## MULTI-LEVEL CONFIG
 
 ```
-Project (.opencode/oh-my-opencode.jsonc)  →  User (~/.config/opencode/oh-my-opencode.jsonc)  →  Defaults
+Project (.opencode/oh-my-magento.jsonc)  →  User (~/.config/opencode/oh-my-magento.jsonc)  →  Defaults
 ```
 
 - `agents`, `categories`, `claude_code`: deep merged recursively (prototype-pollution-safe)

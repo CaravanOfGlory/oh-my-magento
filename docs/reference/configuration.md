@@ -1,6 +1,6 @@
 # Configuration Reference
 
-Complete reference for Oh My OpenCode plugin configuration. During the rename transition, the runtime recognizes `oh-my-opencode.json[c]` (canonical), as well as legacy `oh-my-magento.json[c]` and `oh-my-openagent.json[c]` files.
+Complete reference for Oh My OpenCode plugin configuration. During the rename transition, the runtime recognizes `oh-my-magento.json[c]` (canonical), as well as legacy `oh-my-magento.json[c]` and `oh-my-openagent.json[c]` files.
 
 ---
 
@@ -45,13 +45,13 @@ Complete reference for Oh My OpenCode plugin configuration. During the rename tr
 
 User config is loaded first, then project config overrides it. In each directory, the compatibility layer recognizes both the renamed and legacy basenames.
 
-1. Project config: `.opencode/oh-my-opencode.json[c]`, or `.opencode/oh-my-magento.json[c]` (former), or `.opencode/oh-my-openagent.json[c]` (legacy)
+1. Project config: `.opencode/oh-my-magento.json[c]`, or `.opencode/oh-my-magento.json[c]` (former), or `.opencode/oh-my-openagent.json[c]` (legacy)
 2. User config (`.jsonc` preferred over `.json`):
 
 | Platform    | Path candidates |
 | ----------- | --------------- |
-| macOS/Linux | `~/.config/opencode/oh-my-opencode.json[c]`, or legacy `oh-my-magento.json[c]` / `oh-my-openagent.json[c]` |
-| Windows     | `%APPDATA%\opencode\oh-my-opencode.json[c]`, or legacy `oh-my-magento.json[c]` / `oh-my-openagent.json[c]` |
+| macOS/Linux | `~/.config/opencode/oh-my-magento.json[c]`, or legacy `oh-my-magento.json[c]` / `oh-my-openagent.json[c]` |
+| Windows     | `%APPDATA%\opencode\oh-my-magento.json[c]`, or legacy `oh-my-magento.json[c]` / `oh-my-openagent.json[c]` |
 
 **Rename compatibility:** The published package and CLI binary remain `oh-my-magento`. OpenCode plugin registration prefers `oh-my-openagent`, while legacy `oh-my-magento` entries and config basenames still load during the transition. Config detection checks `oh-my-magento` before `oh-my-openagent`, so if both plugin config basenames exist in the same directory, the legacy `oh-my-magento.*` file currently wins.
 JSONC supports `// line comments`, `/* block comments */`, and trailing commas.

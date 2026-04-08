@@ -2,13 +2,16 @@ import { z } from "zod"
 import { OhMyMagentoConfigSchema } from "../src/config/schema"
 
 export function createOhMyMagentoJsonSchema(): Record<string, unknown> {
-  const jsonSchema = z.toJSONSchema(OhMyMagentoConfigSchema)
+  const jsonSchema = z.toJSONSchema(OhMyMagentoConfigSchema, {
+    target: "draft-7",
+    unrepresentable: "any",
+  }) as Record<string, unknown>
 
   return {
-    ...jsonSchema,
     $schema: "http://json-schema.org/draft-07/schema#",
-    $id: "https://raw.githubusercontent.com/caravanglory/oh-my-magento/dev/assets/oh-my-magento.schema.json",
-    title: "Oh My Magento Configuration",
+    $id: "https://raw.githubusercontent.com/caravanglory/oh-my-openagent/dev/assets/oh-my-magento.schema.json",
+    title: "Oh My OpenCode Configuration",
     description: "Configuration schema for oh-my-magento plugin",
+    ...jsonSchema,
   }
 }

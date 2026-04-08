@@ -288,10 +288,10 @@ Agent 会自动顺藤摸瓜加载对应的 Context，免去了你所有的手动
 
    ```bash
    # 移除全局用户配置
-   rm -f ~/.config/opencode/oh-my-opencode.json ~/.config/opencode/oh-my-opencode.jsonc
+   rm -f ~/.config/opencode/oh-my-magento.json ~/.config/opencode/oh-my-magento.jsonc
 
    # 移除当前项目的配置
-   rm -f .opencode/oh-my-opencode.json .opencode/oh-my-opencode.jsonc
+   rm -f .opencode/oh-my-magento.json .opencode/oh-my-magento.jsonc
    ```
 
 3. **确认卸载成功**

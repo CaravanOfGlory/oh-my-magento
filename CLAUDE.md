@@ -12,7 +12,7 @@ This project uses three distinct names that are easy to confuse:
 
 | Name | What it refers to | Examples |
 |------|-------------------|----------|
-| `oh-my-magento` | **Our npm package + CLI binary** (package.json `name`) | `bunx oh-my-magento install`, `~/.config/opencode/oh-my-opencode.jsonc`, plugin in `opencode.json` |
+| `oh-my-magento` | **Our npm package + CLI binary** (package.json `name`) | `bunx oh-my-magento install`, `~/.config/opencode/oh-my-magento.jsonc`, plugin in `opencode.json` |
 | `oh-my-magento` | **Upstream npm package** (the original project we forked from) | npm badge URLs, upstream references, `optionalDependencies` |
 | `oh-my-openagent` | **Upstream GitHub repo** (`caravanglory/oh-my-openagent`) | Cross-links in README as "this is a fork of..." |
 
