@@ -11,7 +11,7 @@ import {
   migrateConfigFile,
 } from "./shared";
 import { migrateLegacyConfigFile } from "./shared/migrate-legacy-config-file";
-import { CONFIG_BASENAME, LEGACY_CONFIG_BASENAME } from "./shared/plugin-identity";
+import { CONFIG_BASENAME, FORMER_CONFIG_BASENAME, LEGACY_CONFIG_BASENAME } from "./shared/plugin-identity";
 
 const PARTIAL_STRING_ARRAY_KEYS = new Set([
   "disabled_mcps",
@@ -185,7 +185,8 @@ export function loadPluginConfig(
   }
 
   // Auto-copy legacy config file to canonical name if needed
-  if (userDetected.format !== "none" && path.basename(userDetected.path).startsWith(LEGACY_CONFIG_BASENAME)) {
+  const userBasename = path.basename(userDetected.path);
+  if (userDetected.format !== "none" && (userBasename.startsWith(LEGACY_CONFIG_BASENAME) || userBasename.startsWith(FORMER_CONFIG_BASENAME))) {
     const migrated = migrateLegacyConfigFile(userDetected.path);
     const canonicalPath = path.join(
       path.dirname(userDetected.path),
@@ -214,7 +215,8 @@ export function loadPluginConfig(
   }
 
   // Auto-copy legacy project config file to canonical name if needed
-  if (projectDetected.format !== "none" && path.basename(projectDetected.path).startsWith(LEGACY_CONFIG_BASENAME)) {
+  const projectBasename = path.basename(projectDetected.path);
+  if (projectDetected.format !== "none" && (projectBasename.startsWith(LEGACY_CONFIG_BASENAME) || projectBasename.startsWith(FORMER_CONFIG_BASENAME))) {
     const projectMigrated = migrateLegacyConfigFile(projectDetected.path);
     const canonicalProjectPath = path.join(
       path.dirname(projectDetected.path),

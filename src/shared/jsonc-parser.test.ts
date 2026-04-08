@@ -375,6 +375,8 @@ describe("detectPluginConfigFile", () => {
   test("falls back to legacy when neither canonical nor former exists", () => {
     // given
     if (!existsSync(testDir)) mkdirSync(testDir, { recursive: true })
+    // When LEGACY_CONFIG_BASENAME === CONFIG_BASENAME, the legacy file IS the canonical file.
+    // This test verifies that a legacy-named file is still found (via canonical detection).
     writeFileSync(join(testDir, `${LEGACY_CONFIG_BASENAME}.jsonc`), "{}")
 
     // when
@@ -383,6 +385,7 @@ describe("detectPluginConfigFile", () => {
     // then
     expect(result.format).toBe("jsonc")
     expect(result.path).toBe(join(testDir, `${LEGACY_CONFIG_BASENAME}.jsonc`))
+    // legacyPath is undefined because no separate former/legacy file exists beyond canonical
     expect(result.legacyPath).toBeUndefined()
 
     rmSync(testDir, { recursive: true, force: true })

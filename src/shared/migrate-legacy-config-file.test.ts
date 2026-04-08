@@ -3,7 +3,7 @@ import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node
 import { tmpdir } from "node:os"
 import { join } from "node:path"
 import { migrateLegacyConfigFile } from "./migrate-legacy-config-file"
-import { CONFIG_BASENAME, FORMER_CONFIG_BASENAME } from "./plugin-identity"
+import { CONFIG_BASENAME, FORMER_CONFIG_BASENAME, LEGACY_CONFIG_BASENAME } from "./plugin-identity"
 
 describe("migrateLegacyConfigFile", () => {
   let testDir = ""
@@ -17,21 +17,30 @@ describe("migrateLegacyConfigFile", () => {
     rmSync(testDir, { recursive: true, force: true })
   })
 
-  describe("#given oh-my-openagent.jsonc exists but oh-my-magento.jsonc does not", () => {
+  describe("#given legacy config file exists but canonical does not", () => {
     describe("#when migrating the config file", () => {
-      it("#then writes oh-my-magento.jsonc and renames the legacy file to a backup", () => {
-        const legacyPath = join(testDir, "oh-my-openagent.jsonc")
-        const backupPath = join(testDir, "oh-my-openagent.jsonc.bak")
+      it("#then migrates to canonical and archives the legacy file (when basenames differ)", () => {
+        // When LEGACY_CONFIG_BASENAME === CONFIG_BASENAME, the legacy file IS canonical,
+        // so migration returns false. Only exercise migration when they differ.
+        if (LEGACY_CONFIG_BASENAME === CONFIG_BASENAME) {
+          const legacyPath = join(testDir, `${LEGACY_CONFIG_BASENAME}.jsonc`)
+          writeFileSync(legacyPath, '{ "agents": {} }')
+          const result = migrateLegacyConfigFile(legacyPath)
+          expect(result).toBe(false)
+          return
+        }
+
+        const legacyPath = join(testDir, `${LEGACY_CONFIG_BASENAME}.jsonc`)
+        const backupPath = join(testDir, `${LEGACY_CONFIG_BASENAME}.jsonc.bak`)
         writeFileSync(legacyPath, '{ "agents": {} }')
 
         const result = migrateLegacyConfigFile(legacyPath)
 
         expect(result).toBe(true)
-        expect(existsSync(join(testDir, "oh-my-magento.jsonc"))).toBe(true)
+        expect(existsSync(join(testDir, `${CONFIG_BASENAME}.jsonc`))).toBe(true)
         expect(existsSync(legacyPath)).toBe(false)
         expect(existsSync(backupPath)).toBe(true)
-        expect(readFileSync(join(testDir, "oh-my-magento.jsonc"), "utf-8")).toBe('{ "agents": {} }')
-        expect(readFileSync(backupPath, "utf-8")).toBe('{ "agents": {} }')
+        expect(readFileSync(join(testDir, `${CONFIG_BASENAME}.jsonc`), "utf-8")).toBe('{ "agents": {} }')
       })
     })
   })
@@ -39,11 +48,7 @@ describe("migrateLegacyConfigFile", () => {
   describe("#given former config file exists but canonical does not", () => {
     describe("#when migrating the config file", () => {
       it("#then migrates to canonical and archives the former file (when basenames differ)", () => {
-        // When FORMER_CONFIG_BASENAME === CONFIG_BASENAME, the "former" file
-        // is already the canonical file, so migration correctly returns false.
-        // This test only exercises the migration path when they differ.
         if (FORMER_CONFIG_BASENAME === CONFIG_BASENAME) {
-          // Same basename: former IS canonical, so migration is a no-op
           const formerPath = join(testDir, `${FORMER_CONFIG_BASENAME}.jsonc`)
           writeFileSync(formerPath, '{ "agents": {} }')
           const result = migrateLegacyConfigFile(formerPath)
@@ -66,29 +71,15 @@ describe("migrateLegacyConfigFile", () => {
     })
   })
 
-  describe("#given oh-my-openagent.json exists but oh-my-magento.json does not", () => {
-    describe("#when migrating the config file", () => {
-      it("#then copies to oh-my-magento.json", () => {
-        const legacyPath = join(testDir, "oh-my-openagent.json")
-        writeFileSync(legacyPath, '{ "agents": {} }')
-
-        const result = migrateLegacyConfigFile(legacyPath)
-
-        expect(result).toBe(true)
-        expect(existsSync(join(testDir, "oh-my-magento.json"))).toBe(true)
-      })
-    })
-  })
-
-  describe("#given oh-my-magento.jsonc already exists", () => {
-    describe("#when attempting migration", () => {
+  describe("#given canonical config file already exists", () => {
+    describe("#when attempting migration from former file", () => {
       it("#then returns false and does not overwrite", () => {
-        const legacyPath = join(testDir, "oh-my-openagent.jsonc")
-        const canonicalPath = join(testDir, "oh-my-magento.jsonc")
-        writeFileSync(legacyPath, '{ "old": true }')
+        const formerPath = join(testDir, `${FORMER_CONFIG_BASENAME}.jsonc`)
+        const canonicalPath = join(testDir, `${CONFIG_BASENAME}.jsonc`)
+        writeFileSync(formerPath, '{ "old": true }')
         writeFileSync(canonicalPath, '{ "new": true }')
 
-        const result = migrateLegacyConfigFile(legacyPath)
+        const result = migrateLegacyConfigFile(formerPath)
 
         expect(result).toBe(false)
         expect(readFileSync(canonicalPath, "utf-8")).toBe('{ "new": true }')
@@ -99,14 +90,14 @@ describe("migrateLegacyConfigFile", () => {
   describe("#given the file does not exist", () => {
     describe("#when attempting migration", () => {
       it("#then returns false", () => {
-        const result = migrateLegacyConfigFile(join(testDir, "oh-my-openagent.jsonc"))
+        const result = migrateLegacyConfigFile(join(testDir, `${FORMER_CONFIG_BASENAME}.jsonc`))
 
         expect(result).toBe(false)
       })
     })
   })
 
-  describe("#given the file is not a legacy config file", () => {
+  describe("#given the file is not a recognized config file", () => {
     describe("#when attempting migration", () => {
       it("#then returns false", () => {
         const nonLegacyPath = join(testDir, "something-else.jsonc")

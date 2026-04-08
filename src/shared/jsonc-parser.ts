@@ -88,7 +88,7 @@ export function detectPluginConfigFile(dir: string): {
     const formerPath =
       formerResult.format !== "none" && formerResult.path !== canonicalResult.path
         ? formerResult.path
-        : legacyResult.format !== "none"
+        : legacyResult.format !== "none" && legacyResult.path !== canonicalResult.path
           ? legacyResult.path
           : undefined
     return {

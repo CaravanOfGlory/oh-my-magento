@@ -37,19 +37,19 @@ describe("plugin-identity constants", () => {
   })
 
   describe("CONFIG_BASENAME", () => {
-    it("equals oh-my-magento", () => {
-      expect(CONFIG_BASENAME).toBe("oh-my-magento")
+    it("equals oh-my-openagent (aligned with upstream naming)", () => {
+      expect(CONFIG_BASENAME).toBe("oh-my-openagent")
     })
   })
 
   describe("FORMER_CONFIG_BASENAME", () => {
-    it("equals oh-my-magento", () => {
+    it("equals oh-my-magento (previous fork config name)", () => {
       expect(FORMER_CONFIG_BASENAME).toBe("oh-my-magento")
     })
   })
 
   describe("LEGACY_CONFIG_BASENAME", () => {
-    it("equals oh-my-openagent", () => {
+    it("equals oh-my-openagent (same as CONFIG_BASENAME)", () => {
       expect(LEGACY_CONFIG_BASENAME).toBe("oh-my-openagent")
     })
   })
