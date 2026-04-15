@@ -113,6 +113,8 @@ curl -s https://raw.githubusercontent.com/caravanglory/oh-my-magento/refs/heads/
 
 **Note**: Use the published package and binary name `oh-my-magento`. Inside `opencode.json`, the compatibility layer now prefers the plugin entry `oh-my-openagent`, while legacy `oh-my-magento` entries still load with a warning. Plugin config files use `oh-my-magento.json[c]` as the canonical basename; former `oh-my-magento.json[c]` and legacy `oh-my-openagent.json[c]` are also recognized during the transition.
 
+Anonymous telemetry is enabled by default to help improve install and runtime reliability. It uses PostHog with a hashed installation identifier, never the raw hostname, and can be disabled with `OMO_SEND_ANONYMOUS_TELEMETRY=0` or `OMO_DISABLE_POSTHOG=1`. See [Privacy Policy](docs/legal/privacy-policy.md) and [Terms of Service](docs/legal/terms-of-service.md).
+
 ---
 
 ## Skip This README

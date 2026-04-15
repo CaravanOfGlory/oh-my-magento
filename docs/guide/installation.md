@@ -14,8 +14,7 @@ https://raw.githubusercontent.com/caravanglory/oh-my-openagent/refs/heads/dev/do
 Run the interactive installer:
 
 ```bash
-bunx oh-my-magento install # recommended
-npx oh-my-magento install # alternative
+bunx oh-my-magento install
 ```
 
 > **Note**: The CLI ships with standalone binaries for all major platforms. No runtime (Bun/Node.js) is required for CLI execution after installation.
@@ -23,6 +22,8 @@ npx oh-my-magento install # alternative
 > **Supported platforms**: macOS (ARM64, x64), Linux (x64, ARM64, Alpine/musl), Windows (x64)
 
 Follow the prompts to configure your Claude, ChatGPT, and Gemini subscriptions. After installation, authenticate your providers as instructed.
+
+Anonymous telemetry is enabled by default to help improve install and runtime reliability. It uses PostHog with a hashed installation identifier and can be disabled with `OMO_SEND_ANONYMOUS_TELEMETRY=0` or `OMO_DISABLE_POSTHOG=1`. See [Privacy Policy](../legal/privacy-policy.md) and [Terms of Service](../legal/terms-of-service.md).
 
 After you install it, you can read this [overview guide](./overview.md) to understand more.
 
@@ -75,6 +76,14 @@ Ask the user these questions to determine CLI options:
    - If **yes** → `--opencode-go=yes`
    - If **no** → `--opencode-go=no` (default)
 
+8. **Do you have a Kimi for Coding subscription?**
+   - If **yes** → `--kimi-for-coding=yes`
+   - If **no** → `--kimi-for-coding=no` (default)
+
+9. **Do you use Vercel AI Gateway?**
+   - If **yes** → `--vercel-ai-gateway=yes`
+   - If **no** → `--vercel-ai-gateway=no` (default)
+
 **Provider selection is agent-specific.** The installer and runtime do not use one single global provider priority. Each agent resolves against its own fallback chain.
 
 MUST STRONGLY WARNING, WHEN USER SAID THEY DON'T HAVE CLAUDE SUBSCRIPTION, SISYPHUS AGENT MIGHT NOT WORK IDEALLY.
@@ -98,7 +107,7 @@ Spawn a subagent to handle installation and report back - to save context.
 Based on user's answers, run the CLI installer with appropriate flags:
 
 ```bash
-bunx oh-my-magento install --no-tui --claude=<yes|no|max20> --gemini=<yes|no> --copilot=<yes|no> [--openai=<yes|no>] [--opencode-go=<yes|no>] [--opencode-zen=<yes|no>] [--zai-coding-plan=<yes|no>]
+bunx oh-my-magento install --no-tui --claude=<yes|no|max20> --gemini=<yes|no> --copilot=<yes|no> [--openai=<yes|no>] [--opencode-go=<yes|no>] [--opencode-zen=<yes|no>] [--zai-coding-plan=<yes|no>] [--kimi-for-coding=<yes|no>] [--vercel-ai-gateway=<yes|no>] [--skip-auth]
 ```
 
 **Examples:**
@@ -167,7 +176,7 @@ Read the [opencode-antigravity-auth documentation](https://github.com/NoeFabris/
 
 ##### Plugin config model override
 
-The `opencode-antigravity-auth` plugin uses different model names than the built-in Google auth. Override the agent models in your plugin config file (`oh-my-magento.json[c]`), while the compatibility layer also recognizes former `oh-my-magento.json[c]` and legacy `oh-my-openagent.json[c]` basenames.
+The `opencode-antigravity-auth` plugin uses different model names than the built-in Google auth. Override the agent models in your plugin config file. Existing installs still commonly use `oh-my-magento.json` or `.opencode/oh-my-magento.json`, while the compatibility layer also recognizes `oh-my-openagent.json[c]`.
 
 ```json
 {
@@ -370,7 +379,7 @@ This is why Prometheus and Atlas ship separate prompts per model family — they
 
 #### Custom Model Configuration
 
-If the user wants to override which model an agent uses, you can customize in your plugin config file. Existing installs still commonly use `oh-my-magento.json[c]`, while the compatibility layer also recognizes former `oh-my-magento.json[c]` and legacy `oh-my-openagent.json[c]` basenames.
+If the user wants to override which model an agent uses, you can customize in your plugin config file. Existing installs still commonly use `oh-my-magento.json`, while the compatibility layer also recognizes `oh-my-openagent.json[c]`.
 
 ```jsonc
 {

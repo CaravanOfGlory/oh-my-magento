@@ -14,7 +14,7 @@ import { MAGENTO_PAYMENT_SETUP_TEMPLATE } from "./templates/magento-payment-setu
 import { HYVA_NEW_THEME_TEMPLATE } from "./templates/hyva-new-theme"
 import { HYVA_COMPAT_MODULE_TEMPLATE } from "./templates/hyva-compat-module"
 
-export interface LoadBuiltinCommandsOptions {
+interface LoadBuiltinCommandsOptions {
   useRegisteredAgents?: boolean
 }
 

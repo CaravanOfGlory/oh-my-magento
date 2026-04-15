@@ -1,6 +1,7 @@
 import { describe, it, expect, beforeEach, afterEach } from "bun:test"
 import { applyToolConfig } from "./tool-config-handler"
-import type { OhMyMagentoConfig } from "../config"
+import type { OhMyOpenCodeConfig } from "../config"
+import { getAgentDisplayName } from "../shared/agent-display-names"
 
 function createParams(overrides: {
   taskSystem?: boolean
@@ -17,7 +18,7 @@ function createParams(overrides: {
     pluginConfig: {
       experimental: overrides.taskSystem === undefined ? undefined : { task_system: overrides.taskSystem },
       disabled_tools: overrides.disabledTools,
-    } as OhMyMagentoConfig,
+    } as OhMyOpenCodeConfig,
     agentResult: agentResult as Record<string, unknown>,
   }
 }
@@ -247,6 +248,22 @@ describe("applyToolConfig", () => {
         expect(agent.permission.todowrite).toBeUndefined()
         expect(agent.permission.todoread).toBeUndefined()
       })
+    })
+  })
+
+  describe("#given agentResult uses clean display keys", () => {
+    it("#then should still resolve atlas permissions through the display key", () => {
+      const atlasKey = getAgentDisplayName("atlas")
+      const params = createParams({ agents: [atlasKey] })
+
+      applyToolConfig(params)
+
+      const agent = params.agentResult[atlasKey] as {
+        permission: Record<string, unknown>
+      }
+      expect(agent.permission.task).toBe("allow")
+      expect(agent.permission["task_*"]).toBe("allow")
+      expect(agent.permission.teammate).toBe("allow")
     })
   })
 

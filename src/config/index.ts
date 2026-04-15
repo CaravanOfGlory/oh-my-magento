@@ -2,6 +2,8 @@ export {
   OhMyMagentoConfigSchema,
 } from "./schema"
 
+export { OhMyMagentoConfigSchema as OhMyOpenCodeConfigSchema } from "./schema"
+
 export type {
   OhMyMagentoConfig,
   AgentOverrideConfig,
@@ -23,3 +25,5 @@ export type {
   FallbackModels,
   CopilotAccountSwitcherConfig,
 } from "./schema"
+
+export type { OhMyMagentoConfig as OhMyOpenCodeConfig } from "./schema"

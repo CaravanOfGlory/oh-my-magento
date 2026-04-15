@@ -1,8 +1,10 @@
+/// <reference types="bun-types" />
+
 import { afterEach, beforeEach, describe, expect, spyOn, test } from "bun:test";
 import * as builtinCommands from "../features/builtin-commands";
 import * as commandLoader from "../features/claude-code-command-loader";
 import * as skillLoader from "../features/opencode-skill-loader";
-import type { OhMyMagentoConfig } from "../config";
+import type { OhMyOpenCodeConfig } from "../config";
 import type { PluginComponents } from "./plugin-components-loader";
 import { applyCommandConfig } from "./command-config-handler";
 import {
@@ -22,8 +24,14 @@ function createPluginComponents(): PluginComponents {
   };
 }
 
-function createPluginConfig(): OhMyMagentoConfig {
-  return {};
+function createPluginConfig(): OhMyOpenCodeConfig {
+  return {
+    git_master: {
+      commit_footer: true,
+      include_co_authored_by: true,
+      git_env_prefix: "GIT_MASTER=1",
+    },
+  };
 }
 
 describe("applyCommandConfig", () => {
@@ -100,7 +108,7 @@ describe("applyCommandConfig", () => {
     expect(commandConfig["agents-global-skill"]?.description).toContain("Agents global skill");
   });
 
-  test("normalizes Atlas command agents to the exported list key used by opencode command routing", async () => {
+  test("normalizes Atlas command agents to the runtime list name used by opencode command routing", async () => {
     // given
     loadBuiltinCommandsSpy.mockReturnValue({
       "start-work": {
@@ -125,7 +133,7 @@ describe("applyCommandConfig", () => {
     expect(commandConfig["start-work"]?.agent).toBe(getAgentListDisplayName("atlas"));
   });
 
-  test("normalizes legacy display-name command agents to the exported list key", async () => {
+  test("normalizes legacy display-name command agents to the runtime list name", async () => {
     // given
     loadBuiltinCommandsSpy.mockReturnValue({
       "start-work": {

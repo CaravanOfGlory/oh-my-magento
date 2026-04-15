@@ -1,6 +1,7 @@
 import * as fs from "fs"
 import * as os from "os"
 import * as path from "path"
+
 import { LOG_FILENAME } from "./plugin-identity"
 
 const logFile = path.join(os.tmpdir(), LOG_FILENAME)

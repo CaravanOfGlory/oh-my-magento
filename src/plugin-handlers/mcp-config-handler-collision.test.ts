@@ -1,7 +1,7 @@
 /// <reference types="bun-types" />
 
-import { describe, test, expect, spyOn, beforeEach, afterEach } from "bun:test"
-import type { OhMyMagentoConfig } from "../config"
+import { describe, test, expect, spyOn, beforeEach, afterEach, mock } from "bun:test"
+import type { OhMyOpenCodeConfig } from "../config"
 
 import * as mcpLoader from "../features/claude-code-mcp-loader"
 import * as mcpModule from "../mcp"
@@ -12,6 +12,8 @@ let createBuiltinMcpsSpy: ReturnType<typeof spyOn>
 let logSpy: ReturnType<typeof spyOn>
 
 beforeEach(() => {
+  mock.restore()
+
   loadMcpConfigsSpy = spyOn(mcpLoader, "loadMcpConfigs").mockResolvedValue({
     servers: {},
     loadedServers: [],
@@ -24,13 +26,14 @@ afterEach(() => {
   loadMcpConfigsSpy.mockRestore()
   createBuiltinMcpsSpy.mockRestore()
   logSpy.mockRestore()
+  mock.restore()
 })
 
-function createPluginConfig(overrides: Partial<OhMyMagentoConfig> = {}): OhMyMagentoConfig {
+function createPluginConfig(overrides: Partial<OhMyOpenCodeConfig> = {}): OhMyOpenCodeConfig {
   return {
     disabled_mcps: [],
     ...overrides,
-  } as OhMyMagentoConfig
+  } as OhMyOpenCodeConfig
 }
 
 const EMPTY_PLUGIN_COMPONENTS = {
@@ -41,6 +44,10 @@ const EMPTY_PLUGIN_COMPONENTS = {
   hooksConfigs: [],
   plugins: [],
   errors: [],
+}
+
+async function importFreshMcpConfigHandlerModule(): Promise<typeof import("./mcp-config-handler")> {
+  return import(`./mcp-config-handler?test=${Date.now()}-${Math.random()}`)
 }
 
 describe("applyMcpConfig collision handling", () => {
@@ -61,7 +68,7 @@ describe("applyMcpConfig collision handling", () => {
     const pluginConfig = createPluginConfig()
 
     //#when
-    const { applyMcpConfig } = await import("./mcp-config-handler")
+    const { applyMcpConfig } = await importFreshMcpConfigHandlerModule()
     await applyMcpConfig({ config, pluginConfig, pluginComponents: EMPTY_PLUGIN_COMPONENTS })
 
     //#then
@@ -90,7 +97,7 @@ describe("applyMcpConfig collision handling", () => {
     const pluginConfig = createPluginConfig()
 
     //#when
-    const { applyMcpConfig } = await import("./mcp-config-handler")
+    const { applyMcpConfig } = await importFreshMcpConfigHandlerModule()
     await applyMcpConfig({ config, pluginConfig, pluginComponents: EMPTY_PLUGIN_COMPONENTS })
 
     //#then
@@ -118,7 +125,7 @@ describe("applyMcpConfig collision handling", () => {
     const pluginConfig = createPluginConfig()
 
     //#when
-    const { applyMcpConfig } = await import("./mcp-config-handler")
+    const { applyMcpConfig } = await importFreshMcpConfigHandlerModule()
     await applyMcpConfig({ config, pluginConfig, pluginComponents: EMPTY_PLUGIN_COMPONENTS })
 
     //#then

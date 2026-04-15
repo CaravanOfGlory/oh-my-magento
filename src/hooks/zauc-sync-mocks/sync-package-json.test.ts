@@ -2,61 +2,42 @@ import { afterAll, afterEach, beforeEach, describe, expect, it, mock } from "bun
 import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs"
 import { join } from "node:path"
 import type { PluginEntryInfo } from "../auto-update-checker/checker/plugin-entry"
+import { CACHE_DIR } from "../auto-update-checker/constants"
 
-const TEST_CACHE_DIR = join(import.meta.dir, "__test-sync-cache__")
+const CACHE_PACKAGES_DIR = CACHE_DIR
+const CACHE_PACKAGE_JSON_PATH = join(CACHE_PACKAGES_DIR, "package.json")
+const ORIGINAL_CACHE_PACKAGE_JSON = existsSync(CACHE_PACKAGE_JSON_PATH)
+  ? readFileSync(CACHE_PACKAGE_JSON_PATH, "utf-8")
+  : null
 
 let importCounter = 0
 
-// Capture real modules BEFORE mocking
-const _realConstants = require("../auto-update-checker/constants")
-const _realLogger = require("../../shared/logger")
-const _realNodeFs = require("node:fs")
-
 async function importFreshSyncPackageJsonModule(): Promise<typeof import("../auto-update-checker/checker/sync-package-json")> {
-  mock.module("../auto-update-checker/constants", () => ({
-    CACHE_DIR: TEST_CACHE_DIR,
-    PACKAGE_NAME: "oh-my-magento",
-    NPM_REGISTRY_URL: "https://registry.npmjs.org/-/package/oh-my-magento/dist-tags",
-    NPM_FETCH_TIMEOUT: 5000,
-    VERSION_FILE: join(TEST_CACHE_DIR, "version"),
-    INSTALLED_PACKAGE_JSON: join(TEST_CACHE_DIR, "node_modules", "oh-my-magento", "package.json"),
-    getUserConfigDir: () => "/tmp/opencode-config",
-    getUserOpencodeConfig: () => "/tmp/opencode-config/opencode.json",
-    getUserOpencodeConfigJsonc: () => "/tmp/opencode-config/opencode.jsonc",
-    getWindowsAppdataDir: () => null,
-  }))
-
   mock.module("../../shared/logger", () => ({
     log: () => {},
   }))
 
-  const syncPackageJsonModule = await import(`../auto-update-checker/checker/sync-package-json?test=${importCounter++}`)
-  mock.restore()
-  return syncPackageJsonModule
+  return import(`../auto-update-checker/checker/sync-package-json?test=${importCounter++}`)
 }
 
 function resetTestCache(currentVersion = "3.10.0"): void {
-  if (existsSync(TEST_CACHE_DIR)) {
-    rmSync(TEST_CACHE_DIR, { recursive: true, force: true })
-  }
-
-  mkdirSync(TEST_CACHE_DIR, { recursive: true })
+  mkdirSync(CACHE_PACKAGES_DIR, { recursive: true })
   writeFileSync(
-    join(TEST_CACHE_DIR, "package.json"),
-    JSON.stringify({ dependencies: { "oh-my-magento": currentVersion, other: "1.0.0" } }, null, 2)
+    CACHE_PACKAGE_JSON_PATH,
+    JSON.stringify({ dependencies: { "oh-my-opencode": currentVersion, other: "1.0.0" } }, null, 2)
   )
 }
 
 function cleanupTestCache(): void {
-  if (existsSync(TEST_CACHE_DIR)) {
-    rmSync(TEST_CACHE_DIR, { recursive: true, force: true })
+  if (existsSync(CACHE_PACKAGE_JSON_PATH)) {
+    rmSync(CACHE_PACKAGE_JSON_PATH, { force: true })
   }
 }
 
 function readCachePackageJsonVersion(): string | undefined {
-  const content = readFileSync(join(TEST_CACHE_DIR, "package.json"), "utf-8")
+  const content = readFileSync(CACHE_PACKAGE_JSON_PATH, "utf-8")
   const pkg = JSON.parse(content) as { dependencies?: Record<string, string> }
-  return pkg.dependencies?.["oh-my-magento"]
+  return pkg.dependencies?.["oh-my-opencode"]
 }
 
 describe("syncCachePackageJsonToIntent", () => {
@@ -65,6 +46,7 @@ describe("syncCachePackageJsonToIntent", () => {
   })
 
   afterEach(() => {
+    mock.restore()
     cleanupTestCache()
   })
 
@@ -74,7 +56,7 @@ describe("syncCachePackageJsonToIntent", () => {
         const { syncCachePackageJsonToIntent } = await importFreshSyncPackageJsonModule()
 
         const pluginInfo: PluginEntryInfo = {
-          entry: "oh-my-magento@latest",
+          entry: "oh-my-opencode@latest",
           isPinned: false,
           pinnedVersion: "latest",
           configPath: "/tmp/opencode.json",
@@ -93,7 +75,7 @@ describe("syncCachePackageJsonToIntent", () => {
         const { syncCachePackageJsonToIntent } = await importFreshSyncPackageJsonModule()
 
         const pluginInfo: PluginEntryInfo = {
-          entry: "oh-my-magento@next",
+          entry: "oh-my-opencode@next",
           isPinned: false,
           pinnedVersion: "next",
           configPath: "/tmp/opencode.json",
@@ -112,7 +94,7 @@ describe("syncCachePackageJsonToIntent", () => {
         const { syncCachePackageJsonToIntent } = await importFreshSyncPackageJsonModule()
 
         const pluginInfo: PluginEntryInfo = {
-          entry: "oh-my-magento",
+          entry: "oh-my-opencode",
           isPinned: false,
           pinnedVersion: null,
           configPath: "/tmp/opencode.json",
@@ -133,7 +115,7 @@ describe("syncCachePackageJsonToIntent", () => {
       const { syncCachePackageJsonToIntent } = await importFreshSyncPackageJsonModule()
 
       const pluginInfo: PluginEntryInfo = {
-        entry: "oh-my-magento@latest",
+        entry: "oh-my-opencode@latest",
         isPinned: false,
         pinnedVersion: "latest",
         configPath: "/tmp/opencode.json",
@@ -153,7 +135,7 @@ describe("syncCachePackageJsonToIntent", () => {
       const { syncCachePackageJsonToIntent } = await importFreshSyncPackageJsonModule()
 
       const pluginInfo: PluginEntryInfo = {
-        entry: "oh-my-magento@latest",
+        entry: "oh-my-opencode@latest",
         isPinned: false,
         pinnedVersion: "latest",
         configPath: "/tmp/opencode.json",
@@ -170,16 +152,16 @@ describe("syncCachePackageJsonToIntent", () => {
   describe("#given plugin not in cache package.json dependencies", () => {
     it("#then adds the plugin dependency and preserves existing dependencies", async () => {
       cleanupTestCache()
-      mkdirSync(TEST_CACHE_DIR, { recursive: true })
+      mkdirSync(CACHE_PACKAGES_DIR, { recursive: true })
       writeFileSync(
-        join(TEST_CACHE_DIR, "package.json"),
+        join(CACHE_PACKAGES_DIR, "package.json"),
         JSON.stringify({ dependencies: { other: "1.0.0" } }, null, 2)
       )
 
       const { syncCachePackageJsonToIntent } = await importFreshSyncPackageJsonModule()
 
       const pluginInfo: PluginEntryInfo = {
-        entry: "oh-my-magento@latest",
+        entry: "oh-my-opencode@latest",
         isPinned: false,
         pinnedVersion: "latest",
         configPath: "/tmp/opencode.json",
@@ -190,10 +172,10 @@ describe("syncCachePackageJsonToIntent", () => {
       expect(result.synced).toBe(true)
       expect(result.error).toBeNull()
 
-      const content = readFileSync(join(TEST_CACHE_DIR, "package.json"), "utf-8")
-      const pkg = JSON.parse(content) as { dependencies?: Record<string, string> }
-      expect(pkg.dependencies?.["oh-my-magento"]).toBe("latest")
-      expect(pkg.dependencies?.other).toBe("1.0.0")
+        const content = readFileSync(join(CACHE_PACKAGES_DIR, "package.json"), "utf-8")
+        const pkg = JSON.parse(content) as { dependencies?: Record<string, string> }
+        expect(pkg.dependencies?.["oh-my-opencode"]).toBe("latest")
+        expect(pkg.dependencies?.other).toBe("1.0.0")
     })
   })
 
@@ -203,7 +185,7 @@ describe("syncCachePackageJsonToIntent", () => {
       const { syncCachePackageJsonToIntent } = await importFreshSyncPackageJsonModule()
 
       const pluginInfo: PluginEntryInfo = {
-        entry: "oh-my-magento@3.10.0",
+        entry: "oh-my-opencode@3.10.0",
         isPinned: true,
         pinnedVersion: "3.10.0",
         configPath: "/tmp/opencode.json",
@@ -222,7 +204,7 @@ describe("syncCachePackageJsonToIntent", () => {
       const { syncCachePackageJsonToIntent } = await importFreshSyncPackageJsonModule()
 
       const pluginInfo: PluginEntryInfo = {
-        entry: "oh-my-magento@latest",
+        entry: "oh-my-opencode@latest",
         isPinned: false,
         pinnedVersion: "latest",
         configPath: "/tmp/opencode.json",
@@ -233,22 +215,22 @@ describe("syncCachePackageJsonToIntent", () => {
       expect(result.synced).toBe(true)
       expect(result.error).toBeNull()
 
-      const content = readFileSync(join(TEST_CACHE_DIR, "package.json"), "utf-8")
-      const pkg = JSON.parse(content) as { dependencies?: Record<string, string> }
-      expect(pkg.dependencies?.["other"]).toBe("1.0.0")
+        const content = readFileSync(join(CACHE_PACKAGES_DIR, "package.json"), "utf-8")
+        const pkg = JSON.parse(content) as { dependencies?: Record<string, string> }
+        expect(pkg.dependencies?.["other"]).toBe("1.0.0")
     })
   })
 
   describe("#given malformed JSON in cache package.json", () => {
     it("#then returns parse_error", async () => {
       cleanupTestCache()
-      mkdirSync(TEST_CACHE_DIR, { recursive: true })
-      writeFileSync(join(TEST_CACHE_DIR, "package.json"), "{ invalid json }")
+      mkdirSync(CACHE_PACKAGES_DIR, { recursive: true })
+      writeFileSync(join(CACHE_PACKAGES_DIR, "package.json"), "{ invalid json }")
 
       const { syncCachePackageJsonToIntent } = await importFreshSyncPackageJsonModule()
 
       const pluginInfo: PluginEntryInfo = {
-        entry: "oh-my-magento@latest",
+        entry: "oh-my-opencode@latest",
         isPinned: false,
         pinnedVersion: "latest",
         configPath: "/tmp/opencode.json",
@@ -264,10 +246,10 @@ describe("syncCachePackageJsonToIntent", () => {
   describe("#given write permission denied", () => {
     it("#then returns write_error", async () => {
       cleanupTestCache()
-      mkdirSync(TEST_CACHE_DIR, { recursive: true })
+      mkdirSync(CACHE_PACKAGES_DIR, { recursive: true })
       writeFileSync(
-        join(TEST_CACHE_DIR, "package.json"),
-        JSON.stringify({ dependencies: { "oh-my-magento": "3.10.0" } }, null, 2)
+        join(CACHE_PACKAGES_DIR, "package.json"),
+        JSON.stringify({ dependencies: { "oh-my-opencode": "3.10.0" } }, null, 2)
       )
 
       const fs = await import("node:fs")
@@ -286,7 +268,7 @@ describe("syncCachePackageJsonToIntent", () => {
         const { syncCachePackageJsonToIntent } = await importFreshSyncPackageJsonModule()
 
         const pluginInfo: PluginEntryInfo = {
-          entry: "oh-my-magento@latest",
+          entry: "oh-my-opencode@latest",
           isPinned: false,
           pinnedVersion: "latest",
           configPath: "/tmp/opencode.json",
@@ -309,10 +291,10 @@ describe("syncCachePackageJsonToIntent", () => {
   describe("#given rename fails after successful write", () => {
     it("#then returns write_error and cleans up temp file", async () => {
       cleanupTestCache()
-      mkdirSync(TEST_CACHE_DIR, { recursive: true })
+      mkdirSync(CACHE_PACKAGES_DIR, { recursive: true })
       writeFileSync(
-        join(TEST_CACHE_DIR, "package.json"),
-        JSON.stringify({ dependencies: { "oh-my-magento": "3.10.0" } }, null, 2)
+        join(CACHE_PACKAGES_DIR, "package.json"),
+        JSON.stringify({ dependencies: { "oh-my-opencode": "3.10.0" } }, null, 2)
       )
 
       const fs = await import("node:fs")
@@ -336,7 +318,7 @@ describe("syncCachePackageJsonToIntent", () => {
         const { syncCachePackageJsonToIntent } = await importFreshSyncPackageJsonModule()
 
         const pluginInfo: PluginEntryInfo = {
-          entry: "oh-my-magento@latest",
+          entry: "oh-my-opencode@latest",
           isPinned: false,
           pinnedVersion: "latest",
           configPath: "/tmp/opencode.json",
@@ -360,8 +342,11 @@ describe("syncCachePackageJsonToIntent", () => {
 })
 
 afterAll(() => {
-  mock.module("../auto-update-checker/constants", () => _realConstants)
-  mock.module("../../shared/logger", () => _realLogger)
-  mock.module("node:fs", () => _realNodeFs)
+  if (ORIGINAL_CACHE_PACKAGE_JSON === null) {
+    cleanupTestCache()
+  } else {
+    mkdirSync(CACHE_PACKAGES_DIR, { recursive: true })
+    writeFileSync(CACHE_PACKAGE_JSON_PATH, ORIGINAL_CACHE_PACKAGE_JSON)
+  }
   mock.restore()
 })

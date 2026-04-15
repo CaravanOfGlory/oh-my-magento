@@ -98,6 +98,10 @@ https://raw.githubusercontent.com/caravanglory/oh-my-magento/refs/heads/dev/docs
 curl -s https://raw.githubusercontent.com/caravanglory/oh-my-magento/refs/heads/dev/docs/guide/installation.md
 ```
 
+**Примечание**: Используйте опубликованное имя пакета и бинарника `oh-my-magento`. Внутри `opencode.json` слой совместимости теперь предпочитает точку входа плагина `oh-my-openagent`, в то время как устаревшие записи `oh-my-magento` все еще загружаются с предупреждением. Файлы конфигурации плагина по-прежнему часто используют `oh-my-magento.json` или `oh-my-magento.jsonc`, и как устаревшие, так и переименованные базовые имена распознаются во время переходного периода.
+
+Анонимная телеметрия включена по умолчанию для улучшения надежности установки и работы. Она использует PostHog с хешированным идентификатором установки, никогда не используя исходное имя хоста, и может быть отключена с помощью `OMO_SEND_ANONYMOUS_TELEMETRY=0` или `OMO_DISABLE_POSTHOG=1`. См. [Политику конфиденциальности](docs/legal/privacy-policy.md) и [Условия обслуживания](docs/legal/terms-of-service.md).
+
 ------
 
 ## Пропустите этот README

@@ -112,6 +112,10 @@ https://raw.githubusercontent.com/caravanglory/oh-my-magento/refs/heads/dev/docs
 curl -s https://raw.githubusercontent.com/caravanglory/oh-my-magento/refs/heads/dev/docs/guide/installation.md
 ```
 
+**注記**: 公開されているパッケージおよびバイナリ名は `oh-my-magento` を使用してください。`opencode.json` 内では、互換性レイヤーがプラグインエントリ `oh-my-openagent` を優先しますが、従来の `oh-my-magento` エントリも警告付きで読み込まれます。プラグイン設定ファイルは依然として `oh-my-magento.json` または `oh-my-magento.jsonc` を使用するのが一般的で、移行期間中は従来のファイル名と改名後のファイル名の両方が認識されます。
+
+匿名のテレメトリは、インストールとランタイムの信頼性向上のためにデフォルトで有効になっています。これは PostHog を使用し、生のホスト名ではなくハッシュ化されたインストール識別子を使用します。無効化するには `OMO_SEND_ANONYMOUS_TELEMETRY=0` または `OMO_DISABLE_POSTHOG=1` を設定してください。[プライバシーポリシー](docs/legal/privacy-policy.md)と[利用規約](docs/legal/terms-of-service.md)をご覧ください。
+
 ---
 
 ## このREADMEをスキップする

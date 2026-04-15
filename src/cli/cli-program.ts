@@ -3,16 +3,15 @@ import { install } from "./install"
 import { run } from "./run"
 import { getLocalVersion } from "./get-local-version"
 import { doctor } from "./doctor"
+import { refreshModelCapabilities } from "./refresh-model-capabilities"
 import { createMcpOAuthCommand } from "./mcp-oauth"
-import { createUsageCommand } from "./usage"
-import { copilotXCli } from "./copilot-x"
 import type { InstallArgs } from "./types"
 import type { RunOptions } from "./run"
 import type { GetLocalVersionOptions } from "./get-local-version/types"
 import type { DoctorOptions } from "./doctor"
-import { PLUGIN_VERSION } from "../shared/version"
+import packageJson from "../../package.json" with { type: "json" }
 
-const VERSION = PLUGIN_VERSION
+const VERSION = packageJson.version
 
 const program = new Command()
 
@@ -33,6 +32,8 @@ program
   .option("--opencode-zen <value>", "OpenCode Zen access: no, yes (default: no)")
   .option("--zai-coding-plan <value>", "Z.ai Coding Plan subscription: no, yes (default: no)")
   .option("--kimi-for-coding <value>", "Kimi For Coding subscription: no, yes (default: no)")
+  .option("--opencode-go <value>", "OpenCode Go subscription: no, yes (default: no)")
+  .option("--vercel-ai-gateway <value>", "Vercel AI Gateway: no, yes (default: no)")
   .option("--skip-auth", "Skip authentication setup hints")
   .addHelpText("after", `
 Examples:
@@ -40,14 +41,15 @@ Examples:
   $ bunx oh-my-magento install --no-tui --claude=max20 --openai=yes --gemini=yes --copilot=no
   $ bunx oh-my-magento install --no-tui --claude=no --gemini=no --copilot=yes --opencode-zen=yes
 
-Model Providers (Priority: Native > Copilot > OpenCode Zen > Z.ai > Kimi):
+Model Providers (Priority: Native > Copilot > OpenCode Zen > Z.ai > Kimi > Vercel):
   Claude        Native anthropic/ models (Opus, Sonnet, Haiku)
-  OpenAI        Native openai/ models (GPT-5.2 for Oracle)
-  Gemini        Native google/ models (Gemini 3 Pro, Flash)
+  OpenAI        Native openai/ models (GPT-5.4 for Oracle)
+  Gemini        Native google/ models (Gemini 3.1 Pro, Flash)
   Copilot       github-copilot/ models (fallback)
   OpenCode Zen  opencode/ models (opencode/claude-opus-4-6, etc.)
-   Z.ai          zai-coding-plan/glm-5 (visual-engineering fallback)
+  Z.ai          zai-coding-plan/glm-5 (visual-engineering fallback)
   Kimi          kimi-for-coding/k2p5 (Sisyphus/Prometheus fallback)
+  Vercel        vercel/ models (universal proxy, always last fallback)
 `)
   .action(async (options) => {
     const args: InstallArgs = {
@@ -59,6 +61,8 @@ Model Providers (Priority: Native > Copilot > OpenCode Zen > Z.ai > Kimi):
       opencodeZen: options.opencodeZen,
       zaiCodingPlan: options.zaiCodingPlan,
       kimiForCoding: options.kimiForCoding,
+      opencodeGo: options.opencodeGo,
+      vercelAiGateway: options.vercelAiGateway,
       skipAuth: options.skipAuth ?? false,
     }
     const exitCode = await install(args)
@@ -71,6 +75,7 @@ program
    .passThroughOptions()
   .description("Run opencode with todo/background task completion enforcement")
   .option("-a, --agent <name>", "Agent to use (default: from CLI/env/config, fallback: Sisyphus)")
+  .option("-m, --model <provider/model>", "Model override (e.g., anthropic/claude-sonnet-4)")
   .option("-d, --directory <path>", "Working directory")
   .option("-p, --port <port>", "Server port (attaches if port already in use)", parseInt)
   .option("--attach <url>", "Attach to existing opencode server URL")
@@ -88,6 +93,8 @@ Examples:
   $ bunx oh-my-magento run --json "Fix the bug" | jq .sessionId
   $ bunx oh-my-magento run --on-complete "notify-send Done" "Fix the bug"
   $ bunx oh-my-magento run --session-id ses_abc123 "Continue the work"
+  $ bunx oh-my-magento run --model anthropic/claude-sonnet-4 "Fix the bug"
+  $ bunx oh-my-magento run --agent Sisyphus --model openai/gpt-5.4 "Implement feature X"
 
 Agent resolution order:
   1) --agent flag
@@ -110,6 +117,7 @@ Unlike 'opencode run', this command waits until:
     const runOptions: RunOptions = {
       message,
       agent: options.agent,
+      model: options.model,
       directory: options.directory,
       port: options.port,
       attach: options.attach,
@@ -173,36 +181,28 @@ Examples:
   })
 
 program
+  .command("refresh-model-capabilities")
+  .description("Refresh the cached models.dev-based model capabilities snapshot")
+  .option("-d, --directory <path>", "Working directory to read oh-my-magento config from")
+  .option("--source-url <url>", "Override the models.dev source URL")
+  .option("--json", "Output refresh summary as JSON")
+  .action(async (options) => {
+    const exitCode = await refreshModelCapabilities({
+      directory: options.directory,
+      sourceUrl: options.sourceUrl,
+      json: options.json ?? false,
+    })
+    process.exit(exitCode)
+  })
+
+program
   .command("version")
   .description("Show version information")
   .action(() => {
     console.log(`oh-my-magento v${VERSION}`)
   })
 
-program
-  .command("copilot-x")
-  .description("Manage multiple GitHub Copilot accounts")
-  .addHelpText("after", `
-Examples:
-  $ bunx oh-my-magento copilot-x
-
-This command provides an interactive CLI for managing GitHub Copilot accounts:
-  - Add account (OAuth) - GitHub device flow authentication
-  - Add account (manual) - Paste token directly
-  - Import from auth.json - Auto-detect from OpenCode
-  - Check models - View available & disabled models
-  - Refresh identity - Update usernames & orgs
-  - Switch account - Change active Copilot account
-  - Remove account - Delete a stored account
-  - Remove all accounts - Destructive cleanup
-`)
-  .action(async () => {
-    const exitCode = await copilotXCli()
-    process.exit(exitCode)
-  })
-
 program.addCommand(createMcpOAuthCommand())
-program.addCommand(createUsageCommand())
 
 export function runCli(): void {
   program.parse()

@@ -11,7 +11,7 @@ describe("buildPlanDemoteConfig", () => {
     const result = buildPlanDemoteConfig(prometheusConfig, planOverride)
 
     //#then
-    expect(result).toEqual({ mode: "subagent" })
+    expect(result).toEqual({ mode: "subagent", hidden: true })
   })
 
   test("extracts all model settings from prometheus config", () => {
@@ -20,7 +20,7 @@ describe("buildPlanDemoteConfig", () => {
       name: "prometheus",
       model: "anthropic/claude-opus-4-6",
       variant: "max",
-      mode: "all",
+      mode: "primary",
       prompt: "You are Prometheus...",
       permission: { edit: "allow" },
       description: "Plan agent (Prometheus)",
@@ -112,7 +112,7 @@ describe("buildPlanDemoteConfig", () => {
     const result = buildPlanDemoteConfig(prometheusConfig, undefined)
 
     //#then
-    expect(result).toEqual({ mode: "subagent", model: "anthropic/claude-opus-4-6" })
-    expect(Object.keys(result)).toEqual(["mode", "model"])
+    expect(result).toEqual({ mode: "subagent", hidden: true, model: "anthropic/claude-opus-4-6" })
+    expect(Object.keys(result)).toEqual(["mode", "hidden", "model"])
   })
 })

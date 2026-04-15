@@ -1,6 +1,11 @@
 import { existsSync, readFileSync } from "node:fs"
 
-import { LEGACY_PLUGIN_NAME, PLUGIN_NAME, getOpenCodeConfigPaths, parseJsonc } from "../../../shared"
+import {
+  OPENCODE_LEGACY_PLUGIN_NAME,
+  OPENCODE_PLUGIN_NAME,
+  getOpenCodeConfigPaths,
+  parseJsonc,
+} from "../../../shared"
 
 export interface PluginInfo {
   registered: boolean
@@ -23,13 +28,13 @@ function detectConfigPath(): string | null {
 }
 
 function parsePluginVersion(entry: string): string | null {
-  if (entry.startsWith(`${PLUGIN_NAME}@`)) {
-    const value = entry.slice(PLUGIN_NAME.length + 1)
+  if (entry.startsWith(`${OPENCODE_PLUGIN_NAME}@`)) {
+    const value = entry.slice(OPENCODE_PLUGIN_NAME.length + 1)
     if (!value || value === "latest") return null
     return value
   }
-  if (entry.startsWith(`${LEGACY_PLUGIN_NAME}@`)) {
-    const value = entry.slice(LEGACY_PLUGIN_NAME.length + 1)
+  if (entry.startsWith(`${OPENCODE_LEGACY_PLUGIN_NAME}@`)) {
+    const value = entry.slice(OPENCODE_LEGACY_PLUGIN_NAME.length + 1)
     if (!value || value === "latest") return null
     return value
   }
@@ -38,13 +43,16 @@ function parsePluginVersion(entry: string): string | null {
 
 function findPluginEntry(entries: string[]): { entry: string; isLocalDev: boolean } | null {
   for (const entry of entries) {
-    if (entry === PLUGIN_NAME || entry.startsWith(`${PLUGIN_NAME}@`)) {
+    if (entry === OPENCODE_PLUGIN_NAME || entry.startsWith(`${OPENCODE_PLUGIN_NAME}@`)) {
       return { entry, isLocalDev: false }
     }
-    if (entry === LEGACY_PLUGIN_NAME || entry.startsWith(`${LEGACY_PLUGIN_NAME}@`)) {
+    if (entry === OPENCODE_LEGACY_PLUGIN_NAME || entry.startsWith(`${OPENCODE_LEGACY_PLUGIN_NAME}@`)) {
       return { entry, isLocalDev: false }
     }
-    if (entry.startsWith("file://") && (entry.includes(PLUGIN_NAME) || entry.includes(LEGACY_PLUGIN_NAME))) {
+    if (
+      entry.startsWith("file://")
+      && (entry.includes(OPENCODE_PLUGIN_NAME) || entry.includes(OPENCODE_LEGACY_PLUGIN_NAME))
+    ) {
       return { entry, isLocalDev: true }
     }
   }
