@@ -56,6 +56,9 @@ describe("generateModelConfig OpenAI-only model catalog", () => {
     // #then
     expect(result.agents?.explore).toMatchObject({ model: "opencode-go/minimax-m2.7" })
     expect(result.agents?.librarian).toMatchObject({ model: "opencode-go/minimax-m2.7" })
-    expect(result.categories?.quick).toMatchObject({ model: "opencode-go/minimax-m2.7" })
+    expect(result.categories?.quick).toEqual({
+      model: "openai/gpt-5.4-mini",
+      fallback_models: [{ model: "opencode-go/minimax-m2.7" }],
+    })
   })
 })

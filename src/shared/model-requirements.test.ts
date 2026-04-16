@@ -23,7 +23,7 @@ describe("AGENT_MODEL_REQUIREMENTS", () => {
     expect(primary.variant).toBe("high")
   })
 
-  test("sisyphus has claude-opus-4-6 as primary with opencode-go/kimi-k2.5, kimi-for-coding/k2p5, gpt-5.4 medium fallbacks", () => {
+  test("sisyphus has claude-opus-4-6 as primary with opencode-go/kimi-k2.5, kimi-for-coding/k2p5, opencode/kimi-k2.5, gpt-5.4 medium fallbacks", () => {
     // #given - sisyphus agent requirement
     const sisyphus = AGENT_MODEL_REQUIREMENTS["sisyphus"]
 
@@ -44,12 +44,12 @@ describe("AGENT_MODEL_REQUIREMENTS", () => {
     expect(second.model).toBe("kimi-k2.5")
 
     const third = sisyphus.fallbackChain[2]
-    expect(third.providers).toContain("opencode")
-    expect(third.model).toBe("kimi-k2.5")
+    expect(third.providers).toEqual(["kimi-for-coding"])
+    expect(third.model).toBe("k2p5")
 
     const fourth = sisyphus.fallbackChain[3]
-    expect(fourth.providers).toEqual(["kimi-for-coding"])
-    expect(fourth.model).toBe("k2p5")
+    expect(fourth.providers).toContain("opencode")
+    expect(fourth.model).toBe("kimi-k2.5")
 
     const fifth = sisyphus.fallbackChain[4]
     expect(fifth.providers).toContain("openai")
@@ -369,24 +369,28 @@ describe("CATEGORY_MODEL_REQUIREMENTS", () => {
     expect(fifth.model).toBe("k2p5")
   })
 
-  test("quick has valid fallbackChain with claude-haiku-4-5 as primary and gemini-3-flash as secondary", () => {
+  test("quick has valid fallbackChain with gpt-5.4-mini as primary and claude-haiku-4-5 plus gemini-3-flash fallbacks", () => {
     // given - quick category requirement
     const quick = CATEGORY_MODEL_REQUIREMENTS["quick"]
 
     // when - accessing quick requirement
-    // then - fallbackChain exists with claude-haiku-4-5 as first entry, gemini-flash as second
+    // then - fallbackChain exists with gpt-5.4-mini as first entry, then claude-haiku and gemini-flash
     expect(quick).toBeDefined()
     expect(quick.fallbackChain).toBeArray()
-    expect(quick.fallbackChain.length).toBeGreaterThan(1)
+    expect(quick.fallbackChain.length).toBeGreaterThan(2)
 
     const primary = quick.fallbackChain[0]
-    expect(primary.model).toBe("claude-haiku-4-5")
-    expect(primary.providers).toContain("anthropic")
+    expect(primary.model).toBe("gpt-5.4-mini")
+    expect(primary.providers).toContain("openai")
     expect(primary.providers).toContain("github-copilot")
 
     const secondary = quick.fallbackChain[1]
-    expect(secondary.model).toBe("gemini-3-flash")
-    expect(secondary.providers).toContain("google")
+    expect(secondary.model).toBe("claude-haiku-4-5")
+    expect(secondary.providers).toContain("anthropic")
+
+    const tertiary = quick.fallbackChain[2]
+    expect(tertiary.model).toBe("gemini-3-flash")
+    expect(tertiary.providers).toContain("google")
   })
 
   test("unspecified-low has valid fallbackChain with claude-sonnet-4-6 as primary", () => {

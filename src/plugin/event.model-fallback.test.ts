@@ -559,10 +559,10 @@ describe("createEventHandler - model fallback", () => {
     //#when - second retry cycle
     const second = await triggerRetryCycle()
 
-    //#then - second fallback entry applied (chain advanced past opencode-go/kimi-k2.5)
+    //#then - second fallback entry applied (chain advanced to kimi-for-coding/k2p5)
     expect(second.message["model"]).toMatchObject({
-      providerID: "opencode",
-      modelID: "kimi-k2.5",
+      providerID: "kimi-for-coding",
+      modelID: "k2p5",
     })
     expect(second.message["variant"]).toBeUndefined()
     expect(abortCalls).toEqual([sessionID, sessionID])

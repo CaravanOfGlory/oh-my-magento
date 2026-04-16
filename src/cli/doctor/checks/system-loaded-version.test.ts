@@ -4,7 +4,7 @@ import { tmpdir } from "node:os"
 import { dirname, join } from "node:path"
 
 import { PACKAGE_NAME } from "../constants"
-import { PLUGIN_NAME } from "../../../shared/plugin-identity"
+import { LEGACY_PLUGIN_NAME, PLUGIN_NAME } from "../../../shared/plugin-identity"
 import { resolveSymlink } from "../../../shared/file-utils"
 
 const systemLoadedVersionModulePath = "./system-loaded-version?system-loaded-version-test"
@@ -76,6 +76,7 @@ describe("system loaded version", () => {
       expect(loadedVersion.cacheDir).toBe(configDir)
       expect(loadedVersion.cachePackagePath).toBe(join(configDir, "package.json"))
       expect(loadedVersion.installedPackagePath).toBe(join(configDir, "node_modules", PACKAGE_NAME, "package.json"))
+      expect(loadedVersion.installedPackageName).toBe(PACKAGE_NAME)
       expect(loadedVersion.expectedVersion).toBe("1.2.3")
       expect(loadedVersion.loadedVersion).toBe("1.2.3")
     })
@@ -103,6 +104,7 @@ describe("system loaded version", () => {
       expect(loadedVersion.cacheDir).toBe(cacheDir)
       expect(loadedVersion.cachePackagePath).toBe(join(cacheDir, "package.json"))
       expect(loadedVersion.installedPackagePath).toBe(join(cacheDir, "node_modules", PACKAGE_NAME, "package.json"))
+      expect(loadedVersion.installedPackageName).toBe(PACKAGE_NAME)
       expect(loadedVersion.expectedVersion).toBe("2.3.4")
       expect(loadedVersion.loadedVersion).toBe("2.3.4")
     })
@@ -125,6 +127,7 @@ describe("system loaded version", () => {
 
       //#then
       expect(loadedVersion.installedPackagePath).toBe(join(configDir, "node_modules", PLUGIN_NAME, "package.json"))
+      expect(loadedVersion.installedPackageName).toBe(PLUGIN_NAME)
       expect(loadedVersion.expectedVersion).toBe("5.6.7")
       expect(loadedVersion.loadedVersion).toBe("5.6.7")
     })
@@ -150,6 +153,7 @@ describe("system loaded version", () => {
 
       //#then
       expect(loadedVersion.cacheDir).toBe(resolveSymlink(symlinkConfigDir))
+      expect(loadedVersion.installedPackagePath).toBe(join(resolveSymlink(symlinkConfigDir), "node_modules", PACKAGE_NAME, "package.json"))
       expect(loadedVersion.expectedVersion).toBe("4.5.6")
       expect(loadedVersion.loadedVersion).toBe("4.5.6")
     })
