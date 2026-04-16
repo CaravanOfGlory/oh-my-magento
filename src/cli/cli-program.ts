@@ -5,8 +5,7 @@ import { getLocalVersion } from "./get-local-version"
 import { doctor } from "./doctor"
 import { refreshModelCapabilities } from "./refresh-model-capabilities"
 import { createMcpOAuthCommand } from "./mcp-oauth"
-import { createUsageCommand } from "./usage"
-import { copilotXCli } from "./copilot-x"
+import { registerForkCommands } from "./fork-commands"
 import type { InstallArgs } from "./types"
 import type { RunOptions } from "./run"
 import type { GetLocalVersionOptions } from "./get-local-version/types"
@@ -204,30 +203,8 @@ program
     console.log(`oh-my-magento v${VERSION}`)
   })
 
-program
-  .command("copilot-x")
-  .description("Manage multiple GitHub Copilot accounts")
-  .addHelpText("after", `
-Examples:
-  $ bunx oh-my-magento copilot-x
-
-This command provides an interactive CLI for managing GitHub Copilot accounts:
-  - Add account (OAuth) - GitHub device flow authentication
-  - Add account (manual) - Paste token directly
-  - Import from auth.json - Auto-detect from OpenCode
-  - Check models - View available & disabled models
-  - Refresh identity - Update usernames & orgs
-  - Switch account - Change active Copilot account
-  - Remove account - Delete a stored account
-  - Remove all accounts - Destructive cleanup
-`)
-  .action(async () => {
-    const exitCode = await copilotXCli()
-    process.exit(exitCode)
-  })
-
 program.addCommand(createMcpOAuthCommand())
-program.addCommand(createUsageCommand())
+registerForkCommands(program)
 
 export function runCli(): void {
   program.parse()
