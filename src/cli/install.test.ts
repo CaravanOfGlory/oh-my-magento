@@ -118,7 +118,7 @@ describe("install CLI - binary check behavior", () => {
 
     const config = JSON.parse(readFileSync(configPath, "utf-8"))
     expect(config.plugin).toBeDefined()
-    expect(config.plugin.some((p: string) => p.includes("oh-my-openagent"))).toBe(true)
+    expect(config.plugin.some((p: string) => p.includes("oh-my-magento"))).toBe(true)
 
     // then exit code should be 0 (success)
     expect(exitCode).toBe(0)
